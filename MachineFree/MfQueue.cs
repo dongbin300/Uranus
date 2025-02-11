@@ -36,6 +36,7 @@ namespace MachineFree
 		{
 			Items.CollectionChanged += (s, e) =>
 			{
+				OnPropertyChanged(nameof(Items));
 				OnPropertyChanged(nameof(CurrentItem));
 				OnPropertyChanged(nameof(WaitingItems));
 			};
@@ -60,6 +61,22 @@ namespace MachineFree
 			if (Items.Count > 0)
 			{
 				Items.RemoveAt(0);
+			}
+		}
+
+		public void Remove(UranusQueueItem item, decimal count = 1)
+		{
+			var existingItem = Items.FirstOrDefault(x => x == item);
+			if (existingItem != null)
+			{
+				if (existingItem.Count <= count)
+				{
+					Items.Remove(existingItem);
+				}
+				else
+				{
+					existingItem.Count -= count;
+				}
 			}
 		}
 	}

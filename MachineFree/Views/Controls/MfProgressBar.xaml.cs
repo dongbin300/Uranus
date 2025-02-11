@@ -55,7 +55,8 @@ namespace MachineFree.Views.Controls
 			progressBar.Maximum = Maximum;
 			progressBar.Value = Value;
 
-			//textBlock.Text = $"{Value:F1} / {Maximum:F1}";
+			var percent = (int)(Value / Maximum * 100);
+			textBlock.Text = $"{percent}%";
 		}
 	}
 }

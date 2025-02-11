@@ -7,7 +7,7 @@ namespace MachineFree
 	/// <summary>
 	/// TODO
 	/// 대기열에서 생산취소 기능
-	/// 
+	/// 우클릭시 여러개 생산 기능
 	/// </summary>
 	public partial class MainWindow : Window
 	{

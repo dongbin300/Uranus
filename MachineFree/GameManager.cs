@@ -155,12 +155,22 @@ namespace MachineFree
 		{
 			foreach (var material in recipe.Materials)
 			{
-				Inventory.Minus(material.Item, material.Count);
+				Inventory.Minus(material.Item, material.Count * count);
 			}
 
 			var queueItem = new UranusQueueItem(recipe, count);
 
 			Queue.Enqueue(queueItem);
+		}
+
+		public static void Revert(UranusQueueItem queueItem, decimal count = 1)
+		{
+			foreach (var material in queueItem.Recipe.Materials)
+			{
+				Inventory.Plus(material.Item, material.Count * count);
+			}
+
+			Queue.Remove(queueItem, count);
 		}
 
 		/// <summary>

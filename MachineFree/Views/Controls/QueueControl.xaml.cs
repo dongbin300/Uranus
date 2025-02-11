@@ -37,11 +37,23 @@ namespace MachineFree.Views.Controls
 			{
 				control.DataContext = e.NewValue;
 
+				if (control.QueueItemControl1 != null && e.NewValue is UranusQueueItem _newItem)
+				{
+					control.QueueItemControl1.Item = _newItem;
+				}
+
 				if (e.OldValue is UranusQueueItem oldItem)
 				{
 					oldItem.PropertyChanged -= control.OnItemPropertyChanged;
 				}
-				if (e.NewValue is UranusQueueItem newItem)
+
+				if (e.NewValue == null)
+				{
+					control.MfProgressBar1.Maximum = 0;
+					control.MfProgressBar1.Value = 0;
+					control.Visibility = Visibility.Hidden;
+				}
+				else if (e.NewValue is UranusQueueItem newItem)
 				{
 					newItem.PropertyChanged += control.OnItemPropertyChanged;
 				}
@@ -54,14 +66,6 @@ namespace MachineFree.Views.Controls
 			{
 				DispatcherService.Invoke(() =>
 				{
-					if (Item == null || Item.Recipe == null)
-					{
-						MfProgressBar1.Maximum = 0;
-						MfProgressBar1.Value = 0;
-						Visibility = Visibility.Hidden;
-						return;
-					}
-
 					MfProgressBar1.Maximum = (double)Item.Recipe.Time;
 					MfProgressBar1.Value = (double)Item.TimeElapsed;
 					Visibility = Visibility.Visible;

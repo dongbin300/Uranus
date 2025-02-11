@@ -46,5 +46,10 @@ namespace Uranus
 			await Task.Delay(150);
 			IsUpdated = false;
 		}
+
+		public override string ToString()
+		{
+			return $"{Count} ｘ {Item.KoreanName}";
+		}
 	}
 }

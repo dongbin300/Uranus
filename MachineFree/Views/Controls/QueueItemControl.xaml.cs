@@ -1,4 +1,5 @@
-﻿using System.Windows;
+﻿using System;
+using System.Windows;
 using System.Windows.Controls;
 
 using Uranus;
@@ -25,6 +26,7 @@ namespace MachineFree.Views.Controls
 		public QueueItemControl()
 		{
 			InitializeComponent();
+			DataContext = this;
 		}
 
 		private static void OnItemChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
@@ -33,6 +35,15 @@ namespace MachineFree.Views.Controls
 			{
 				control.DataContext = e.NewValue;
 			}
+		}
+
+		private void UserControl_MouseLeftButtonDown(object sender, System.Windows.Input.MouseButtonEventArgs e)
+		{
+			if (Item == null)
+			{
+				return;
+			}
+			GameManager.Revert(Item, Item.Count);
 		}
 	}
 }

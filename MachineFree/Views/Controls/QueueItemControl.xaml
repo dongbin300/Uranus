@@ -5,16 +5,12 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:MachineFree.Views.Controls"
              mc:Ignorable="d" 
-             d:DesignHeight="40" d:DesignWidth="40">
+             d:DesignHeight="40" d:DesignWidth="40" MouseLeftButtonDown="UserControl_MouseLeftButtonDown">
     <Border BorderBrush="#323538" BorderThickness="1" Margin="1">
-        <Grid x:Name="MainGrid" Style="{StaticResource ItemBoxGrid}">
-            
+        <Grid x:Name="MainGrid" Style="{StaticResource ItemBoxGrid}" >
             <Rectangle x:Name="ImageRect" Fill="Transparent"/>
-
             <TextBlock x:Name="NameText" Text="{Binding Recipe.TopString}" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="3" FontWeight="Bold" Style="{StaticResource ItemBoxText}"/>
-
             <TextBlock x:Name="CountText" Text="{Binding FormatCount}" HorizontalAlignment="Right" VerticalAlignment="Bottom" Margin="5,5,2,1" Style="{StaticResource ItemBoxText}"/>
-            
         </Grid>
     </Border>
 </UserControl>
