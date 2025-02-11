@@ -1,0 +1,39 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net9.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Remove="Dictionary\Item.csv" />
+    <None Remove="Dictionary\Item.json" />
+    <None Remove="Dictionary\Uranus Recipe - 기본 생산.csv" />
+    <None Remove="Dictionary\Uranus Recipe - 레시피.csv" />
+    <None Remove="Dictionary\Uranus-BaseItem.csv" />
+    <None Remove="Dictionary\Uranus-Default.csv" />
+    <None Remove="Dictionary\Uranus-Generator.csv" />
+    <None Remove="Dictionary\Uranus-Generator.xlsx" />
+    <None Remove="Dictionary\Uranus-Recipe.csv" />
+    <None Remove="Dictionary\Uranus-Recipe.xlsx" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Include="Dictionary\Uranus-BaseItem.csv">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Dictionary\Uranus-Generator.xlsx">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Dictionary\Uranus-Recipe.xlsx">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="EPPlus" Version="7.5.3" />
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
+  </ItemGroup>
+
+</Project>
