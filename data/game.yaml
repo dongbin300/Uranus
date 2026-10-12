@@ -83,10 +83,21 @@ goals:
   - { id: transistor, name: { ko: 트랜지스터 }, require: { transistor: 1 } }
   - { id: microcontroller, name: { ko: 마이크로컨트롤러 }, require: { microcontroller: 1 } }
   - { id: wafer, name: { ko: 8인치 실리콘 웨이퍼 }, require: { wafer_8in: 1 } }
+  - { id: aspirin, name: { ko: 아스피린 }, require: { aspirin_tablet_500mg: 1 } }
+  - { id: pet_bottle, name: { ko: 첫 플라스틱 제품 — PET 병 }, require: { pet_bottle: 1 } }
+  - { id: li_ion_cell, name: { ko: 리튬 이온 전지 }, require: { cell_18650: 1 } }
+  - { id: steel, name: { ko: 강철 봉 }, require: { steel_rod_1kg: 1 } }
+  - { id: concrete, name: { ko: 콘크리트 블록 }, require: { concrete_block: 1 } }
+  - { id: solar_panel, name: { ko: 태양광 패널 }, require: { solar_panel_60cell: 1 } }
   - { id: ccd, name: { ko: 전하결합소자 }, require: { ccd: 1 } }
   - { id: dna, name: { ko: DNA }, require: { dna: 1 } }
   - { id: prokaryote, name: { ko: 원핵세포 }, require: { prokaryotic_cell: 1 } }
   - { id: eukaryote, name: { ko: 진핵세포 }, require: { eukaryotic_cell: 1 } }
+  - { id: bread, name: { ko: 식빵 — 밭에서 식탁까지 }, require: { bread_loaf: 1 } }
+  - { id: insulin, name: { ko: 인슐린 }, require: { insulin_vial_10ml: 1 } }
   - { id: ccd_camera, name: { ko: CCD 카메라 }, require: { ccd_camera: 1 } }
+  - { id: bicycle, name: { ko: 자전거 }, require: { bicycle: 1 } }
+  - { id: smartphone, name: { ko: 스마트폰 }, require: { smartphone: 1 } }
+  - { id: passenger_car, name: { ko: 자동차 }, require: { passenger_car: 1 } }
   - { id: superconductor, name: { ko: 세상에 없는 것 — 상온 초전도선 }, require: { rt_superconductor: 1 } }
   - { id: matter_compiler, name: { ko: 물질 컴파일러 — 무엇이든 만든다 }, require: { matter_compiler: 1 } }

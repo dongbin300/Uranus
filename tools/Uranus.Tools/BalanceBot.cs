@@ -37,17 +37,26 @@ namespace Uranus.Tools
 		/// </summary>
 		private readonly HashSet<ItemId> builtGenerators = [];
 
+		private Dictionary<ItemId, int> depths = [];
+
 		public Simulation Simulation => sim;
 
 		public void Run(double hours, double stepSeconds)
 		{
+			depths = ComputeDepths();
 			var end = hours * 3600;
 			while (sim.State.PlayTime < end)
 			{
 				BuyUpgrades();
 				if (sim.State.Queue.Count < sim.LineCount * 2)
 				{
-					BuildAffordableGeneratorTypes();
+					// 생성기는 한 번에 한 대씩만 짓는다. 여러 대를 한꺼번에 걸면 라인을 오래 차지한다
+					var building = sim.State.Queue.Any(x => db.FindGeneratorBuiltBy(x.Recipe) is not null);
+					if (!building)
+					{
+						BuildAffordableGeneratorTypes();
+					}
+
 					WorkOnNextUpgrade(UpgradeKind.Scale);
 					WorkOnNextGoal();
 					if (sim.State.Queue.Count < sim.LineCount)
@@ -55,7 +64,10 @@ namespace Uranus.Tools
 						WorkOnNextUpgrade(null);
 					}
 
-					ExpandGenerators();
+					if (!building)
+					{
+						ExpandGenerators();
+					}
 				}
 
 				sim.Tick(stepSeconds);
@@ -100,7 +112,10 @@ namespace Uranus.Tools
 					db.FindRecipe(generator.BuildRecipe) is { } recipe &&
 					sim.GetCost(recipe, 1).All(x => sim.GetAmount(x.Item) >= x.Amount * 2))
 				{
-					sim.TryEnqueue(recipe.Id, 1);
+					if (sim.TryEnqueue(recipe.Id, 1))
+					{
+						return;
+					}
 				}
 			}
 		}
@@ -120,7 +135,10 @@ namespace Uranus.Tools
 				var cost = sim.GetCost(recipe, 1);
 				if (cost.All(x => sim.GetAmount(x.Item) >= x.Amount * 3))
 				{
-					sim.TryEnqueue(recipe.Id, 1);
+					if (sim.TryEnqueue(recipe.Id, 1))
+					{
+						return;
+					}
 				}
 			}
 		}
@@ -207,7 +225,7 @@ namespace Uranus.Tools
 				return;
 			}
 
-			if (RecipeGraph.GetDefaultRecipe(db, item) is not { } recipe)
+			if (GetProducers(item).FirstOrDefault() is not { } recipe)
 			{
 				lines.Add(label + " — 만들 레시피가 없음");
 				return;
@@ -220,6 +238,57 @@ namespace Uranus.Tools
 			{
 				Explain(input.Item, input.Amount, depth + 1, visited, lines);
 			}
+		}
+
+		/// <summary>
+		/// 원료(생성기 산출물·시작 재료)에서 몇 단계 만에 만들 수 있는가. 레시피 깊이 = 1 + 재료 깊이의 최댓값.
+		/// 순환이 있어도 되도록 값이 줄어들지 않을 때까지 되풀이한다
+		/// </summary>
+		private Dictionary<ItemId, int> ComputeDepths()
+		{
+			var result = new Dictionary<ItemId, int>();
+			foreach (var x in db.GeneratorList.SelectMany(g => g.OutputPerSecond).Concat(db.Config.StartInventory))
+			{
+				result[x.Item] = 0;
+			}
+
+			for (var changed = true; changed;)
+			{
+				changed = false;
+				foreach (var recipe in db.RecipeList)
+				{
+					var value = RecipeDepth(recipe, result);
+					foreach (var output in recipe.Outputs)
+					{
+						if (value < result.GetValueOrDefault(output.Item, int.MaxValue))
+						{
+							result[output.Item] = value;
+							changed = true;
+						}
+					}
+				}
+			}
+
+			return result;
+		}
+
+		private static int RecipeDepth(RecipeDef recipe, Dictionary<ItemId, int> depths) =>
+			recipe.Inputs.Count == 0 ? int.MaxValue
+				: recipe.Inputs.Max(x => depths.GetValueOrDefault(x.Item, int.MaxValue - 1)) is var max && max >= int.MaxValue - 1 ? int.MaxValue : max + 1;
+
+		private int GetRecipeDepth(RecipeDef recipe) => RecipeDepth(recipe, depths);
+
+		/// <summary>
+		/// 봇이 쓰는 생산 레시피를 시도할 순서대로: 원료에서 가까운 레시피부터, 같으면 기본 레시피부터.
+		/// 부산물(첫 결과물이 아닌 것)로 나오는 레시피는 두 단계 먼 것으로 친다. 조금 나오는 부산물을 쫓으면 헛돌기 쉽다
+		/// </summary>
+		private List<RecipeDef> GetProducers(ItemId item)
+		{
+			var defaultRecipe = RecipeGraph.GetDefaultRecipe(db, item);
+			return [.. db.GetProducers(item)
+				.Where(x => db.FindGeneratorBuiltBy(x.Id) is null || db.Generators.ContainsKey(item))
+				.OrderBy(x => (long)GetRecipeDepth(x) + (x.Outputs.Count > 0 && x.Outputs[0].Item == item ? 0 : 2))
+				.ThenBy(x => x == defaultRecipe ? 0 : 1)];
 		}
 
 		private double PerCraft(RecipeDef recipe, ItemId item) => sim.GetOutputs(recipe).Where(o => o.Item == item).Sum(o => o.Amount);
@@ -256,10 +325,12 @@ namespace Uranus.Tools
 
 			{
 				// 생성기가 내는 원료: 생성기가 있으면 기다리고, 없으면 레시피로 만들고, 레시피도 없으면 생성기를 짓는다
+				// 원료를 내는 생성기가 있으면 기다린다. 비용의 3배 이상 여유가 있으면 모자란 원료의 생성기를 한 대 더 짓는다
 				var source = FindSource(item);
 				if (source is not null && sim.GetOwnedCount(source.Item) > 0)
 				{
-					return false;
+					return sim.GetQueuedAmount(source.Item) == 0 && db.FindRecipe(source.BuildRecipe) is { } build &&
+						sim.GetCost(build, 1).All(x => sim.GetAmount(x.Item) >= x.Amount * 3) && sim.TryEnqueue(build.Id, 1);
 				}
 
 				// 원료를 내는 생성기가 아직 없으면 그것부터 짓는다 (짓는 중이면 레시피로 버틴다)
@@ -268,12 +339,8 @@ namespace Uranus.Tools
 					return true;
 				}
 
-				// 기본 레시피를 먼저, 그다음 다른 생산 레시피. 생성기 제작 레시피는 생성기 자체를 만들 때만 쓴다
-				var defaultRecipe = RecipeGraph.GetDefaultRecipe(db, item);
-				var producers = db.GetProducers(item)
-					.Where(x => db.FindGeneratorBuiltBy(x.Id) is null || db.Generators.ContainsKey(item))
-					.OrderBy(x => x == defaultRecipe ? 0 : 1)
-					.ToList();
+				// 생성기 제작 레시피는 생성기 자체를 만들 때만 쓴다
+				var producers = GetProducers(item);
 				if (producers.Count == 0)
 				{
 					return source is not null && sim.GetQueuedAmount(source.Item) == 0 && Produce(source.Item, 1, depth + 1, visited);
