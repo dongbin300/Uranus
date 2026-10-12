@@ -42,6 +42,10 @@ dotnet run --project src/MachineFree
 - 생성기는 보유한 대수만큼 초당 생산한다. n대째 비용은 기본 비용 × 1.15ⁿ이다(`data/game.yaml`).
 - 1보다 작은 결과물은 소수로 쌓인다. 0.2개짜리 레시피는 5번 만들면 정확히 1개가 된다.
 - 레시피는 재료를 모두 한 번씩 가져 본 뒤에 목록에 나타난다.
+- 업그레이드
+  - **생산 라인**: 대기열 앞쪽 여러 칸을 동시에 만든다.
+  - **규모**: 아토몰(×6.02e5)에서 몰(×6.02e23)까지 올라간다. 결과물이 모두 입자인 화학·생물 레시피와 입자를 내는 생성기에만 배율이 붙는다. 부품은 계속 하나씩 만든다.
+- 목표: 첫 생성기부터 CCD, 세포까지 마일스톤을 두고, 달성한 시각을 기록한다.
 
 ## 데이터 편집
 
@@ -59,6 +63,7 @@ dotnet run --project src/MachineFree
 - 화학식이 있는 아이템끼리의 반응은 원자 수가 맞아야 한다. 게임식 비율이면 `approximate: true`를 붙인다.
 - 부품에 `expected_mass: [45g, 60g]`를 적으면 레시피로 계산한 질량과 비교한다.
 - 아직 레시피가 없는 장기 목표는 `goal: true`로 표시한다.
+- 시작 인벤토리, 생성기 비용 증가율, 오프라인 상한, 업그레이드, 목표는 `data/game.yaml`에 있다.
 
 편집한 뒤에는 다음 명령으로 확인한다.
 
@@ -66,7 +71,10 @@ dotnet run --project src/MachineFree
 dotnet run --project tools/Uranus.Tools -- validate             # 오류가 있으면 종료 코드 1
 dotnet run --project tools/Uranus.Tools -- bom wafer_8in        # 원료와 질량
 dotnet run --project tools/Uranus.Tools -- tree ccd --depth 3   # 제작 트리 (Mermaid)
+dotnet run --project tools/Uranus.Tools -- simulate --hours 24  # 자동 플레이로 목표·업그레이드 도달 시각 측정
 ```
+
+`simulate`는 늘 같은 결과를 내는 단순한 봇이다. 사람보다 느리므로 절대 시간보다 수치를 바꾸기 전후의 비교에 쓴다.
 
 ## 테스트
 
