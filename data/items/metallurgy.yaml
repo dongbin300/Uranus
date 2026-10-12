@@ -1,0 +1,204 @@
+# 금속 공학: 광석·선광·제련·정련·합금·반제품.
+# 광물은 영문 snake_case ID에 순수 광물의 화학식을 단다(적철석 Fe2O3). 혼합물인 합금은 화학식 없이
+# "합금 원자 한 개"를 단위로 세고, note에 실제 조성(질량%)과 원자 비를 적는다.
+# 반제품(봉·판·선·관·형강·박)은 개수 단위이고 expected_mass로 실제 질량을 검사한다.
+category: metallurgy
+unit: particle
+items:
+  # ── 금속 원소 ──
+  - { id: Li, name: { ko: 리튬, en: Lithium }, formula: Li }
+  - { id: Ti, name: { ko: 타이타늄, en: Titanium }, formula: Ti }
+  - { id: V, name: { ko: 바나듐, en: Vanadium }, formula: V }
+  - { id: Cr, name: { ko: 크로뮴, en: Chromium }, formula: Cr }
+  - { id: Mn, name: { ko: 망가니즈, en: Manganese }, formula: Mn }
+  - { id: Co, name: { ko: 코발트, en: Cobalt }, formula: Co }
+  - { id: Ni, name: { ko: 니켈, en: Nickel }, formula: Ni }
+  - { id: Zr, name: { ko: 지르코늄, en: Zirconium }, formula: Zr }
+  - { id: Nb, name: { ko: 나이오븀, en: Niobium }, formula: Nb }
+  - { id: Mo, name: { ko: 몰리브데넘, en: Molybdenum }, formula: Mo }
+  - { id: Rh, name: { ko: 로듐, en: Rhodium }, formula: Rh }
+  - { id: Pd, name: { ko: 팔라듐, en: Palladium }, formula: Pd }
+  - { id: Ag, name: { ko: 은, en: Silver }, formula: Ag }
+  - { id: Sn, name: { ko: 주석, en: Tin }, formula: Sn }
+  - { id: Nd, name: { ko: 네오디뮴, en: Neodymium }, formula: Nd }
+  - { id: Dy, name: { ko: 디스프로슘, en: Dysprosium }, formula: Dy }
+  - { id: Ta, name: { ko: 탄탈럼, en: Tantalum }, formula: Ta }
+  - { id: W, name: { ko: 텅스텐, en: Tungsten }, formula: W }
+  - { id: Pt, name: { ko: 백금, en: Platinum }, formula: Pt }
+  - { id: Au, name: { ko: 금, en: Gold }, formula: Au }
+  - { id: Pb, name: { ko: 납, en: Lead }, formula: Pb }
+
+  # ── 광석과 광물 ──
+  - { id: coal, name: { ko: 석탄, en: Coal }, note: "점결탄(역청탄). 탄소 약 85%, 수소 약 5%, 휘발분 20~30%" }
+  - { id: coke, name: { ko: 코크스, en: Coke }, formula: C, note: "석탄을 건류해 얻는 다공질 탄소. 고정탄소 약 88%라 화학식은 C로 근사한다" }
+  - { id: hematite, name: { ko: 적철석, en: Hematite }, formula: Fe2O3, note: "철광석의 주 광물 α-Fe2O3. 배소 잔재의 산화철도 같은 물질이다" }
+  - { id: magnetite, name: { ko: 자철석, en: Magnetite }, formula: Fe3O4 }
+  - { id: coulsonite, name: { ko: 쿨소나이트, en: Coulsonite }, formula: FeV2O4, note: "바나듐 첨정석. 티탄자철광 속 바나듐이 이 성분으로 들어 있다" }
+  - { id: ilmenite, name: { ko: 티탄철석, en: Ilmenite }, formula: FeTiO3 }
+  - { id: rutile, name: { ko: 금홍석, en: Rutile }, formula: TiO2 }
+  - { id: zircon, name: { ko: 지르콘, en: Zircon }, formula: ZrSiO4 }
+  - { id: xenotime, name: { ko: 제노타임, en: Xenotime }, formula: Y0.9Dy0.1PO4, note: "이트륨 인산염 광물. 함께 든 중희토류(Dy·Er·Yb·Gd 등)를 디스프로슘 하나로 묶어 근사했다" }
+  - { id: chalcopyrite, name: { ko: 황동석, en: Chalcopyrite }, formula: CuFeS2, note: "세계 구리의 약 70%를 차지하는 황화 구리 광물" }
+  - { id: molybdenite, name: { ko: 휘수연석, en: Molybdenite }, formula: MoS2, note: "반암 구리 광상에서 부산물로 나온다" }
+  - { id: malachite, name: { ko: 공작석, en: Malachite }, formula: Cu2CO3(OH)2, note: "산화대의 구리 광물. 황산으로 녹여 용매 추출·전해채취(SX-EW)한다" }
+  - { id: heterogenite, name: { ko: 헤테로제나이트, en: Heterogenite }, formula: CoO(OH), note: "콩고 구리 벨트의 코발트 광물. 세계 코발트의 약 70%가 이 지역에서 나온다" }
+  - { id: galena, name: { ko: 방연석, en: Galena }, formula: PbS }
+  - { id: acanthite, name: { ko: 휘은석, en: Acanthite }, formula: Ag2S, note: "은의 주 광물. 방연석과 함께 산출된다" }
+  - { id: cassiterite, name: { ko: 주석석, en: Cassiterite }, formula: SnO2 }
+  - { id: pentlandite, name: { ko: 펜틀란다이트, en: Pentlandite }, formula: Fe4.5Ni4.5S8, note: "(Fe,Ni)9S8. 황화 니켈 광상(서드베리·노릴스크)의 주 광물" }
+  - { id: chromite, name: { ko: 크롬철석, en: Chromite }, formula: FeCr2O4 }
+  - { id: cooperite, name: { ko: 쿠퍼라이트, en: Cooperite }, formula: PtS, note: "부시벨트 UG2·메렌스키 광맥의 백금 황화 광물" }
+  - { id: vysotskite, name: { ko: 비소츠카이트, en: Vysotskite }, formula: PdS, note: "팔라듐 황화 광물(브래가이트의 Pd 끝성분)" }
+  - { id: bowieite, name: { ko: 보위아이트, en: Bowieite }, formula: Rh2S3, note: "로듐 황화 광물" }
+  - { id: pyrolusite, name: { ko: 연망간석, en: Pyrolusite }, formula: MnO2 }
+  - { id: scheelite, name: { ko: 회중석, en: Scheelite }, formula: CaWO4 }
+  - { id: spodumene, name: { ko: 리티아휘석, en: Spodumene }, formula: LiAlSi2O6, note: "α형. 리튬 페그마타이트(그린부시스)의 주 광물. Li2O 약 8%" }
+  - { id: beta_spodumene, name: { ko: β-리티아휘석, en: Beta-spodumene }, formula: LiAlSi2O6, note: "1,050°C에서 결정 구조가 바뀌어 부피가 약 30% 늘고 산에 녹는다" }
+  - { id: tantalite, name: { ko: 탄탈석, en: Tantalite }, formula: FeTa2O6, note: "콜탄(컬럼바이트-탄탈석)의 Ta 끝성분" }
+  - { id: columbite, name: { ko: 컬럼바이트, en: Columbite }, formula: FeNb2O6, note: "콜탄의 Nb 끝성분" }
+  - { id: bastnasite, name: { ko: 바스트네사이트, en: Bastnäsite }, formula: (La0.33Ce0.5Pr0.05Nd0.12)CO3F, note: "경희토류 탄산염 광물. 희토류 비율은 마운틴패스 광석(Ce 50, La 33, Nd 12, Pr 5)을 따랐다" }
+  - { id: pyrochlore, name: { ko: 파이로클로어, en: Pyrochlore }, formula: Ca2Nb2O7, note: "나이오븀의 주 광물. (Na,Ca)2Nb2O6(OH,F)를 Ca2Nb2O7로 근사했다" }
+  - { id: dolomite, name: { ko: 백운석, en: Dolomite }, formula: CaMg(CO3)2 }
+  - { id: gold_ore, name: { ko: 금광석, en: Gold ore }, note: "석영맥 금광석. 자연금 알갱이와 약간의 은이 들어 있다" }
+
+  # ── 제련 중간물 ──
+  - { id: dolime, name: { ko: 소성 백운석, en: Calcined dolomite }, formula: CaO·MgO }
+  - { id: Ca2SiO4, name: { ko: 규산 이칼슘, en: Dicalcium silicate }, formula: Ca2SiO4, note: 피존 공정 슬래그 }
+  - { id: fayalite, name: { ko: 철감람석, en: Fayalite }, formula: Fe2SiO4, note: "구리·니켈 제련 슬래그의 주성분" }
+  - { id: Cu2S, name: { ko: 황화 구리(I), en: Copper(I) sulfide }, formula: Cu2S, note: 구리 매트 }
+  - { id: CuSO4, name: { ko: 황산 구리(II), en: Copper(II) sulfate }, formula: CuSO4 }
+  - { id: ZnSO4, name: { ko: 황산 아연, en: Zinc sulfate }, formula: ZnSO4 }
+  - { id: PbO, name: { ko: 산화 납(II), en: Lead(II) oxide }, formula: PbO }
+  - { id: MnO, name: { ko: 산화 망가니즈(II), en: Manganese(II) oxide }, formula: MnO }
+  - { id: MnSO4, name: { ko: 황산 망가니즈(II), en: Manganese(II) sulfate }, formula: MnSO4 }
+  - { id: NaOH, name: { ko: 수산화 나트륨, en: Sodium hydroxide }, formula: NaOH }
+  - { id: Na2CO3, name: { ko: 탄산 나트륨, en: Sodium carbonate }, formula: Na2CO3 }
+  - { id: Na2SO4, name: { ko: 황산 나트륨, en: Sodium sulfate }, formula: Na2SO4 }
+  - { id: Na2CrO4, name: { ko: 크로뮴산 나트륨, en: Sodium chromate }, formula: Na2CrO4 }
+  - { id: Na2Cr2O7, name: { ko: 다이크로뮴산 나트륨, en: Sodium dichromate }, formula: Na2Cr2O7 }
+  - { id: Cr2O3, name: { ko: 산화 크로뮴(III), en: Chromium(III) oxide }, formula: Cr2O3 }
+  - { id: Ni3S2, name: { ko: 황화 니켈(니켈 매트), en: Nickel matte }, formula: Ni3S2, note: "헤즐우드광 Ni3S2" }
+  - { id: NiO, name: { ko: 산화 니켈(II), en: Nickel(II) oxide }, formula: NiO }
+  - { id: Ni(CO)4, name: { ko: 니켈 카보닐, en: Nickel carbonyl }, formula: Ni(CO)4, note: "몽드 공정의 휘발성 중간물. 맹독성이다" }
+  - { id: CoSO4, name: { ko: 황산 코발트(II), en: Cobalt(II) sulfate }, formula: CoSO4 }
+  - { id: titanium_slag, name: { ko: 타이타늄 슬래그, en: Titanium slag }, formula: TiO2, note: "티탄철석을 전기로에서 녹여 철을 빼낸 TiO2 80~90% 슬래그. 화학식은 TiO2로 근사한다" }
+  - { id: TiCl4, name: { ko: 사염화 타이타늄, en: Titanium tetrachloride }, formula: TiCl4 }
+  - { id: ZrCl4, name: { ko: 사염화 지르코늄, en: Zirconium tetrachloride }, formula: ZrCl4 }
+  - { id: SiCl4, name: { ko: 사염화 규소, en: Silicon tetrachloride }, formula: SiCl4 }
+  - { id: NaVO3, name: { ko: 메타바나듐산 나트륨, en: Sodium metavanadate }, formula: NaVO3 }
+  - { id: NH4VO3, name: { ko: 메타바나듐산 암모늄, en: Ammonium metavanadate }, formula: NH4VO3 }
+  - { id: V2O5, name: { ko: 오산화 바나듐, en: Vanadium pentoxide }, formula: V2O5 }
+  - { id: MoO3, name: { ko: 삼산화 몰리브데넘, en: Molybdenum trioxide }, formula: MoO3 }
+  - { id: MoO2, name: { ko: 이산화 몰리브데넘, en: Molybdenum dioxide }, formula: MoO2 }
+  - { id: H2WO4, name: { ko: 텅스텐산, en: Tungstic acid }, formula: H2WO4 }
+  - { id: ammonium_paratungstate, name: { ko: 파라텅스텐산 암모늄, en: Ammonium paratungstate }, formula: (NH4)10(H2W12O42)·4H2O, note: "APT. 텅스텐 정제의 표준 중간물" }
+  - { id: WO3, name: { ko: 삼산화 텅스텐, en: Tungsten trioxide }, formula: WO3 }
+  - { id: WC, name: { ko: 탄화 텅스텐, en: Tungsten carbide }, formula: WC }
+  - { id: Li2SO4, name: { ko: 황산 리튬, en: Lithium sulfate }, formula: Li2SO4 }
+  - { id: spodumene_residue, name: { ko: 리튬 침출 잔사, en: Leached spodumene residue }, formula: HAlSi2O6, note: "리튬이 수소 이온과 바뀐 알루미노규산염" }
+  - { id: Li2CO3, name: { ko: 탄산 리튬, en: Lithium carbonate }, formula: Li2CO3 }
+  - { id: LiOH, name: { ko: 수산화 리튬, en: Lithium hydroxide }, formula: LiOH }
+  - { id: LiCl, name: { ko: 염화 리튬, en: Lithium chloride }, formula: LiCl }
+  - { id: AgCl, name: { ko: 염화 은, en: Silver chloride }, formula: AgCl }
+  - { id: H2PtCl6, name: { ko: 헥사클로로백금산, en: Hexachloroplatinic acid }, formula: H2PtCl6 }
+  - { id: (NH4)2PtCl6, name: { ko: 헥사클로로백금산 암모늄, en: Ammonium hexachloroplatinate }, formula: (NH4)2PtCl6 }
+  - { id: H2PdCl4, name: { ko: 테트라클로로팔라듐산, en: Tetrachloropalladic acid }, formula: H2PdCl4 }
+  - { id: Pd(NH3)2Cl2, name: { ko: 다이클로로다이암민팔라듐, en: Dichlorodiamminepalladium }, formula: Pd(NH3)2Cl2 }
+  - { id: H3RhCl6, name: { ko: 헥사클로로로듐산, en: Hexachlororhodic acid }, formula: H3RhCl6 }
+  - { id: (NH4)3RhCl6, name: { ko: 헥사클로로로듐산 암모늄, en: Ammonium hexachlororhodate }, formula: (NH4)3RhCl6 }
+  - { id: rare_earth_oxyfluoride, name: { ko: 희토류 옥시플루오린화물, en: Rare-earth oxyfluoride }, formula: (La0.33Ce0.5Pr0.05Nd0.12)OF }
+  - { id: rare_earth_chloride, name: { ko: 혼합 희토류 염화물, en: Mixed rare-earth chloride }, formula: (La0.33Ce0.5Pr0.05Nd0.12)Cl3 }
+  - { id: rare_earth_fluoride, name: { ko: 희토류 플루오린화물 잔사, en: Rare-earth fluoride residue }, formula: (La0.33Ce0.5Pr0.05Nd0.12)F3 }
+  - { id: LaCl3, name: { ko: 염화 란타넘, en: Lanthanum chloride }, formula: LaCl3 }
+  - { id: CeCl3, name: { ko: 염화 세륨, en: Cerium chloride }, formula: CeCl3 }
+  - { id: PrCl3, name: { ko: 염화 프라세오디뮴, en: Praseodymium chloride }, formula: PrCl3 }
+  - { id: NdCl3, name: { ko: 염화 네오디뮴, en: Neodymium chloride }, formula: NdCl3 }
+  - { id: xenotime_sulfate, name: { ko: 중희토류 황산염, en: Heavy rare-earth sulfate }, formula: (Y0.9Dy0.1)2(SO4)3 }
+  - { id: Y2(SO4)3, name: { ko: 황산 이트륨, en: Yttrium sulfate }, formula: Y2(SO4)3 }
+  - { id: Dy2(SO4)3, name: { ko: 황산 디스프로슘, en: Dysprosium sulfate }, formula: Dy2(SO4)3 }
+  - { id: DyCl3, name: { ko: 염화 디스프로슘, en: Dysprosium chloride }, formula: DyCl3 }
+  - { id: FeCl3, name: { ko: 염화 철(III), en: Iron(III) chloride }, formula: FeCl3 }
+  - { id: NbCl5, name: { ko: 오염화 나이오븀, en: Niobium pentachloride }, formula: NbCl5 }
+  - { id: TaCl5, name: { ko: 오염화 탄탈럼, en: Tantalum pentachloride }, formula: TaCl5 }
+  - { id: Nb2O5, name: { ko: 오산화 나이오븀, en: Niobium pentoxide }, formula: Nb2O5 }
+  - { id: Ta2O5, name: { ko: 오산화 탄탈럼, en: Tantalum pentoxide }, formula: Ta2O5 }
+
+  # ── 조금속·중간 합금 ──
+  - { id: sponge_iron, name: { ko: 직접환원철, en: Direct reduced iron }, note: "해면철(DRI). 고로를 거치지 않고 녹이지 않은 채 환원한 철" }
+  - { id: pig_iron, name: { ko: 선철, en: Pig iron }, note: "고로 용선. 탄소 약 4.5wt%, 규소 약 0.5wt%. 원자 비 Fe 81 : C 18 : Si 1" }
+  - { id: blister_copper, name: { ko: 조동, en: Blister copper }, note: "전로에서 나온 순도 약 98.5%의 구리. 표면에 SO2 기포 자국이 있다" }
+  - { id: lead_bullion, name: { ko: 함은 조연, en: Argentiferous lead bullion }, note: "은 약 0.5wt%가 녹아 있는 조연. 원자 비 Pb 99 : Ag 1" }
+  - { id: silver_zinc_crust, name: { ko: 은-아연 크러스트, en: Silver-zinc crust }, note: "파크스 공정에서 떠오른 Ag-Zn 금속간화합물. 원자 비 Ag 1 : Zn 2" }
+  - { id: gold_dore, name: { ko: 도레, en: Doré bullion }, note: "광산에서 내보내는 금-은 합금 덩이. 금 약 88wt%. 원자 비 Au 4 : Ag 1" }
+  - { id: pgm_concentrate, name: { ko: 백금족 정광, en: PGM concentrate }, note: "원자 비 Pt 8 : Pd 6 : Rh 1(질량비 약 73 : 20 : 6)" }
+
+  # ── 합금철 ──
+  - { id: ferrosilicon, name: { ko: 페로실리콘, en: Ferrosilicon }, note: "FeSi75. 규소 75wt%. 원자 비 Si 6 : Fe 1" }
+  - { id: ferromanganese, name: { ko: 페로망가니즈, en: Ferromanganese }, note: "고탄소 페로망가니즈. Mn 77.5, Fe 15.7, C 6.8wt%. 원자 비 Mn 25 : C 10 : Fe 5" }
+  - { id: ferrochrome, name: { ko: 페로크로뮴, en: Ferrochrome }, note: "고탄소 페로크로뮴. Cr 60.5, Fe 32.5, C 7.0wt%. 원자 비 Cr 2 : Fe 1 : C 1" }
+  - { id: ferrovanadium, name: { ko: 페로바나듐, en: Ferrovanadium }, note: "FeV80. V 78.5wt%. 원자 비 V 4 : Fe 1" }
+  - { id: ferromolybdenum, name: { ko: 페로몰리브데넘, en: Ferromolybdenum }, note: "FeMo70. Mo 67.9wt%. 원자 비 Mo 16 : Fe 13" }
+  - { id: ferroniobium, name: { ko: 페로나이오븀, en: Ferroniobium }, note: "FeNb65. Nb 66.6wt%. 원자 비 Nb 6 : Fe 5" }
+
+  # ── 합금 ──
+  - { id: steel, name: { ko: 탄소강, en: Carbon steel }, note: "일반 구조용 강(S275/A36급). C 0.22, Mn 1.0wt%. 원자 비 Fe 98 : C 1 : Mn 1" }
+  - { id: cast_iron, name: { ko: 회주철, en: Gray cast iron }, note: "C 3.4, Si 2.2wt%. 원자 비 Fe 82 : C 14 : Si 4" }
+  - { id: stainless_steel, name: { ko: 스테인리스강 304, en: Stainless steel 304 }, note: "18-8 오스테나이트계. Cr 18.0, Ni 8.5, Mn 1.0, Si 0.6wt%. 원자 비 Fe 708 : Cr 190 : Ni 80 : Si 12 : Mn 10" }
+  - { id: tool_steel, name: { ko: 고속도 공구강 M2, en: M2 high-speed tool steel }, note: "W 5.9, Mo 5.0, Cr 4.0, V 2.0, C 0.85wt%. 원자 비 Fe 456 : Cr 24 : C 22 : Mo 16 : V 12 : W 10" }
+  - { id: aluminium_6061, name: { ko: 알루미늄 합금 6061, en: Aluminium alloy 6061 }, note: "Mg 1.0, Si 0.6, Cu 0.24, Cr 0.19wt%. 원자 비 Al 981 : Mg 11 : Si 6 : Cu 1 : Cr 1" }
+  - { id: aluminium_7075, name: { ko: 알루미늄 합금 7075, en: Aluminium alloy 7075 }, note: "항공기용 고강도 합금. Zn 5.6, Mg 2.5, Cu 1.6, Cr 0.19wt%. 원자 비 Al 939 : Mg 29 : Zn 24 : Cu 7 : Cr 1" }
+  - { id: brass, name: { ko: 황동, en: Brass }, note: "C26000 카트리지 황동. Cu 70, Zn 30wt%. 원자 비 Cu 71 : Zn 29" }
+  - { id: bronze, name: { ko: 청동, en: Tin bronze }, note: "Cu 88, Sn 12wt%. 원자 비 Cu 93 : Sn 7" }
+  - { id: phosphor_bronze, name: { ko: 인청동, en: Phosphor bronze }, note: "C51000. Sn 4.9, P 0.19wt%. 스프링·커넥터용. 원자 비 Cu 969 : Sn 27 : P 4" }
+  - { id: nickel_silver, name: { ko: 양백, en: Nickel silver }, note: "C75200. Cu 65, Ni 18, Zn 17wt%. 원자 비 Cu 64 : Ni 19 : Zn 17" }
+  - { id: zamak_3, name: { ko: 자막 3, en: Zamak 3 }, note: "아연 다이캐스팅 합금. Al 4.0, Mg 0.04wt%. 원자 비 Zn 907 : Al 92 : Mg 1" }
+  - { id: az91d, name: { ko: 마그네슘 합금 AZ91D, en: Magnesium alloy AZ91D }, note: "Al 9.0, Zn 0.8, Mn 0.2wt%. 원자 비 Mg 914 : Al 82 : Zn 3 : Mn 1" }
+  - { id: ti_6al_4v, name: { ko: 타이타늄 합금 Ti-6Al-4V, en: Ti-6Al-4V }, note: "Al 6.0, V 4.0wt%. 원자 비 Ti 862 : Al 102 : V 36" }
+  - { id: niobium_titanium, name: { ko: 나이오븀-타이타늄 합금, en: Niobium-titanium }, note: "Nb-47Ti 초전도 합금(MRI 선재). 원자 비 Nb 37 : Ti 63" }
+  - { id: inconel_718, name: { ko: 인코넬 718, en: Inconel 718 }, note: "니켈 초합금. Ni 52.8, Cr 19.1, Fe 18.6, Nb 5.1, Mo 3.0, Ti 0.9, Al 0.5wt%" }
+  - { id: nichrome, name: { ko: 니크롬, en: Nichrome }, note: "Ni80Cr20 전열 합금. 원자 비 Ni 78 : Cr 22" }
+  - { id: platinum_rhodium, name: { ko: 백금-로듐 합금, en: Platinum-rhodium alloy }, note: "Pt-10%Rh. S형 열전대·유리 섬유 부싱용. 원자 비 Pt 83 : Rh 17" }
+  - { id: solder_sn63pb37, name: { ko: 유연 땜납 Sn63Pb37, en: Sn63Pb37 solder }, note: "공정 조성, 녹는점 183°C. 원자 비 Sn 75 : Pb 25" }
+  - { id: solder_sac305, name: { ko: 무연 땜납 SAC305, en: SAC305 lead-free solder }, note: "Sn 96.5, Ag 3.0, Cu 0.5wt%, 녹는점 약 217°C. 원자 비 Sn 958 : Ag 33 : Cu 9" }
+  - { id: mischmetal, name: { ko: 미시메탈, en: Mischmetal }, note: "경희토류 혼합 금속. 라이터돌·수소 저장 합금 원료" }
+  - { id: ndfeb_alloy, name: { ko: 네오디뮴 자석 합금, en: NdFeB alloy }, note: "Nd 27.9, Dy 3.0, B 1.0wt%, Fe 나머지. 스트립 캐스팅 박편. 원자 비 Fe 800 : Nd 127 : B 61 : Dy 12" }
+  - { id: ndfeb_powder, name: { ko: 네오디뮴 자석 분말, en: NdFeB magnet powder }, note: "입도 3~5µm의 Nd2Fe14B 분말" }
+  - { id: wc_co_powder, name: { ko: 초경합금 혼합 분말, en: WC-Co powder }, note: "WC-10Co. 단위는 WC 분자와 Co 원자. 비 WC 73 : Co 27" }
+
+  # ── 반제품 ──
+  - { id: steel_rod_1kg, name: { ko: 강철 봉(1kg), en: Steel rod (1 kg) }, unit: piece, expected_mass: [0.95kg, 1.05kg], note: "지름 16mm, 길이 약 63cm" }
+  - { id: steel_wire_1kg, name: { ko: 강선(1kg), en: Steel wire (1 kg) }, unit: piece, expected_mass: [0.95kg, 1.05kg], note: "지름 2mm 강선 약 40m 한 타래" }
+  - { id: steel_rebar_d13, name: { ko: 철근(D13·1m), en: Rebar D13 (1 m) }, unit: piece, expected_mass: [0.95kg, 1.05kg], note: "공칭 지름 12.7mm 이형 철근, 0.995kg/m" }
+  - { id: steel_sheet, name: { ko: 강판(1m²·1mm), en: Steel sheet (1 m² × 1 mm) }, unit: piece, expected_mass: [7.6kg, 8.1kg], note: "냉연 강판, 7.85kg" }
+  - { id: galvanized_steel_sheet, name: { ko: 아연도금 강판(1m²·1mm), en: Galvanized steel sheet (1 m² × 1 mm) }, unit: piece, expected_mass: [7.9kg, 8.4kg], note: "용융 아연도금 Z275(양면 275g/m²)" }
+  - { id: tinplate, name: { ko: 석도강판(1m²·0.2mm), en: Tinplate (1 m² × 0.2 mm) }, unit: piece, expected_mass: [1.5kg, 1.65kg], note: "캔용 주석 도금 강판. 주석 2.8/2.8g/m²" }
+  - { id: steel_pipe, name: { ko: 강관(25A·1m), en: Steel pipe (25A × 1 m) }, unit: piece, expected_mass: [2.3kg, 2.6kg], note: "배관용 탄소강관, 바깥지름 34.0mm, 두께 3.2mm, 2.43kg/m" }
+  - { id: steel_h_beam, name: { ko: H형강(100×100·1m), en: H-beam (100×100 × 1 m) }, unit: piece, expected_mass: [16.5kg, 18kg], note: "H 100×100×6×8, 17.2kg/m" }
+  - { id: stainless_steel_sheet, name: { ko: 스테인리스 강판(1m²·1mm), en: Stainless steel sheet (1 m² × 1 mm) }, unit: piece, expected_mass: [7.6kg, 8.2kg], note: "304 냉연판, 7.93kg" }
+  - { id: stainless_steel_tube, name: { ko: 스테인리스 강관(1m), en: Stainless steel tube (1 m) }, unit: piece, expected_mass: [0.68kg, 0.77kg], note: "304, 바깥지름 25.4mm, 두께 1.2mm" }
+  - { id: tool_steel_bar, name: { ko: 공구강 봉(1kg), en: Tool steel bar (1 kg) }, unit: piece, expected_mass: [0.95kg, 1.05kg] }
+  - { id: aluminium_sheet, name: { ko: 알루미늄 판(1m²·1mm), en: Aluminium sheet (1 m² × 1 mm) }, unit: piece, expected_mass: [2.6kg, 2.8kg], note: "6061-T6, 2.70kg" }
+  - { id: aluminium_foil_roll, name: { ko: 알루미늄 박 롤, en: Aluminium foil roll }, unit: piece, expected_mass: [110g, 135g], note: "폭 30cm, 길이 10m, 두께 15µm. 1235 합금(순도 99.35%)" }
+  - { id: aluminium_extrusion, name: { ko: 알루미늄 압출재(1m), en: Aluminium extrusion (1 m) }, unit: piece, expected_mass: [1.4kg, 1.6kg], note: "6061 40×40 T슬롯 프로파일, 약 1.5kg/m" }
+  - { id: aluminium_wire_1kg, name: { ko: 알루미늄선(1kg), en: Aluminium wire (1 kg) }, unit: piece, expected_mass: [0.95kg, 1.05kg], note: "전기용 1350 알루미늄 도체" }
+  - { id: aluminium_7075_bar, name: { ko: 7075 알루미늄 봉(1kg), en: 7075 aluminium bar (1 kg) }, unit: piece, expected_mass: [0.95kg, 1.05kg] }
+  - { id: copper_rod_1kg, name: { ko: 구리 선재(1kg), en: Copper wire rod (1 kg) }, unit: piece, expected_mass: [0.95kg, 1.05kg], note: "연속 주조 압연한 지름 8mm 무산소 구리 선재" }
+  - { id: copper_wire_1kg, name: { ko: 구리선(1kg), en: Copper wire (1 kg) }, unit: piece, expected_mass: [0.95kg, 1.05kg], note: "지름 1mm 연동선 약 142m" }
+  - { id: copper_sheet, name: { ko: 구리판(1m²·1mm), en: Copper sheet (1 m² × 1 mm) }, unit: piece, expected_mass: [8.6kg, 9.3kg], note: "8.96kg" }
+  - { id: copper_tube, name: { ko: 구리관(1m), en: Copper tube (1 m) }, unit: piece, expected_mass: [0.37kg, 0.42kg], note: "바깥지름 15mm, 두께 1mm" }
+  - { id: copper_foil, name: { ko: 전해 동박(1m²), en: Electrodeposited copper foil (1 m²) }, unit: piece, expected_mass: [290g, 330g], note: "두께 35µm(1oz) 인쇄회로기판용 동박" }
+  - { id: brass_rod_1kg, name: { ko: 황동 봉(1kg), en: Brass rod (1 kg) }, unit: piece, expected_mass: [0.95kg, 1.05kg] }
+  - { id: bronze_ingot_1kg, name: { ko: 청동 주괴(1kg), en: Bronze ingot (1 kg) }, unit: piece, expected_mass: [0.95kg, 1.05kg] }
+  - { id: phosphor_bronze_strip, name: { ko: 인청동 띠(1kg), en: Phosphor bronze strip (1 kg) }, unit: piece, expected_mass: [0.95kg, 1.05kg], note: "두께 0.3mm 띠 한 코일" }
+  - { id: sac305_solder_wire, name: { ko: 무연 실납(100g), en: SAC305 solder wire (100 g) }, unit: piece, expected_mass: [95g, 105g], note: "지름 0.8mm" }
+  - { id: sn63pb37_solder_wire, name: { ko: 유연 실납(100g), en: Sn63Pb37 solder wire (100 g) }, unit: piece, expected_mass: [95g, 105g], note: "지름 0.8mm" }
+  - { id: gold_bonding_wire, name: { ko: 금 본딩 와이어, en: Gold bonding wire }, unit: piece, expected_mass: [9g, 10g], note: "지름 25µm, 길이 1,000m 한 스풀. 순도 99.99%" }
+  - { id: tungsten_wire, name: { ko: 텅스텐선, en: Tungsten wire }, unit: piece, expected_mass: [14g, 16.5g], note: "지름 0.1mm, 길이 100m" }
+  - { id: carbide_insert, name: { ko: 초경 인서트, en: Cemented carbide insert }, unit: piece, expected_mass: [7g, 11g], note: "CNMG 120408 선삭 인서트 한 개" }
+  - { id: ti64_bar, name: { ko: Ti-6Al-4V 봉(1kg), en: Ti-6Al-4V bar (1 kg) }, unit: piece, expected_mass: [0.95kg, 1.05kg] }
+  - { id: titanium_sheet, name: { ko: 타이타늄 판(1m²·1mm), en: Titanium sheet (1 m² × 1 mm) }, unit: piece, expected_mass: [4.3kg, 4.7kg], note: "순타이타늄 2종, 4.51kg" }
+  - { id: nichrome_wire, name: { ko: 니크롬선, en: Nichrome wire }, unit: piece, expected_mass: [15g, 18g], note: "지름 0.5mm, 길이 10m 전열선" }
+  - { id: nickel_strip, name: { ko: 니켈 스트립, en: Nickel strip }, unit: piece, expected_mass: [100g, 115g], note: "두께 0.15mm, 폭 8mm, 길이 10m. 배터리 탭용" }
+  - { id: platinum_wire, name: { ko: 백금선, en: Platinum wire }, unit: piece, expected_mass: [4.0g, 4.4g], note: "지름 0.5mm, 길이 1m" }
+  - { id: platinum_rhodium_wire, name: { ko: 백금-로듐선, en: Platinum-rhodium wire }, unit: piece, expected_mass: [3.7g, 4.2g], note: "Pt-10%Rh, 지름 0.5mm, 길이 1m. 백금선과 짝을 지어 S형 열전대를 만든다" }
+  - { id: ndfeb_magnet, name: { ko: 네오디뮴 자석, en: NdFeB magnet }, unit: piece, expected_mass: [3.5g, 4.1g], note: "소결 N42 등급 10×10×5mm 블록, Ni-Cu-Ni 도금" }

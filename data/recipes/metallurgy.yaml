@@ -1,0 +1,929 @@
+# 금속 공학: 선광·제련·정련·합금·가공.
+# 화학식이 있는 물질끼리의 반응은 원자 수를 맞춘다. 합금은 note의 원자 비대로 섞어 질량이 그대로 이어진다.
+# 반제품(개수 단위)은 규모 업그레이드를 받지 않으므로 실제 질량만큼의 입자 수를 그대로 적는다.
+category: metallurgy
+recipes:
+  # ───────────── 석탄과 철 ─────────────
+  - id: coal_coking
+    name: { ko: 코크스 제조 }
+    time: 8
+    in: { coal: 100 }
+    out: { coke: 75, H2: 14, CH4: 6, C6H6: 1 }
+    approximate: true
+    note: "코크스로에서 점결탄을 약 1,000°C로 18시간 건류한다. 석탄 1t에서 코크스 약 0.75t과 코크스로 가스(수소 약 55%, 메탄 약 25%), 조경유(벤젠)가 나온다"
+  - id: iron_ore_beneficiation
+    name: { ko: 철광석 선광 }
+    time: 6
+    in: { iron_ore: 10 }
+    out: { hematite: 8, magnetite: 2, SiO2: 3 }
+    approximate: true
+    note: 부수고 갈아 자력 선별·부유 선광으로 맥석(석영)을 떼어 낸다
+  - id: magnetite_pelletizing
+    name: { ko: 자철석 펠릿 소성 }
+    time: 3
+    in: { magnetite: 4, O2: 1 }
+    out: { hematite: 6 }
+    note: "4Fe3O4 + O2 → 6Fe2O3. 정광을 구슬로 빚어 1,250°C에서 구우면 적철석 펠릿이 된다"
+  - id: blast_furnace_reduction
+    name: { ko: 고로 환원 }
+    time: 2
+    in: { hematite: 1, CO: 3 }
+    out: { Fe: 2, CO2: 3 }
+    note: "용광로 샤프트에서 일어나는 간접 환원. Fe2O3 + 3CO → 2Fe + 3CO2. CO는 풍구로 불어 넣은 산소가 코크스를 태워 만든다(2C + O2 → 2CO)"
+  - id: blast_furnace_hot_metal
+    name: { ko: 용선 출선 }
+    time: 6
+    in: { Fe: 81, coke: 20, SiO2: 1 }
+    out: { pig_iron: 100, CO: 2 }
+    note: "노상에 고인 철이 코크스의 탄소를 녹여 받아 녹는점이 1,150°C로 내려간다. 석영 일부도 환원돼 규소로 들어간다"
+  - id: basic_oxygen_steelmaking
+    name: { ko: 전로 제강 }
+    time: 40
+    in: { pig_iron: 1000, Fe: 168, ferromanganese: 16, O2: 97, CaO: 10 }
+    out: { steel: 1000, CO: 174, CaSiO3: 10 }
+    note: "LD 전로. 용선 약 80%와 고철(철) 약 20%를 넣고 순산소를 불어 탄소와 규소를 태운다. 규소는 석회와 슬래그가 되고 망가니즈는 페로망가니즈로 맞춘다"
+  - id: hydrogen_direct_reduction
+    name: { ko: 수소 직접환원 }
+    time: 3
+    in: { hematite: 1, H2: 3 }
+    out: { sponge_iron: 2, H2O: 3 }
+    note: "Fe2O3 + 3H2 → 2Fe + 3H2O. 펠릿을 녹이지 않고 800°C 수소로 환원한다(HYBRIT 방식). 탄소 대신 물이 나온다"
+  - id: midrex_direct_reduction
+    name: { ko: 미드렉스 직접환원 }
+    time: 5
+    in: { hematite: 2, CO: 3, H2: 3 }
+    out: { sponge_iron: 4, CO2: 3, H2O: 3 }
+    note: 천연가스를 개질한 합성가스(CO + H2)로 샤프트로에서 펠릿을 환원한다. 세계 직접환원철의 약 60%
+  - id: electric_arc_steelmaking
+    name: { ko: 전기로 제강 }
+    time: 40
+    in: { sponge_iron: 978, ferromanganese: 16, coke: 6 }
+    out: { steel: 1000 }
+    note: 흑연 전극의 아크로 직접환원철을 녹이고 탄소와 망가니즈를 맞춘다
+  - id: cupola_cast_iron
+    name: { ko: 큐폴라 주철 용해 }
+    time: 30
+    in: { pig_iron: 400, Fe: 246, ferrosilicon: 28, coke: 26 }
+    out: { cast_iron: 700 }
+    note: 선철·고철·페로실리콘을 코크스와 함께 큐폴라에서 녹인다. 규소가 흑연 정출을 도와 회주철이 된다
+  - id: ferrosilicon_smelting
+    name: { ko: 페로실리콘 제련 }
+    time: 12
+    in: { SiO2: 12, hematite: 1, coke: 27 }
+    out: { ferrosilicon: 14, CO: 27 }
+    note: 규석과 철광석을 코크스와 함께 서브머지드 아크로에서 환원한다
+  - id: ferromanganese_smelting
+    name: { ko: 페로망가니즈 제련 }
+    time: 20
+    in: { pyrolusite: 50, hematite: 5, coke: 135 }
+    out: { ferromanganese: 80, CO: 115 }
+    note: 망가니즈 광석을 코크스로 환원한다(서브머지드 아크로). 강의 탈산과 망가니즈 첨가에 쓴다
+  - id: ferrochrome_smelting
+    name: { ko: 페로크로뮴 제련 }
+    time: 10
+    in: { chromite: 5, coke: 25 }
+    out: { ferrochrome: 20, CO: 20 }
+    note: "FeCr2O4 + 4C → Fe + 2Cr + 4CO. 크롬철석을 통째로 환원하므로 철과 크로뮴이 함께 나온다. 크롬철석의 약 90%가 이 길로 간다"
+  - id: stainless_steel_aod
+    name: { ko: 스테인리스강 제강 }
+    time: 60
+    in: { ferrochrome: 760, Ni: 160, ferromanganese: 32, ferrosilicon: 28, Fe: 1218, O2: 99 }
+    out: { stainless_steel: 2000, CO: 198 }
+    note: "전기로에서 녹인 뒤 AOD 정련로에서 아르곤으로 묽힌 산소를 불어 크로뮴은 남기고 탄소만 태운다. 아르곤은 그대로 빠져나가므로 적지 않았다"
+  - id: tool_steel_melting
+    name: { ko: 고속도강 용해 }
+    time: 40
+    in: { Fe: 428, ferrochrome: 48, ferromolybdenum: 29, ferrovanadium: 15, W: 10, coke: 10 }
+    out: { tool_steel: 540 }
+    note: 합금철을 넣어 M2 조성을 맞춘다. 탄화물이 고르게 퍼지도록 전기 슬래그 재용해(ESR)를 거친다
+
+  # ───────────── 망가니즈 ─────────────
+  - id: pyrolusite_reduction_roasting
+    name: { ko: 연망간석 환원 배소 }
+    time: 1
+    in: { pyrolusite: 2, coke: 1 }
+    out: { MnO: 2, CO2: 1 }
+    note: "2MnO2 + C → 2MnO + CO2. 산에 녹지 않는 MnO2를 녹는 MnO로 바꾼다"
+  - id: manganese_oxide_leaching
+    name: { ko: 산화 망가니즈 침출 }
+    time: 1
+    in: { MnO: 1, H2SO4: 1 }
+    out: { MnSO4: 1, H2O: 1 }
+  - id: manganese_electrowinning
+    name: { ko: 망가니즈 전해채취 }
+    time: 2
+    in: { MnSO4: 2, H2O: 2 }
+    out: { Mn: 2, O2: 1, H2SO4: 2 }
+    note: "전해 망가니즈(EMM). 음극에 순도 99.7%의 망가니즈가 붙고 황산은 침출로 돌아간다"
+
+  # ───────────── 크로뮴 ─────────────
+  - id: chlor_alkali_membrane
+    name: { ko: 이온교환막 식염수 전해 }
+    time: 1
+    in: { NaCl: 2, H2O: 2 }
+    out: { NaOH: 2, H2: 1, Cl2: 1 }
+    note: "2NaCl + 2H2O → 2NaOH + H2 + Cl2. 가성소다와 염소를 함께 만든다"
+  - id: caustic_soda_carbonation
+    name: { ko: 가성소다 탄산화 }
+    time: 0.5
+    in: { NaOH: 2, CO2: 1 }
+    out: { Na2CO3: 1, H2O: 1 }
+  - id: chromite_soda_roasting
+    name: { ko: 크롬철석 소다 배소 }
+    time: 6
+    in: { chromite: 4, Na2CO3: 8, O2: 7 }
+    out: { Na2CrO4: 8, hematite: 2, CO2: 8 }
+    note: "4FeCr2O4 + 8Na2CO3 + 7O2 → 8Na2CrO4 + 2Fe2O3 + 8CO2. 1,100°C 산화 배소 뒤 물로 크로뮴산염만 녹여 낸다"
+  - id: sodium_dichromate_conversion
+    name: { ko: 다이크로뮴산 나트륨 전환 }
+    time: 1
+    in: { Na2CrO4: 2, H2SO4: 1 }
+    out: { Na2Cr2O7: 1, Na2SO4: 1, H2O: 1 }
+  - id: dichromate_carbon_reduction
+    name: { ko: 다이크로뮴산염 탄소 환원 }
+    time: 2
+    in: { Na2Cr2O7: 1, C: 2 }
+    out: { Cr2O3: 1, Na2CO3: 1, CO: 1 }
+    note: 가열해 탄소로 환원하고 물로 씻으면 탄산 나트륨이 빠지고 산화 크로뮴(III)이 남는다
+  - id: chromium_aluminothermic
+    name: { ko: 크로뮴 테르밋 환원 }
+    time: 2
+    in: { Cr2O3: 1, Al: 2 }
+    out: { Cr: 2, Al2O3: 1 }
+    note: "Cr2O3 + 2Al → 2Cr + Al2O3. 순도 99%의 금속 크로뮴을 얻는 표준 방법"
+
+  # ───────────── 알루미늄 ─────────────
+  - id: aluminium_6061_alloying
+    name: { ko: 6061 합금 용해 }
+    time: 20
+    in: { Al: 981, Mg: 11, Si: 6, Cu: 1, Cr: 1 }
+    out: { aluminium_6061: 1000 }
+  - id: aluminium_7075_alloying
+    name: { ko: 7075 합금 용해 }
+    time: 20
+    in: { Al: 939, Mg: 29, Zn: 24, Cu: 7, Cr: 1 }
+    out: { aluminium_7075: 1000 }
+
+  # ───────────── 구리 ─────────────
+  - id: copper_ore_flotation
+    name: { ko: 구리 광석 부유 선광 }
+    time: 6
+    in: { copper_ore: 10 }
+    out: { chalcopyrite: 8, molybdenite: 0.2, SiO2: 4 }
+    approximate: true
+    note: 반암 구리 광석을 곱게 갈아 거품에 황화 광물만 붙여 띄운다. 휘수연석은 같은 거품에서 다시 갈라낸다
+  - id: chalcopyrite_flash_smelting
+    name: { ko: 황동석 자용 제련 }
+    time: 4
+    in: { chalcopyrite: 4, O2: 8, SiO2: 2 }
+    out: { Cu2S: 2, fayalite: 2, SO2: 6 }
+    note: "정광을 산소와 함께 노에 불어 넣으면 황이 타는 열로 스스로 녹는다(오토쿰푸 자용로). 철은 규석과 슬래그가 된다"
+  - id: copper_matte_converting
+    name: { ko: 구리 매트 전로 취련 }
+    time: 3
+    in: { Cu2S: 1, O2: 1 }
+    out: { blister_copper: 2, SO2: 1 }
+    note: "Cu2S + O2 → 2Cu + SO2. 나온 SO2는 황산 공장으로 보낸다"
+  - id: copper_electrorefining
+    name: { ko: 구리 전해 정련 }
+    time: 30
+    in: { blister_copper: 100, electrolyte: 1 }
+    out: { Cu: 100 }
+    note: 조동을 양극으로 부어 황산 구리 전해액에서 순도 99.99%의 음극 구리를 얻는다
+  - id: malachite_leaching
+    name: { ko: 공작석 황산 침출 }
+    time: 2
+    in: { malachite: 1, H2SO4: 2 }
+    out: { CuSO4: 2, CO2: 1, H2O: 3 }
+    note: 산화 구리 광석을 더미 침출한다. 침출액은 용매 추출로 농축한다
+  - id: copper_dissolution
+    name: { ko: 구리 산화 용해 }
+    time: 2
+    in: { Cu: 2, O2: 1, H2SO4: 2 }
+    out: { CuSO4: 2, H2O: 2 }
+    note: 동박 공장에서 구리 선재 부스러기를 공기를 불어 넣은 황산에 녹여 전해액을 만든다
+  - id: brass_alloying
+    name: { ko: 황동 용해 }
+    time: 6
+    in: { Cu: 71, Zn: 29 }
+    out: { brass: 100 }
+  - id: bronze_alloying
+    name: { ko: 청동 용해 }
+    time: 6
+    in: { Cu: 93, Sn: 7 }
+    out: { bronze: 100 }
+  - id: phosphor_bronze_alloying
+    name: { ko: 인청동 용해 }
+    time: 20
+    in: { Cu: 969, Sn: 27, P: 4 }
+    out: { phosphor_bronze: 1000 }
+    note: 인은 탈산제로 넣고 일부가 남아 강도와 내마모성을 높인다
+  - id: nickel_silver_alloying
+    name: { ko: 양백 용해 }
+    time: 6
+    in: { Cu: 64, Ni: 19, Zn: 17 }
+    out: { nickel_silver: 100 }
+
+  # ───────────── 아연 ─────────────
+  - id: zinc_oxide_leaching
+    name: { ko: 아연 소광 침출 }
+    time: 1
+    in: { ZnO: 1, H2SO4: 1 }
+    out: { ZnSO4: 1, H2O: 1 }
+  - id: zinc_electrowinning
+    name: { ko: 아연 전해채취 }
+    time: 2
+    in: { ZnSO4: 2, H2O: 2 }
+    out: { Zn: 2, O2: 1, H2SO4: 2 }
+    note: "배소-침출-전해(RLE) 공정. 세계 아연의 약 90%를 만든다. 알루미늄 음극에 붙은 아연을 벗겨 낸다"
+  - id: zamak_alloying
+    name: { ko: 자막 3 용해 }
+    time: 20
+    in: { Zn: 907, Al: 92, Mg: 1 }
+    out: { zamak_3: 1000 }
+
+  # ───────────── 납과 은 ─────────────
+  - id: galena_roasting
+    name: { ko: 방연석 배소 }
+    time: 2
+    in: { galena: 2, O2: 3 }
+    out: { PbO: 2, SO2: 2 }
+    note: "2PbS + 3O2 → 2PbO + 2SO2. 소결 배소로 황을 태운다"
+  - id: lead_smelting
+    name: { ko: 납 용광로 제련 }
+    time: 1
+    in: { PbO: 1, coke: 1 }
+    out: { Pb: 1, CO: 1 }
+  - id: argentiferous_lead_smelting
+    name: { ko: 함은 방연석 제련 }
+    time: 30
+    in: { PbO: 198, acanthite: 1, coke: 198, O2: 1 }
+    out: { lead_bullion: 200, CO: 198, SO2: 1 }
+    note: 은을 품은 광석을 녹이면 은이 납에 녹아 들어간다. 납이 은의 포집제 노릇을 한다
+  - id: parkes_desilverizing
+    name: { ko: 파크스 탈은 }
+    time: 20
+    in: { lead_bullion: 200, Zn: 4 }
+    out: { Pb: 198, silver_zinc_crust: 6 }
+    note: 녹인 조연에 아연을 넣고 식히면 은이 납보다 아연에 잘 녹아 Ag-Zn 크러스트로 떠오른다
+  - id: silver_crust_retorting
+    name: { ko: 은 크러스트 증류 }
+    time: 4
+    in: { silver_zinc_crust: 6 }
+    out: { Ag: 2, Zn: 4 }
+    note: 크러스트를 레토르트에서 가열해 아연을 증발시켜 회수하고 은을 남긴다
+  - id: acanthite_roasting
+    name: { ko: 휘은석 배소 }
+    time: 1
+    in: { acanthite: 1, O2: 1 }
+    out: { Ag: 2, SO2: 1 }
+    note: "Ag2S + O2 → 2Ag + SO2. 산화 은은 고온에서 분해되므로 금속 은이 바로 남는다"
+
+  # ───────────── 주석과 땜납 ─────────────
+  - id: cassiterite_smelting
+    name: { ko: 주석석 제련 }
+    time: 1
+    in: { cassiterite: 1, coke: 2 }
+    out: { Sn: 1, CO: 2 }
+    note: "SnO2 + 2C → Sn + 2CO. 반사로·전기로에서 1,200°C로 환원한다"
+  - id: sn63pb37_alloying
+    name: { ko: 유연 땜납 용해 }
+    time: 4
+    in: { Sn: 75, Pb: 25 }
+    out: { solder_sn63pb37: 100 }
+  - id: sac305_alloying
+    name: { ko: 무연 땜납 용해 }
+    time: 20
+    in: { Sn: 958, Ag: 33, Cu: 9 }
+    out: { solder_sac305: 1000 }
+
+  # ───────────── 니켈과 코발트 ─────────────
+  - id: pentlandite_flash_smelting
+    name: { ko: 펜틀란다이트 자용 제련 }
+    time: 6
+    in: { pentlandite: 4, O2: 29, SiO2: 9 }
+    out: { Ni3S2: 6, fayalite: 9, SO2: 20 }
+    note: 황화 니켈 정광을 자용로에서 녹여 철은 슬래그로, 니켈은 매트로 나눈다
+  - id: nickel_matte_roasting
+    name: { ko: 니켈 매트 배소 }
+    time: 2
+    in: { Ni3S2: 2, O2: 7 }
+    out: { NiO: 6, SO2: 4 }
+  - id: mond_carbonylation
+    name: { ko: 몽드 공정 카보닐화 }
+    time: 2
+    in: { NiO: 1, H2: 1, CO: 4 }
+    out: { Ni(CO)4: 1, H2O: 1 }
+    note: "산화 니켈을 수소로 환원한 뒤 50°C에서 일산화 탄소와 반응시키면 니켈만 휘발성 Ni(CO)4가 되어 빠져나온다"
+  - id: mond_decomposition
+    name: { ko: 몽드 공정 분해 }
+    time: 1
+    in: { Ni(CO)4: 1 }
+    out: { Ni: 1, CO: 4 }
+    note: "230°C에서 Ni(CO)4가 분해되며 순도 99.97%의 니켈 펠릿이 자란다. CO는 다시 쓴다"
+  - id: heterogenite_reductive_leaching
+    name: { ko: 헤테로제나이트 환원 침출 }
+    time: 2
+    in: { heterogenite: 2, SO2: 1, H2SO4: 1 }
+    out: { CoSO4: 2, H2O: 2 }
+    note: "Co(III)는 산에 잘 녹지 않으므로 SO2로 Co(II)로 환원하며 녹인다"
+  - id: cobalt_electrowinning
+    name: { ko: 코발트 전해채취 }
+    time: 2
+    in: { CoSO4: 2, H2O: 2 }
+    out: { Co: 2, O2: 1, H2SO4: 2 }
+  - id: nichrome_alloying
+    name: { ko: 니크롬 용해 }
+    time: 6
+    in: { Ni: 78, Cr: 22 }
+    out: { nichrome: 100 }
+  - id: inconel_718_melting
+    name: { ko: 인코넬 718 용해 }
+    time: 60
+    in: { Ni: 522, Cr: 213, Fe: 193, Nb: 32, Mo: 18, Ti: 11, Al: 11 }
+    out: { inconel_718: 1000 }
+    note: 진공 유도 용해(VIM) 뒤 전기 슬래그 재용해(ESR)와 진공 아크 재용해(VAR)를 거친다
+
+  # ───────────── 타이타늄과 지르코늄 ─────────────
+  - id: ilmenite_smelting
+    name: { ko: 티탄철석 전기로 제련 }
+    time: 3
+    in: { ilmenite: 1, coke: 1 }
+    out: { titanium_slag: 1, Fe: 1, CO: 1 }
+    note: "FeTiO3 + C → TiO2 + Fe + CO. 철은 고순도 선철로 따로 팔린다(소렐 공정)"
+  - id: rutile_chlorination
+    name: { ko: 금홍석 염소화 }
+    time: 2
+    in: { rutile: 1, Cl2: 2, coke: 1 }
+    out: { TiCl4: 1, CO2: 1 }
+    note: "유동층 염소화로에서 1,000°C로 반응시키고 TiCl4를 증류해 정제한다"
+  - id: titanium_slag_chlorination
+    name: { ko: 타이타늄 슬래그 염소화 }
+    time: 2
+    in: { titanium_slag: 1, Cl2: 2, coke: 1 }
+    out: { TiCl4: 1, CO2: 1 }
+  - id: kroll_process
+    name: { ko: 크롤 공정 }
+    time: 4
+    in: { TiCl4: 1, Mg: 2 }
+    out: { Ti: 1, MgCl2: 2 }
+    note: "TiCl4 + 2Mg → Ti + 2MgCl2. 아르곤 속 800~850°C에서 해면 타이타늄을 얻는다. MgCl2는 전기분해해 마그네슘과 염소로 되돌린다"
+  - id: hunter_process
+    name: { ko: 헌터 공정 }
+    time: 4
+    in: { TiCl4: 1, Na: 4 }
+    out: { Ti: 1, NaCl: 4 }
+    note: 나트륨으로 환원하는 옛 방식. 지금은 크롤 공정에 밀려났다
+  - id: ti64_alloying
+    name: { ko: Ti-6Al-4V 용해 }
+    time: 40
+    in: { Ti: 862, Al: 102, V: 36 }
+    out: { ti_6al_4v: 1000 }
+    note: 해면 타이타늄과 Al-V 모합금을 압축해 전극으로 만들고 진공 아크 재용해(VAR)를 두 번 한다
+  - id: zircon_carbochlorination
+    name: { ko: 지르콘 탄소 염소화 }
+    time: 3
+    in: { zircon: 1, coke: 4, Cl2: 4 }
+    out: { ZrCl4: 1, SiCl4: 1, CO: 4 }
+    note: "ZrSiO4 + 4C + 4Cl2 → ZrCl4 + SiCl4 + 4CO"
+  - id: zirconium_kroll
+    name: { ko: 지르코늄 크롤 공정 }
+    time: 4
+    in: { ZrCl4: 1, Mg: 2 }
+    out: { Zr: 1, MgCl2: 2 }
+
+  # ───────────── 바나듐 ─────────────
+  - id: coulsonite_salt_roasting
+    name: { ko: 바나듐 소다 배소 }
+    time: 6
+    in: { coulsonite: 4, Na2CO3: 4, O2: 5 }
+    out: { NaVO3: 8, hematite: 2, CO2: 4 }
+    note: "티탄자철광 정광(또는 제강 바나듐 슬래그)을 소다와 산화 배소하고 물로 바나듐산염을 녹여 낸다"
+  - id: ammonium_metavanadate_precipitation
+    name: { ko: 메타바나듐산 암모늄 침전 }
+    time: 1
+    in: { NaVO3: 1, NH3: 1, HCl: 1 }
+    out: { NH4VO3: 1, NaCl: 1 }
+    note: 침출액에 염화 암모늄을 넣으면 녹지 않는 AMV가 가라앉는다
+  - id: ammonium_metavanadate_calcination
+    name: { ko: 메타바나듐산 암모늄 하소 }
+    time: 1
+    in: { NH4VO3: 2 }
+    out: { V2O5: 1, NH3: 2, H2O: 1 }
+  - id: ferrovanadium_aluminothermic
+    name: { ko: 페로바나듐 테르밋 환원 }
+    time: 8
+    in: { V2O5: 12, hematite: 3, Al: 46 }
+    out: { ferrovanadium: 30, Al2O3: 23 }
+    note: "3V2O5 + 10Al → 6V + 5Al2O3. 강의 결정립을 미세하게 하는 첨가제(마이크로 합금)로 쓴다"
+  - id: vanadium_calciothermic
+    name: { ko: 바나듐 칼슘 환원 }
+    time: 3
+    in: { V2O5: 1, Ca: 5 }
+    out: { V: 2, CaO: 5 }
+    note: "V2O5 + 5Ca → 2V + 5CaO. 밀폐 용기에서 반응시켜 연성 있는 금속 바나듐을 얻는다"
+
+  # ───────────── 몰리브데넘 ─────────────
+  - id: molybdenite_roasting
+    name: { ko: 휘수연석 배소 }
+    time: 2
+    in: { molybdenite: 2, O2: 7 }
+    out: { MoO3: 2, SO2: 4 }
+    note: "2MoS2 + 7O2 → 2MoO3 + 4SO2. 다단 노상로에서 600°C로 굽는다"
+  - id: molybdenum_trioxide_reduction
+    name: { ko: 삼산화 몰리브데넘 수소 환원 }
+    time: 1
+    in: { MoO3: 1, H2: 1 }
+    out: { MoO2: 1, H2O: 1 }
+    note: 1단계 환원(600°C)
+  - id: molybdenum_dioxide_reduction
+    name: { ko: 이산화 몰리브데넘 수소 환원 }
+    time: 2
+    in: { MoO2: 1, H2: 2 }
+    out: { Mo: 1, H2O: 2 }
+    note: "2단계 환원(1,000°C)으로 몰리브데넘 분말을 얻는다"
+  - id: ferromolybdenum_silicothermic
+    name: { ko: 페로몰리브데넘 규소 환원 }
+    time: 8
+    in: { MoO3: 16, hematite: 4, ferrosilicon: 35 }
+    out: { ferromolybdenum: 29, SiO2: 30 }
+    note: "2MoO3 + 3Si → 2Mo + 3SiO2. 페로실리콘의 규소가 타며 내는 열로 노 없이 반응이 이어진다"
+
+  # ───────────── 텅스텐 ─────────────
+  - id: scheelite_acid_digestion
+    name: { ko: 회중석 염산 분해 }
+    time: 2
+    in: { scheelite: 1, HCl: 2 }
+    out: { H2WO4: 1, CaCl2: 1 }
+    note: "CaWO4 + 2HCl → H2WO4 + CaCl2. 노란 텅스텐산이 가라앉는다"
+  - id: ammonium_paratungstate_crystallization
+    name: { ko: 파라텅스텐산 암모늄 결정화 }
+    time: 4
+    in: { H2WO4: 12, NH3: 10 }
+    out: { ammonium_paratungstate: 1, H2O: 2 }
+    note: 텅스텐산을 암모니아수에 녹여 불순물을 거르고 증발 결정화한다
+  - id: ammonium_paratungstate_calcination
+    name: { ko: 파라텅스텐산 암모늄 하소 }
+    time: 3
+    in: { ammonium_paratungstate: 1 }
+    out: { WO3: 12, NH3: 10, H2O: 10 }
+  - id: tungsten_oxide_reduction
+    name: { ko: 삼산화 텅스텐 수소 환원 }
+    time: 2
+    in: { WO3: 1, H2: 3 }
+    out: { W: 1, H2O: 3 }
+    note: "WO3 + 3H2 → W + 3H2O. 700~1,000°C 관상로에서 텅스텐 분말을 얻는다"
+  - id: tungsten_carburization
+    name: { ko: 텅스텐 탄화 }
+    time: 2
+    in: { W: 1, C: 1 }
+    out: { WC: 1 }
+    note: 텅스텐 분말과 카본 블랙을 섞어 수소 속 1,500°C에서 탄화한다
+  - id: cemented_carbide_mixing
+    name: { ko: 초경합금 분말 혼합 }
+    time: 4
+    in: { WC: 73, Co: 27 }
+    out: { wc_co_powder: 100 }
+    note: 코발트를 결합재로 볼 밀에서 섞는다
+
+  # ───────────── 마그네슘 ─────────────
+  - id: dolomite_calcination
+    name: { ko: 백운석 소성 }
+    time: 1
+    in: { dolomite: 1 }
+    out: { dolime: 1, CO2: 2 }
+    note: "CaMg(CO3)2 → CaO·MgO + 2CO2"
+  - id: pidgeon_process
+    name: { ko: 피존 공정 }
+    time: 20
+    in: { dolime: 12, ferrosilicon: 7 }
+    out: { Mg: 12, Ca2SiO4: 6, Fe: 1 }
+    note: "2(CaO·MgO) + Si → 2Mg + Ca2SiO4. 1,200°C 진공 레토르트에서 마그네슘 증기가 나와 응축된다. 세계 마그네슘의 약 85%"
+  - id: az91d_alloying
+    name: { ko: AZ91D 합금 용해 }
+    time: 20
+    in: { Mg: 914, Al: 82, Zn: 3, Mn: 1 }
+    out: { az91d: 1000 }
+    note: 산화를 막으려 SF6 등을 섞은 보호 가스 아래에서 녹인다. 다이캐스팅용
+
+  # ───────────── 리튬 ─────────────
+  - id: spodumene_decrepitation
+    name: { ko: 리티아휘석 전이 소성 }
+    time: 1
+    in: { spodumene: 1 }
+    out: { beta_spodumene: 1 }
+    note: "로터리 킬른에서 1,050°C로 구워 α형을 β형으로 바꾼다"
+  - id: spodumene_acid_roasting
+    name: { ko: 리티아휘석 황산 배소 }
+    time: 2
+    in: { beta_spodumene: 2, H2SO4: 1 }
+    out: { Li2SO4: 1, spodumene_residue: 2 }
+    note: "250°C 황산 배소. 2LiAlSi2O6 + H2SO4 → Li2SO4 + 2HAlSi2O6"
+  - id: lithium_carbonate_precipitation
+    name: { ko: 탄산 리튬 침전 }
+    time: 1
+    in: { Li2SO4: 1, Na2CO3: 1 }
+    out: { Li2CO3: 1, Na2SO4: 1 }
+    note: 뜨거운 용액에 소다회를 넣으면 잘 녹지 않는 탄산 리튬이 가라앉는다. 배터리 등급 원료
+  - id: lithium_hydroxide_causticization
+    name: { ko: 수산화 리튬 가성화 }
+    time: 1
+    in: { Li2CO3: 1, Ca(OH)2: 1 }
+    out: { LiOH: 2, CaCO3: 1 }
+  - id: lithium_chloride_conversion
+    name: { ko: 염화 리튬 전환 }
+    time: 1
+    in: { Li2CO3: 1, HCl: 2 }
+    out: { LiCl: 2, H2O: 1, CO2: 1 }
+  - id: lithium_electrolysis
+    name: { ko: 염화 리튬 용융염 전해 }
+    time: 2
+    in: { LiCl: 2 }
+    out: { Li: 2, Cl2: 1 }
+    note: "LiCl-KCl 공정 용융염을 420°C에서 전기분해한다"
+
+  # ───────────── 금 ─────────────
+  - id: gold_ore_leaching
+    name: { ko: 금 침출·흡착 }
+    time: 30
+    in: { gold_ore: 1000 }
+    out: { gold_dore: 1 }
+    approximate: true
+    note: "개요: 곱게 간 광석을 석회로 염기성을 맞춘 묽은 시안화물 용액에 공기를 불어 넣으며 녹이고, 녹은 금 착이온을 활성탄에 흡착(CIP)했다가 탈착·전해채취해 도레로 붓는다. 시약은 순환하며 소모량이 적어 생략했다"
+  - id: miller_process
+    name: { ko: 밀러 공정 }
+    time: 3
+    in: { gold_dore: 10, Cl2: 1 }
+    out: { Au: 8, AgCl: 2 }
+    note: 녹인 도레에 염소를 불어 넣으면 은이 염화 은 슬래그로 떠오르고 순도 99.5%의 금이 남는다
+  - id: silver_chloride_reduction
+    name: { ko: 염화 은 수소 환원 }
+    time: 1
+    in: { AgCl: 2, H2: 1 }
+    out: { Ag: 2, HCl: 2 }
+
+  # ───────────── 백금족 ─────────────
+  - id: pgm_sulfide_roasting
+    name: { ko: 백금족 황화물 제련 }
+    time: 10
+    in: { cooperite: 16, vysotskite: 12, bowieite: 1, O2: 31 }
+    out: { pgm_concentrate: 30, SO2: 31 }
+    note: 광맥 정광을 전기로에서 녹여 매트로 모으고, 전로 취련과 가압 침출로 니켈·구리·황을 걷어 내 백금족 정광을 만든다
+  - id: pgm_chlorine_leaching
+    name: { ko: 백금족 염소 침출 }
+    time: 6
+    in: { pgm_concentrate: 30, Cl2: 47, HCl: 62 }
+    out: { H2PtCl6: 16, H2PdCl4: 12, H3RhCl6: 2 }
+    note: 왕수 대신 염산에 염소를 불어 넣어 백금족을 염화 착물로 녹인다
+  - id: platinum_salt_precipitation
+    name: { ko: 백금 착염 침전 }
+    time: 1
+    in: { H2PtCl6: 1, NH3: 2 }
+    out: { (NH4)2PtCl6: 1 }
+    note: 염화 암모늄을 넣으면 노란 헥사클로로백금산 암모늄만 가라앉는다
+  - id: platinum_salt_calcination
+    name: { ko: 백금 착염 하소 }
+    time: 3
+    in: { (NH4)2PtCl6: 3 }
+    out: { Pt: 3, NH3: 2, HCl: 18, N2: 2 }
+    note: "가열하면 분해되어 백금 해면이 남는다. 3(NH4)2PtCl6 → 3Pt + 2NH4Cl + 2N2 + 16HCl, NH4Cl은 승화하며 NH3와 HCl로 나뉜다"
+  - id: palladium_salt_precipitation
+    name: { ko: 팔라듐 착염 침전 }
+    time: 1
+    in: { H2PdCl4: 1, NH3: 2 }
+    out: { Pd(NH3)2Cl2: 1, HCl: 2 }
+  - id: palladium_salt_reduction
+    name: { ko: 팔라듐 착염 수소 환원 }
+    time: 1
+    in: { Pd(NH3)2Cl2: 1, H2: 1 }
+    out: { Pd: 1, NH3: 2, HCl: 2 }
+  - id: rhodium_salt_precipitation
+    name: { ko: 로듐 착염 침전 }
+    time: 1
+    in: { H3RhCl6: 1, NH3: 3 }
+    out: { (NH4)3RhCl6: 1 }
+  - id: rhodium_salt_reduction
+    name: { ko: 로듐 착염 수소 환원 }
+    time: 2
+    in: { (NH4)3RhCl6: 2, H2: 3 }
+    out: { Rh: 2, NH3: 6, HCl: 12 }
+  - id: platinum_rhodium_alloying
+    name: { ko: 백금-로듐 합금 용해 }
+    time: 6
+    in: { Pt: 83, Rh: 17 }
+    out: { platinum_rhodium: 100 }
+
+  # ───────────── 희토류 ─────────────
+  - id: bastnasite_roasting
+    name: { ko: 바스트네사이트 배소 }
+    time: 1
+    in: { bastnasite: 1 }
+    out: { rare_earth_oxyfluoride: 1, CO2: 1 }
+    note: "LnCO3F → LnOF + CO2"
+  - id: rare_earth_hydrochloric_leaching
+    name: { ko: 희토류 염산 침출 }
+    time: 3
+    in: { rare_earth_oxyfluoride: 3, HCl: 6 }
+    out: { rare_earth_chloride: 2, rare_earth_fluoride: 1, H2O: 3 }
+    note: "3LnOF + 6HCl → 2LnCl3 + LnF3 + 3H2O. 플루오린은 녹지 않는 LnF3로 남는다"
+  - id: rare_earth_solvent_extraction
+    name: { ko: 희토류 용매 추출 분리 }
+    time: 30
+    in: { rare_earth_chloride: 100 }
+    out: { NdCl3: 12, CeCl3: 50, LaCl3: 33, PrCl3: 5 }
+    note: 성질이 거의 같은 희토류를 수백 단의 믹서-세틀러에서 유기 추출제(P507)로 하나씩 갈라낸다
+  - id: neodymium_electrolysis
+    name: { ko: 네오디뮴 용융염 전해 }
+    time: 3
+    in: { NdCl3: 2 }
+    out: { Nd: 2, Cl2: 3 }
+  - id: mischmetal_electrolysis
+    name: { ko: 미시메탈 용융염 전해 }
+    time: 3
+    in: { rare_earth_chloride: 2 }
+    out: { mischmetal: 2, Cl2: 3 }
+    note: 분리하지 않은 혼합 염화물을 그대로 전기분해한다
+  - id: xenotime_acid_cracking
+    name: { ko: 제노타임 황산 분해 }
+    time: 3
+    in: { xenotime: 2, H2SO4: 3 }
+    out: { xenotime_sulfate: 1, H3PO4: 2 }
+    note: 진한 황산과 250°C에서 구워 녹인다
+  - id: heavy_rare_earth_separation
+    name: { ko: 중희토류 용매 추출 분리 }
+    time: 30
+    in: { xenotime_sulfate: 10 }
+    out: { Dy2(SO4)3: 1, Y2(SO4)3: 9 }
+  - id: dysprosium_chloride_conversion
+    name: { ko: 염화 디스프로슘 전환 }
+    time: 1
+    in: { Dy2(SO4)3: 1, CaCl2: 3 }
+    out: { DyCl3: 2, CaSO4: 3 }
+  - id: dysprosium_calciothermic
+    name: { ko: 디스프로슘 칼슘 환원 }
+    time: 3
+    in: { DyCl3: 2, Ca: 3 }
+    out: { Dy: 2, CaCl2: 3 }
+    note: 탄탈럼 도가니 속 아르곤에서 칼슘으로 환원한다
+  - id: ndfeb_strip_casting
+    name: { ko: 네오디뮴 자석 합금 스트립 캐스팅 }
+    time: 20
+    in: { Nd: 127, Dy: 12, B: 61, Fe: 800 }
+    out: { ndfeb_alloy: 1000 }
+    note: 진공 유도로에서 녹여 회전 구리 롤에 부어 두께 0.3mm 박편으로 급랭한다
+  - id: ndfeb_milling
+    name: { ko: 수소 파쇄·제트 밀링 }
+    time: 10
+    in: { ndfeb_alloy: 1000 }
+    out: { ndfeb_powder: 1000 }
+    note: 박편에 수소를 흡수시켜 부스러뜨린 뒤 수소를 빼고, 질소 기류 제트 밀로 3~5µm 분말을 만든다
+
+  # ───────────── 나이오븀과 탄탈럼 ─────────────
+  - id: ferroniobium_aluminothermic
+    name: { ko: 페로나이오븀 테르밋 환원 }
+    time: 8
+    in: { pyrochlore: 6, hematite: 5, Al: 30 }
+    out: { ferroniobium: 22, Al2O3: 15, CaO: 12 }
+    note: 파이로클로어 정광과 철광석을 알루미늄으로 환원한다(브라질 아라샤). 나이오븀의 약 90%가 고장력강 첨가용 페로나이오븀으로 쓰인다
+  - id: columbite_carbochlorination
+    name: { ko: 컬럼바이트 탄소 염소화 }
+    time: 3
+    in: { columbite: 2, coke: 12, Cl2: 13 }
+    out: { NbCl5: 4, FeCl3: 2, CO: 12 }
+  - id: tantalite_carbochlorination
+    name: { ko: 탄탈석 탄소 염소화 }
+    time: 3
+    in: { tantalite: 2, coke: 12, Cl2: 13 }
+    out: { TaCl5: 4, FeCl3: 2, CO: 12 }
+    note: 염화물은 끓는점 차이로 증류해 철과 나이오븀을 떼어 낸다
+  - id: niobium_chloride_hydrolysis
+    name: { ko: 오염화 나이오븀 가수분해 }
+    time: 1
+    in: { NbCl5: 2, H2O: 5 }
+    out: { Nb2O5: 1, HCl: 10 }
+  - id: tantalum_chloride_hydrolysis
+    name: { ko: 오염화 탄탈럼 가수분해 }
+    time: 1
+    in: { TaCl5: 2, H2O: 5 }
+    out: { Ta2O5: 1, HCl: 10 }
+  - id: niobium_aluminothermic
+    name: { ko: 나이오븀 테르밋 환원 }
+    time: 4
+    in: { Nb2O5: 3, Al: 10 }
+    out: { Nb: 6, Al2O3: 5 }
+    note: 테르밋 반응으로 얻은 조나이오븀을 전자빔 용해로 정제한다
+  - id: tantalum_magnesiothermic
+    name: { ko: 탄탈럼 마그네슘 환원 }
+    time: 4
+    in: { Ta2O5: 1, Mg: 5 }
+    out: { Ta: 2, MgO: 5 }
+    note: 마그네슘 증기로 환원해 축전기용 고용량 탄탈럼 분말을 만든다. MgO는 산으로 씻어 낸다
+  - id: niobium_titanium_alloying
+    name: { ko: 나이오븀-타이타늄 합금 용해 }
+    time: 20
+    in: { Nb: 37, Ti: 63 }
+    out: { niobium_titanium: 100 }
+    note: 진공 아크로에서 여러 번 녹여 성분을 고르게 한다
+
+  # ───────────── 반제품 가공 ─────────────
+  - id: steel_rod_rolling
+    name: { ko: 강철 봉 압연 }
+    time: 30
+    in: { steel: 1.087e25 }
+    out: { steel_rod_1kg: 1 }
+    note: 연속 주조한 빌릿을 열간 압연한다
+  - id: steel_wire_drawing
+    name: { ko: 강선 인발 }
+    time: 30
+    in: { steel_rod_1kg: 1 }
+    out: { steel_wire_1kg: 1 }
+    note: 선재를 다이스에 여러 번 통과시켜 가늘게 뽑는다
+  - id: rebar_rolling
+    name: { ko: 철근 압연 }
+    time: 30
+    in: { steel: 1.082e25 }
+    out: { steel_rebar_d13: 1 }
+    note: 마디가 새겨진 롤로 열간 압연한 뒤 물로 급랭해 표면을 단단하게 한다(템프코어)
+  - id: steel_sheet_rolling
+    name: { ko: 강판 압연 }
+    time: 60
+    in: { steel: 8.534e25 }
+    out: { steel_sheet: 1 }
+    note: 슬래브를 열간 압연하고 산세 뒤 냉간 압연·소둔한다
+  - id: hot_dip_galvanizing
+    name: { ko: 용융 아연도금 }
+    time: 30
+    in: { steel_sheet: 1, Zn: 2.533e24 }
+    out: { galvanized_steel_sheet: 1 }
+    note: 460°C 아연 욕조에 강판을 통과시킨다. 아연이 먼저 부식되며 철을 지킨다(희생 방식)
+  - id: tinplate_electroplating
+    name: { ko: 주석 전기도금 }
+    time: 40
+    in: { steel: 1.707e25, Sn: 2.84e22 }
+    out: { tinplate: 1 }
+    note: 얇게 냉간 압연한 강대에 주석을 전기도금하고 녹여 광택을 낸다
+  - id: steel_pipe_welding
+    name: { ko: 전기저항 용접 강관 }
+    time: 40
+    in: { steel: 2.642e25 }
+    out: { steel_pipe: 1 }
+    note: 강대를 둥글게 말아 맞닿은 면을 고주파 전류로 녹여 붙인다(ERW)
+  - id: h_beam_rolling
+    name: { ko: H형강 압연 }
+    time: 90
+    in: { steel: 1.870e26 }
+    out: { steel_h_beam: 1 }
+    note: 블룸을 유니버설 압연기로 H 단면으로 압연한다
+  - id: stainless_sheet_rolling
+    name: { ko: 스테인리스 강판 압연 }
+    time: 60
+    in: { stainless_steel: 8.683e25 }
+    out: { stainless_steel_sheet: 1 }
+    note: 냉간 압연 뒤 광휘 소둔해 2B 표면으로 마무리한다
+  - id: stainless_tube_drawing
+    name: { ko: 스테인리스 강관 인발 }
+    time: 40
+    in: { stainless_steel: 7.921e24 }
+    out: { stainless_steel_tube: 1 }
+    note: 이음매 없는 관을 냉간 인발한다
+  - id: tool_steel_forging
+    name: { ko: 공구강 단조 }
+    time: 30
+    in: { tool_steel: 1.050e25 }
+    out: { tool_steel_bar: 1 }
+  - id: aluminium_sheet_rolling
+    name: { ko: 알루미늄 판 압연 }
+    time: 40
+    in: { aluminium_6061: 6.018e25 }
+    out: { aluminium_sheet: 1 }
+    note: 압연 뒤 용체화 처리와 인공 시효(T6)로 강도를 올린다
+  - id: aluminium_foil_rolling
+    name: { ko: 알루미늄 박 압연 }
+    time: 30
+    in: { Al: 2.712e24 }
+    out: { aluminium_foil_roll: 1 }
+    note: 마지막 패스는 두 장을 겹쳐 압연한다. 그래서 한쪽 면은 반짝이고 다른 쪽은 무광이다
+  - id: aluminium_profile_extrusion
+    name: { ko: 알루미늄 압출 }
+    time: 30
+    in: { aluminium_6061: 3.343e25 }
+    out: { aluminium_extrusion: 1 }
+    note: 480°C로 달군 빌릿을 다이로 밀어내 단면 형상을 만든다
+  - id: aluminium_wire_drawing
+    name: { ko: 알루미늄선 인발 }
+    time: 30
+    in: { Al: 2.232e25 }
+    out: { aluminium_wire_1kg: 1 }
+  - id: aluminium_7075_bar_extrusion
+    name: { ko: 7075 알루미늄 봉 압출 }
+    time: 30
+    in: { aluminium_7075: 2.143e25 }
+    out: { aluminium_7075_bar: 1 }
+  - id: copper_rod_casting
+    name: { ko: 구리 선재 연속 주조 압연 }
+    time: 30
+    in: { Cu: 9.477e24 }
+    out: { copper_rod_1kg: 1 }
+    note: 음극 구리를 녹여 연속 주조하고 바로 압연한다(SCR)
+  - id: copper_wire_drawing
+    name: { ko: 구리선 인발 }
+    time: 30
+    in: { copper_rod_1kg: 1 }
+    out: { copper_wire_1kg: 1 }
+    note: 지름 8mm 선재를 1mm까지 뽑고 소둔해 부드럽게 한다
+  - id: copper_sheet_rolling
+    name: { ko: 구리판 압연 }
+    time: 60
+    in: { Cu: 8.491e25 }
+    out: { copper_sheet: 1 }
+  - id: copper_tube_drawing
+    name: { ko: 구리관 인발 }
+    time: 30
+    in: { Cu: 3.735e24 }
+    out: { copper_tube: 1 }
+    note: 압출한 소관을 심봉 위로 인발한다
+  - id: copper_foil_electrodeposition
+    name: { ko: 동박 전착 }
+    time: 60
+    in: { CuSO4: 2.972e24, H2O: 2.972e24 }
+    out: { copper_foil: 1, O2: 1.486e24, H2SO4: 2.972e24 }
+    note: 회전하는 타이타늄 드럼 음극에 구리를 전착하고 연속으로 벗겨 낸다
+  - id: brass_rod_extrusion
+    name: { ko: 황동 봉 압출 }
+    time: 30
+    in: { brass: 9.398e24 }
+    out: { brass_rod_1kg: 1 }
+  - id: bronze_ingot_casting
+    name: { ko: 청동 주괴 주조 }
+    time: 20
+    in: { bronze: 8.934e24 }
+    out: { bronze_ingot_1kg: 1 }
+  - id: phosphor_bronze_strip_rolling
+    name: { ko: 인청동 띠 압연 }
+    time: 40
+    in: { phosphor_bronze: 9.278e24 }
+    out: { phosphor_bronze_strip: 1 }
+  - id: sac305_wire_extrusion
+    name: { ko: 무연 실납 압출 }
+    time: 20
+    in: { solder_sac305: 5.110e23 }
+    out: { sac305_solder_wire: 1 }
+  - id: sn63pb37_wire_extrusion
+    name: { ko: 유연 실납 압출 }
+    time: 20
+    in: { solder_sn63pb37: 4.276e23 }
+    out: { sn63pb37_solder_wire: 1 }
+  - id: gold_bonding_wire_drawing
+    name: { ko: 금 본딩 와이어 인발 }
+    time: 60
+    in: { Au: 2.900e22 }
+    out: { gold_bonding_wire: 1 }
+    note: 다이아몬드 다이스로 25µm까지 뽑는다
+  - id: tungsten_wire_drawing
+    name: { ko: 텅스텐선 인발 }
+    time: 60
+    in: { W: 4.953e22 }
+    out: { tungsten_wire: 1 }
+    note: 분말을 소결한 봉을 스웨이징한 뒤 달군 채로 다이스에 뽑는다
+  - id: carbide_insert_sintering
+    name: { ko: 초경 인서트 소결 }
+    time: 60
+    in: { wc_co_powder: 3.373e22 }
+    out: { carbide_insert: 1 }
+    note: 분말을 프레스로 찍어 1,450°C에서 액상 소결한다. 소결하며 약 20% 줄어든다
+  - id: ti64_bar_forging
+    name: { ko: Ti-6Al-4V 봉 단조 }
+    time: 40
+    in: { ti_6al_4v: 1.314e25 }
+    out: { ti64_bar: 1 }
+  - id: titanium_sheet_rolling
+    name: { ko: 타이타늄 판 압연 }
+    time: 60
+    in: { Ti: 5.674e25 }
+    out: { titanium_sheet: 1 }
+  - id: nichrome_wire_drawing
+    name: { ko: 니크롬선 인발 }
+    time: 20
+    in: { nichrome: 1.736e23 }
+    out: { nichrome_wire: 1 }
+  - id: nickel_strip_rolling
+    name: { ko: 니켈 스트립 압연 }
+    time: 20
+    in: { Ni: 1.097e24 }
+    out: { nickel_strip: 1 }
+  - id: platinum_wire_drawing
+    name: { ko: 백금선 인발 }
+    time: 20
+    in: { Pt: 1.300e22 }
+    out: { platinum_wire: 1 }
+  - id: platinum_rhodium_wire_drawing
+    name: { ko: 백금-로듐선 인발 }
+    time: 20
+    in: { platinum_rhodium: 1.316e22 }
+    out: { platinum_rhodium_wire: 1 }
+  - id: ndfeb_magnet_sintering
+    name: { ko: 네오디뮴 자석 소결 }
+    time: 120
+    in: { ndfeb_powder: 3.442e22, Ni: 5.44e20 }
+    out: { ndfeb_magnet: 1 }
+    note: 자기장 속에서 분말을 찍어 결정 방향을 맞추고 1,080°C 진공 소결·열처리·가공 뒤 Ni-Cu-Ni 도금하고 착자한다
