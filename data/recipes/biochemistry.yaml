@@ -1,0 +1,644 @@
+# 생화학 반응과 발효. 화학식만으로 이루어진 반응은 원자 수가 맞아야 한다.
+# 발효 수율은 실제 공업 생산 수준(이론값이 아니면 note에 적었다), 남는 포도당은 호흡으로 태운다.
+category: biology
+recipes:
+
+  # 광합성과 당
+  - id: photosynthesis
+    name: { ko: 광합성 }
+    time: 10
+    in: { CO2: 6, H2O: 6 }
+    out: { glucose: 1, O2: 6 }
+    note: "6CO2 + 6H2O → C6H12O6 + 6O2. 빛 에너지로 물을 쪼개 이산화 탄소를 고정한다(캘빈 회로)"
+  - id: glucose_isomerization
+    name: { ko: 포도당 이성질화 }
+    time: 2
+    in: { glucose: 1 }
+    out: { fructose: 1 }
+    note: "포도당 이성질화 효소(자일로스 이성질화 효소)가 알도스를 케토스로 바꾼다. 액상과당의 원리"
+  - id: glucose_epimerization
+    name: { ko: 포도당 에피머화 }
+    time: 2
+    in: { glucose: 1 }
+    out: { galactose: 1 }
+    note: "르루아르 경로. UDP-포도당 4-에피머화 효소가 4번 탄소의 방향을 뒤집는다"
+  - id: sucrose_synthesis
+    name: { ko: 수크로스 합성 }
+    time: 2
+    in: { glucose: 1, fructose: 1 }
+    out: { sucrose: 1, H2O: 1 }
+    note: "식물 잎에서 UDP-포도당과 과당 6-인산을 거쳐 만든다"
+  - id: lactose_synthesis
+    name: { ko: 젖당 합성 }
+    time: 2
+    in: { glucose: 1, galactose: 1 }
+    out: { lactose: 1, H2O: 1 }
+    note: "젖샘의 젖당 합성 효소가 UDP-갈락토스와 포도당을 잇는다"
+  - id: starch_synthesis
+    name: { ko: 녹말 합성 }
+    time: 1
+    in: { glucose: 1 }
+    out: { starch: 1, H2O: 1 }
+    note: "ADP-포도당을 거쳐 포도당 단위를 α-1,4 결합으로 잇는다"
+  - id: cellulose_synthesis
+    name: { ko: 셀룰로스 합성 }
+    time: 1
+    in: { glucose: 1 }
+    out: { cellulose: 1, H2O: 1 }
+    note: "세포막의 셀룰로스 합성 효소가 포도당 단위를 β-1,4 결합으로 잇는다"
+  - id: starch_beta_amylolysis
+    name: { ko: 녹말 엿당화 }
+    time: 2
+    in: { starch: 2, H2O: 1 }
+    out: { maltose: 1 }
+    note: "엿기름의 β-아밀레이스가 녹말 끝에서 엿당을 두 단위씩 떼어 낸다(조청·물엿)"
+  - id: starch_hydrolysis
+    name: { ko: 녹말 당화 }
+    time: 2
+    in: { starch: 1, H2O: 1 }
+    out: { glucose: 1 }
+    note: "산이나 아밀레이스·글루코아밀레이스로 녹말을 포도당까지 끊는다"
+  - id: cellulose_hydrolysis
+    name: { ko: 셀룰로스 당화 }
+    time: 4
+    in: { cellulose: 1, H2O: 1 }
+    out: { glucose: 1 }
+    note: "셀룰레이스나 진한 산으로 β-1,4 결합을 끊는다. 녹말보다 훨씬 느리다"
+  - id: sucrose_hydrolysis
+    name: { ko: 수크로스 가수분해 }
+    time: 1
+    in: { sucrose: 1, H2O: 1 }
+    out: { glucose: 1, fructose: 1 }
+    note: "인버테이스가 설탕을 전화당(포도당+과당)으로 바꾼다"
+  - id: lactose_hydrolysis
+    name: { ko: 젖당 가수분해 }
+    time: 1
+    in: { lactose: 1, H2O: 1 }
+    out: { galactose: 1, glucose: 1 }
+    note: "락테이스(β-갈락토시데이스). 유당 분해 우유의 원리"
+  - id: maltose_hydrolysis
+    name: { ko: 엿당 가수분해 }
+    time: 1
+    in: { maltose: 1, H2O: 1 }
+    out: { glucose: 2 }
+  - id: glucose_hydrogenation
+    name: { ko: 포도당 수소화 }
+    time: 2
+    in: { glucose: 1, H2: 1 }
+    out: { sorbitol: 1 }
+    note: "니켈 촉매로 알데하이드기를 알코올로 환원한다"
+  - id: sorbitol_oxidation
+    name: { ko: 소비톨 산화 }
+    time: 4
+    in: { sorbitol: 2, O2: 1 }
+    out: { sorbose: 2, H2O: 2 }
+    note: "초산균(글루코노박터)이 소비톨을 L-소르보스로 산화한다. 라이히슈타인 공정 2단계"
+  - id: sorbose_oxidation
+    name: { ko: L-소르보스 산화 }
+    time: 4
+    in: { sorbose: 1, O2: 1 }
+    out: { keto_gulonic_acid: 1, H2O: 1 }
+    note: "현재는 두 가지 세균을 함께 키우는 2단 발효로 한다"
+  - id: ascorbic_acid_synthesis
+    name: { ko: 아스코브산 합성 }
+    time: 3
+    in: { keto_gulonic_acid: 1 }
+    out: { ascorbic_acid: 1, H2O: 1 }
+    note: "2-케토-L-굴론산을 산 촉매로 락톤화·엔올화해 비타민 C를 얻는다"
+  - id: xylose_hydrogenation
+    name: { ko: 자일로스 수소화 }
+    time: 2
+    in: { xylose: 1, H2: 1 }
+    out: { xylitol: 1 }
+    note: "자작나무·옥수수 속대·버개스의 자일로스로 자일리톨을 만든다"
+
+  # 뉴클레오타이드와 조효소
+  - id: adenosine_synthesis
+    name: { ko: 아데노신 합성 }
+    time: 2
+    in: { adenine: 1, ribose: 1 }
+    out: { adenosine: 1, H2O: 1 }
+    note: "염기와 리보스가 N-글리코시드 결합으로 이어진다(생체에서는 PRPP를 거친다)"
+  - id: guanosine_synthesis
+    name: { ko: 구아노신 합성 }
+    time: 2
+    in: { guanine: 1, ribose: 1 }
+    out: { guanosine: 1, H2O: 1 }
+  - id: cytidine_synthesis
+    name: { ko: 시티딘 합성 }
+    time: 2
+    in: { cytosine: 1, ribose: 1 }
+    out: { cytidine: 1, H2O: 1 }
+  - id: uridine_synthesis
+    name: { ko: 유리딘 합성 }
+    time: 2
+    in: { uracil: 1, ribose: 1 }
+    out: { uridine: 1, H2O: 1 }
+  - id: adenosine_phosphorylation
+    name: { ko: 아데노신 인산화 }
+    time: 1
+    in: { adenosine: 1, H3PO4: 1 }
+    out: { amp: 1, H2O: 1 }
+  - id: amp_phosphorylation
+    name: { ko: AMP 인산화 }
+    time: 1
+    in: { amp: 1, H3PO4: 1 }
+    out: { adp: 1, H2O: 1 }
+  - id: photophosphorylation
+    name: { ko: 광인산화 }
+    time: 1
+    in: { adp: 1, H3PO4: 1 }
+    out: { atp: 1, H2O: 1 }
+    note: "엽록체의 ATP 합성 효소가 빛이 만든 수소 이온 기울기로 ADP에 인산을 붙인다"
+  - id: atp_hydrolysis
+    name: { ko: ATP 가수분해 }
+    time: 0.5
+    in: { atp: 1, H2O: 1 }
+    out: { adp: 1, H3PO4: 1 }
+    note: "세포가 에너지를 꺼내 쓰는 반응. ΔG°′ ≈ −30.5 kJ/mol"
+  - id: quinolinic_acid_synthesis
+    name: { ko: 퀴놀린산 합성 }
+    time: 3
+    in: { aspartic_acid: 1, glycerol: 1, O2: 1 }
+    out: { quinolinic_acid: 1, H2O: 5 }
+    note: "세균·식물의 NAD 생합성. 아스파트산이 산화된 이미노아스파트산과 다이하이드록시아세톤 인산(글리세롤에서)이 고리를 만든다"
+  - id: quinolinic_acid_decarboxylation
+    name: { ko: 퀴놀린산 탈카복실화 }
+    time: 2
+    in: { quinolinic_acid: 1 }
+    out: { nicotinic_acid: 1, CO2: 1 }
+  - id: nicotinamide_synthesis
+    name: { ko: 니코틴아마이드 합성 }
+    time: 2
+    in: { nicotinic_acid: 1, NH3: 1 }
+    out: { nicotinamide: 1, H2O: 1 }
+  - id: nmn_synthesis
+    name: { ko: NMN 합성 }
+    time: 2
+    in: { nicotinamide: 1, ribose: 1, H3PO4: 1 }
+    out: { nmn: 1, H2O: 2 }
+    note: "니코틴아마이드 + PRPP → NMN (회수 경로)"
+  - id: nad_synthesis
+    name: { ko: NAD⁺ 합성 }
+    time: 2
+    in: { nmn: 1, atp: 1, H2O: 1 }
+    out: { nad: 1, H3PO4: 2 }
+    note: "NMN + ATP → NAD⁺ + 피로인산, 피로인산은 인산 두 분자로 갈라진다"
+
+  # 에너지 대사와 발효
+  - id: glycolysis
+    name: { ko: 해당 과정 }
+    time: 3
+    in: { glucose: 1, nad: 2, adp: 2, H3PO4: 2 }
+    out: { pyruvic_acid: 2, nadh: 2, atp: 2, H2O: 2 }
+    note: "포도당 1분자 → 피루브산 2분자, ATP 2분자와 NADH 2분자를 얻는다"
+  - id: citric_acid_cycle
+    name: { ko: 시트르산 회로와 산화적 인산화 }
+    time: 8
+    in: { pyruvic_acid: 2, O2: 5, adp: 25, H3PO4: 25 }
+    out: { atp: 25, CO2: 6, H2O: 29 }
+    note: "미토콘드리아에서 피루브산을 끝까지 태운다. 피루브산 1분자당 ATP 약 12.5분자"
+  - id: electron_transport
+    name: { ko: 전자 전달계 }
+    time: 3
+    in: { nadh: 2, O2: 1, adp: 5, H3PO4: 5 }
+    out: { nad: 2, atp: 5, H2O: 7 }
+    note: "NADH 1분자가 산소로 전자를 넘기면서 ATP 약 2.5분자를 만든다"
+  - id: cellular_respiration
+    name: { ko: 세포 호흡 }
+    time: 10
+    in: { glucose: 1, O2: 6, adp: 30, H3PO4: 30 }
+    out: { atp: 30, CO2: 6, H2O: 36 }
+    note: "C6H12O6 + 6O2 → 6CO2 + 6H2O. 포도당 1분자에서 ATP 약 30분자"
+  - id: lactic_acid_fermentation
+    name: { ko: 젖산 발효 }
+    time: 3
+    in: { glucose: 1 }
+    out: { lactic_acid: 2 }
+    note: "젖산균의 동형 젖산 발효. C6H12O6 → 2C3H6O3"
+  - id: pyruvate_reduction
+    name: { ko: 피루브산 환원 }
+    time: 1
+    in: { pyruvic_acid: 1, nadh: 1 }
+    out: { lactic_acid: 1, nad: 1 }
+    note: "젖산 탈수소 효소. 산소가 모자란 근육에서 NAD⁺를 되살린다"
+  - id: alcoholic_fermentation
+    name: { ko: 알코올 발효 }
+    time: 3
+    in: { glucose: 1 }
+    out: { ethanol: 2, CO2: 2 }
+    note: "효모. C6H12O6 → 2C2H5OH + 2CO2 (이론 수율 0.511g/g)"
+  - id: pyruvate_to_ethanol
+    name: { ko: 피루브산 탈카복실화·환원 }
+    time: 1
+    in: { pyruvic_acid: 1, nadh: 1 }
+    out: { ethanol: 1, CO2: 1, nad: 1 }
+    note: "피루브산 → 아세트알데하이드 + CO2 → 에탄올"
+  - id: glycerol_fermentation
+    name: { ko: 글리세롤 발효 }
+    time: 4
+    in: { glucose: 2, H2O: 1 }
+    out: { glycerol: 2, ethanol: 1, CH3COOH: 1, CO2: 2 }
+    note: "노이베르크 제3형 발효. 알칼리성에서 효모가 글리세롤을 많이 낸다"
+  - id: citric_acid_fermentation
+    name: { ko: 시트르산 발효 }
+    time: 6
+    in: { glucose: 2, O2: 3 }
+    out: { citric_acid: 2, H2O: 4 }
+    note: "검은곰팡이(Aspergillus niger) 발효. 세계 시트르산의 대부분을 이렇게 만든다"
+  - id: fumaric_acid_fermentation
+    name: { ko: 푸마르산 발효 }
+    time: 6
+    in: { glucose: 1, CO2: 2 }
+    out: { fumaric_acid: 2, H2O: 2 }
+    note: "거미줄곰팡이(Rhizopus)가 이산화 탄소를 고정하며 푸마르산을 낸다(이론 수율)"
+  - id: succinic_acid_fermentation
+    name: { ko: 숙신산 발효 }
+    time: 6
+    in: { glucose: 7, CO2: 6 }
+    out: { succinic_acid: 12, H2O: 6 }
+    note: "숙신산 생산균(Actinobacillus succinogenes)의 환원적 TCA 경로. 포도당 1몰당 최대 1.71몰"
+
+  # 아미노산
+  - id: glutamic_acid_fermentation
+    name: { ko: 글루탐산 발효 }
+    time: 12
+    in: { glucose: 5, NH3: 4, O2: 12 }
+    out: { glutamic_acid: 4, CO2: 10, H2O: 18 }
+    note: "코리네박테리움 글루타미쿰 발효(기노시타, 1957). 수율 약 0.65g/g. MSG의 원료"
+  - id: lysine_fermentation
+    name: { ko: 라이신 발효 }
+    time: 12
+    in: { glucose: 3, NH3: 4, O2: 4 }
+    out: { lysine: 2, CO2: 6, H2O: 10 }
+    note: "코리네박테리움 발효. 수율 약 0.54g/g. 사료용으로 연간 수백만 톤"
+  - id: threonine_fermentation
+    name: { ko: 트레오닌 발효 }
+    time: 12
+    in: { glucose: 3, NH3: 2, O2: 10 }
+    out: { threonine: 2, CO2: 10, H2O: 12 }
+    note: "대장균 발효. 수율 약 0.44g/g"
+  - id: valine_fermentation
+    name: { ko: 발린 발효 }
+    time: 12
+    in: { glucose: 3, NH3: 2, O2: 6 }
+    out: { valine: 2, CO2: 8, H2O: 10 }
+    note: "코리네박테리움 발효. 수율 약 0.43g/g"
+  - id: leucine_fermentation
+    name: { ko: 류신 발효 }
+    time: 15
+    in: { glucose: 4, NH3: 2, O2: 9 }
+    out: { leucine: 2, CO2: 12, H2O: 14 }
+    note: "수율 약 0.36g/g"
+  - id: isoleucine_fermentation
+    name: { ko: 아이소류신 발효 }
+    time: 15
+    in: { glucose: 5, NH3: 2, O2: 15 }
+    out: { isoleucine: 2, CO2: 18, H2O: 20 }
+    note: "트레오닌을 거치는 경로. 수율 약 0.29g/g"
+  - id: phenylalanine_fermentation
+    name: { ko: 페닐알라닌 발효 }
+    time: 15
+    in: { glucose: 3, NH3: 1, O2: 8 }
+    out: { phenylalanine: 1, CO2: 9, H2O: 14 }
+    note: "시킴산 경로. 수율 약 0.31g/g. 아스파탐의 원료"
+  - id: tryptophan_fermentation
+    name: { ko: 트립토판 발효 }
+    time: 20
+    in: { glucose: 8, NH3: 4, O2: 25 }
+    out: { tryptophan: 2, CO2: 26, H2O: 42 }
+    note: "시킴산 경로. 수율 약 0.28g/g"
+  - id: methionine_fermentation
+    name: { ko: 메티오닌 발효 }
+    time: 20
+    in: { glucose: 8, NH3: 2, H2SO4: 2, O2: 33 }
+    out: { methionine: 2, CO2: 38, H2O: 42 }
+    note: "황산 이온을 황화물로 환원해 쓴다. 사료용 메티오닌은 주로 화학 합성"
+  - id: cysteine_fermentation
+    name: { ko: 시스테인 발효 }
+    time: 20
+    in: { glucose: 6, NH3: 2, H2SO4: 2, O2: 27 }
+    out: { cysteine: 2, CO2: 30, H2O: 34 }
+    note: "세린에 황을 붙이는 대장균 발효(바커 공정)"
+  - id: histidine_fermentation
+    name: { ko: 히스티딘 발효 }
+    time: 20
+    in: { glucose: 4, NH3: 3, O2: 19 }
+    out: { histidine: 1, CO2: 18, H2O: 24 }
+    note: "수율 약 0.22g/g"
+  - id: arginine_fermentation
+    name: { ko: 아르지닌 발효 }
+    time: 15
+    in: { glucose: 5, NH3: 8, O2: 19 }
+    out: { arginine: 2, CO2: 18, H2O: 28 }
+    note: "오르니틴 회로를 거친다. 수율 약 0.39g/g"
+  - id: aspartase_reaction
+    name: { ko: 아스파트산 합성 }
+    time: 2
+    in: { fumaric_acid: 1, NH3: 1 }
+    out: { aspartic_acid: 1 }
+    note: "아스파테이스로 푸마르산에 암모니아를 붙인다. 공업적 아스파트산 생산법"
+  - id: aspartate_4_decarboxylation
+    name: { ko: 아스파트산 4-탈카복실화 }
+    time: 2
+    in: { aspartic_acid: 1 }
+    out: { alanine: 1, CO2: 1 }
+    note: "아스파트산 β-탈카복실화 효소로 L-알라닌을 만든다(실제 공업 공정)"
+  - id: aspartate_1_decarboxylation
+    name: { ko: 아스파트산 1-탈카복실화 }
+    time: 2
+    in: { aspartic_acid: 1 }
+    out: { beta_alanine: 1, CO2: 1 }
+    note: "PanD 효소가 α-카복실기를 떼어 β-알라닌을 만든다"
+  - id: asparagine_synthesis
+    name: { ko: 아스파라진 합성 }
+    time: 2
+    in: { aspartic_acid: 1, NH3: 1, atp: 1, H2O: 1 }
+    out: { asparagine: 1, amp: 1, H3PO4: 2 }
+    note: "아스파라진 합성 효소. ATP가 AMP와 피로인산으로 갈라진다"
+  - id: glutamine_synthesis
+    name: { ko: 글루타민 합성 }
+    time: 2
+    in: { glutamic_acid: 1, NH3: 1, atp: 1 }
+    out: { glutamine: 1, adp: 1, H3PO4: 1 }
+    note: "글루타민 합성 효소. 생물이 암모니아를 붙잡는 주된 길"
+  - id: proline_synthesis
+    name: { ko: 프롤린 합성 }
+    time: 3
+    in: { glutamic_acid: 1, nadh: 2 }
+    out: { proline: 1, nad: 2, H2O: 2 }
+    note: "글루탐산 → 글루탐산 반알데하이드 → 고리화 → 프롤린"
+  - id: serine_synthesis
+    name: { ko: 세린 합성 }
+    time: 2
+    in: { glycine: 1, CH2O: 1 }
+    out: { serine: 1 }
+    note: "세린 하이드록시메틸 전이 효소. 공업적으로도 글라이신과 폼알데하이드로 만든다"
+  - id: tyrosine_synthesis
+    name: { ko: 타이로신 합성 }
+    time: 2
+    in: { phenylalanine: 1, O2: 1, nadh: 1 }
+    out: { tyrosine: 1, nad: 1, H2O: 1 }
+    note: "페닐알라닌 수산화 효소. 테트라하이드로바이오프테린을 NADH가 되살린다"
+
+  # 비타민과 색소
+  - id: riboflavin_fermentation
+    name: { ko: 리보플래빈 발효 }
+    time: 30
+    in: { glucose: 10, NH3: 4, O2: 44 }
+    out: { riboflavin: 1, CO2: 43, H2O: 56 }
+    note: "곰팡이(Ashbya gossypii)나 고초균 발효. GTP 1분자와 리불로스 5-인산 2분자에서 만든다"
+  - id: pantoic_acid_synthesis
+    name: { ko: 판토산 합성 }
+    time: 4
+    in: { valine: 2, CH2O: 2, nadh: 2, O2: 1 }
+    out: { pantoic_acid: 2, NH3: 2, nad: 2 }
+    note: "발린 → α-케토아이소발레르산 → (폼알데하이드 하이드록시메틸화) 케토판토산 → 판토산"
+  - id: pantothenic_acid_synthesis
+    name: { ko: 판토텐산 합성 }
+    time: 3
+    in: { pantoic_acid: 1, beta_alanine: 1, atp: 1, H2O: 1 }
+    out: { pantothenic_acid: 1, amp: 1, H3PO4: 2 }
+    note: "판토텐산 합성 효소. 판토산과 β-알라닌을 잇는다"
+  - id: aminolevulinic_acid_synthesis
+    name: { ko: 아미노레불린산 합성 }
+    time: 2
+    in: { glycine: 1, succinic_acid: 1 }
+    out: { aminolevulinic_acid: 1, CO2: 1, H2O: 1 }
+    note: "셰민 경로. 글라이신 + 숙시닐-CoA → ALA + CO2"
+  - id: protoporphyrin_synthesis
+    name: { ko: 프로토포르피린 합성 }
+    time: 10
+    in: { aminolevulinic_acid: 16, O2: 5 }
+    out: { protoporphyrin_ix: 2, NH3: 8, CO2: 12, H2O: 26 }
+    note: "ALA 2분자 → 포르포빌리노젠, 4분자 → 유로포르피리노젠 III → 탈카복실화·산화"
+  - id: heme_synthesis
+    name: { ko: 헴 합성 }
+    time: 2
+    in: { protoporphyrin_ix: 1, Fe: 1 }
+    out: { heme: 1, H2: 1 }
+    note: "페로킬레이테이스가 철 이온을 포르피린 고리에 넣는다(수소 이온 2개가 빠진다)"
+  - id: phytol_synthesis
+    name: { ko: 피톨 합성 }
+    time: 10
+    in: { glucose: 12, O2: 13 }
+    out: { phytol: 2, CO2: 32, H2O: 32 }
+    note: "아이소프렌 단위(C5) 4개 → 제라닐제라닐 이인산 → 이중 결합 3개 환원"
+  - id: chlorophyll_synthesis
+    name: { ko: 엽록소 합성 }
+    time: 10
+    in: { protoporphyrin_ix: 2, Mg: 2, CH3OH: 2, O2: 3, nadh: 2, phytol: 2 }
+    out: { chlorophyll_a: 2, H2O: 8, nad: 2 }
+    note: "마그네슘 삽입 → 메틸 에스터화 → 다섯째 고리 형성 → 환원 → 피톨 에스터화"
+
+  # 지방산과 지질
+  - id: fatty_acid_synthesis
+    name: { ko: 지방산 합성 }
+    time: 10
+    in: { glucose: 9, O2: 8 }
+    out: { palmitic_acid: 2, CO2: 22, H2O: 22 }
+    note: "포도당 → 아세틸-CoA 8개 → 팔미트산. NADPH와 ATP를 대느라 포도당이 더 든다(수율 약 0.32g/g)"
+  - id: fatty_acid_elongation
+    name: { ko: 지방산 사슬 연장 }
+    time: 3
+    in: { palmitic_acid: 1, CH3COOH: 1, nadh: 2 }
+    out: { stearic_acid: 1, nad: 2, H2O: 2 }
+    note: "소포체의 연장 효소가 탄소 2개를 더한다"
+  - id: stearoyl_desaturation
+    name: { ko: 스테아르산 불포화화 }
+    time: 2
+    in: { stearic_acid: 1, O2: 1, nadh: 1 }
+    out: { oleic_acid: 1, nad: 1, H2O: 2 }
+    note: "Δ9 불포화화 효소"
+  - id: oleoyl_desaturation
+    name: { ko: 올레산 불포화화 }
+    time: 2
+    in: { oleic_acid: 1, O2: 1, nadh: 1 }
+    out: { linoleic_acid: 1, nad: 1, H2O: 2 }
+    note: "Δ12 불포화화 효소. 식물에만 있어 사람에게는 필수 지방산"
+  - id: linoleoyl_desaturation
+    name: { ko: 리놀레산 불포화화 }
+    time: 2
+    in: { linoleic_acid: 1, O2: 1, nadh: 1 }
+    out: { linolenic_acid: 1, nad: 1, H2O: 2 }
+    note: "Δ15 불포화화 효소(식물)"
+  - id: epa_synthesis
+    name: { ko: EPA 합성 }
+    time: 4
+    in: { linolenic_acid: 1, CH3COOH: 1, O2: 2, nadh: 4 }
+    out: { epa: 1, nad: 4, H2O: 6 }
+    note: "Δ6 불포화화 → 사슬 연장 → Δ5 불포화화. 바다의 미세조류가 만든다"
+  - id: dha_synthesis
+    name: { ko: DHA 합성 }
+    time: 4
+    in: { epa: 1, CH3COOH: 1, O2: 1, nadh: 3 }
+    out: { dha: 1, nad: 3, H2O: 4 }
+    note: "사슬 연장 → Δ4 불포화화"
+  - id: oleic_acid_hydrogenation
+    name: { ko: 올레산 수소화 }
+    time: 2
+    in: { oleic_acid: 1, H2: 1 }
+    out: { stearic_acid: 1 }
+    note: "니켈 촉매로 이중 결합에 수소를 더한다"
+  - id: tripalmitin_synthesis
+    name: { ko: 트라이팔미틴 합성 }
+    time: 3
+    in: { glycerol: 1, palmitic_acid: 3 }
+    out: { tripalmitin: 1, H2O: 3 }
+    note: "글리세롤의 하이드록시기 3개에 지방산을 에스터 결합으로 붙인다"
+  - id: triolein_synthesis
+    name: { ko: 트라이올레인 합성 }
+    time: 3
+    in: { glycerol: 1, oleic_acid: 3 }
+    out: { triolein: 1, H2O: 3 }
+  - id: trilinolein_synthesis
+    name: { ko: 트라이리놀레인 합성 }
+    time: 3
+    in: { glycerol: 1, linoleic_acid: 3 }
+    out: { trilinolein: 1, H2O: 3 }
+  - id: triolein_hydrogenation
+    name: { ko: 트라이올레인 수소화 }
+    time: 3
+    in: { triolein: 1, H2: 3 }
+    out: { tristearin: 1 }
+    note: "마가린·쇼트닝을 만드는 경화 공정"
+  - id: triolein_hydrolysis
+    name: { ko: 트라이올레인 가수분해 }
+    time: 3
+    in: { triolein: 1, H2O: 3 }
+    out: { oleic_acid: 3, glycerol: 1 }
+    note: "라이페이스나 고온·고압의 물로 지방을 지방산과 글리세롤로 가른다"
+  - id: cholesterol_synthesis
+    name: { ko: 콜레스테롤 합성 }
+    time: 30
+    in: { CH3COOH: 18, nadh: 26, O2: 11 }
+    out: { cholesterol: 1, CO2: 9, H2O: 39, nad: 26 }
+    note: "아세틸 단위 18개 → 메발론산 6개 → 스쿠알렌 → 라노스테롤 → 콜레스테롤(탄소 3개 제거)"
+
+  # 단백질과 효소 (번역 속도 약 15 아미노산/초)
+  - id: collagen_synthesis
+    name: { ko: 콜라겐 합성 }
+    time: 200
+    in: { glycine: 1000, proline: 660, alanine: 330, glutamic_acid: 217, arginine: 150, aspartic_acid: 135, serine: 105, lysine: 100, leucine: 72, valine: 66, threonine: 54, phenylalanine: 39, isoleucine: 30, methionine: 18, histidine: 15, tyrosine: 9, O2: 150 }
+    out: { collagen: 1, H2O: 2997 }
+    note: "세 가닥마다 글라이신이 오는 (Gly-X-Y) 반복. 프롤린 300개를 산소로 하이드록시프롤린으로 바꾼다"
+  - id: keratin_synthesis
+    name: { ko: 케라틴 합성 }
+    time: 30
+    in: { cysteine: 70, glutamic_acid: 48, serine: 40, glycine: 35, leucine: 35, arginine: 30, threonine: 30, proline: 30, valine: 25, aspartic_acid: 25, alanine: 20, tyrosine: 15, isoleucine: 15, lysine: 12, phenylalanine: 10, histidine: 4, methionine: 3, tryptophan: 3, O2: 35/2 }
+    out: { keratin: 1, H2O: 484 }
+    note: "시스테인 70개가 산화되어 이황화 결합 35개를 만든다"
+  - id: casein_synthesis
+    name: { ko: 카세인 합성 }
+    time: 14
+    in: { proline: 35, leucine: 22, glutamine: 20, glutamic_acid: 19, valine: 19, serine: 16, lysine: 11, isoleucine: 10, threonine: 9, phenylalanine: 9, methionine: 6, asparagine: 5, glycine: 5, alanine: 5, histidine: 5, aspartic_acid: 4, tyrosine: 4, arginine: 4, tryptophan: 1, H3PO4: 5 }
+    out: { casein: 1, H2O: 213 }
+    note: "젖샘에서 번역한 뒤 세린 5개에 인산을 붙인다"
+  - id: amylase_synthesis
+    name: { ko: 아밀레이스 합성 }
+    time: 32
+    in: { leucine: 47, alanine: 40, glycine: 34, glutamic_acid: 33, valine: 33, serine: 32, isoleucine: 29, lysine: 28, arginine: 27, aspartic_acid: 26, threonine: 26, proline: 23, asparagine: 19, glutamine: 19, phenylalanine: 19, tyrosine: 14, methionine: 12, histidine: 11, cysteine: 6, tryptophan: 5 }
+    out: { amylase: 1, H2O: 482 }
+    note: "평균적인 단백질의 아미노산 조성으로 근사했다"
+  - id: glucoamylase_synthesis
+    name: { ko: 글루코아밀레이스 합성 }
+    time: 41
+    in: { leucine: 59, alanine: 51, glycine: 44, glutamic_acid: 42, valine: 42, serine: 40, isoleucine: 37, lysine: 36, arginine: 34, aspartic_acid: 34, threonine: 33, proline: 29, asparagine: 25, glutamine: 24, phenylalanine: 24, tyrosine: 18, methionine: 15, histidine: 14, cysteine: 8, tryptophan: 7 }
+    out: { glucoamylase: 1, H2O: 615 }
+    note: "평균적인 단백질의 아미노산 조성으로 근사했다"
+  - id: glucose_isomerase_synthesis
+    name: { ko: 포도당 이성질화 효소 합성 }
+    time: 26
+    in: { leucine: 38, alanine: 32, glycine: 27, valine: 27, glutamic_acid: 26, serine: 26, isoleucine: 23, lysine: 23, arginine: 22, aspartic_acid: 21, threonine: 21, proline: 18, asparagine: 16, glutamine: 15, phenylalanine: 15, tyrosine: 11, histidine: 9, methionine: 9, cysteine: 5, tryptophan: 4 }
+    out: { glucose_isomerase: 1, H2O: 387 }
+    note: "평균적인 단백질의 아미노산 조성으로 근사했다"
+  - id: protease_synthesis
+    name: { ko: 단백질 분해 효소 합성 }
+    time: 18
+    in: { leucine: 26, alanine: 23, glycine: 19, valine: 19, glutamic_acid: 18, serine: 18, isoleucine: 16, lysine: 16, arginine: 15, aspartic_acid: 15, threonine: 15, proline: 13, asparagine: 11, glutamine: 11, phenylalanine: 11, tyrosine: 8, methionine: 7, histidine: 6, cysteine: 4, tryptophan: 3 }
+    out: { protease: 1, H2O: 273 }
+    note: "평균적인 단백질의 아미노산 조성으로 근사했다"
+  - id: lipase_synthesis
+    name: { ko: 라이페이스 합성 }
+    time: 18
+    in: { leucine: 26, alanine: 22, glycine: 19, glutamic_acid: 18, serine: 18, valine: 18, isoleucine: 16, lysine: 16, arginine: 15, aspartic_acid: 15, threonine: 14, proline: 13, asparagine: 11, glutamine: 11, phenylalanine: 10, tyrosine: 8, histidine: 6, methionine: 6, cysteine: 4, tryptophan: 3 }
+    out: { lipase: 1, H2O: 268 }
+    note: "평균적인 단백질의 아미노산 조성으로 근사했다"
+  - id: chymosin_synthesis
+    name: { ko: 키모신 합성 }
+    time: 22
+    in: { leucine: 31, alanine: 27, glycine: 23, glutamic_acid: 22, valine: 22, serine: 21, isoleucine: 19, lysine: 19, arginine: 18, aspartic_acid: 18, threonine: 17, proline: 15, asparagine: 13, glutamine: 13, phenylalanine: 13, tyrosine: 9, methionine: 8, histidine: 7, cysteine: 4, tryptophan: 4 }
+    out: { chymosin: 1, H2O: 322 }
+    note: "평균적인 단백질의 아미노산 조성으로 근사했다"
+  - id: lactase_synthesis
+    name: { ko: 락테이스 합성 }
+    time: 68
+    in: { leucine: 99, alanine: 85, glycine: 73, valine: 70, glutamic_acid: 69, serine: 67, isoleucine: 61, lysine: 60, arginine: 57, aspartic_acid: 56, threonine: 55, proline: 48, asparagine: 42, glutamine: 40, phenylalanine: 40, tyrosine: 30, methionine: 25, histidine: 23, cysteine: 14, tryptophan: 11 }
+    out: { lactase: 1, H2O: 1024 }
+    note: "평균적인 단백질의 아미노산 조성으로 근사했다"
+  - id: invertase_synthesis
+    name: { ko: 인버테이스 합성 }
+    time: 34
+    in: { leucine: 49, alanine: 42, glycine: 36, glutamic_acid: 35, valine: 35, serine: 34, isoleucine: 31, lysine: 30, arginine: 28, aspartic_acid: 28, threonine: 27, proline: 24, asparagine: 21, glutamine: 20, phenylalanine: 20, tyrosine: 15, histidine: 12, methionine: 12, cysteine: 7, tryptophan: 6 }
+    out: { invertase: 1, H2O: 511 }
+    note: "평균적인 단백질의 아미노산 조성으로 근사했다"
+
+  # 미생물 배양
+  - id: yeast_propagation
+    name: { ko: 효모 배양 }
+    time: 120
+    in: { eukaryotic_cell: 1, sucrose: 5.282e23, O2: 2.488e24, NH3: 7.319e23, H3PO4: 3.503e22, KCl: 4.605e22, H2O: 8.076e24 }
+    out: { yeast: 1e13, CO2: 2.674e24 }
+    note: "세포 하나에서 시작해 약 43번 분열시켜 생효모 약 500g을 얻는다. 수율 건조 균체 0.5g/g 당"
+  - id: lactic_acid_bacteria_culture
+    name: { ko: 젖산균 배양 }
+    time: 90
+    in: { prokaryotic_cell: 1, glucose: 6.685e23, NH3: 1.22e23, H3PO4: 6.145e21, H2O: 2.507e24 }
+    out: { lactic_acid_bacteria: 1e14, lactic_acid: 1.2e24 }
+    note: "산소 없이 키운다. 포도당 대부분은 젖산이 되고 약 10%만 균체가 된다"
+
+  # 식물 세포와 동물 세포
+  - id: primary_endosymbiosis
+    name: { ko: 1차 세포내 공생 }
+    time: 1800
+    in: { eukaryotic_cell: 1, prokaryotic_cell: 1, chlorophyll_a: 6.74e8, cellulose: 3.714e10 }
+    out: { plant_cell: 1 }
+    note: "약 15억 년 전 진핵세포가 남세균(원핵세포)을 삼켜 엽록체로 만들었다. 엽록소 약 1pg와 셀룰로스 세포벽 약 10pg를 갖춘다"
+  - id: animal_cell_origin
+    name: { ko: 동물 세포의 기원 }
+    time: 1800
+    in: { eukaryotic_cell: 1, collagen: 2.201e6, cholesterol: 2.336e8 }
+    out: { animal_cell: 1 }
+    note: "깃편모충을 닮은 진핵세포가 콜라겐 바탕질로 서로 붙어 다세포 동물이 되었다. 동물 세포막에만 콜레스테롤이 많다"
+
+  # 농산물에서 뽑는 생체 분자
+  - id: bagasse_fractionation
+    name: { ko: 버개스 분획 }
+    time: 60
+    in: { bagasse_1kg: 10, H2O: 1.671e26, H2SO4: 3.07e23 }
+    out: { cellulose: 7.428e24, xylose: 4.011e24 }
+    note: "묽은 황산으로 헤미셀룰로스를 자일로스로 풀고 남은 셀룰로스를 걸러 낸다. 건량 5kg 중 셀룰로스 약 2.25kg, 헤미셀룰로스 약 1.25kg. 리그닌은 연료로 태운다"
+  - id: feather_hydrolysis
+    name: { ko: 깃털 가수분해 }
+    time: 60
+    in: { chicken_feathers_1kg: 1, H2O: 5.014e24, HCl: 6.029e23 }
+    out: { cysteine: 2.485e23, serine: 4.871e23, glutamic_acid: 3.479e23, proline: 4.185e23, leucine: 2.846e23, glycine: 4.813e23, valine: 2.93e23, arginine: 1.728e23, aspartic_acid: 2.036e23, isoleucine: 1.745e23, threonine: 1.871e23, phenylalanine: 1.349e23, alanine: 2.231e23, tyrosine: 6.647e22 }
+    note: "깃털 케라틴(900g)을 염산에 끓여 아미노산으로 푼다. L-시스테인을 실제로 이렇게 얻는다. 트립토판은 산에 부서지고 아스파라진·글루타민은 산으로 바뀐다"
+  - id: soybean_oil_splitting
+    name: { ko: 대두유 가수분해 }
+    time: 30
+    in: { crude_soybean_oil_1l: 1, H2O: 1.887e24 }
+    out: { linoleic_acid: 1.009e24, oleic_acid: 4.264e23, palmitic_acid: 2.255e23, linolenic_acid: 1.514e23, stearic_acid: 7.409e22, glycerol: 6.289e23 }
+    note: "콜게이트-에머리 공정: 250°C·50기압의 물로 트라이글리세라이드를 지방산과 글리세롤로 가른다. 기름 920g + 물 57g → 약 966g, 검과 손실을 뺐다"
+  - id: fish_oil_splitting
+    name: { ko: 어유 가수분해 }
+    time: 30
+    in: { fish_oil_1l: 1, H2O: 1.905e24 }
+    out: { epa: 3.186e23, dha: 1.925e23, palmitic_acid: 3.523e23, oleic_acid: 4.051e23, stearic_acid: 6.351e22, glycerol: 6.016e23 }
+    note: "오메가-3 원료. 미리스트산 등 나머지 지방산 약 20%는 따로 거두지 않았다"
+  - id: casein_hydrolysis
+    name: { ko: 카세인 가수분해 }
+    time: 20
+    in: { casein: 1, H2O: 238, HCl: 1 }
+    out: { proline: 35, leucine: 22, glutamic_acid: 39, valine: 19, serine: 16, lysine: 11, isoleucine: 10, threonine: 9, phenylalanine: 9, methionine: 6, aspartic_acid: 9, glycine: 5, alanine: 5, histidine: 5, tyrosine: 4, arginine: 4, H3PO4: 5, NH3: 25 }
+    note: "염산으로 끓여 아미노산까지 푼다(미생물 배지의 카사미노산). 인산 5개도 떨어진다"

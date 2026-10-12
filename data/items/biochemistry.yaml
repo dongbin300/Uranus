@@ -1,0 +1,94 @@
+# 생체 분자: 당·아미노산·뉴클레오타이드·조효소·비타민·지질·단백질·효소·미생물.
+# 화학식이 있는 것은 원자 수를 지킨다. 단백질·효소는 아미노산 조성으로 질량이 정해진다.
+category: biology
+unit: particle
+items:
+  - { id: glucose, name: { ko: 포도당, en: Glucose }, formula: C6H12O6 }
+  - { id: fructose, name: { ko: 과당, en: Fructose }, formula: C6H12O6 }
+  - { id: galactose, name: { ko: 갈락토스, en: Galactose }, formula: C6H12O6 }
+  - { id: sucrose, name: { ko: 수크로스, en: Sucrose }, formula: C12H22O11, note: "설탕의 성분. 포도당과 과당이 결합한 이당류" }
+  - { id: lactose, name: { ko: 젖당, en: Lactose }, formula: C12H22O11, note: "우유의 당. 포도당과 갈락토스가 결합한 이당류" }
+  - { id: maltose, name: { ko: 엿당, en: Maltose }, formula: C12H22O11, note: "포도당 두 분자가 결합한 이당류" }
+  - { id: starch, name: { ko: 녹말, en: Starch }, formula: C6H10O5, note: "포도당 단위(C6H10O5) 하나를 1개로 센다" }
+  - { id: cellulose, name: { ko: 셀룰로스, en: Cellulose }, formula: C6H10O5, note: "포도당 단위(C6H10O5) 하나를 1개로 센다" }
+  - { id: xylose, name: { ko: 자일로스, en: Xylose }, formula: C5H10O5, note: "헤미셀룰로스(자일란)의 주성분인 오탄당" }
+  - { id: xylitol, name: { ko: 자일리톨, en: Xylitol }, formula: C5H12O5 }
+  - { id: sorbitol, name: { ko: 소비톨, en: Sorbitol }, formula: C6H14O6 }
+  - { id: sorbose, name: { ko: L-소르보스, en: L-Sorbose }, formula: C6H12O6 }
+  - { id: keto_gulonic_acid, name: { ko: 2-케토-L-굴론산, en: 2-Keto-L-gulonic acid }, formula: C6H10O7 }
+  - { id: ascorbic_acid, name: { ko: 아스코브산, en: Ascorbic acid }, formula: C6H8O6, note: "비타민 C" }
+  - { id: pyruvic_acid, name: { ko: 피루브산, en: Pyruvic acid }, formula: C3H4O3 }
+  - { id: lactic_acid, name: { ko: 젖산, en: Lactic acid }, formula: C3H6O3 }
+  - { id: ethanol, name: { ko: 에탄올, en: Ethanol }, formula: C2H5OH }
+  - { id: glycerol, name: { ko: 글리세롤, en: Glycerol }, formula: C3H8O3 }
+  - { id: citric_acid, name: { ko: 시트르산, en: Citric acid }, formula: C6H8O7 }
+  - { id: fumaric_acid, name: { ko: 푸마르산, en: Fumaric acid }, formula: C4H4O4 }
+  - { id: succinic_acid, name: { ko: 숙신산, en: Succinic acid }, formula: C4H6O4 }
+  - { id: alanine, name: { ko: 알라닌, en: Alanine }, formula: C3H7NO2 }
+  - { id: valine, name: { ko: 발린, en: Valine }, formula: C5H11NO2 }
+  - { id: leucine, name: { ko: 류신, en: Leucine }, formula: C6H13NO2 }
+  - { id: isoleucine, name: { ko: 아이소류신, en: Isoleucine }, formula: C6H13NO2 }
+  - { id: proline, name: { ko: 프롤린, en: Proline }, formula: C5H9NO2 }
+  - { id: phenylalanine, name: { ko: 페닐알라닌, en: Phenylalanine }, formula: C9H11NO2 }
+  - { id: tryptophan, name: { ko: 트립토판, en: Tryptophan }, formula: C11H12N2O2 }
+  - { id: methionine, name: { ko: 메티오닌, en: Methionine }, formula: C5H11NO2S }
+  - { id: serine, name: { ko: 세린, en: Serine }, formula: C3H7NO3 }
+  - { id: threonine, name: { ko: 트레오닌, en: Threonine }, formula: C4H9NO3 }
+  - { id: cysteine, name: { ko: 시스테인, en: Cysteine }, formula: C3H7NO2S }
+  - { id: tyrosine, name: { ko: 타이로신, en: Tyrosine }, formula: C9H11NO3 }
+  - { id: asparagine, name: { ko: 아스파라진, en: Asparagine }, formula: C4H8N2O3 }
+  - { id: glutamine, name: { ko: 글루타민, en: Glutamine }, formula: C5H10N2O3 }
+  - { id: aspartic_acid, name: { ko: 아스파트산, en: Aspartic acid }, formula: C4H7NO4 }
+  - { id: glutamic_acid, name: { ko: 글루탐산, en: Glutamic acid }, formula: C5H9NO4 }
+  - { id: lysine, name: { ko: 라이신, en: Lysine }, formula: C6H14N2O2 }
+  - { id: arginine, name: { ko: 아르지닌, en: Arginine }, formula: C6H14N4O2 }
+  - { id: histidine, name: { ko: 히스티딘, en: Histidine }, formula: C6H9N3O2 }
+  - { id: beta_alanine, name: { ko: 베타알라닌, en: beta-Alanine }, formula: C3H7NO2, note: "판토텐산(비타민 B5)의 재료. 단백질에는 들어가지 않는다" }
+  - { id: adenosine, name: { ko: 아데노신, en: Adenosine }, formula: C10H13N5O4 }
+  - { id: guanosine, name: { ko: 구아노신, en: Guanosine }, formula: C10H13N5O5 }
+  - { id: cytidine, name: { ko: 시티딘, en: Cytidine }, formula: C9H13N3O5 }
+  - { id: uridine, name: { ko: 유리딘, en: Uridine }, formula: C9H12N2O6 }
+  - { id: amp, name: { ko: 아데노신 일인산, en: Adenosine monophosphate }, formula: C10H14N5O7P, note: "AMP" }
+  - { id: adp, name: { ko: 아데노신 이인산, en: Adenosine diphosphate }, formula: C10H15N5O10P2, note: "ADP" }
+  - { id: atp, name: { ko: 아데노신 삼인산, en: Adenosine triphosphate }, formula: C10H16N5O13P3, note: "ATP. 세포의 에너지 화폐" }
+  - { id: quinolinic_acid, name: { ko: 퀴놀린산, en: Quinolinic acid }, formula: C7H5NO4 }
+  - { id: nicotinic_acid, name: { ko: 니코틴산, en: Nicotinic acid }, formula: C6H5NO2, note: "나이아신(비타민 B3)" }
+  - { id: nicotinamide, name: { ko: 니코틴아마이드, en: Nicotinamide }, formula: C6H6N2O, note: "비타민 B3의 아마이드형" }
+  - { id: nmn, name: { ko: 니코틴아마이드 모노뉴클레오타이드, en: Nicotinamide mononucleotide }, formula: C11H15N2O8P, note: "NMN" }
+  - { id: nad, name: { ko: NAD⁺, en: NAD+ }, formula: C21H27N7O14P2, note: "니코틴아마이드 아데닌 다이뉴클레오타이드의 산화형. 중성 쌍극자 이온 화학식으로 단순화" }
+  - { id: nadh, name: { ko: NADH, en: NADH }, formula: C21H29N7O14P2, note: "NAD⁺의 환원형. 수소 원자 2개(전자 2개)를 나른다" }
+  - { id: riboflavin, name: { ko: 리보플래빈, en: Riboflavin }, formula: C17H20N4O6, note: "비타민 B2" }
+  - { id: pantoic_acid, name: { ko: 판토산, en: Pantoic acid }, formula: C6H12O4 }
+  - { id: pantothenic_acid, name: { ko: 판토텐산, en: Pantothenic acid }, formula: C9H17NO5, note: "비타민 B5" }
+  - { id: aminolevulinic_acid, name: { ko: 아미노레불린산, en: delta-Aminolevulinic acid }, formula: C5H9NO3, note: "δ-아미노레불린산. 헴과 엽록소의 출발 물질" }
+  - { id: protoporphyrin_ix, name: { ko: 프로토포르피린 IX, en: Protoporphyrin IX }, formula: C34H34N4O4 }
+  - { id: heme, name: { ko: 헴, en: Heme }, formula: C34H32FeN4O4, note: "헤모글로빈·마이오글로빈의 철 포르피린" }
+  - { id: phytol, name: { ko: 피톨, en: Phytol }, formula: C20H40O, note: "엽록소의 긴 꼬리가 되는 C20 알코올" }
+  - { id: chlorophyll_a, name: { ko: 엽록소 a, en: Chlorophyll a }, formula: C55H72MgN4O5 }
+  - { id: palmitic_acid, name: { ko: 팔미트산, en: Palmitic acid }, formula: C16H32O2, note: "16:0 포화 지방산" }
+  - { id: stearic_acid, name: { ko: 스테아르산, en: Stearic acid }, formula: C18H36O2, note: "18:0 포화 지방산" }
+  - { id: oleic_acid, name: { ko: 올레산, en: Oleic acid }, formula: C18H34O2, note: "18:1 오메가-9" }
+  - { id: linoleic_acid, name: { ko: 리놀레산, en: Linoleic acid }, formula: C18H32O2, note: "18:2 오메가-6" }
+  - { id: linolenic_acid, name: { ko: 리놀렌산, en: alpha-Linolenic acid }, formula: C18H30O2, note: "α-리놀렌산, 18:3 오메가-3" }
+  - { id: epa, name: { ko: 에이코사펜타엔산, en: Eicosapentaenoic acid }, formula: C20H30O2, note: "EPA, 20:5 오메가-3" }
+  - { id: dha, name: { ko: 도코사헥사엔산, en: Docosahexaenoic acid }, formula: C22H32O2, note: "DHA, 22:6 오메가-3" }
+  - { id: tripalmitin, name: { ko: 트라이팔미틴, en: Tripalmitin }, formula: C51H98O6 }
+  - { id: tristearin, name: { ko: 트라이스테아린, en: Tristearin }, formula: C57H110O6 }
+  - { id: triolein, name: { ko: 트라이올레인, en: Triolein }, formula: C57H104O6 }
+  - { id: trilinolein, name: { ko: 트라이리놀레인, en: Trilinolein }, formula: C57H98O6 }
+  - { id: cholesterol, name: { ko: 콜레스테롤, en: Cholesterol }, formula: C27H46O }
+  - { id: collagen, name: { ko: 콜라겐, en: Collagen }, note: "I형 콜라겐 한 분자(트로포콜라겐). α사슬 3개, 아미노산 약 3,000개, 약 280kDa" }
+  - { id: keratin, name: { ko: 케라틴, en: Keratin }, note: "머리카락·손톱의 α-케라틴 사슬 하나. 아미노산 450개, 약 50kDa. 시스테인이 많아 이황화 결합으로 단단하다" }
+  - { id: casein, name: { ko: 카세인, en: Casein }, note: "우유 단백질의 약 80%. β-카세인 한 분자(아미노산 209개, 인산화 세린 5개, 약 24kDa) 기준" }
+  - { id: amylase, name: { ko: 아밀레이스, en: alpha-Amylase }, note: "녹말을 아무 데서나 끊는 α-아밀레이스. 바실루스 리케니포르미스 효소(아미노산 483개)" }
+  - { id: glucoamylase, name: { ko: 글루코아밀레이스, en: Glucoamylase }, note: "녹말 끝에서 포도당을 하나씩 떼어 낸다. 검은곰팡이 효소(아미노산 616개)" }
+  - { id: glucose_isomerase, name: { ko: 포도당 이성질화 효소, en: Glucose isomerase }, note: "자일로스 이성질화 효소. 스트렙토마이세스 효소(아미노산 388개)" }
+  - { id: protease, name: { ko: 단백질 분해 효소, en: Protease }, note: "세제·식품용 서브틸리신(아미노산 274개)" }
+  - { id: lipase, name: { ko: 라이페이스, en: Lipase }, note: "지방을 지방산과 글리세롤로 가른다. 서모마이세스 효소(아미노산 269개)" }
+  - { id: chymosin, name: { ko: 키모신, en: Chymosin }, note: "레닛의 주성분. 송아지 위의 효소를 지금은 미생물로 만든다(아미노산 323개)" }
+  - { id: lactase, name: { ko: 락테이스, en: Lactase }, note: "β-갈락토시데이스. 클루이베로마이세스 효모 효소(아미노산 1,025개)" }
+  - { id: invertase, name: { ko: 인버테이스, en: Invertase }, note: "설탕을 포도당과 과당으로 가른다. 효모 효소(아미노산 512개)" }
+  - { id: yeast, name: { ko: 빵효모, en: "Baker's yeast" }, note: "출아형 효모(Saccharomyces cerevisiae) 세포 하나. 생효모 1g에 약 200억 개" }
+  - { id: lactic_acid_bacteria, name: { ko: 젖산균, en: Lactic acid bacteria }, note: "요구르트·치즈 스타터(락토바실루스·스트렙토코쿠스) 세포 하나. 약 1pg" }
+  - { id: plant_cell, name: { ko: 식물 세포, en: Plant cell }, note: "남세균을 엽록체로 품은 진핵세포. 단세포 녹조류만 한 크기(약 60pg). 조직 배양으로 모종을 키우는 밭의 씨앗" }
+  - { id: animal_cell, name: { ko: 동물 세포, en: Animal cell }, note: "콜라겐으로 이웃과 붙고 막을 콜레스테롤로 단단히 한 진핵세포. 체세포 복제로 가축과 물고기를 얻는 씨앗" }

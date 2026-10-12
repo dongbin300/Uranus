@@ -1,0 +1,475 @@
+# 식품 가공. 재료 질량 합은 늘 결과물보다 크거나 같다(물·이산화 탄소·찌꺼기로 빠지는 몫은 적지 않았다).
+# 시간은 게임용으로 줄였다. 실제 걸리는 시간은 note에 적었다.
+category: food
+recipes:
+
+  # 곡물
+  - id: wheat_milling
+    name: { ko: 밀 제분 }
+    time: 20
+    in: { wheat_1kg: 4 }
+    out: { flour_1kg: 3, wheat_bran_1kg: 1 }
+    note: "롤러로 빻아 체로 거른다. 밀가루 수율 약 75%, 나머지는 밀기울과 배아"
+  - id: whole_wheat_milling
+    name: { ko: 통밀 제분 }
+    time: 5
+    in: { wheat_1kg: 1 }
+    out: { whole_wheat_flour_1kg: 1 }
+  - id: wheat_starch_separation
+    name: { ko: 밀 녹말 분리 }
+    time: 60
+    in: { flour_1kg: 10, H2O: 5.014e26 }
+    out: { starch: 2.228e25, vital_wheat_gluten_1kg: 1, H2O: 4.981e26 }
+    note: "마틴 공정: 밀가루 반죽을 물에 주물러 녹말을 씻어 내고 글루텐 덩이를 말린다. 물은 폐수와 수증기로 나간다"
+  - id: bread_baking
+    name: { ko: 식빵 굽기 }
+    time: 300
+    in: { flour_1kg: 17, H2O: 3.523e26, sucrose: 1.795e24, butter_250g: 3, yeast: 9.986e12, NaCl: 3.504e24 }
+    out: { bread_loaf: 50 }
+    note: "제빵사 비율: 밀가루 100, 물 62, 설탕 6, 버터 4.4, 생효모 3, 소금 2. 반죽 약 30kg을 발효해 구우면 수분이 날아가 약 25kg이 된다"
+  - id: pasta_making
+    name: { ko: 파스타 만들기 }
+    time: 60
+    in: { flour_1kg: 1, H2O: 1.003e25 }
+    out: { pasta_500g: 2 }
+    note: "반죽을 압출해 수분 12%까지 말린다. 원래는 듀럼밀 세몰리나를 쓴다"
+  - id: noodle_making
+    name: { ko: 소면 만들기 }
+    time: 120
+    in: { flour_1kg: 10, H2O: 1.103e26, NaCl: 3.091e24 }
+    out: { dried_noodles_1kg: 10 }
+    note: "소금물로 반죽해 가늘게 늘여 말린다"
+  - id: instant_noodle_making
+    name: { ko: 라면 만들기 }
+    time: 120
+    in: { flour_1kg: 8, starch: 2.228e24, vegetable_oil_1l: 3, NaCl: 8.244e24, H2O: 9.36e25 }
+    out: { instant_noodles: 95 }
+    note: "면을 쪄서 기름에 튀겨 말린다(면의 약 20%가 기름). 스프의 향신료와 조미료는 생략"
+  - id: nuruk_making
+    name: { ko: 누룩 띄우기 }
+    time: 600
+    in: { wheat_1kg: 10, H2O: 8.357e25 }
+    out: { nuruk_1kg: 9 }
+    note: "굵게 빻은 밀을 물에 반죽해 디딘 뒤 2~3주 띄운다. 공기 중의 누룩곰팡이와 효모가 자리 잡는다"
+  - id: castella_baking
+    name: { ko: 카스텔라 굽기 }
+    time: 180
+    in: { liquid_egg_1kg: 5, sucrose: 5.278e24, flour_1kg: 2, corn_syrup_1kg: 1, milk_1l: 1 }
+    out: { castella: 21 }
+    note: "달걀 거품에 설탕·밀가루·물엿을 섞어 굽는다. 굽는 동안 약 10%가 날아간다"
+  - id: rice_hulling
+    name: { ko: 벼 껍질 벗기기 }
+    time: 10
+    in: { paddy_rice_1kg: 5 }
+    out: { brown_rice_1kg: 4, rice_husk_1kg: 1 }
+    note: "제현. 벼 무게의 약 20%가 왕겨"
+  - id: rice_polishing
+    name: { ko: 쌀 도정 }
+    time: 20
+    in: { brown_rice_1kg: 10 }
+    out: { white_rice_1kg: 9, rice_bran_1kg: 1 }
+    note: "현미의 쌀겨층과 씨눈을 깎아 낸다. 백미 수율 약 90%"
+  - id: rice_cooking
+    name: { ko: 밥 짓기 }
+    time: 30
+    in: { white_rice_1kg: 1, H2O: 5.014e25 }
+    out: { cooked_rice_210g: 11 }
+    note: "쌀이 무게의 약 1.3배만큼 물을 먹는다"
+  - id: makgeolli_brewing
+    name: { ko: 막걸리 빚기 }
+    time: 600
+    in: { white_rice_1kg: 6, nuruk_1kg: 1, H2O: 1.705e27 }
+    out: { makgeolli_750ml: 72 }
+    note: "고두밥에 누룩과 물을 섞어 1~2주 발효한 뒤 걸러 알코올 6%로 맞춘다. 이산화 탄소 약 2.4kg과 지게미가 빠진다"
+  - id: malting
+    name: { ko: 맥아 만들기 }
+    time: 120
+    in: { barley_1kg: 5 }
+    out: { malt_1kg: 4 }
+    note: "보리를 물에 담가 싹을 틔운 뒤 말린다(일주일). 뿌리와 호흡으로 무게의 약 20%가 준다"
+  - id: beer_brewing
+    name: { ko: 맥주 양조 }
+    time: 600
+    in: { malt_1kg: 20, H2O: 4.346e27, yeast: 1.958e12 }
+    out: { beer_500ml: 200, brewers_spent_grain_1kg: 6, CO2: 5.2e25, H2O: 1.203e27 }
+    note: "맥아를 65°C 물에 담가 당화하고 끓인 맥즙(12°P)을 효모로 발효한다. 맥아 1kg에 맥주 약 5L. 물은 끓이며 날아가고 맥주박을 말리며 빠진다. 홉(맥즙의 약 0.1%)은 생략"
+
+  # 옥수수·감자
+  - id: corn_wet_milling
+    name: { ko: 옥수수 습식 제분 }
+    time: 120
+    in: { corn_1kg: 100, H2O: 5.014e27, SO2: 1.88e24 }
+    out: { starch: 2.228e26, corn_germ_1kg: 7, corn_gluten_meal_1kg: 5, corn_gluten_feed_1kg: 22, H2O: 4.68e27 }
+    note: "아황산수에 이틀 불린 뒤 배아·섬유·글루텐·녹말로 가른다. 옥수수 100kg에서 녹말 약 60kg. 물은 증발기와 폐수로 나간다"
+  - id: corn_ethanol_fermentation
+    name: { ko: 옥수수 주정 발효 }
+    time: 300
+    in: { corn_1kg: 100, H2O: 8.357e27, amylase: 2.804e19, glucoamylase: 4.396e19, yeast: 9.79e12 }
+    out: { ethanol: 4.301e26, CO2: 4.301e26, ddgs_1kg: 30, H2O: 6.017e27 }
+    note: "건식 제분 공정. 옥수수 1kg에서 에탄올 약 0.42L, 이산화 탄소 약 0.31kg, 주정박 약 0.3kg. 증류 폐액의 물은 증발시켜 되쓴다"
+  - id: corn_syrup_making
+    name: { ko: 물엿 만들기 }
+    time: 60
+    in: { starch: 2.823e25, H2O: 8.023e25, amylase: 2.243e18 }
+    out: { corn_syrup_1kg: 10 }
+    note: "아밀레이스로 녹말을 절반쯤 끊는다(DE 약 42). 고형분 80%"
+  - id: hfcs_making
+    name: { ko: 액상과당 만들기 }
+    time: 120
+    in: { starch: 2.574e25, H2O: 1.026e26, amylase: 2.243e18, glucoamylase: 3.517e18, glucose_isomerase: 1.396e18 }
+    out: { hfcs_1kg: 10 }
+    note: "녹말 → 포도당 → 고정화 이성질화 효소로 과당 42% → 크로마토그래피로 농축해 섞어 과당 55%"
+  - id: tortilla_making
+    name: { ko: 토르티야 만들기 }
+    time: 120
+    in: { corn_1kg: 10, Ca(OH)2: 8.128e23, H2O: 4.011e26 }
+    out: { tortilla: 500 }
+    note: "닉스타말화: 옥수수를 석회수에 삶아 껍질을 벗기고 갈아 반죽(마사)을 만들어 굽는다. 나이아신이 풀려나 펠라그라를 막는다"
+  - id: potato_starch_extraction
+    name: { ko: 감자 녹말 만들기 }
+    time: 60
+    in: { potato_1kg: 10, H2O: 3.343e26 }
+    out: { starch: 5.943e24, potato_pulp_1kg: 2, H2O: 3.009e26 }
+    note: "감자를 갈아 물에 녹말을 가라앉힌다. 감자 녹말 함량 약 17%, 회수율 약 90%. 감자즙과 세척수가 폐수로 나간다"
+  - id: potato_chip_frying
+    name: { ko: 감자칩 튀기기 }
+    time: 120
+    in: { potato_1kg: 40, vegetable_oil_1l: 5, NaCl: 2.473e24 }
+    out: { potato_chips_60g: 200 }
+    note: "얇게 썰어 기름에 튀긴다. 감자 약 3.5kg이 감자칩 1kg(기름 35%)이 된다"
+
+  # 콩과 기름
+  - id: soybean_pressing
+    name: { ko: 콩기름 짜기 }
+    time: 60
+    in: { soybean_1kg: 13 }
+    out: { crude_soybean_oil_1l: 2, soybean_meal_1kg: 11 }
+    note: "익스펠러 압착. 기름 19% 중 약 14%를 짠다"
+  - id: soybean_oil_refining
+    name: { ko: 식용유 정제 }
+    time: 60
+    in: { crude_soybean_oil_1l: 10, H3PO4: 5.531e22, H2O: 6.686e24 }
+    out: { vegetable_oil_1l: 9 }
+    note: "인산으로 검을 빼고 표백토로 색을 빼고 수증기로 냄새와 유리 지방산을 날린다(물리적 정제)"
+  - id: corn_oil_extraction
+    name: { ko: 옥수수기름 짜기 }
+    time: 60
+    in: { corn_germ_1kg: 10, H3PO4: 3.073e22 }
+    out: { vegetable_oil_1l: 4 }
+    note: "습식 제분에서 나온 배아(기름 약 45%)를 압착해 기름을 짜고 정제한다"
+  - id: soy_milk_making
+    name: { ko: 두유 만들기 }
+    time: 30
+    in: { soybean_1kg: 1, H2O: 2.674e26 }
+    out: { soy_milk_1l: 7, okara_1kg: 1, H2O: 2.507e25 }
+    note: "불린 콩을 물과 갈아 끓인 뒤 걸러 비지를 뺀다. 끓이는 동안 물 약 10%가 날아간다"
+  - id: tofu_making
+    name: { ko: 두부 만들기 }
+    time: 60
+    in: { soybean_1kg: 1, H2O: 2.674e26, MgCl2: 1.328e23 }
+    out: { tofu_300g: 7, okara_1kg: 1, H2O: 1.972e26 }
+    note: "콩을 갈아 끓여 비지를 거른 두유에 간수(염화 마그네슘)를 넣어 엉기게 한 뒤 눌러 순물을 짠다. 콩 1kg에서 두부 약 2.1kg"
+  - id: meju_making
+    name: { ko: 메주 쑤기 }
+    time: 600
+    in: { soybean_1kg: 5 }
+    out: { meju_1kg: 4 }
+    note: "삶은 콩을 찧어 네모나게 빚어 겨우내 띄운다. 고초균과 곰팡이가 단백질을 푼다"
+  - id: makjang_brewing
+    name: { ko: 막장 담그기 }
+    time: 600
+    in: { meju_1kg: 3, NaCl: 1.03e25, H2O: 1.538e26 }
+    out: { doenjang_1kg: 8 }
+    note: "간장을 따로 뜨지 않고 메줏가루를 소금물에 버무려 그대로 된장으로 익힌다"
+  - id: jang_brewing
+    name: { ko: 장 담그기 }
+    time: 600
+    in: { meju_1kg: 8, NaCl: 5.152e25, H2O: 6.686e26 }
+    out: { soy_sauce_1l: 14, doenjang_1kg: 12, H2O: 3.343e25 }
+    note: "메주를 소금물에 40~60일 담갔다가 국물(간장)과 건더기(된장)를 가른다. 간장을 달이며 물이 조금 날아간다"
+  - id: brewed_soy_sauce
+    name: { ko: 양조간장 만들기 }
+    time: 600
+    in: { soybean_meal_1kg: 2, wheat_1kg: 2, nuruk_1kg: 1, NaCl: 1.855e25, H2O: 2.407e26 }
+    out: { soy_sauce_1l: 8 }
+    note: "탈지 대두와 볶은 밀로 국(麴)을 띄워 소금물에 6개월 숙성한 뒤 짠다"
+  - id: margarine_making
+    name: { ko: 마가린 만들기 }
+    time: 60
+    in: { vegetable_oil_1l: 4, H2: 1.267e24, H2O: 2.841e25, NaCl: 7.213e23 }
+    out: { margarine_450g: 10 }
+    note: "기름 일부를 니켈 촉매로 경화해 굳힌 뒤 물·소금과 유화한다(지방 80%)"
+  - id: mayonnaise_making
+    name: { ko: 마요네즈 만들기 }
+    time: 30
+    in: { vegetable_oil_1l: 10, liquid_egg_1kg: 1, vinegar_1l: 1, NaCl: 1.237e24, sucrose: 3.519e23 }
+    out: { mayonnaise_500g: 22 }
+    note: "달걀의 레시틴이 기름 약 80%를 식초 물에 유화한다"
+
+  # 설탕과 과자
+  - id: sugarcane_crushing
+    name: { ko: 사탕수수 압착 }
+    time: 20
+    in: { sugarcane_1kg: 10 }
+    out: { cane_juice_1kg: 7, bagasse_1kg: 3 }
+    note: "롤러로 짜서 즙을 얻는다. 남은 섬유(버개스)는 보일러 연료나 펄프 원료"
+  - id: raw_sugar_crystallization
+    name: { ko: 원당 결정화 }
+    time: 120
+    in: { cane_juice_1kg: 40 }
+    out: { raw_sugar_1kg: 4, molasses_1kg: 1 }
+    note: "즙을 졸여 시럽을 만들고 설탕 결정을 키운 뒤 원심분리한다. 남은 시럽이 당밀"
+  - id: sugar_refining
+    name: { ko: 설탕 정제 }
+    time: 120
+    in: { raw_sugar_1kg: 10, H2O: 1.003e26, Ca(OH)2: 6.444e23, CO2: 6.444e23 }
+    out: { sucrose: 1.689e25, CaCO3: 6.444e23 }
+    note: "원당을 녹여 석회와 이산화 탄소로 탄산칼슘을 만들어 불순물을 붙잡고(탄산화법), 걸러 다시 결정을 키운다"
+  - id: sugar_packing
+    name: { ko: 설탕 포장 }
+    time: 1
+    in: { sucrose: 1.759e24 }
+    out: { sugar_1kg: 1 }
+  - id: brown_sugar_making
+    name: { ko: 흑설탕 만들기 }
+    time: 30
+    in: { sucrose: 1.601e25, molasses_1kg: 1 }
+    out: { brown_sugar_1kg: 10 }
+    note: "흰 설탕에 당밀을 약 10% 입힌다"
+  - id: molasses_fermentation
+    name: { ko: 당밀 주정 발효 }
+    time: 300
+    in: { molasses_1kg: 10, H2O: 1.003e27, yeast: 1.958e12 }
+    out: { ethanol: 3.163e25, CO2: 3.163e25 }
+    note: "당밀(당 약 50%)을 묽혀 발효하고 증류한다. 남은 폐액(비나스)은 비료로 밭에 돌려준다"
+  - id: hard_candy_making
+    name: { ko: 사탕 만들기 }
+    time: 30
+    in: { sucrose: 1.056e24, glucose: 1.27e24, citric_acid: 3.135e22, H2O: 3.343e23 }
+    out: { hard_candy: 200 }
+    note: "설탕과 포도당을 150°C까지 졸여 수분 1%로 굳힌다"
+  - id: gummy_candy_making
+    name: { ko: 젤리 만들기 }
+    time: 60
+    in: { gelatin: 4.622e20, sucrose: 7.917e23, glucose: 9.36e23, citric_acid: 3.135e22, H2O: 6.351e24 }
+    out: { gummy_candy_100g: 10 }
+    note: "젤라틴 7%로 굳힌 곰 모양 젤리"
+
+  # 과일과 술
+  - id: apple_pressing
+    name: { ko: 사과 즙 짜기 }
+    time: 20
+    in: { apple_1kg: 10 }
+    out: { apple_juice_1l: 7, apple_pomace_1kg: 2 }
+    note: "갈아서 눌러 짠다. 착즙률 약 73%"
+  - id: cider_fermentation
+    name: { ko: 사과주 발효 }
+    time: 300
+    in: { apple_juice_1l: 10, yeast: 1.958e11 }
+    out: { cider_500ml: 19 }
+    note: "당 약 10.5%의 즙을 발효해 알코올 약 6%로. 이산화 탄소와 앙금이 빠진다"
+  - id: spirit_vinegar_fermentation
+    name: { ko: 주정 식초 발효 }
+    time: 120
+    in: { ethanol: 5.014e24, O2: 5.014e24, H2O: 3.146e26 }
+    out: { vinegar_1l: 10 }
+    note: "초산균(Acetobacter)이 에탄올을 아세트산으로 산화한다. C2H5OH + O2 → CH3COOH + H2O. 아세트산 5%"
+  - id: cider_vinegar_fermentation
+    name: { ko: 사과 식초 발효 }
+    time: 120
+    in: { cider_500ml: 2, O2: 6.211e23 }
+    out: { vinegar_1l: 1 }
+    note: "사과주의 알코올을 초산균이 아세트산으로 바꾼다"
+  - id: apple_jam_making
+    name: { ko: 사과잼 만들기 }
+    time: 60
+    in: { apple_1kg: 3, sucrose: 5.278e24, citric_acid: 4.702e22 }
+    out: { apple_jam_300g: 16 }
+    note: "과일과 설탕을 1:1로 당도 65°Bx까지 졸인다. 사과의 펙틴이 굳힌다"
+  - id: winemaking
+    name: { ko: 포도주 양조 }
+    time: 600
+    in: { grape_1kg: 10, yeast: 1.958e11 }
+    out: { wine_750ml: 9, grape_pomace_1kg: 2 }
+    note: "포도를 으깨 껍질째 발효(적포도주)한 뒤 짠다. 포도 1kg에서 약 0.7L, 당 22%가 알코올 약 13%가 된다"
+  - id: soju_blending
+    name: { ko: 소주 만들기 }
+    time: 20
+    in: { ethanol: 1.226e25, H2O: 2.039e26, fructose: 1.003e23 }
+    out: { soju_360ml: 20 }
+    note: "95% 주정을 물로 묽혀 알코올 16.5%로 맞추고 감미료를 조금 넣는다. 한 상자 20병"
+
+  # 유제품
+  - id: milk_pasteurization
+    name: { ko: 우유 살균 }
+    time: 2
+    in: { raw_milk_1l: 1 }
+    out: { milk_1l: 1 }
+    note: "72°C에서 15초 살균하고 지방구를 잘게 부순다(균질화)"
+  - id: cream_separation
+    name: { ko: 크림 분리 }
+    time: 10
+    in: { raw_milk_1l: 10 }
+    out: { cream_1l: 1, skim_milk_1l: 9 }
+    note: "원심분리기로 가벼운 지방을 떼어 낸다"
+  - id: butter_churning
+    name: { ko: 버터 만들기 }
+    time: 60
+    in: { cream_1l: 10, NaCl: 7.213e23 }
+    out: { butter_250g: 18, buttermilk_1l: 5 }
+    note: "크림을 세게 저어 지방구를 뭉친다. 크림 10L(지방 4kg)에서 버터 약 4.5kg"
+  - id: cheese_making
+    name: { ko: 체다 치즈 만들기 }
+    time: 600
+    in: { milk_1l: 10, lactic_acid_bacteria: 1e11, chymosin: 1.173e17, CaCl2: 1.085e22, NaCl: 1.855e23 }
+    out: { cheddar_cheese_200g: 5, whey_1l: 9 }
+    note: "젖산균으로 산을 내고 키모신으로 카세인을 굳혀 커드를 만든 뒤 유청을 빼고 소금을 친다. 우유 10L에서 치즈 약 1kg. 숙성은 생략"
+  - id: yogurt_fermentation
+    name: { ko: 요구르트 발효 }
+    time: 120
+    in: { milk_1l: 1, lactic_acid_bacteria: 5e10 }
+    out: { yogurt_100g: 10 }
+    note: "43°C에서 약 5시간. 젖당 일부가 젖산이 되어 카세인이 엉긴다"
+  - id: skim_milk_drying
+    name: { ko: 탈지분유 만들기 }
+    time: 60
+    in: { skim_milk_1l: 11 }
+    out: { skim_milk_powder_1kg: 1 }
+    note: "농축한 뒤 분무 건조한다. 탈지유 고형분 약 9%"
+  - id: milk_ultrafiltration
+    name: { ko: 우유 한외여과 }
+    time: 30
+    in: { skim_milk_1l: 10 }
+    out: { milk_protein_concentrate_1kg: 2, milk_permeate_1l: 8 }
+    note: "막으로 단백질만 붙잡고 물·젖당·무기질은 통과시킨다"
+  - id: lactose_crystallization
+    name: { ko: 젖당 결정화 }
+    time: 60
+    in: { milk_permeate_1l: 10 }
+    out: { lactose: 7.037e23 }
+    note: "투과액을 농축해 젖당 결정을 키운다. 회수율 약 80%"
+  - id: acid_casein_precipitation
+    name: { ko: 산 카세인 침전 }
+    time: 30
+    in: { skim_milk_1l: 10, HCl: 2.412e23 }
+    out: { casein: 6.202e21, whey_1l: 9 }
+    note: "탈지유를 pH 4.6으로 산성화하면 카세인이 엉긴다"
+  - id: ice_cream_making
+    name: { ko: 아이스크림 만들기 }
+    time: 60
+    in: { cream_1l: 1, milk_1l: 2, sucrose: 1.056e24 }
+    out: { ice_cream_500ml: 12 }
+    note: "유지방 약 13%, 설탕 약 16%의 믹스를 저으며 얼린다"
+
+  # 달걀·고기·생선
+  - id: egg_breaking
+    name: { ko: 달걀 깨기 }
+    time: 10
+    in: { egg: 20 }
+    out: { liquid_egg_1kg: 1, CaCO3: 6.859e23 }
+    note: "껍데기(약 10%)의 95%가 탄산 칼슘"
+  - id: chicken_cutting
+    name: { ko: 닭 손질 }
+    time: 30
+    in: { whole_chicken: 10 }
+    out: { chicken_breast_1kg: 3, chicken_leg_1kg: 4, chicken_frame_1kg: 4 }
+    note: "가슴살 약 25%, 다리 약 33%"
+  - id: chicken_frying
+    name: { ko: 치킨 튀기기 }
+    time: 60
+    in: { whole_chicken: 5, flour_1kg: 1, vegetable_oil_1l: 1, NaCl: 5.152e23 }
+    out: { fried_chicken: 5 }
+    note: "토막 낸 닭에 튀김옷을 입혀 튀긴다. 수분이 빠지고 기름을 먹는다"
+  - id: gelatin_from_collagen
+    name: { ko: 젤라틴 추출 }
+    time: 10
+    in: { collagen: 1, H2O: 3 }
+    out: { gelatin: 3 }
+    note: "콜라겐의 세 가닥이 뜨거운 물에서 풀려 젤라틴 사슬이 된다"
+  - id: gelatin_from_chicken_frames
+    name: { ko: 닭뼈 젤라틴 }
+    time: 120
+    in: { chicken_frame_1kg: 10, H2O: 6.686e26, HCl: 6.029e23 }
+    out: { gelatin: 1.981e21 }
+    note: "뼈와 껍질을 묽은 산에 담갔다가 뜨거운 물로 우려낸다. 수율 약 3%"
+  - id: fish_filleting
+    name: { ko: 생선 손질 }
+    time: 30
+    in: { whole_fish_1kg: 10 }
+    out: { fish_fillet_1kg: 4, fish_frame_1kg: 5 }
+    note: "살코기 수율 약 40~45%"
+  - id: fishmeal_processing
+    name: { ko: 어분·어유 만들기 }
+    time: 60
+    in: { fish_frame_1kg: 10 }
+    out: { fishmeal_1kg: 2, fish_oil_1l: 1 }
+    note: "쪄서 눌러 기름과 물을 짜고 남은 덩이를 말린다"
+  - id: fish_cake_making
+    name: { ko: 어묵 만들기 }
+    time: 60
+    in: { fish_fillet_1kg: 6, starch: 3.714e24, NaCl: 2.061e24, sucrose: 3.519e23, vegetable_oil_1l: 1 }
+    out: { fish_cake_300g: 23 }
+    note: "생선살을 물에 씻어 갈아(연육) 녹말·소금과 반죽해 튀긴다"
+  - id: fish_sauce_fermentation
+    name: { ko: 액젓 담그기 }
+    time: 600
+    in: { whole_fish_1kg: 3, NaCl: 1.03e25 }
+    out: { fish_sauce_1l: 2 }
+    note: "멸치를 소금에 1년 넘게 삭혀 맑은 국물을 거른다"
+
+  # 카카오
+  - id: cocoa_roasting
+    name: { ko: 카카오 볶기 }
+    time: 30
+    in: { cocoa_beans_1kg: 10 }
+    out: { cocoa_nibs_1kg: 8, cocoa_shell_1kg: 1 }
+    note: "볶은 뒤 부숴 바람으로 껍질을 날린다"
+  - id: cocoa_grinding
+    name: { ko: 카카오 갈기 }
+    time: 30
+    in: { cocoa_nibs_1kg: 1 }
+    out: { cocoa_mass_1kg: 1 }
+    note: "지방이 녹아 걸쭉한 반죽이 된다"
+  - id: cocoa_pressing
+    name: { ko: 카카오 압착 }
+    time: 60
+    in: { cocoa_mass_1kg: 10 }
+    out: { cocoa_butter_1kg: 4, cocoa_powder_1kg: 6 }
+    note: "수압기로 카카오 버터를 짜고 남은 덩이를 갈아 코코아 가루를 만든다"
+  - id: dark_chocolate_making
+    name: { ko: 다크 초콜릿 만들기 }
+    time: 120
+    in: { cocoa_mass_1kg: 6, cocoa_butter_1kg: 1, sucrose: 5.278e24 }
+    out: { dark_chocolate_100g: 99 }
+    note: "카카오 70%. 곱게 갈아 콘칭한 뒤 템퍼링해 굳힌다"
+  - id: milk_chocolate_making
+    name: { ko: 밀크 초콜릿 만들기 }
+    time: 120
+    in: { sucrose: 7.917e24, cocoa_butter_1kg: 2, skim_milk_powder_1kg: 2, cocoa_mass_1kg: 1, butter_250g: 2 }
+    out: { milk_chocolate_100g: 99 }
+    note: "설탕 45%, 카카오 버터 20%, 탈지분유 20%, 카카오 매스 10%, 유지방 5%"
+
+  # 조미료와 음료
+  - id: salt_packing
+    name: { ko: 정제염 포장 }
+    time: 1
+    in: { NaCl: 1.03e25 }
+    out: { table_salt_1kg: 1 }
+  - id: carbonation
+    name: { ko: 탄산수 만들기 }
+    time: 2
+    in: { H2O: 1.671e25, CO2: 4.789e22 }
+    out: { carbonated_water_500ml: 1 }
+    note: "이산화 탄소 약 7g/L를 압력으로 녹인다"
+  - id: soda_making
+    name: { ko: 사이다 만들기 }
+    time: 10
+    in: { H2O: 2.305e26, sucrose: 1.425e24, CO2: 7.8e23, citric_acid: 2.821e22 }
+    out: { lemon_lime_soda_250ml: 30 }
+    note: "한 상자 30캔"
+  - id: glass_noodle_making
+    name: { ko: 당면 만들기 }
+    time: 60
+    in: { starch: 3.231e25, H2O: 4.346e25 }
+    out: { glass_noodles_500g: 20 }
+    note: "고구마 녹말 반죽을 끓는 물에 뽑아 얼렸다가 말린다. 수분 13%"

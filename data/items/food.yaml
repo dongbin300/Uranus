@@ -1,0 +1,110 @@
+# 농산물과 식품. 질량은 실제 제품 기준이다(1L 액체는 밀도를 반영).
+# 농장 원료는 생성기가 내므로 질량을 레시피로 따질 수 없다. expected_mass로 실제 질량을 적어 둔다.
+category: food
+unit: piece
+items:
+  - { id: wheat_1kg, name: { ko: 밀 1kg, en: Wheat (1 kg) }, expected_mass: [990g, 1.01kg], note: "낟알 수분 약 13%, 녹말 약 70%, 단백질 약 12%" }
+  - { id: paddy_rice_1kg, name: { ko: 벼 1kg, en: Paddy rice (1 kg) }, expected_mass: [990g, 1.01kg], note: "껍질(왕겨)째인 낟알" }
+  - { id: barley_1kg, name: { ko: 보리 1kg, en: Barley (1 kg) }, expected_mass: [990g, 1.01kg] }
+  - { id: corn_1kg, name: { ko: 옥수수 1kg, en: Corn (1 kg) }, expected_mass: [990g, 1.01kg], note: "알곡 수분 약 15%, 녹말 약 62%" }
+  - { id: soybean_1kg, name: { ko: 콩 1kg, en: Soybeans (1 kg) }, expected_mass: [990g, 1.01kg], note: "대두. 단백질 약 36%, 기름 약 19%" }
+  - { id: potato_1kg, name: { ko: 감자 1kg, en: Potatoes (1 kg) }, expected_mass: [990g, 1.01kg], note: "수분 약 79%, 녹말 약 17%" }
+  - { id: sugarcane_1kg, name: { ko: 사탕수수 1kg, en: Sugarcane (1 kg) }, expected_mass: [990g, 1.01kg], note: "줄기. 수분 약 70%, 설탕 약 13%, 섬유 약 14%" }
+  - { id: apple_1kg, name: { ko: 사과 1kg, en: Apples (1 kg) }, expected_mass: [990g, 1.01kg] }
+  - { id: grape_1kg, name: { ko: 포도 1kg, en: Grapes (1 kg) }, expected_mass: [990g, 1.01kg], note: "양조용 포도. 당도 약 22°Bx" }
+  - { id: raw_milk_1l, name: { ko: 생우유 1L, en: Raw milk (1 L) }, expected_mass: [1.028kg, 1.036kg], note: "목장에서 짠 그대로의 원유(原乳). 지방 3.9%, 단백질 3.3%(카세인 2.6%), 젖당 4.8%" }
+  - { id: egg, name: { ko: 달걀, en: Egg }, expected_mass: [50g, 70g], note: "껍데기 약 10%, 흰자 약 60%, 노른자 약 30%" }
+  - { id: whole_chicken, name: { ko: 생닭, en: Whole chicken }, expected_mass: [900g, 1.8kg], note: "털과 내장을 뺀 육계 한 마리" }
+  - { id: chicken_feathers_1kg, name: { ko: 닭털 1kg, en: Chicken feathers (1 kg) }, expected_mass: [990g, 1.01kg], note: "약 90%가 β-케라틴" }
+  - { id: whole_fish_1kg, name: { ko: 생선 1kg, en: Whole fish (1 kg) }, expected_mass: [990g, 1.01kg], note: "고등어·멸치 같은 등푸른 생선" }
+  - { id: cocoa_beans_1kg, name: { ko: 카카오 콩 1kg, en: Cocoa beans (1 kg) }, expected_mass: [990g, 1.01kg], note: "발효·건조한 카카오 열매의 씨. 지방(카카오 버터) 약 54%" }
+  - { id: flour_1kg, name: { ko: 밀가루 1kg, en: Wheat flour (1 kg) }, expected_mass: [990g, 1.01kg] }
+  - { id: wheat_bran_1kg, name: { ko: 밀기울 1kg, en: Wheat bran (1 kg) }, expected_mass: [990g, 1.01kg], note: "껍질층과 배아. 주로 사료" }
+  - { id: whole_wheat_flour_1kg, name: { ko: 통밀가루 1kg, en: Whole wheat flour (1 kg) }, expected_mass: [990g, 1.01kg] }
+  - { id: vital_wheat_gluten_1kg, name: { ko: 활성 글루텐 1kg, en: Vital wheat gluten (1 kg) }, expected_mass: [990g, 1.01kg], note: "단백질 약 75%" }
+  - { id: bread_loaf, name: { ko: 식빵, en: Loaf of bread }, expected_mass: [480g, 520g] }
+  - { id: pasta_500g, name: { ko: 파스타 500g, en: Dried pasta (500 g) }, expected_mass: [495g, 505g] }
+  - { id: dried_noodles_1kg, name: { ko: 소면 1kg, en: Dried noodles (1 kg) }, expected_mass: [990g, 1.01kg] }
+  - { id: instant_noodles, name: { ko: 라면, en: Instant noodles }, expected_mass: [110g, 130g], note: "유탕면 110g과 분말 스프 10g 한 봉지" }
+  - { id: nuruk_1kg, name: { ko: 누룩 1kg, en: Nuruk (1 kg) }, expected_mass: [990g, 1.01kg], note: "밀에 누룩곰팡이와 효모를 띄운 발효제. 막걸리·간장의 씨앗" }
+  - { id: castella, name: { ko: 카스텔라, en: Castella }, expected_mass: [450g, 550g] }
+  - { id: brown_rice_1kg, name: { ko: 현미 1kg, en: Brown rice (1 kg) }, expected_mass: [990g, 1.01kg] }
+  - { id: rice_husk_1kg, name: { ko: 왕겨 1kg, en: Rice husk (1 kg) }, expected_mass: [990g, 1.01kg], note: "벼 무게의 약 20%. 재의 90%가 이산화규소" }
+  - { id: white_rice_1kg, name: { ko: 백미 1kg, en: White rice (1 kg) }, expected_mass: [990g, 1.01kg] }
+  - { id: rice_bran_1kg, name: { ko: 쌀겨 1kg, en: Rice bran (1 kg) }, expected_mass: [990g, 1.01kg] }
+  - { id: cooked_rice_210g, name: { ko: 즉석밥, en: Instant cooked rice }, expected_mass: [205g, 215g], note: "210g 한 개에 쌀 약 90g" }
+  - { id: makgeolli_750ml, name: { ko: 막걸리 750mL, en: Makgeolli (750 mL) }, expected_mass: [750g, 775g], note: "알코올 6%" }
+  - { id: malt_1kg, name: { ko: 맥아 1kg, en: Malt (1 kg) }, expected_mass: [990g, 1.01kg], note: "보리를 싹틔워 말린 것. 녹말을 당으로 바꾸는 효소가 생긴다" }
+  - { id: beer_500ml, name: { ko: 맥주 500mL, en: Beer (500 mL) }, expected_mass: [500g, 512g], note: "알코올 5%, 원맥즙 12°P" }
+  - { id: brewers_spent_grain_1kg, name: { ko: 맥주박 1kg, en: "Brewer's spent grain (1 kg)" }, expected_mass: [990g, 1.01kg], note: "당을 우려내고 남은 맥아 찌꺼기를 말린 것. 사료로 쓴다" }
+  - { id: corn_germ_1kg, name: { ko: 옥수수 배아 1kg, en: Corn germ (1 kg) }, expected_mass: [990g, 1.01kg], note: "기름 약 45%" }
+  - { id: corn_gluten_meal_1kg, name: { ko: 콘글루텐밀 1kg, en: Corn gluten meal (1 kg) }, expected_mass: [990g, 1.01kg], note: "단백질 약 60%의 사료" }
+  - { id: corn_gluten_feed_1kg, name: { ko: 콘글루텐피드 1kg, en: Corn gluten feed (1 kg) }, expected_mass: [990g, 1.01kg], note: "껍질 섬유와 침지액 고형분. 소 사료" }
+  - { id: ddgs_1kg, name: { ko: 주정박 1kg, en: Distillers dried grains (1 kg) }, expected_mass: [990g, 1.01kg], note: "DDGS. 발효하고 남은 단백질·섬유·기름" }
+  - { id: corn_syrup_1kg, name: { ko: 물엿 1kg, en: Corn syrup (1 kg) }, expected_mass: [990g, 1.01kg], note: "녹말을 반쯤 당화한 시럽. 고형분 약 80%" }
+  - { id: hfcs_1kg, name: { ko: 액상과당 1kg, en: High-fructose corn syrup (1 kg) }, expected_mass: [990g, 1.01kg], note: "HFCS-55. 고형분 77% 중 과당 55%" }
+  - { id: tortilla, name: { ko: 옥수수 토르티야, en: Corn tortilla }, expected_mass: [25g, 35g] }
+  - { id: potato_pulp_1kg, name: { ko: 감자 펄프 1kg, en: Potato pulp (1 kg) }, expected_mass: [990g, 1.01kg], note: "녹말을 빼고 남은 섬유. 사료" }
+  - { id: potato_chips_60g, name: { ko: 감자칩 60g, en: Potato chips (60 g) }, expected_mass: [58g, 62g] }
+  - { id: crude_soybean_oil_1l, name: { ko: 대두 조유 1L, en: Crude soybean oil (1 L) }, expected_mass: [910g, 930g], note: "압착한 그대로의 기름. 검(인지질)과 유리 지방산이 섞여 있다" }
+  - { id: soybean_meal_1kg, name: { ko: 대두박 1kg, en: Soybean meal (1 kg) }, expected_mass: [990g, 1.01kg], note: "기름을 짜고 남은 단백질 약 44%의 박" }
+  - { id: vegetable_oil_1l, name: { ko: 식용유 1L, en: Vegetable oil (1 L) }, expected_mass: [910g, 930g] }
+  - { id: soy_milk_1l, name: { ko: 두유 1L, en: Soy milk (1 L) }, expected_mass: [1.02kg, 1.04kg] }
+  - { id: okara_1kg, name: { ko: 비지 1kg, en: Okara (1 kg) }, expected_mass: [990g, 1.01kg] }
+  - { id: tofu_300g, name: { ko: 두부 300g, en: Tofu (300 g) }, expected_mass: [295g, 305g] }
+  - { id: meju_1kg, name: { ko: 메주 1kg, en: Meju (1 kg) }, expected_mass: [990g, 1.01kg], note: "삶은 콩을 찧어 덩이로 빚어 띄운 것" }
+  - { id: soy_sauce_1l, name: { ko: 간장 1L, en: Soy sauce (1 L) }, expected_mass: [1.15kg, 1.2kg], note: "소금 약 17~20%" }
+  - { id: doenjang_1kg, name: { ko: 된장 1kg, en: Doenjang (1 kg) }, expected_mass: [990g, 1.01kg] }
+  - { id: cane_juice_1kg, name: { ko: 사탕수수즙 1kg, en: Sugarcane juice (1 kg) }, expected_mass: [990g, 1.01kg], note: "당도 약 15°Bx" }
+  - { id: bagasse_1kg, name: { ko: 버개스 1kg, en: Bagasse (1 kg) }, expected_mass: [990g, 1.01kg], note: "즙을 짜고 남은 사탕수수 섬유. 수분 50%, 셀룰로스 약 45%(건량)" }
+  - { id: raw_sugar_1kg, name: { ko: 원당 1kg, en: Raw sugar (1 kg) }, expected_mass: [990g, 1.01kg], note: "수크로스 약 98%의 갈색 결정" }
+  - { id: molasses_1kg, name: { ko: 당밀 1kg, en: Molasses (1 kg) }, expected_mass: [990g, 1.01kg], note: "결정을 빼고 남은 시럽. 당 약 50%" }
+  - { id: sugar_1kg, name: { ko: 설탕 1kg, en: Sugar (1 kg) }, expected_mass: [995g, 1.005kg] }
+  - { id: brown_sugar_1kg, name: { ko: 흑설탕 1kg, en: Brown sugar (1 kg) }, expected_mass: [990g, 1.01kg] }
+  - { id: hard_candy, name: { ko: 사탕, en: Hard candy }, expected_mass: [4.5g, 5.5g] }
+  - { id: gummy_candy_100g, name: { ko: 젤리 100g, en: Gummy candy (100 g) }, expected_mass: [98g, 102g] }
+  - { id: apple_juice_1l, name: { ko: 사과 주스 1L, en: Apple juice (1 L) }, expected_mass: [1.04kg, 1.05kg] }
+  - { id: apple_pomace_1kg, name: { ko: 사과박 1kg, en: Apple pomace (1 kg) }, expected_mass: [990g, 1.01kg] }
+  - { id: cider_500ml, name: { ko: 사과주 500mL, en: Cider (500 mL) }, expected_mass: [500g, 506g], note: "알코올 약 6%" }
+  - { id: vinegar_1l, name: { ko: 식초 1L, en: Vinegar (1 L) }, expected_mass: [1kg, 1.015kg], note: "아세트산 5%" }
+  - { id: apple_jam_300g, name: { ko: 사과잼 300g, en: Apple jam (300 g) }, expected_mass: [295g, 305g] }
+  - { id: wine_750ml, name: { ko: 포도주 750mL, en: Wine (750 mL) }, expected_mass: [735g, 750g], note: "알코올 약 13%" }
+  - { id: grape_pomace_1kg, name: { ko: 포도박 1kg, en: Grape pomace (1 kg) }, expected_mass: [990g, 1.01kg], note: "껍질·씨·앙금" }
+  - { id: milk_1l, name: { ko: 우유 1L, en: Milk (1 L) }, expected_mass: [1.028kg, 1.036kg], note: "살균·균질한 시유" }
+  - { id: cream_1l, name: { ko: 생크림 1L, en: Cream (1 L) }, expected_mass: [980g, 1kg], note: "유지방 40%" }
+  - { id: skim_milk_1l, name: { ko: 탈지유 1L, en: Skim milk (1 L) }, expected_mass: [1.03kg, 1.04kg] }
+  - { id: butter_250g, name: { ko: 버터 250g, en: Butter (250 g) }, expected_mass: [245g, 255g], note: "유지방 82%, 소금 1.5%" }
+  - { id: buttermilk_1l, name: { ko: 버터밀크 1L, en: Buttermilk (1 L) }, expected_mass: [1.02kg, 1.04kg] }
+  - { id: cheddar_cheese_200g, name: { ko: 체다 치즈 200g, en: Cheddar cheese (200 g) }, expected_mass: [195g, 205g] }
+  - { id: whey_1l, name: { ko: 유청 1L, en: Whey (1 L) }, expected_mass: [1.02kg, 1.03kg], note: "치즈나 카세인을 굳히고 남은 노란 액체" }
+  - { id: yogurt_100g, name: { ko: 요구르트 100g, en: Yogurt (100 g) }, expected_mass: [98g, 102g] }
+  - { id: skim_milk_powder_1kg, name: { ko: 탈지분유 1kg, en: Skim milk powder (1 kg) }, expected_mass: [990g, 1.01kg] }
+  - { id: milk_protein_concentrate_1kg, name: { ko: 농축 유단백 1kg, en: Milk protein concentrate (1 kg) }, expected_mass: [990g, 1.01kg], note: "한외여과 농축액. 단백질 약 17%" }
+  - { id: milk_permeate_1l, name: { ko: 우유 투과액 1L, en: Milk permeate (1 L) }, expected_mass: [1.015kg, 1.025kg], note: "한외여과를 빠져나온 물·젖당·무기질" }
+  - { id: ice_cream_500ml, name: { ko: 아이스크림 500mL, en: Ice cream (500 mL) }, expected_mass: [270g, 310g], note: "공기를 약 80% 불어 넣어 부피가 커진다" }
+  - { id: liquid_egg_1kg, name: { ko: 전란액 1kg, en: Liquid whole egg (1 kg) }, expected_mass: [990g, 1.01kg] }
+  - { id: mayonnaise_500g, name: { ko: 마요네즈 500g, en: Mayonnaise (500 g) }, expected_mass: [495g, 505g] }
+  - { id: margarine_450g, name: { ko: 마가린 450g, en: Margarine (450 g) }, expected_mass: [445g, 455g] }
+  - { id: chicken_breast_1kg, name: { ko: 닭가슴살 1kg, en: Chicken breast (1 kg) }, expected_mass: [990g, 1.01kg] }
+  - { id: chicken_leg_1kg, name: { ko: 닭다리 1kg, en: Chicken legs (1 kg) }, expected_mass: [990g, 1.01kg] }
+  - { id: chicken_frame_1kg, name: { ko: 닭뼈 1kg, en: Chicken frames (1 kg) }, expected_mass: [990g, 1.01kg], note: "뼈·껍질·연골. 육수와 젤라틴의 원료" }
+  - { id: fried_chicken, name: { ko: 후라이드 치킨, en: Fried chicken }, expected_mass: [900g, 1.3kg], note: "한 마리를 튀긴 것" }
+  - { id: fish_fillet_1kg, name: { ko: 생선살 1kg, en: Fish fillet (1 kg) }, expected_mass: [990g, 1.01kg] }
+  - { id: fish_frame_1kg, name: { ko: 생선 부산물 1kg, en: Fish frames (1 kg) }, expected_mass: [990g, 1.01kg], note: "머리·뼈·내장" }
+  - { id: fishmeal_1kg, name: { ko: 어분 1kg, en: Fishmeal (1 kg) }, expected_mass: [990g, 1.01kg] }
+  - { id: fish_oil_1l, name: { ko: 어유 1L, en: Fish oil (1 L) }, expected_mass: [910g, 930g], note: "EPA 약 18%, DHA 약 12%" }
+  - { id: fish_cake_300g, name: { ko: 어묵 300g, en: Fish cake (300 g) }, expected_mass: [295g, 305g] }
+  - { id: fish_sauce_1l, name: { ko: 액젓 1L, en: Fish sauce (1 L) }, expected_mass: [1.15kg, 1.25kg], note: "소금 약 23%" }
+  - { id: gelatin, name: { ko: 젤라틴, en: Gelatin }, unit: particle, note: "콜라겐을 풀어 얻은 폴리펩타이드 사슬 하나(약 90kDa)" }
+  - { id: cocoa_nibs_1kg, name: { ko: 카카오 닙스 1kg, en: Cocoa nibs (1 kg) }, expected_mass: [990g, 1.01kg] }
+  - { id: cocoa_shell_1kg, name: { ko: 카카오 껍질 1kg, en: Cocoa shells (1 kg) }, expected_mass: [990g, 1.01kg] }
+  - { id: cocoa_mass_1kg, name: { ko: 카카오 매스 1kg, en: Cocoa mass (1 kg) }, expected_mass: [990g, 1.01kg], note: "닙스를 곱게 간 반죽. 카카오 버터 약 54%" }
+  - { id: cocoa_butter_1kg, name: { ko: 카카오 버터 1kg, en: Cocoa butter (1 kg) }, expected_mass: [990g, 1.01kg] }
+  - { id: cocoa_powder_1kg, name: { ko: 코코아 가루 1kg, en: Cocoa powder (1 kg) }, expected_mass: [990g, 1.01kg] }
+  - { id: dark_chocolate_100g, name: { ko: 다크 초콜릿 100g, en: Dark chocolate (100 g) }, expected_mass: [98g, 102g], note: "카카오 70%" }
+  - { id: milk_chocolate_100g, name: { ko: 밀크 초콜릿 100g, en: Milk chocolate (100 g) }, expected_mass: [98g, 102g] }
+  - { id: table_salt_1kg, name: { ko: 정제염 1kg, en: Table salt (1 kg) }, expected_mass: [995g, 1.005kg] }
+  - { id: soju_360ml, name: { ko: 소주 360mL, en: Soju (360 mL) }, expected_mass: [345g, 360g], note: "희석식 소주. 알코올 16.5%" }
+  - { id: carbonated_water_500ml, name: { ko: 탄산수 500mL, en: Sparkling water (500 mL) }, expected_mass: [500g, 506g] }
+  - { id: lemon_lime_soda_250ml, name: { ko: 사이다 250mL, en: Lemon-lime soda (250 mL) }, expected_mass: [255g, 263g], note: "설탕 약 11%. 향료는 생략" }
+  - { id: glass_noodles_500g, name: { ko: 당면 500g, en: Glass noodles (500 g) }, expected_mass: [495g, 505g], note: "녹말로 만든 국수" }
