@@ -11,48 +11,12 @@ recipes:
     in: { cotton_fiber: 1, H2O: 1 }
     out: { glucose: 1 }
     note: "묽은 황산, 가압 가열. C6H10O5 + H2O → C6H12O6"
-  - id: starch_biosynthesis
-    name: { ko: 녹말 생합성 }
-    time: 1
-    in: { glucose: 1 }
-    out: { starch: 1, H2O: 1 }
-    note: 식물의 아밀로플라스트가 ADP-포도당을 이어 녹말을 쌓는다. 실제 의약용 녹말은 옥수수·감자에서 뽑는다
-  - id: starch_saccharification
-    name: { ko: 녹말 당화 }
-    time: 1
-    in: { starch: 1, H2O: 1 }
-    out: { glucose: 1 }
-    note: α-아밀레이스로 액화하고 글루코아밀레이스로 당화한다. 주사용 포도당의 실제 제법
   - id: lactose_biosynthesis
     name: { ko: 젖당 생합성 }
     time: 1
     in: { glucose: 2 }
     out: { lactose: 1, H2O: 1 }
     note: 젖샘에서 포도당 하나가 UDP-갈락토스로 바뀐 뒤 다른 포도당과 이어진다. 의약용 젖당은 치즈 유청에서 결정으로 얻는다
-  - id: glucose_hydrogenation
-    name: { ko: 포도당 수소화 }
-    time: 1
-    in: { glucose: 1, H2: 1 }
-    out: { sorbitol: 1 }
-    note: "라니 니켈이나 루테늄 촉매, 약 130°C"
-  - id: lactic_acid_fermentation
-    name: { ko: 젖산 발효 }
-    time: 2
-    in: { glucose: 1 }
-    out: { lactic_acid: 2 }
-    note: 젖산균의 동형 젖산 발효. C6H12O6 → 2 C3H6O3
-  - id: citric_acid_fermentation
-    name: { ko: 시트르산 발효 }
-    time: 3
-    in: { glucose: 2, O2: 3 }
-    out: { citric_acid: 2, H2O: 4 }
-    note: 검은곰팡이(Aspergillus niger) 액중 발효. 세계 시트르산의 거의 전부를 이렇게 만든다
-  - id: glutamic_acid_fermentation
-    name: { ko: 글루탐산 발효 }
-    time: 3
-    in: { glucose: 2, NH3: 2, O2: 3 }
-    out: { glutamic_acid: 2, CO2: 2, H2O: 6 }
-    note: "코리네박테리움 글루타미쿰(교와 발효, 1956). 조미료(MSG)와 같은 공정"
   - id: alanine_strecker_synthesis
     name: { ko: 알라닌 스트레커 합성 }
     time: 1
@@ -408,16 +372,10 @@ recipes:
     out: { pyridoxine_hydrochloride: 1 }
 
   # 비타민 C
-  - id: sorbitol_oxidative_fermentation
-    name: { ko: 소비톨 산화 발효 }
-    time: 2
-    in: { sorbitol: 2, O2: 1 }
-    out: { l_sorbose: 2, H2O: 2 }
-    note: 글루코노박터 옥시단스가 5번 탄소만 골라 산화한다(라이히슈타인 공정 2단계)
   - id: sorbose_acetonation
     name: { ko: 소르보스 아세톤화 }
     time: 1
-    in: { l_sorbose: 1, acetone: 2 }
+    in: { sorbose: 1, acetone: 2 }
     out: { diacetone_sorbose: 1, H2O: 2 }
     note: 황산 촉매. 하이드록시기 넷을 아세톤으로 막아 1번 탄소만 남긴다
   - id: diacetone_sorbose_oxidation
@@ -430,20 +388,8 @@ recipes:
     name: { ko: 2-케토-L-굴론산 탈보호 }
     time: 1
     in: { diacetone_ketogulonic_acid: 1, H2O: 2 }
-    out: { 2_keto_l_gulonic_acid: 1, acetone: 2 }
+    out: { keto_gulonic_acid: 1, acetone: 2 }
     note: 산 가수분해. 아세톤은 다시 쓴다
-  - id: ascorbic_acid_lactonization
-    name: { ko: 아스코르브산 합성(락톤화) }
-    time: 1
-    in: { 2_keto_l_gulonic_acid: 1 }
-    out: { ascorbic_acid: 1, H2O: 1 }
-    note: 메틸 에스터로 만든 뒤 염기로 고리를 닫는다. 라이히슈타인(1933)
-  - id: ketogulonic_acid_fermentation
-    name: { ko: 2-케토-L-굴론산 발효 }
-    time: 3
-    in: { l_sorbose: 1, O2: 1 }
-    out: { 2_keto_l_gulonic_acid: 1, H2O: 1 }
-    note: "케토굴로니시게니움 균과 도움균을 함께 키우는 2단계 발효(중국, 1970년대). 아세톤 보호가 필요 없어 지금 세계 생산의 대부분"
   - id: sodium_ascorbate_formation
     name: { ko: 아스코르브산나트륨 생성 }
     time: 0.4

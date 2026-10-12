@@ -8,18 +8,6 @@ unit: particle
 items:
 
   # 공통 생체 분자. 생화학·식품 쪽과 같은 ID와 화학식을 쓴다
-  - { id: glucose, name: { ko: 포도당, en: Glucose }, category: biology, formula: C6H12O6, note: D-글루코스. 약전 이름은 덱스트로스(포도당 주사액) }
-  - { id: starch, name: { ko: 녹말, en: Starch }, category: biology, formula: C6H10O5, note: 반복 단위(무수 포도당) 1개를 1로 센다. 정제의 부형제·붕해제 }
-  - { id: lactose, name: { ko: 젖당, en: Lactose }, category: biology, formula: C12H22O11, note: 락토스. 정제·캡슐의 희석제 }
-  - { id: sorbitol, name: { ko: 소비톨, en: Sorbitol }, category: biology, formula: C6H14O6, note: D-글루시톨. 당알코올 감미료·보습제 }
-  - { id: lactic_acid, name: { ko: 젖산, en: Lactic acid }, category: biology, formula: C3H6O3 }
-  - { id: citric_acid, name: { ko: 시트르산, en: Citric acid }, category: biology, formula: C6H8O7, note: 구연산 }
-  - { id: glutamic_acid, name: { ko: 글루탐산, en: Glutamic acid }, category: biology, formula: C5H9NO4, note: L-글루탐산 }
-  - { id: alanine, name: { ko: 알라닌, en: Alanine }, category: biology, formula: C3H7NO2 }
-  - { id: arginine, name: { ko: 아르지닌, en: Arginine }, category: biology, formula: C6H14N4O2, note: L-아르지닌 }
-  - { id: lysine, name: { ko: 라이신, en: Lysine }, category: biology, formula: C6H14N2O2, note: L-라이신 }
-  - { id: stearic_acid, name: { ko: 스테아르산, en: Stearic acid }, category: biology, formula: C18H36O2, note: 옥타데칸산. 포화 지방산 }
-  - { id: gelatin, name: { ko: 젤라틴, en: Gelatin }, category: biology, note: 콜라겐을 풀어 얻는 단백질 혼합물. 사슬 하나(약 9만 Da)를 1로 센다 }
 
   # 용매·시약
   - { id: water_for_injection, name: { ko: 주사용수, en: Water for injection }, formula: H2O, note: 증류나 역삼투로 발열성 물질을 없앤 물 }
@@ -95,8 +83,6 @@ items:
   - { id: 3_cyanopyridine, name: { ko: 3-사이아노피리딘, en: 3-Cyanopyridine }, formula: C6H4N2 }
   - { id: 4_cyanopyridine, name: { ko: 4-사이아노피리딘, en: 4-Cyanopyridine }, formula: C6H4N2 }
   - { id: isoniazid, name: { ko: 이소니아지드, en: Isoniazid }, formula: C6H7N3O, note: 아이소니코틴산 하이드라자이드. 결핵 1차 약 }
-  - { id: nicotinamide, name: { ko: 니코틴아미드, en: Nicotinamide }, formula: C6H6N2O, note: 비타민 B3의 아마이드형 }
-  - { id: nicotinic_acid, name: { ko: 니코틴산, en: Nicotinic acid }, formula: C6H5NO2, note: 나이아신(비타민 B3) }
   - { id: n_formylalanine_ethyl_ester, name: { ko: N-폼일알라닌 에틸 에스터, en: N-Formylalanine ethyl ester }, formula: C6H11NO3 }
   - { id: 5_ethoxy_4_methyloxazole, name: { ko: 5-에톡시-4-메틸옥사졸, en: 5-Ethoxy-4-methyloxazole }, formula: C6H9NO2 }
   - { id: pyridoxine_anhydride, name: { ko: "3-하이드록시-2-메틸피리딘-4,5-다이카복실산 무수물", en: "3-Hydroxy-2-methylpyridine-4,5-dicarboxylic anhydride" }, formula: C8H5NO4 }
@@ -104,11 +90,8 @@ items:
   - { id: pyridoxine_hydrochloride, name: { ko: 피리독신염산염, en: Pyridoxine hydrochloride }, formula: C8H12ClNO3 }
 
   # 비타민 C(라이히슈타인 공정)
-  - { id: l_sorbose, name: { ko: L-소르보스, en: L-Sorbose }, formula: C6H12O6 }
   - { id: diacetone_sorbose, name: { ko: 다이아세톤-L-소르보스, en: Diacetone-L-sorbose }, formula: C12H20O6 }
   - { id: diacetone_ketogulonic_acid, name: { ko: 다이아세톤-2-케토-L-굴론산, en: Diacetone-2-keto-L-gulonic acid }, formula: C12H18O7 }
-  - { id: 2_keto_l_gulonic_acid, name: { ko: 2-케토-L-굴론산, en: 2-Keto-L-gulonic acid }, formula: C6H10O7 }
-  - { id: ascorbic_acid, name: { ko: 아스코르브산, en: Ascorbic acid }, formula: C6H8O6, note: 비타민 C }
   - { id: sodium_ascorbate, name: { ko: 아스코르브산나트륨, en: Sodium ascorbate }, formula: C6H7NaO6 }
 
   # 엽산
