@@ -46,8 +46,8 @@ recipes:
     time: 0.4
     in: { CaCl2: 3, K3PO4: 2 }
     out: { Ca3(PO4)2: 1, KCl: 6 }
-  - id: sodium_chloride_synthesis
-    name: { ko: 염화 나트륨 합성 }
+  - id: sodium_chloride_electrolysis
+    name: { ko: 염화 나트륨 전기분해 }
     time: 0.1
     in: { NaCl: 2 }
     out: { Na: 2, Cl2: 1 }
@@ -56,13 +56,13 @@ recipes:
     time: 0.1
     in: { Cl2: 1 }
     out: { Cl: 2 }
-  - id: potassium_displacement
-    name: { ko: 칼륨 치환 }
+  - id: potassium_production
+    name: { ko: 칼륨 생산(나트륨 환원) }
     time: 0.2
     in: { KCl: 1, Na: 1 }
     out: { NaCl: 1, K: 1 }
-  - id: sodium_displacement
-    name: { ko: 나트륨 치환 }
+  - id: sodium_production
+    name: { ko: 나트륨 생산(칼륨 환원) }
     time: 0.4
     in: { NaCl: 1, K: 1 }
     out: { KCl: 1, Na: 1 }
@@ -86,8 +86,8 @@ recipes:
     time: 0.2
     in: { CH3: 2 }
     out: { C2H6: 1 }
-  - id: acetate_from_methyl
-    name: { ko: 아세테이트 합성 }
+  - id: acetate_decarboxylation
+    name: { ko: 아세테이트 탈카복실화 }
     time: 0.4
     in: { CH3COO: 1 }
     out: { CH3: 1, CO2: 1 }
@@ -101,8 +101,8 @@ recipes:
     time: 0.3
     in: { CO2: 1, H2: 3 }
     out: { CH3OH: 1, H2O: 1 }
-  - id: acetic_acid_from_acetate
-    name: { ko: 아세트산 합성 }
+  - id: acetic_acid_dehydrogenation
+    name: { ko: 아세트산 탈수소화 }
     time: 0.6
     in: { CH3COOH: 2 }
     out: { CH3COO: 2, H2: 1 }
@@ -116,8 +116,8 @@ recipes:
     time: 0.2
     in: { Ca(OH)2: 1, CO2: 1 }
     out: { CaCO3: 1, H2O: 1 }
-  - id: calcium_carbonate_reduction
-    name: { ko: 탄산 칼슘 환원 }
+  - id: calcium_carbonate_formation
+    name: { ko: 탄산 칼슘 생성 }
     time: 0.4
     in: { H2CO3: 1, Ca: 1 }
     out: { CaCO3: 1, H2: 1 }

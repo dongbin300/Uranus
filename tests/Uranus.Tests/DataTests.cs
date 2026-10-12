@@ -86,6 +86,13 @@ namespace Uranus.Tests
 		}
 
 		[Fact]
+		public void DefaultRecipe_PrefersPrimaryOutput()
+		{
+			// 물은 단백질 합성의 부산물로도 나오지만, 기본 레시피는 물이 주 결과물인 레시피다
+			Assert.Equal(new RecipeId("water_from_atoms"), RecipeGraph.GetDefaultRecipe(Db, new ItemId("H2O"))?.Id);
+		}
+
+		[Fact]
 		public void Masses_MatchRealWorld()
 		{
 			var masses = RecipeGraph.ComputeMasses(Db);

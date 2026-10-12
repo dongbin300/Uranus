@@ -32,8 +32,57 @@ return command switch
 	"bom" => Bom(),
 	"tree" => Tree(),
 	"import-save" => ImportSave(),
+	"simulate" => Simulate(),
 	_ => Help(),
 };
+
+int Simulate()
+{
+	var db = LoadOrExit();
+	if (db is null)
+	{
+		return 2;
+	}
+
+	var hours = double.TryParse(TakeOption("--hours"), out var h) ? h : 8;
+	var step = double.TryParse(TakeOption("--step"), out var s) ? s : 1;
+	var bot = new Uranus.Tools.BalanceBot(db);
+	var watch = System.Diagnostics.Stopwatch.StartNew();
+	bot.Run(hours, step);
+
+	Console.WriteLine($"자동 플레이 {hours}시간 (스텝 {step}초, 계산 {watch.Elapsed.TotalSeconds:0.0}초)");
+	Console.WriteLine();
+	foreach (var milestone in bot.Milestones)
+	{
+		var time = TimeSpan.FromSeconds(milestone.Time);
+		Console.WriteLine($"  {(int)time.TotalHours,3}:{time.Minutes:00}:{time.Seconds:00}  {milestone.Kind,-5}  {milestone.Name}");
+	}
+
+	var sim = bot.Simulation;
+	var goals = db.Config.Goals;
+	Console.WriteLine();
+	Console.WriteLine($"목표 {sim.State.CompletedGoals.Count}/{goals.Count} · 업그레이드 {sim.State.Upgrades.Count}/{db.Config.Upgrades.Count} · 제작 {sim.State.TotalCrafts:N0}회");
+	var pending = goals.Where(x => !sim.State.CompletedGoals.ContainsKey(x.Id)).Select(x => x.Name.Ko).ToList();
+	if (pending.Count > 0)
+	{
+		Console.WriteLine($"남은 목표: {string.Join(", ", pending)}");
+	}
+
+	Console.WriteLine("보유: " + string.Join(", ", sim.State.Inventory
+		.OrderByDescending(x => x.Value)
+		.Take(12)
+		.Select(x => $"{db.GetName(x.Key)} {QuantityFormatter.FormatCount(x.Value, NumberStyle.Scientific)}")));
+	Console.WriteLine("대기열: " + string.Join(", ", sim.State.Queue.Select(x => $"{x.Recipe}×{x.Remaining}")));
+
+	var next = db.Config.Upgrades.FirstOrDefault(x => !sim.IsUpgradeOwned(x));
+	if (next is not null)
+	{
+		var lines = next.Cost.Select(x => $"{db.GetName(x.Item)} {QuantityFormatter.FormatCount(sim.GetAmount(x.Item), NumberStyle.Scientific)}/{QuantityFormatter.FormatCount(x.Amount, NumberStyle.Scientific)}");
+		Console.WriteLine($"다음 업그레이드 '{next.Name.Ko}': {string.Join(", ", lines)}");
+	}
+
+	return 0;
+}
 
 int ImportSave()
 {
@@ -74,6 +123,7 @@ int Help()
 		  bom <아이템> [--amount N]          기본 레시피를 따라 펼친 필요 원료와 질량
 		  tree <아이템> [--depth N]          제작 트리를 Mermaid 그래프로 출력
 		  import-save <예전 Save.json>       예전 세이브를 새 형식으로 바꿔 저장 위치에 쓴다 [--out 경로] [--force]
+		  simulate [--hours 8] [--step 1]    자동 플레이로 목표·업그레이드 도달 시각을 잰다 (밸런스 확인)
 
 		  공통 옵션: --data <data 폴더>  (기본: 현재 폴더에서 위로 찾기)
 		  <아이템>은 ID(H2O) 또는 한국어 이름(물)

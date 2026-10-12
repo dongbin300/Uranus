@@ -87,9 +87,14 @@ namespace Uranus.Analysis
 		}
 
 		/// <summary>
-		/// 아이템을 만드는 기본 레시피: 데이터에 처음 나오는 생산 레시피
+		/// 아이템을 만드는 기본 레시피: 그 아이템이 첫 번째 결과물인 레시피를 먼저, 그다음 부산물로 내는 레시피 (각각 데이터 순서).
+		/// 예: 물은 단백질 합성의 부산물이 아니라 물 합성이 기본이다.
 		/// </summary>
-		public static RecipeDef? GetDefaultRecipe(UranusDatabase db, ItemId item) => db.GetProducers(item).FirstOrDefault();
+		public static RecipeDef? GetDefaultRecipe(UranusDatabase db, ItemId item)
+		{
+			var producers = db.GetProducers(item);
+			return producers.FirstOrDefault(x => x.Outputs.Count > 0 && x.Outputs[0].Item == item) ?? producers.FirstOrDefault();
+		}
 
 		/// <summary>
 		/// 화학식의 질량(그램/개). 화학식이 없거나 잘못됐으면 null.
