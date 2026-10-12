@@ -1,0 +1,634 @@
+# 기계 부품과 조립. 입자 수는 부품의 실제 질량에서 계산했다(강철 1kg ≈ 1.087e25개).
+# 깎아 낸 칩과 프레스 자투리는 셈에서 빼고 제품에 남는 질량만 적었다.
+category: machinery
+recipes:
+  # ───────────── 합금과 윤활제 ─────────────
+  - id: bearing_steel_melting
+    name: { ko: 베어링강 용해 }
+    time: 40
+    in: { Fe: 923, coke: 36, ferrochrome: 30, ferromanganese: 5, ferrosilicon: 6 }
+    out: { bearing_steel: 1000 }
+    note: 전기로에서 녹여 진공 탈가스로 산소·수소를 빼낸다. 산화물 개재물이 적을수록 구름 피로 수명이 길다
+  - id: aluminium_a356_alloying
+    name: { ko: A356 합금 용해 }
+    time: 20
+    in: { Al: 929, Si: 67, Mg: 4 }
+    out: { aluminium_a356: 1000 }
+  - id: pao_synthesis
+    name: { ko: PAO 합성 }
+    time: 3
+    in: { 1_dodecene: 3, H2: 1 }
+    out: { pao_base_oil: 1 }
+    note: 3C12H24 + H2 → C36H74. BF3 촉매로 1-도데센을 삼량화한 뒤 수소를 붙여 이중 결합을 없앤다
+  - id: synthetic_grease_making
+    name: { ko: 합성 그리스 제조 }
+    time: 4
+    in: { pao_base_oil: 17, SiO2: 17, ptfe: 5 }
+    out: { synthetic_grease: 39 }
+    note: 흄드 실리카와 PTFE 가루를 기유에 넣고 3롤 밀로 고르게 푼다
+
+  # ───────────── 체결 부품 ─────────────
+  - id: hex_bolt_heading
+    name: { ko: 육각 볼트 압조 }
+    time: 5
+    in: { steel: 1.696e24, Zn: 9.211e20 }
+    out: { hex_bolt_m8x30: 10 }
+    note: 선재를 냉간 압조로 머리를 찍고 나사를 굴려 만든 뒤 담금질·뜨임하고 아연 도금한다
+  - id: hex_nut_forming
+    name: { ko: 육각 너트 성형 }
+    time: 5
+    in: { steel: 5.435e23, Zn: 3.684e20 }
+    out: { hex_nut_m8: 10 }
+    note: 냉간 단조 뒤 탭으로 암나사를 낸다
+  - id: flat_washer_stamping
+    name: { ko: 평와셔 타발 }
+    time: 2
+    in: { steel: 1.957e23, Zn: 1.842e20 }
+    out: { flat_washer_m8: 10 }
+  - id: wood_screw_making
+    name: { ko: 목재용 나사 제작 }
+    time: 4
+    in: { steel: 3.696e23, Zn: 2.763e20 }
+    out: { wood_screw: 10 }
+  - id: blind_rivet_making
+    name: { ko: 블라인드 리벳 제작 }
+    time: 4
+    in: { aluminium_6061: 1.337e23, steel: 8.153e22 }
+    out: { blind_rivet: 10 }
+    note: 알루미늄 몸체에 강철 맨드릴을 끼운다. 당기면 맨드릴 머리가 몸체를 부풀리고 끊어진다
+  - id: hs_bolt_set_making
+    name: { ko: 고장력 볼트 제작 }
+    time: 20
+    in: { steel: 4.457e24, Cr: 4.633e22, Mo: 6.276e21 }
+    out: { hs_bolt_set_m20: 1 }
+    note: 크로뮴-몰리브데넘강을 열간 압조하고 담금질·뜨임한다
+
+  # ───────────── 베어링 ─────────────
+  - id: steel_ball_making
+    name: { ko: 강구 제조 }
+    time: 20
+    in: { bearing_steel: 1.831e23 }
+    out: { steel_ball_8mm: 8 }
+    note: 선재를 냉간 압조로 찍은 구를 열처리하고 래핑해 진구도 0.25µm(G10)로 다듬는다
+  - id: bearing_outer_ring_turning
+    name: { ko: 베어링 외륜 가공 }
+    time: 10
+    in: { bearing_steel: 5.273e23 }
+    out: { bearing_outer_ring_6204: 1 }
+    note: 관재를 선삭하고 담금질한 뒤 궤도면을 연삭·초정밀 다듬질한다
+  - id: bearing_inner_ring_turning
+    name: { ko: 베어링 내륜 가공 }
+    time: 10
+    in: { bearing_steel: 3.141e23 }
+    out: { bearing_inner_ring_6204: 1 }
+  - id: bearing_6204_assembly
+    name: { ko: 6204 베어링 조립 }
+    time: 15
+    in: { bearing_outer_ring_6204: 1, bearing_inner_ring_6204: 1, steel_ball_8mm: 8, steel: 6.088e22, nbr: 8.963e21, synthetic_grease: 6.948e21 }
+    out: { deep_groove_bearing_6204: 1 }
+    note: 내륜을 외륜 한쪽으로 치우쳐 강구 8개를 넣고 고르게 벌려 강판 리테이너로 잡는다. 그리스를 넣고 고무 실로 막는다
+  - id: bearing_608_making
+    name: { ko: 608 베어링 제작 }
+    time: 15
+    in: { bearing_steel: 1.178e23, steel: 6.522e21, nbr: 1.494e21, synthetic_grease: 1.158e21 }
+    out: { deep_groove_bearing_608: 1 }
+  - id: bearing_6208_making
+    name: { ko: 6208 베어링 제작 }
+    time: 30
+    in: { bearing_steel: 3.87e24, steel: 1.739e23, nbr: 2.241e22, synthetic_grease: 1.853e22 }
+    out: { deep_groove_bearing_6208: 1 }
+
+  # ───────────── 동력 전달 부품 ─────────────
+  - id: spur_gear_hobbing
+    name: { ko: 스퍼 기어 가공 }
+    time: 60
+    in: { steel: 8.044e24 }
+    out: { spur_gear: 1 }
+    note: 단조 소재를 선삭하고 호브로 이를 깎은 뒤 침탄 담금질·치면 연삭한다
+  - id: transmission_shaft_turning
+    name: { ko: 전동축 가공 }
+    time: 40
+    in: { steel: 3.011e25 }
+    out: { transmission_shaft: 1 }
+    note: 봉재를 선삭해 키 홈을 내고 베어링 자리를 고주파 담금질·연삭한다
+  - id: oil_seal_molding
+    name: { ko: 오일 실 성형 }
+    time: 4
+    in: { nbr: 2.614e22, steel: 4.892e22 }
+    out: { oil_seal: 1 }
+    note: 강판 심에 NBR 립을 가황 접착하고 가터 스프링을 끼운다
+  - id: coil_spring_forming
+    name: { ko: 코일 스프링 성형 }
+    time: 60
+    in: { steel_rod_1kg: 2, epoxy_resin: 5.307e22 }
+    out: { suspension_coil_spring: 1 }
+    note: 봉재를 900°C로 달궈 감고 담금질·뜨임·숏피닝한 뒤 분체 도장한다(실제 소재는 Si-Cr 스프링강)
+  - id: leaf_spring_making
+    name: { ko: 판 스프링 제작 }
+    time: 120
+    in: { steel: 1.902e26, bronze: 1.787e24, epoxy_resin: 1.769e23 }
+    out: { leaf_spring: 1 }
+    note: "폭 60mm, 두께 7mm 판 5장을 휘어 담금질하고 센터 볼트로 묶는다. 눈 부분에 청동 부시"
+  - id: valve_spring_coiling
+    name: { ko: 밸브 스프링 감기 }
+    time: 10
+    in: { steel: 4.511e23 }
+    out: { valve_spring: 1 }
+    note: 오일 템퍼선을 냉간으로 감아 저온 소둔·숏피닝한다
+  - id: bicycle_chain_making
+    name: { ko: 자전거 체인 제작 }
+    time: 60
+    in: { steel: 3.37e24, Ni: 1.026e22 }
+    out: { bicycle_chain: 1 }
+    note: 링크판·롤러·핀을 찍어 열처리하고 조립해 니켈 도금한다
+  - id: timing_chain_making
+    name: { ko: 타이밍 체인 제작 }
+    time: 60
+    in: { steel: 4.892e24 }
+    out: { timing_chain: 1 }
+  - id: v_belt_making
+    name: { ko: V 벨트 제작 }
+    time: 20
+    in: { neoprene: 5.782e23, carbon_black: 7.521e23, polyester_fiber: 6.268e22, cotton_fiber: 4.457e22 }
+    out: { v_belt: 1 }
+    note: 클로로프렌 고무에 폴리에스터 심선을 묻고 면 천을 씌워 가황한다
+  - id: v_pulley_casting
+    name: { ko: V 풀리 주조 }
+    time: 30
+    in: { cast_iron: 1.983e25 }
+    out: { v_pulley: 1 }
+
+  # ───────────── 유압·펌프·밸브·압축기·감속기 ─────────────
+  - id: hydraulic_cylinder_assembly
+    name: { ko: 유압 실린더 조립 }
+    time: 120
+    in: { steel: 9.131e25, Cr: 2.316e22, cast_iron: 4.957e24, nbr: 1.867e23, o_ring: 4, ptfe: 6.021e22 }
+    out: { hydraulic_cylinder: 1 }
+    note: "호닝한 강관 실린더, 경질 크로뮴 도금 로드, 주철 피스톤, 패킹과 PTFE 웨어 링"
+  - id: centrifugal_pump_assembly
+    name: { ko: 원심 펌프 조립 }
+    time: 300
+    in: { cast_iron: 3.47e26, bronze: 1.608e25, transmission_shaft: 1, deep_groove_bearing_6208: 2, oil_seal: 2, Al2O3: 2.953e23, C: 1.003e24, stainless_steel: 1.095e24, o_ring: 2, hex_bolt_m8x30: 8, epoxy_resin: 1.769e23 }
+    out: { centrifugal_pump: 1 }
+    note: 주철 케이싱·베어링 프레임에 청동 임펠러를 달고 세라믹-카본 기계식 실로 축을 막는다
+  - id: pump_set_assembly
+    name: { ko: 펌프 세트 조립 }
+    time: 300
+    in: { centrifugal_pump: 1, electric_motor_industrial: 1, steel: 2.718e26, cast_iron: 1.859e25, nbr: 1.867e23, hex_bolt_m8x30: 8, hex_nut_m8: 8, flat_washer_m8: 8 }
+    out: { pump_set: 1 }
+    note: 강철 베이스에 펌프와 전동기를 얹고 고무 커플링으로 축 중심을 맞춰 잇는다
+  - id: gate_valve_making
+    name: { ko: 게이트 밸브 제작 }
+    time: 180
+    in: { cast_iron: 1.648e26, bronze: 2.68e24, stainless_steel: 3.832e24, ptfe: 1.204e23, hex_bolt_m8x30: 8, hex_nut_m8: 8 }
+    out: { gate_valve: 1 }
+    note: "주철 몸체·보닛, 청동 시트 웨지, 스테인리스 스핀들, PTFE 그랜드 패킹"
+  - id: ball_valve_making
+    name: { ko: 볼 밸브 제작 }
+    time: 60
+    in: { brass: 3.853e24, Cr: 1.158e21, ptfe: 1.806e22, steel: 4.348e23, flexible_pvc: 2.64e21 }
+    out: { ball_valve: 1 }
+    note: 황동을 열간 단조해 가공하고 크로뮴 도금 볼을 PTFE 시트 사이에 끼운다
+  - id: air_compressor_assembly
+    name: { ko: 공기 압축기 조립 }
+    time: 900
+    in: { cast_iron: 7.063e26, steel: 7.066e26, aluminium_a356: 2.672e25, connecting_rod: 2, stainless_steel: 3.285e24, deep_groove_bearing_6208: 2, v_belt: 3, electric_motor_industrial: 1, copper_tube: 2, ball_valve: 1, pao_base_oil: 1.425e24, hex_bolt_m8x30: 16, hex_nut_m8: 16 }
+    out: { air_compressor: 1 }
+    note: "주철 크랭크케이스·실린더, 강철 크랭크축과 200L 탱크, 구리관 인터쿨러, 벨트 구동"
+  - id: gear_reducer_assembly
+    name: { ko: 기어 감속기 조립 }
+    time: 600
+    in: { cast_iron: 5.205e26, spur_gear: 4, transmission_shaft: 3, deep_groove_bearing_6208: 6, oil_seal: 2, pao_base_oil: 2.97e24, hex_bolt_m8x30: 12, flat_washer_m8: 12, steel: 1.304e25, epoxy_resin: 2.654e23 }
+    out: { gear_reducer: 1 }
+    note: 주철 하우징에 기어 4개와 축 3개를 베어링으로 받치고 기어유 약 3L를 채운다
+
+  # ───────────── 전동기 ─────────────
+  - id: electric_motor_small_assembly
+    name: { ko: 소형 BLDC 모터 조립 }
+    time: 60
+    in: { steel: 3.044e24, Cu: 7.581e23, ndfeb_magnet: 6, aluminium_6061: 2.006e24, deep_groove_bearing_608: 2, pet: 9.401e21, epoxy_resin: 8.845e21, flexible_pvc: 1.584e21 }
+    out: { electric_motor_small: 1 }
+    note: "규소 강판 고정자 철심에 구리 권선, 회전자에 네오디뮴 자석 6개, 알루미늄 하우징과 608 베어링 2개"
+  - id: electric_motor_industrial_assembly
+    name: { ko: 유도 전동기 조립 }
+    time: 600
+    in: { cast_iron: 2.85e26, steel: 2.587e26, copper_wire_1kg: 6, pet: 9.401e23, epoxy_resin: 7.076e23, Al: 4.91e25, transmission_shaft: 1, deep_groove_bearing_6208: 2, polypropylene: 3.578e24, aluminium_6061: 1.337e25, hex_bolt_m8x30: 8 }
+    out: { electric_motor_industrial: 1 }
+    note: "주철 프레임에 규소 강판 고정자 철심과 구리 권선(PET 절연지·에폭시 함침), 알루미늄 다이캐스트 농형 회전자, 냉각 팬"
+
+  # ───────────── 엔진 ─────────────
+  - id: engine_block_casting
+    name: { ko: 실린더 블록 주조 }
+    time: 300
+    in: { cast_iron: 5.205e26 }
+    out: { engine_block: 1 }
+    note: 모래 주형에 회주철을 부어 굳히고 실린더를 보링·호닝한다
+  - id: crankshaft_forging
+    name: { ko: 크랭크축 단조 }
+    time: 300
+    in: { steel: 1.359e26 }
+    out: { crankshaft: 1 }
+    note: 형단조 뒤 저널을 고주파 담금질하고 연삭한다
+  - id: camshaft_casting
+    name: { ko: 캠축 주조 }
+    time: 120
+    in: { cast_iron: 2.85e25 }
+    out: { camshaft: 1 }
+    note: 캠 면이 닿는 자리에 냉금을 대 급랭(칠)시켜 단단하게 한다
+  - id: connecting_rod_forging
+    name: { ko: 커넥팅 로드 단조 }
+    time: 60
+    in: { steel: 5.762e24, bronze: 1.787e23 }
+    out: { connecting_rod: 1 }
+    note: I형 단면으로 단조하고 큰 끝을 파단 분할한다. 메탈 베어링과 부시는 청동으로 근사
+  - id: piston_casting
+    name: { ko: 피스톤 주조 }
+    time: 60
+    in: { aluminium_a356: 6.235e24, steel: 1.272e24 }
+    out: { piston: 1 }
+    note: "금형 주조한 피스톤을 가공해 링 3개(압축 2·오일 1)와 피스톤 핀을 끼운다(실제 피스톤은 Si 12%의 고규소 합금)"
+  - id: engine_valve_making
+    name: { ko: 흡배기 밸브 제작 }
+    time: 20
+    in: { stainless_steel: 5.475e23 }
+    out: { engine_valve: 1 }
+    note: 업세팅 단조한 포핏 밸브. 실제 배기 밸브는 21-4N 내열강
+  - id: cylinder_head_assembly
+    name: { ko: 실린더 헤드 조립 }
+    time: 600
+    in: { aluminium_a356: 2.672e26, engine_valve: 16, valve_spring: 16, camshaft: 2, steel: 1.522e25, cast_iron: 3.718e24 }
+    out: { cylinder_head: 1 }
+    note: "알루미늄 헤드에 주철 밸브 시트·가이드를 압입하고 밸브 16개, 스프링, 리테이너, 태핏, 캠축 2개를 단다"
+  - id: spark_plug_making
+    name: { ko: 점화 플러그 제작 }
+    time: 10
+    in: { steel: 3.044e23, Al2O3: 8.269e22, nichrome: 1.263e22, Cu: 1.422e22, soda_lime_glass: 6.292e20, Pt: 9.261e19, Ni: 5.13e20 }
+    out: { spark_plug: 1 }
+    note: "니켈 도금 강철 몸체에 알루미나 절연체를 넣고 유리로 봉한다. 구리 심 중심 전극 끝에 백금 팁, 니켈 합금 접지 전극"
+  - id: fuel_injector_making
+    name: { ko: 연료 분사기 제작 }
+    time: 20
+    in: { stainless_steel: 3.285e23, Cu: 4.738e22, nylon_66: 1.597e22, o_ring: 2, steel: 2.174e22 }
+    out: { fuel_injector: 1 }
+    note: 솔레노이드 코일이 니들을 1~2ms 들어 올려 약 3기압의 연료를 뿜는다
+  - id: flywheel_making
+    name: { ko: 플라이휠 제작 }
+    time: 120
+    in: { cast_iron: 1.115e26, steel: 1.087e25 }
+    out: { flywheel: 1 }
+    note: 주철 원판에 시동 모터가 맞물리는 강철 링 기어를 열박음한다
+  - id: intake_manifold_molding
+    name: { ko: 흡기 매니폴드 성형 }
+    time: 60
+    in: { nylon_66: 6.918e24, aluminium_a356: 1.113e25 }
+    out: { intake_manifold: 1 }
+    note: "나일론 66을 반쪽씩 사출해 진동 용착하고 알루미늄 스로틀 몸체를 단다(실제로는 유리 섬유 30% 강화)"
+  - id: exhaust_manifold_casting
+    name: { ko: 배기 매니폴드 주조 }
+    time: 120
+    in: { cast_iron: 8.055e25 }
+    out: { exhaust_manifold: 1 }
+    note: 실제로는 고규소 몰리브데넘 구상 흑연 주철(SiMo)을 쓴다
+  - id: gasoline_engine_assembly
+    name: { ko: 가솔린 엔진 조립 }
+    time: 1200
+    in: { engine_block: 1, cylinder_head: 1, crankshaft: 1, connecting_rod: 4, piston: 4, flywheel: 1, timing_chain: 1, spark_plug: 4, fuel_injector: 4, intake_manifold: 1, exhaust_manifold: 1, v_belt: 1, v_pulley: 1, oil_seal: 2, deep_groove_bearing_6204: 2, hex_bolt_m8x30: 40, flat_washer_m8: 40, steel: 8.153e25, aluminium_a356: 8.907e25, nbr: 9.337e23, stainless_steel: 3.285e24, bronze: 1.34e24 }
+    out: { gasoline_engine: 1 }
+    note: "크랭크축·피스톤·헤드를 조립하고 오일 팬·물 펌프·오일 펌프(강철·알루미늄), 타이밍 커버, MLS 헤드 개스킷(스테인리스), 메인 베어링(청동 근사)을 단다"
+
+  # ───────────── 자동차 ─────────────
+  - id: manual_transmission_assembly
+    name: { ko: 수동 변속기 조립 }
+    time: 900
+    in: { aluminium_a356: 2.449e26, spur_gear: 10, transmission_shaft: 3, deep_groove_bearing_6204: 4, deep_groove_bearing_6208: 2, brass: 3.759e24, steel: 4.131e25, phenolic_resin: 1.702e24, Cu: 4.738e23, oil_seal: 2, pao_base_oil: 2.138e24, hex_bolt_m8x30: 15 }
+    out: { manual_transmission: 1 }
+    note: "알루미늄 케이스에 기어 10개(실제는 헬리컬 기어)와 황동 싱크로나이저 링, 건식 단판 클러치(강철·페놀 수지 마찰재), 기어유 약 2L"
+  - id: drive_shaft_making
+    name: { ko: 드라이브 샤프트 제작 }
+    time: 120
+    in: { steel: 4.348e25, bearing_steel: 2.468e25, neoprene: 2.041e24, synthetic_grease: 5.79e23 }
+    out: { drive_shaft: 1 }
+    note: 바깥쪽 버필드형·안쪽 트라이포드형 등속 조인트를 강철 축으로 잇고 그리스를 채운 고무 부트로 덮는다
+  - id: brake_disc_casting
+    name: { ko: 브레이크 디스크 주조 }
+    time: 60
+    in: { cast_iron: 9.294e25 }
+    out: { brake_disc: 1 }
+    note: 냉각 통로가 있는 회주철 디스크를 주조해 마찰면을 가공한다. 흑연이 진동과 소음을 줄인다
+  - id: brake_pad_making
+    name: { ko: 브레이크 패드 제작 }
+    time: 30
+    in: { steel: 2.065e24, phenolic_resin: 1.419e23, barite: 1.548e23, C: 1.504e24, Al2O3: 5.906e22, MgO: 1.494e23, nbr: 3.735e22 }
+    out: { brake_pad: 1 }
+    note: 강판 받침에 페놀 수지·강섬유·흑연·중정석·연마재를 섞은 마찰재를 열압 성형한다
+  - id: brake_caliper_assembly
+    name: { ko: 브레이크 캘리퍼 조립 }
+    time: 120
+    in: { cast_iron: 3.718e25, steel: 2.718e24, brake_pad: 2, nbr: 7.469e22, hex_bolt_m8x30: 2, brass: 9.398e22 }
+    out: { brake_caliper: 1 }
+    note: "구상 흑연 주철 캘리퍼에 강철 피스톤과 고무 실, 패드 한 쌍, 황동 블리더"
+  - id: shock_absorber_assembly
+    name: { ko: 쇼크 업소버 조립 }
+    time: 90
+    in: { steel: 2.446e25, Cr: 1.158e22, pao_base_oil: 2.97e23, N2: 2.15e22, nbr: 7.469e22, o_ring: 2 }
+    out: { shock_absorber: 1 }
+    note: 피스톤 밸브의 작은 구멍으로 오일이 지나가며 진동 에너지를 열로 바꾼다. 질소를 넣어 거품을 막는다
+  - id: strut_assembly_making
+    name: { ko: 스트럿 조립 }
+    time: 120
+    in: { shock_absorber: 1, suspension_coil_spring: 1, steel: 1.196e25, natural_rubber: 2.21e24, deep_groove_bearing_6204: 1 }
+    out: { strut_assembly: 1 }
+    note: 스프링을 압축해 쇼크 업소버에 끼우고 고무 마운트와 스트럿 베어링으로 막는다
+  - id: steering_system_assembly
+    name: { ko: 조향 장치 조립 }
+    time: 300
+    in: { aluminium_a356: 5.567e25, steel: 8.37e25, spur_gear: 1, neoprene: 1.36e24, deep_groove_bearing_6204: 2, synthetic_grease: 2.316e23, abs: 6.859e23 }
+    out: { steering_system: 1 }
+    note: "랙 앤 피니언 기어(피니언은 스퍼 기어로 근사), 타이로드, 칼럼, 핸들"
+  - id: chassis_module_assembly
+    name: { ko: 섀시 모듈 조립 }
+    time: 1200
+    in: { strut_assembly: 4, suspension_coil_spring: 2, shock_absorber: 2, brake_disc: 4, brake_caliper: 4, steering_system: 1, drive_shaft: 2, steel: 9.349e26, natural_rubber: 1.326e25, deep_groove_bearing_6208: 4, copper_tube: 2, hex_bolt_m8x30: 40, hex_nut_m8: 40, hs_bolt_set_m20: 8 }
+    out: { chassis_module: 1 }
+    note: "서브프레임·컨트롤 암·토션 빔·허브·스태빌라이저(강철 약 86kg)에 스트럿, 뒤 스프링·업소버, 4륜 디스크 브레이크, 조향 장치를 단다. 브레이크 관은 구리관으로 근사"
+  - id: body_in_white_welding
+    name: { ko: 차체 용접 }
+    time: 1800
+    in: { steel_sheet: 24, galvanized_steel_sheet: 18, steel: 1.522e26, aluminium_sheet: 2, epoxy_adhesive: 10 }
+    out: { car_body_in_white: 1 }
+    note: "프레스로 찍은 패널 약 300개를 로봇이 점용접 약 4,000점과 구조용 접착제로 잇는다. 프레스 자투리는 셈에서 뺐다"
+  - id: car_body_painting
+    name: { ko: 차체 도장 }
+    time: 1200
+    in: { car_body_in_white: 1, epoxy_resin: 3.892e24, diethylenetriamine: 1.751e24, pmma: 1.323e25, mf_resin: 3.488e24, TiO2: 3.77e24, flexible_pvc: 4.224e24 }
+    out: { car_body: 1 }
+    note: 에폭시 전착 → 중도 → 아크릴-멜라민 상도. 바닥과 이음매에 PVC 언더코팅·실러를 바른다. 용제는 셈에서 뺐다
+  - id: car_door_assembly
+    name: { ko: 자동차 문 조립 }
+    time: 600
+    in: { galvanized_steel_sheet: 2, soda_lime_glass: 5.663e24, electric_motor_small: 1, steel: 2.392e25, polypropylene: 2.147e25, neoprene: 5.442e24, zamak_3: 1.949e24, pvc_insulated_wire: 1 }
+    out: { car_door: 1 }
+    note: "아연도금 강판 안팎 패널, 4mm 강화 유리 옆창, 전동 창문 조절기, 잠금장치, PP 내장 패널, 고무 실"
+  - id: windshield_laminating
+    name: { ko: 앞유리 접합 }
+    time: 300
+    in: { soda_lime_glass: 1.321e25, pvb_interlayer: 1 }
+    out: { windshield: 1 }
+    note: 2.1mm 유리 두 장을 함께 휘어 굽고 PVB 0.76mm를 끼워 오토클레이브에서 붙인다. 깨져도 조각이 막에 붙는다
+  - id: car_seat_assembly
+    name: { ko: 자동차 시트 조립 }
+    time: 300
+    in: { steel: 1.141e26, steel_wire_1kg: 1, pu_foam_block: 2, polyester_fabric: 3, polypropylene: 1.717e25 }
+    out: { car_seat: 1 }
+    note: 강철 프레임·레일·등받이 각도 조절 장치에 S자 스프링을 걸고 폴리우레탄 폼과 직물 커버를 씌운다
+  - id: alloy_wheel_casting
+    name: { ko: 알루미늄 휠 주조 }
+    time: 300
+    in: { aluminium_a356: 1.87e26, pmma: 4.812e23, brass: 2.819e22, natural_rubber: 4.42e22 }
+    out: { alloy_wheel: 1 }
+    note: 저압 주조 뒤 T6 열처리·선삭·도장하고 고무 밸브를 끼운다
+  - id: wheel_tire_mounting
+    name: { ko: 휠·타이어 조립 }
+    time: 60
+    in: { alloy_wheel: 1, car_tire: 1, steel: 4.348e23 }
+    out: { wheel_assembly: 1 }
+    note: 타이어를 휠에 끼워 공기를 넣고 균형추로 무게 중심을 맞춘다
+  - id: cordierite_synthesis
+    name: { ko: 코디어라이트 합성 }
+    time: 5
+    in: { MgO: 2, Al2O3: 2, SiO2: 5 }
+    out: { cordierite: 1 }
+    note: "2MgO + 2Al2O3 + 5SiO2 → Mg2Al4Si5O18. 1,400°C 고상 반응. 실제로는 활석·고령토·알루미나를 섞어 벌집 모양으로 압출해 굽는다"
+  - id: catalytic_converter_making
+    name: { ko: 촉매 변환기 제작 }
+    time: 300
+    in: { cordierite: 1.03e24, Al2O3: 1.772e24, Pd: 1.132e22, Rh: 1.756e21, Pt: 1.544e21, stainless_steel: 3.066e25, SiO2: 1.002e24 }
+    out: { catalytic_converter: 1 }
+    note: 벌집 담체(셀 600개/in²)에 알루미나 워시코트와 팔라듐·로듐·백금을 입혀 실리카 매트로 감싸 스테인리스 통에 넣는다. CO·탄화수소를 산화하고 NOx를 환원한다
+  - id: exhaust_system_assembly
+    name: { ko: 배기 장치 조립 }
+    time: 300
+    in: { catalytic_converter: 1, stainless_steel_tube: 4, stainless_steel: 6.022e25, soda_lime_glass: 7.55e23, steel: 5.435e24, natural_rubber: 1.768e24, hex_bolt_m8x30: 6, hex_nut_m8: 6 }
+    out: { exhaust_system: 1 }
+    note: "촉매 변환기와 배기관, 유리 섬유 흡음재를 채운 소음기, 고무 행어"
+  - id: fuel_tank_molding
+    name: { ko: 연료 탱크 성형 }
+    time: 300
+    in: { polyethylene_hd: 1.331e26, pva: 1.367e24, steel: 8.697e24, electric_motor_small: 1, nylon_66: 5.322e23, o_ring: 2 }
+    out: { fuel_tank: 1 }
+    note: "HDPE 6층 블로 성형(가운데 EVOH 차단층은 PVA로 근사), 전동 연료 펌프와 고정 밴드"
+  - id: radiator_making
+    name: { ko: 라디에이터 제작 }
+    time: 300
+    in: { aluminium_sheet: 1, nylon_66: 2.661e24, aluminium_6061: 8.915e24, neoprene: 3.401e23, electric_motor_small: 1, polypropylene: 4.293e24 }
+    out: { radiator: 1 }
+    note: 알루미늄 튜브와 주름 핀을 노에서 브레이징한 코어에 나일론 탱크를 물리고 전동 팬을 단다
+  - id: headlamp_making
+    name: { ko: 전조등 제작 }
+    time: 120
+    in: { polycarbonate: 1.421e24, polypropylene: 1.717e25, aluminium_6061: 4.457e24, W: 9.827e19, SiO2: 5.012e22, Cu: 4.738e22, flexible_pvc: 2.64e21, steel: 1.087e24 }
+    out: { headlamp: 1 }
+    note: "폴리카보네이트 렌즈, 알루미늄 반사경, 텅스텐 필라멘트 할로겐 전구(석영 유리)"
+  - id: dashboard_module_assembly
+    name: { ko: 대시보드 모듈 조립 }
+    time: 600
+    in: { steel: 7.066e25, polypropylene: 8.586e25, abs: 2.858e24, pu_foam_block: 1, polycarbonate: 4.737e23, flexible_pvc: 6.336e23, electric_motor_small: 1, copper_tube: 2, aluminium_6061: 2.674e25 }
+    out: { dashboard_module: 1 }
+    note: "강철 크로스 빔에 대시보드·계기판과 공조 장치(송풍기, 알루미늄 증발기, 구리 히터 코어)를 단다"
+  - id: bumper_molding
+    name: { ko: 범퍼 성형 }
+    time: 120
+    in: { polypropylene: 5.152e25, steel: 3.261e25, eps_beads: 1.367e23 }
+    out: { bumper: 1 }
+    note: PP 커버를 사출하고 강철 보강재와 발포 충격 흡수재를 단다
+  - id: wiring_harness_making
+    name: { ko: 와이어링 하니스 제작 }
+    time: 900
+    in: { pvc_insulated_wire: 85, nylon_66: 2.661e24, brass: 3.759e24, flexible_pvc: 2.64e23, cable_tie: 100 }
+    out: { wiring_harness: 1 }
+    note: 전선을 길이대로 잘라 황동 단자를 압착하고 나일론 커넥터에 꽂아 판 위에서 묶는다
+  - id: interior_trim_making
+    name: { ko: 내장재 제작 }
+    time: 600
+    in: { polypropylene: 1.431e26, abs: 3.43e24, polyester_fiber: 1.254e25, pu_foam_block: 2, cotton_fiber: 1.114e25, flexible_pvc: 7.92e23 }
+    out: { interior_trim_set: 1 }
+    note: "PP·ABS 트림, PET 터프트 카펫, 폴리우레탄 천장재, 면 펠트 흡음재"
+  - id: passenger_car_assembly
+    name: { ko: 승용차 조립 }
+    time: 1800
+    in: { car_body: 1, car_door: 4, windshield: 1, soda_lime_glass: 1.133e25, car_seat: 4, wheel_assembly: 5, chassis_module: 1, gasoline_engine: 1, manual_transmission: 1, exhaust_system: 1, fuel_tank: 1, radiator: 1, headlamp: 2, dashboard_module: 1, bumper: 2, wiring_harness: 1, interior_trim_set: 1, microcontroller: 3, hex_bolt_m8x30: 200, hex_nut_m8: 100, flat_washer_m8: 200, polyester_fabric: 2, steel: 1.522e26, natural_rubber: 3.536e25, asphalt: 4.818e24, CaCO3: 2.407e25, nylon_66: 3.991e24, pmma: 6.015e24, polypropylene: 1.431e25, pao_base_oil: 4.276e24, ethylene_glycol: 3.202e25, H2O: 1.103e26, diethylene_glycol: 2.837e24 }
+    out: { passenger_car: 1 }
+    note: "도장 차체에 파워트레인과 섀시를 결합(메리지)하고 문·유리·시트·내장·배선을 단다. 뒤 유리, 안전띠, 에어백(나일론 66), 미등, 엔진 마운트(천연고무)·열 차단판·와이퍼·잭(강철 약 14kg), 아스팔트 제진 패드, 엔진 오일 4L·냉각수 6.6L·브레이크액 포함. ECU 등 제어기는 마이크로컨트롤러로 대신했고 12V 배터리는 뺐다"
+
+  # ───────────── 자전거 ─────────────
+  - id: bicycle_frame_welding
+    name: { ko: 자전거 프레임 용접 }
+    time: 600
+    in: { aluminium_6061: 4.012e25, steel: 1.033e25, deep_groove_bearing_608: 2, epoxy_resin: 1.415e23 }
+    out: { bicycle_frame: 1 }
+    note: 6061 관을 TIG 용접해 T6 열처리하고 분체 도장한다. 강철 앞 포크와 헤드셋 베어링
+  - id: bicycle_wheel_building
+    name: { ko: 자전거 바퀴 짜기 }
+    time: 300
+    in: { aluminium_6061: 1.783e25, stainless_steel: 2.409e24, brass: 1.88e23, steel: 1.304e24, deep_groove_bearing_608: 2, bicycle_tire: 1, bicycle_inner_tube: 1, polypropylene: 1.431e23 }
+    out: { bicycle_wheel: 1 }
+    note: 허브와 림을 스테인리스 스포크 36개와 황동 니플로 엮어 장력을 고르게 맞추고 타이어를 끼운다
+  - id: bicycle_crankset_making
+    name: { ko: 크랭크 세트 제작 }
+    time: 120
+    in: { aluminium_6061: 1.337e25, steel: 4.348e24, deep_groove_bearing_608: 2 }
+    out: { bicycle_crankset: 1 }
+    note: "단조 알루미늄 크랭크 암, 강철 체인링(42T), 카트리지 BB"
+  - id: bicycle_freewheel_making
+    name: { ko: 프리휠 제작 }
+    time: 60
+    in: { steel: 4.131e24, bearing_steel: 1.122e23, synthetic_grease: 1.158e22 }
+    out: { bicycle_freewheel: 1 }
+    note: 스프로킷 7장과 래칫 몸체. 폴이 한쪽으로만 걸려 페달을 멈춰도 바퀴는 돈다
+  - id: bicycle_pedal_making
+    name: { ko: 페달 제작 }
+    time: 30
+    in: { polypropylene: 2.862e24, steel: 1.739e24, deep_groove_bearing_608: 2, pmma: 6.015e22 }
+    out: { bicycle_pedal_pair: 1 }
+  - id: bicycle_saddle_making
+    name: { ko: 안장 제작 }
+    time: 60
+    in: { polypropylene: 2.862e24, eva: 1.164e23, flexible_pvc: 4.224e22, steel: 1.631e24, aluminium_6061: 6.686e24 }
+    out: { bicycle_saddle: 1 }
+    note: "PP 셸에 EVA 폼과 PVC 커버, 강철 레일, 알루미늄 시트포스트"
+  - id: bicycle_brake_set_making
+    name: { ko: 자전거 브레이크 제작 }
+    time: 60
+    in: { aluminium_6061: 1.003e25, steel: 2.174e24, nbr: 1.494e23, stainless_steel: 5.475e23, polyethylene_hd: 6.44e23 }
+    out: { bicycle_brake_set: 1 }
+    note: "알루미늄 V 브레이크 암과 레버, 고무 슈, 스테인리스 케이블과 HDPE 라이너 하우징"
+  - id: bicycle_assembly
+    name: { ko: 자전거 조립 }
+    time: 900
+    in: { bicycle_frame: 1, bicycle_wheel: 2, bicycle_crankset: 1, bicycle_chain: 1, bicycle_freewheel: 1, bicycle_pedal_pair: 1, bicycle_saddle: 1, bicycle_brake_set: 1, aluminium_6061: 1.672e25, natural_rubber: 8.841e23, steel: 8.153e24, polypropylene: 5.724e24, abs: 1.143e23, stainless_steel: 3.285e23 }
+    out: { bicycle: 1 }
+    note: "핸들바·스템·그립, 앞뒤 변속기와 레버, 흙받이, 받침대를 달고 변속·제동을 조정한다"
+
+  # ───────────── 공구와 공작 기계 ─────────────
+  - id: claw_hammer_forging
+    name: { ko: 장도리 단조 }
+    time: 60
+    in: { steel: 4.946e24, kiln_dried_wood: 6.644e23 }
+    out: { claw_hammer: 1 }
+    note: 머리를 형단조해 타격면과 노루발을 열처리하고 나무 자루에 쐐기로 박는다
+  - id: combination_wrench_forging
+    name: { ko: 렌치 단조 }
+    time: 30
+    in: { steel: 1.141e24, Cr: 1.737e22, V: 2.364e21, Ni: 5.13e21 }
+    out: { combination_wrench: 1 }
+    note: 크로뮴-바나듐강을 형단조해 담금질하고 니켈·크로뮴 도금한다
+  - id: screwdriver_making
+    name: { ko: 드라이버 제작 }
+    time: 20
+    in: { steel: 4.348e23, cellulose_acetate: 1.101e23 }
+    out: { screwdriver: 1 }
+    note: 날 끝을 단조·연삭해 열처리하고 셀룰로스 아세테이트 손잡이를 사출한다
+  - id: hand_saw_making
+    name: { ko: 톱 제작 }
+    time: 30
+    in: { steel: 3.044e24, polypropylene: 1.717e24 }
+    out: { hand_saw: 1 }
+    note: 고탄소강 띠를 찍어 이를 세우고 날 끝만 고주파 담금질한다
+  - id: twist_drill_grinding
+    name: { ko: 트위스트 드릴 연삭 }
+    time: 30
+    in: { tool_steel: 3.046e23, Ti: 2.516e20, N2: 1.29e20 }
+    out: { twist_drill: 1 }
+    note: 고속도강 봉을 열처리한 뒤 나선 홈을 연삭하고 TiN을 증착한다
+  - id: turning_tool_making
+    name: { ko: 선삭 바이트 제작 }
+    time: 60
+    in: { steel: 4.185e24, carbide_insert: 1, Cr: 2.316e22 }
+    out: { turning_tool: 1 }
+    note: 크로뮴-몰리브데넘강 홀더에 초경 인서트를 클램프로 고정한다
+  - id: pliers_forging
+    name: { ko: 펜치 단조 }
+    time: 30
+    in: { steel: 2.826e24, flexible_pvc: 2.112e22 }
+    out: { pliers: 1 }
+    note: 두 짝을 형단조해 리벳으로 잇고 날 부분을 고주파 담금질한 뒤 PVC 손잡이를 입힌다
+  - id: lathe_chuck_making
+    name: { ko: 선반 척 제작 }
+    time: 300
+    in: { cast_iron: 1.487e26, steel: 5.979e25 }
+    out: { lathe_chuck: 1 }
+    note: "주철 몸체에 소용돌이 홈 판과 담금질한 강철 조 3개, 베벨 피니언"
+  - id: lathe_assembly
+    name: { ko: 범용 선반 조립 }
+    time: 1800
+    in: { cast_iron: 1.214e28, spur_gear: 16, transmission_shaft: 6, deep_groove_bearing_6208: 8, steel: 5.979e26, steel_sheet: 13, electric_motor_industrial: 1, v_belt: 3, v_pulley: 2, lathe_chuck: 1, turning_tool: 1, pao_base_oil: 5.939e24, pvc_insulated_wire: 3, hex_bolt_m8x30: 60, flat_washer_m8: 60, glyptal_resin: 2.097e24, electric_motor_small: 1, polypropylene: 7.155e24 }
+    out: { lathe: 1 }
+    note: "주철 베드(약 650kg)를 긁어 맞추고 기어 주축대, 왕복대·에이프런, 심압대, 리드 스크루, 강판 받침대와 칩 받이, 절삭유 펌프를 단다"
+  - id: crane_hook_forging
+    name: { ko: 크레인 훅 단조 }
+    time: 120
+    in: { steel: 9.349e25, stainless_steel: 8.76e23, epoxy_resin: 7.076e22 }
+    out: { crane_hook: 1 }
+    note: DIN 15401 5호 훅을 형단조해 노멀라이징하고 생크에 나사를 깎는다. 스프링 걸쇠를 단다
+  - id: wire_rope_stranding
+    name: { ko: 와이어 로프 연선 }
+    time: 300
+    in: { steel_wire_1kg: 5, polypropylene: 2.147e24, pao_base_oil: 1.188e23 }
+    out: { wire_rope: 1 }
+    note: 소선 24가닥을 꼬아 스트랜드 6개를 만들고 PP 섬유 심 둘레로 다시 꼰다. 윤활유를 먹인다
+  - id: chain_hoist_assembly
+    name: { ko: 체인 블록 조립 }
+    time: 300
+    in: { steel: 8.697e25, spur_gear: 2, deep_groove_bearing_6204: 2, phenolic_resin: 1.135e23 }
+    out: { chain_hoist: 1 }
+    note: "강판 몸체, 부하 체인·손 체인, 2단 감속 기어, 웨스턴식 마찰 브레이크, 위아래 훅"
+  - id: forklift_mast_assembly
+    name: { ko: 지게차 마스트 조립 }
+    time: 900
+    in: { steel: 6.142e27, hydraulic_cylinder: 2, deep_groove_bearing_6208: 8 }
+    out: { forklift_mast: 1 }
+    note: "압연 채널 바깥·안쪽 마스트, 롤러 베어링, 리프트 체인, 포크 2개(강철 약 90kg)와 리프트 실린더"
+  - id: forklift_assembly
+    name: { ko: 지게차 조립 }
+    time: 1800
+    in: { forklift_mast: 1, cast_iron: 1.797e28, steel: 1.152e28, gasoline_engine: 1, manual_transmission: 1, spur_gear: 8, hydraulic_cylinder: 2, pao_base_oil: 3.563e25, natural_rubber: 7.072e26, carbon_black: 1.504e27, car_seat: 1, steering_system: 1, radiator: 1, exhaust_system: 1, pvc_insulated_wire: 5, glyptal_resin: 3.145e24, hex_bolt_m8x30: 80, hex_nut_m8: 80 }
+    out: { forklift: 1 }
+    note: "강판 차체, 주철 평형추(약 1.45t), 구동 차축·차동 기어, 틸트 실린더, 유압유 약 35L, 통타이어(천연고무+카본 블랙), 헤드 가드"
+
+  # ───────────── 생활용품 ─────────────
+  - id: sewing_needle_making
+    name: { ko: 바늘 제작 }
+    time: 30
+    in: { steel: 1.685e23, Ni: 2.052e21 }
+    out: { sewing_needle: 100 }
+    note: 고탄소강선을 잘라 끝을 갈고 귀를 찍어 뚫은 뒤 담금질·니켈 도금한다
+  - id: scissors_making
+    name: { ko: 가위 제작 }
+    time: 20
+    in: { stainless_steel: 6.022e23, abs: 3.43e22, steel: 1.087e22 }
+    out: { scissors: 1 }
+    note: 날을 찍어 담금질·연마하고 ABS 손잡이를 사출해 나사로 잇는다(실제 날은 마르텐사이트계 420)
+  - id: kitchen_knife_making
+    name: { ko: 식칼 제작 }
+    time: 60
+    in: { stainless_steel: 1.807e24, abs: 4.573e22 }
+    out: { kitchen_knife: 1 }
+    note: 판에서 날을 따내 담금질·연마하고 손잡이를 리벳으로 단다(실제 칼날은 탄소를 더 넣은 420·VG10)
+  - id: cooking_pot_making
+    name: { ko: 냄비 제작 }
+    time: 120
+    in: { stainless_steel: 1.095e25, aluminium_6061: 3.343e24, soda_lime_glass: 4.404e23, bakelite_handle: 2 }
+    out: { cooking_pot: 1 }
+    note: 스테인리스 판을 딥 드로잉하고 바닥에 알루미늄 판을 붙여 3중으로 만든다. 강화 유리 뚜껑과 베이클라이트 손잡이
+  - id: frying_pan_making
+    name: { ko: 프라이팬 제작 }
+    time: 60
+    in: { aluminium_6061: 1.672e25, ptfe: 4.817e22, stainless_steel: 8.76e23, bakelite_handle: 1, steel: 1.087e23 }
+    out: { frying_pan: 1 }
+    note: 알루미늄 원판을 프레스로 성형하고 PTFE를 3층 뿌려 400°C에서 굽는다. 바닥에 인덕션용 스테인리스 판을 박는다
+  - id: padlock_making
+    name: { ko: 자물쇠 제작 }
+    time: 60
+    in: { brass: 1.786e24, steel: 5.435e23 }
+    out: { padlock: 1 }
+    note: "황동 몸체에 핀 텀블러 5개, 담금질한 강철 고리, 황동 열쇠 2개"

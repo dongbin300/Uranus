@@ -1,0 +1,27 @@
+# 건설 원료 생성기. 보유한 대수만큼 produces(초당)를 생산한다.
+generators:
+  - id: limestone_quarry
+    name: { ko: 석회석 광산, en: Limestone quarry }
+    build: { time: 80, in: { steel: 500, Cu: 150, CaO: 60 } }
+    produces: { CaCO3: 0.15 }
+    note: "노천 석회석 광산. 탄산 칼슘 95% 이상의 고품위 석회석을 캐서 부순다. 시멘트·석회·제철 용제·유리의 원료"
+  - id: kaolin_pit
+    name: { ko: 고령토 광산, en: Kaolin pit }
+    build: { time: 90, in: { steel: 450, Cu: 120, H2SO4: 60 } }
+    produces: { kaolinite: 0.08, SiO2: 0.05, potassium_feldspar: 0.02 }
+    note: "화강암이 풍화한 고령토층을 물줄기로 무너뜨려 씻으면 고령석, 석영 모래, 덜 풍화한 장석이 갈린다(영국 콘월식)"
+  - id: aggregate_pit
+    name: { ko: 골재 채취장, en: Sand and gravel pit }
+    build: { time: 70, in: { steel: 400, Cu: 100, CaO: 50 } }
+    produces: { gravel: 0.3, SiO2: 0.1 }
+    note: "강가 충적층의 모래와 자갈을 퍼 올려 물로 씻고 체로 거른다. 콘크리트 1m³에 골재가 약 1.85t 들어간다"
+  - id: managed_forest
+    name: { ko: 인공림, en: Managed forest }
+    build: { time: 150, in: { steel: 300, NH3: 200, K3PO4: 60, H2O: 1000 } }
+    produces: { roundwood: 0.05 }
+    note: "소나무·낙엽송 인공림. 40년쯤 키워 벤 자리에 다시 심는다"
+  - id: gypsum_quarry
+    name: { ko: 석고 광산, en: Gypsum quarry }
+    build: { time: 80, in: { steel: 400, Cu: 100, H2SO4: 50 } }
+    produces: { gypsum: 0.06 }
+    note: "바다가 말라 생긴 증발암층의 이수 석고를 캔다"

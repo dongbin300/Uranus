@@ -1,0 +1,130 @@
+# 기계: 체결 부품, 베어링, 동력 전달 부품, 펌프·밸브·압축기·감속기, 전동기, 엔진과 자동차, 자전거, 공구, 생활용품.
+# 부품은 개수 단위이고 expected_mass로 실제 질량을 검사한다. 합금은 원자 한 개, 윤활제는 분자 한 개를 1로 센다.
+# 큰 조립품(승용차·지게차·선반)은 하위 조립품의 질량을 더해 맞췄다.
+category: machinery
+unit: piece
+items:
+  # 합금과 윤활제
+  - { id: bearing_steel, name: { ko: 베어링강, en: Bearing steel }, unit: particle, category: metallurgy, note: "고탄소 크로뮴 베어링강 SUJ2(AISI 52100). C 1.0, Cr 1.45, Mn 0.35, Si 0.25wt%. 원자 비 Fe 932 : C 45 : Cr 15 : Si 5 : Mn 3" }
+  - { id: aluminium_a356, name: { ko: 알루미늄 주조 합금 A356, en: Aluminium alloy A356 }, unit: particle, category: metallurgy, note: "Al-7Si-0.35Mg 주조 합금. 실린더 헤드·휠·변속기 케이스. 원자 비 Al 929 : Si 67 : Mg 4" }
+  - { id: pao_base_oil, name: { ko: 폴리알파올레핀 기유, en: Polyalphaolefin base oil }, unit: particle, formula: C36H74, note: 1-도데센 삼량체 수소화물(PAO). 엔진 오일·기어유·그리스의 합성 기유 }
+  - { id: synthetic_grease, name: { ko: 합성 그리스, en: Synthetic grease }, unit: particle, note: "PAO 기유 85 · 흄드 실리카 10 · PTFE 5wt%. 실리카가 기름을 붙잡아 굳힌 그리스" }
+
+  # 체결 부품
+  - { id: hex_bolt_m8x30, name: { ko: 육각 볼트 M8×30, en: Hex bolt M8×30 }, expected_mass: [14g, 18g], note: "강도 8.8급, 아연 도금. 약 15.6g" }
+  - { id: hex_nut_m8, name: { ko: 육각 너트 M8, en: Hex nut M8 }, expected_mass: [4.2g, 5.8g], note: "맞변 13mm, 높이 6.5mm, 약 5g" }
+  - { id: flat_washer_m8, name: { ko: 평와셔 M8, en: Flat washer M8 }, expected_mass: [1.5g, 2.2g], note: "8.4×16×1.6mm, 약 1.8g" }
+  - { id: wood_screw, name: { ko: 목재용 나사, en: Wood screw }, expected_mass: [2.6g, 4.2g], note: "4×40mm 접시머리 십자 나사, 약 3.4g" }
+  - { id: blind_rivet, name: { ko: 블라인드 리벳, en: Blind rivet }, expected_mass: [1g, 1.8g], note: 지름 4.8mm × 12mm 알루미늄 몸체와 강철 맨드릴 }
+  - { id: hs_bolt_set_m20, name: { ko: 고장력 볼트 세트 M20, en: High-strength bolt set M20 }, expected_mass: [0.38kg, 0.46kg], note: "F10T 육각 볼트 M20×75와 너트, 와셔 2장. 약 0.42kg" }
+
+  # 베어링
+  - { id: steel_ball_8mm, name: { ko: 베어링 강구(7.938mm), en: Bearing ball (7.938 mm) }, expected_mass: [1.9g, 2.2g], note: "5/16인치 G10 강구, 약 2.04g" }
+  - { id: bearing_outer_ring_6204, name: { ko: 6204 베어링 외륜, en: 6204 bearing outer ring }, expected_mass: [42g, 52g] }
+  - { id: bearing_inner_ring_6204, name: { ko: 6204 베어링 내륜, en: 6204 bearing inner ring }, expected_mass: [25g, 32g] }
+  - { id: deep_groove_bearing_6204, name: { ko: 깊은 홈 볼 베어링 6204, en: Deep groove ball bearing 6204 }, expected_mass: [95g, 115g], note: "20×47×14mm, 양쪽 고무 실(2RS). 약 0.1kg" }
+  - { id: deep_groove_bearing_608, name: { ko: 깊은 홈 볼 베어링 608, en: Deep groove ball bearing 608 }, expected_mass: [10g, 14g], note: "8×22×7mm, 약 12g" }
+  - { id: deep_groove_bearing_6208, name: { ko: 깊은 홈 볼 베어링 6208, en: Deep groove ball bearing 6208 }, expected_mass: [0.33kg, 0.42kg], note: "40×80×18mm, 약 0.37kg" }
+
+  # 동력 전달 부품
+  - { id: spur_gear, name: { ko: 스퍼 기어, en: Spur gear }, expected_mass: [0.6kg, 0.9kg], note: "모듈 2, 잇수 40, 이너비 20mm, 약 0.74kg" }
+  - { id: transmission_shaft, name: { ko: 전동축, en: Transmission shaft }, expected_mass: [2.4kg, 3.1kg], note: "지름 30mm × 500mm, 약 2.77kg" }
+  - { id: oil_seal, name: { ko: 오일 실, en: Oil seal }, expected_mass: [8g, 16g], note: TC형 35×52×7mm }
+  - { id: suspension_coil_spring, name: { ko: 현가 코일 스프링, en: Suspension coil spring }, expected_mass: [1.6kg, 2.6kg], note: "승용차 스트럿용, 약 2kg" }
+  - { id: leaf_spring, name: { ko: 판 스프링, en: Leaf spring }, expected_mass: [14kg, 24kg], note: "소형 트럭 뒤 차축용 5매 겹판, 약 18kg" }
+  - { id: valve_spring, name: { ko: 밸브 스프링, en: Valve spring }, expected_mass: [30g, 55g], note: "선 지름 3.5mm, 약 42g" }
+  - { id: bicycle_chain, name: { ko: 자전거 체인, en: Bicycle chain }, expected_mass: [0.25kg, 0.4kg], note: "1/2×3/32인치, 116링크, 약 0.31kg" }
+  - { id: timing_chain, name: { ko: 타이밍 체인, en: Timing chain }, expected_mass: [0.35kg, 0.6kg], note: 피치 8mm 사일런트 체인 }
+  - { id: v_belt, name: { ko: V 벨트, en: V-belt }, expected_mass: [0.1kg, 0.17kg], note: A형(폭 13mm) 길이 약 1.1m }
+  - { id: v_pulley, name: { ko: V 풀리, en: V-belt pulley }, expected_mass: [1.3kg, 2kg], note: "A형 1홈, 바깥지름 150mm 주철" }
+
+  # 유압·펌프·밸브·압축기·감속기
+  - { id: hydraulic_cylinder, name: { ko: 유압 실린더, en: Hydraulic cylinder }, expected_mass: [7kg, 11kg], note: "보어 50mm, 로드 28mm, 행정 300mm, 최고 압력 21MPa" }
+  - { id: centrifugal_pump, name: { ko: 원심 펌프, en: Centrifugal pump }, expected_mass: [28kg, 42kg], note: "엔드 석션 50-32-200(축만, 전동기 별도). 유량 약 12m³/h, 양정 50m" }
+  - { id: pump_set, name: { ko: 전동기 직결 펌프, en: Motor-driven pump set }, expected_mass: [100kg, 145kg], note: 원심 펌프와 7.5kW 전동기를 베이스에 얹은 한 벌 }
+  - { id: gate_valve, name: { ko: 게이트 밸브, en: Gate valve }, expected_mass: [11kg, 17kg], note: "DN50 PN16 플랜지형 주철 밸브, 약 14kg" }
+  - { id: ball_valve, name: { ko: 볼 밸브, en: Ball valve }, expected_mass: [0.35kg, 0.6kg], note: "DN25(1인치) 황동 나사식, 약 0.46kg" }
+  - { id: air_compressor, name: { ko: 공기 압축기, en: Air compressor }, expected_mass: [160kg, 230kg], note: "2단 왕복동 7.5kW, 토출 1.0MPa, 탱크 200L. 약 190kg" }
+  - { id: gear_reducer, name: { ko: 기어 감속기, en: Gear reducer }, expected_mass: [50kg, 75kg], note: "평행축 2단, 7.5kW, 감속비 약 20" }
+
+  # 전동기
+  - { id: electric_motor_small, name: { ko: 소형 BLDC 모터, en: Small BLDC motor }, expected_mass: [0.4kg, 0.65kg], note: "외경 57mm 3상 BLDC, 약 100W·0.5kg. 구동 회로는 포함하지 않는다" }
+  - { id: electric_motor_industrial, name: { ko: 산업용 유도 전동기, en: Industrial induction motor }, expected_mass: [45kg, 70kg], note: "7.5kW 4극 농형 삼상 유도 전동기(IE3, 프레임 132M), 약 60kg" }
+
+  # 엔진
+  - { id: engine_block, name: { ko: 실린더 블록, en: Cylinder block }, expected_mass: [35kg, 48kg], note: "직렬 4기통 1.6L 회주철 블록, 약 42kg" }
+  - { id: crankshaft, name: { ko: 크랭크축, en: Crankshaft }, expected_mass: [10kg, 16kg], note: "단조 강, 메인 저널 5개" }
+  - { id: camshaft, name: { ko: 캠축, en: Camshaft }, expected_mass: [1.8kg, 3kg], note: 칠드 주철 캠축 한 개 }
+  - { id: connecting_rod, name: { ko: 커넥팅 로드, en: Connecting rod }, expected_mass: [0.45kg, 0.7kg], note: "단조 강, 약 0.55kg" }
+  - { id: piston, name: { ko: 피스톤, en: Piston }, expected_mass: [0.3kg, 0.5kg], note: 지름 77mm 알루미늄 피스톤과 링 3개·핀 }
+  - { id: engine_valve, name: { ko: 흡배기 밸브, en: Engine poppet valve }, expected_mass: [35g, 65g], note: 약 50g }
+  - { id: cylinder_head, name: { ko: 실린더 헤드, en: Cylinder head }, expected_mass: [15kg, 24kg], note: DOHC 16밸브 알루미늄 헤드 조립체 }
+  - { id: spark_plug, name: { ko: 점화 플러그, en: Spark plug }, expected_mass: [38g, 60g], note: "M14 백금 점화 플러그, 약 45g" }
+  - { id: fuel_injector, name: { ko: 연료 분사기, en: Fuel injector }, expected_mass: [30g, 60g], note: 솔레노이드식 포트 분사 인젝터 }
+  - { id: flywheel, name: { ko: 플라이휠, en: Flywheel }, expected_mass: [7kg, 13kg], note: 주철 플라이휠과 강철 링 기어 }
+  - { id: intake_manifold, name: { ko: 흡기 매니폴드, en: Intake manifold }, expected_mass: [2kg, 4.5kg], note: 나일론 66 매니폴드와 알루미늄 스로틀 몸체 }
+  - { id: exhaust_manifold, name: { ko: 배기 매니폴드, en: Exhaust manifold }, expected_mass: [5kg, 9kg], note: 주철 배기 매니폴드 }
+  - { id: gasoline_engine, name: { ko: 가솔린 엔진, en: Gasoline engine }, expected_mass: [100kg, 140kg], note: "직렬 4기통 DOHC 1.6L(약 90kW), 건조 중량 약 115kg. 시동 모터·발전기 제외" }
+
+  # 자동차
+  - { id: manual_transmission, name: { ko: 수동 변속기, en: Manual transmission }, expected_mass: [28kg, 45kg], note: "전진 5단과 클러치, 약 35kg" }
+  - { id: drive_shaft, name: { ko: 드라이브 샤프트, en: Drive shaft }, expected_mass: [5kg, 9kg], note: 앞바퀴 굴림용 등속 조인트 축 }
+  - { id: brake_disc, name: { ko: 브레이크 디스크, en: Brake disc }, expected_mass: [6kg, 10kg], note: 지름 280mm 벤틸레이티드 회주철 }
+  - { id: brake_pad, name: { ko: 브레이크 패드, en: Brake pad }, expected_mass: [0.25kg, 0.45kg], note: 저금속계 디스크 패드 한 장 }
+  - { id: brake_caliper, name: { ko: 브레이크 캘리퍼, en: Brake caliper }, expected_mass: [3kg, 5.5kg], note: 단동 플로팅 캘리퍼와 패드 한 쌍 }
+  - { id: shock_absorber, name: { ko: 쇼크 업소버, en: Shock absorber }, expected_mass: [2kg, 3.5kg], note: 복통식 가스 봉입 }
+  - { id: strut_assembly, name: { ko: 스트럿 어셈블리, en: Strut assembly }, expected_mass: [5kg, 8kg], note: 맥퍼슨 스트럿 한 개 }
+  - { id: steering_system, name: { ko: 조향 장치, en: Steering system }, expected_mass: [9kg, 15kg], note: "랙 앤 피니언 기어, 타이로드, 칼럼, 핸들" }
+  - { id: chassis_module, name: { ko: 섀시 모듈, en: Chassis module }, expected_mass: [170kg, 240kg], note: "앞 맥퍼슨 스트럿·뒤 토션 빔 서스펜션, 브레이크, 조향 장치, 드라이브 샤프트, 서브프레임" }
+  - { id: car_body_in_white, name: { ko: 차체 골격, en: Body in white }, expected_mass: [300kg, 380kg], note: 문을 뺀 화이트 보디와 후드·트렁크 뚜껑. 약 0.35t }
+  - { id: car_body, name: { ko: 도장 차체, en: Painted car body }, expected_mass: [310kg, 400kg], note: 전착·중도·상도와 언더코팅을 마친 차체 }
+  - { id: car_door, name: { ko: 자동차 문, en: Car door }, expected_mass: [20kg, 32kg], note: "유리·창문 조절기·잠금장치·내장 포함, 약 26kg" }
+  - { id: windshield, name: { ko: 앞유리, en: Windshield }, expected_mass: [10kg, 15kg], note: 접합 유리 약 1m² }
+  - { id: car_seat, name: { ko: 자동차 시트, en: Car seat }, expected_mass: [12kg, 22kg], note: "앞좌석 한 개 기준, 약 17kg" }
+  - { id: alloy_wheel, name: { ko: 알루미늄 휠, en: Alloy wheel }, expected_mass: [7kg, 10.5kg], note: "16×6.5J, 약 8.5kg" }
+  - { id: wheel_assembly, name: { ko: 휠·타이어 조립체, en: Wheel and tire assembly }, expected_mass: [15kg, 21kg], note: 알루미늄 휠에 205/55R16 타이어 }
+  - { id: cordierite, name: { ko: 코디어라이트, en: Cordierite }, unit: particle, formula: Mg2Al4Si5O18, note: 열팽창이 아주 작은 규산염 세라믹. 자동차 촉매의 벌집 담체 }
+  - { id: catalytic_converter, name: { ko: 삼원 촉매 변환기, en: Three-way catalytic converter }, expected_mass: [3kg, 6kg], note: 코디어라이트 벌집에 백금족 금속 약 2.8g }
+  - { id: exhaust_system, name: { ko: 배기 장치, en: Exhaust system }, expected_mass: [10kg, 20kg], note: "촉매 변환기, 배기관, 소음기" }
+  - { id: fuel_tank, name: { ko: 연료 탱크, en: Fuel tank }, expected_mass: [6kg, 10kg], note: 50L 플라스틱 탱크와 연료 펌프 }
+  - { id: radiator, name: { ko: 라디에이터, en: Radiator }, expected_mass: [3.5kg, 6.5kg], note: 알루미늄 코어와 전동 냉각 팬 }
+  - { id: headlamp, name: { ko: 전조등, en: Headlamp }, expected_mass: [1.5kg, 3.5kg], note: 할로겐 전조등 한 개 }
+  - { id: dashboard_module, name: { ko: 대시보드 모듈, en: Dashboard module }, expected_mass: [15kg, 26kg], note: 계기판·대시보드와 공조 장치 }
+  - { id: bumper, name: { ko: 범퍼, en: Bumper }, expected_mass: [5kg, 9kg], note: PP 범퍼 커버와 강철 보강재 }
+  - { id: wiring_harness, name: { ko: 와이어링 하니스, en: Wiring harness }, expected_mass: [14kg, 24kg], note: "차 한 대분 배선, 전선 약 850m" }
+  - { id: interior_trim_set, name: { ko: 실내 내장재 세트, en: Interior trim set }, expected_mass: [18kg, 32kg], note: 트림·천장재·카펫·흡음재 }
+  - { id: passenger_car, name: { ko: 승용차, en: Passenger car }, expected_mass: [1.1t, 1.6t], note: "준중형 4도어 세단, 1.6L 가솔린·수동 5단. 배터리·연료를 뺀 공차 중량 약 1.2t" }
+
+  # 자전거
+  - { id: bicycle_frame, name: { ko: 자전거 프레임, en: Bicycle frame }, expected_mass: [2.3kg, 3.8kg], note: 알루미늄 프레임과 강철 앞 포크 }
+  - { id: bicycle_wheel, name: { ko: 자전거 바퀴, en: Bicycle wheel }, expected_mass: [1.6kg, 2.5kg], note: 26인치 림·허브·스포크와 타이어·튜브 }
+  - { id: bicycle_crankset, name: { ko: 크랭크 세트, en: Bicycle crankset }, expected_mass: [0.8kg, 1.4kg], note: "크랭크 암, 체인링, BB" }
+  - { id: bicycle_freewheel, name: { ko: 프리휠, en: Bicycle freewheel }, expected_mass: [0.3kg, 0.5kg], note: 7단 14~28T }
+  - { id: bicycle_pedal_pair, name: { ko: 자전거 페달(한 쌍), en: Bicycle pedals (pair) }, expected_mass: [0.3kg, 0.55kg] }
+  - { id: bicycle_saddle, name: { ko: 안장, en: Bicycle saddle }, expected_mass: [0.6kg, 1kg], note: 안장과 시트포스트 }
+  - { id: bicycle_brake_set, name: { ko: 자전거 브레이크 세트, en: Bicycle brake set }, expected_mass: [0.5kg, 1kg], note: 앞뒤 V 브레이크와 레버·케이블 }
+  - { id: bicycle, name: { ko: 자전거, en: Bicycle }, expected_mass: [10kg, 16kg], note: "26인치 7단 시티 바이크, 약 12.5kg" }
+
+  # 공구와 공작 기계
+  - { id: claw_hammer, name: { ko: 장도리, en: Claw hammer }, expected_mass: [0.5kg, 0.8kg], note: 16온스 머리와 나무 자루 }
+  - { id: combination_wrench, name: { ko: 콤비네이션 렌치, en: Combination wrench }, expected_mass: [80g, 140g], note: 13mm 크로뮴-바나듐강 }
+  - { id: screwdriver, name: { ko: 십자 드라이버, en: Phillips screwdriver }, expected_mass: [60g, 120g], note: 2번 × 100mm }
+  - { id: hand_saw, name: { ko: 목공용 톱, en: Hand saw }, expected_mass: [0.3kg, 0.55kg], note: 날 길이 500mm }
+  - { id: twist_drill, name: { ko: 트위스트 드릴, en: Twist drill }, expected_mass: [20g, 40g], note: "지름 8mm 고속도강, TiN 코팅" }
+  - { id: turning_tool, name: { ko: 선삭 바이트, en: Turning tool }, expected_mass: [0.3kg, 0.5kg], note: PCLNR 2020K12 홀더와 초경 인서트 }
+  - { id: pliers, name: { ko: 펜치, en: Combination pliers }, expected_mass: [0.22kg, 0.4kg], note: 200mm }
+  - { id: lathe_chuck, name: { ko: 선반 척, en: Lathe chuck }, expected_mass: [14kg, 22kg], note: 지름 200mm 3조 스크롤 척 }
+  - { id: lathe, name: { ko: 범용 선반, en: Engine lathe }, expected_mass: [1t, 1.8t], note: "센터 높이 180mm, 센터 거리 1,000mm, 약 1.26t" }
+  - { id: crane_hook, name: { ko: 크레인 훅, en: Crane hook }, expected_mass: [7kg, 11kg], note: 정격 하중 5t 단조 훅 }
+  - { id: wire_rope, name: { ko: 와이어 로프, en: Wire rope }, expected_mass: [4.5kg, 6.5kg], note: 6×24 지름 12mm × 10m }
+  - { id: chain_hoist, name: { ko: 체인 블록, en: Chain hoist }, expected_mass: [8kg, 14kg], note: "정격 1t, 양정 3m 수동" }
+  - { id: forklift_mast, name: { ko: 지게차 마스트, en: Forklift mast }, expected_mass: [450kg, 700kg], note: 2단 3m 마스트와 포크 }
+  - { id: forklift, name: { ko: 지게차, en: Forklift }, expected_mass: [3t, 4.5t], note: "정격 2.5t 엔진식 지게차, 약 3.5t" }
+
+  # 생활용품
+  - { id: sewing_needle, name: { ko: 바느질 바늘, en: Sewing needle }, expected_mass: [80mg, 300mg], note: "5호, 지름 0.8mm × 40mm" }
+  - { id: scissors, name: { ko: 가위, en: Scissors }, expected_mass: [60g, 130g], note: 210mm 사무용 }
+  - { id: kitchen_knife, name: { ko: 식칼, en: Kitchen knife }, expected_mass: [0.15kg, 0.3kg], note: 날 길이 210mm 셰프 나이프 }
+  - { id: cooking_pot, name: { ko: 스테인리스 냄비, en: Stainless steel pot }, expected_mass: [1.2kg, 2kg], note: 지름 20cm 양수 냄비와 유리 뚜껑 }
+  - { id: frying_pan, name: { ko: 프라이팬, en: Frying pan }, expected_mass: [0.7kg, 1.2kg], note: 지름 26cm PTFE 코팅 }
+  - { id: padlock, name: { ko: 자물쇠, en: Padlock }, expected_mass: [0.18kg, 0.32kg], note: 40mm 황동 자물쇠와 열쇠 2개 }
