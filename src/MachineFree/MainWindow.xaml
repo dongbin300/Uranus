@@ -64,6 +64,11 @@
                 <ItemsControl ItemsSource="{Binding Inputs}" ItemTemplate="{StaticResource RequirementTemplate}"/>
                 <Separator Style="{StaticResource TipSeparator}"/>
                 <ItemsControl ItemsSource="{Binding OutputLines}" ItemTemplate="{StaticResource LineTemplate}"/>
+                <StackPanel Visibility="{Binding HasRawMaterials, Converter={StaticResource BoolToVisibility}}">
+                    <Separator Style="{StaticResource TipSeparator}"/>
+                    <TextBlock Style="{StaticResource TipHint}" Text="원료까지 펼치면 (1회, 부산물 무시)"/>
+                    <ItemsControl ItemsSource="{Binding RawMaterialLines}" ItemTemplate="{StaticResource LineTemplate}"/>
+                </StackPanel>
                 <TextBlock Style="{StaticResource TipHint}" Text="클릭 1개 · 우클릭 5개 · Shift+클릭 가능한 만큼"/>
             </StackPanel>
         </DataTemplate>

@@ -6,6 +6,7 @@ using CommunityToolkit.Mvvm.Input;
 using MachineFree.Core;
 
 using Uranus;
+using Uranus.Analysis;
 using Uranus.Quantities;
 
 namespace MachineFree.ViewModels
@@ -96,6 +97,7 @@ namespace MachineFree.ViewModels
 			OutputLines = [.. recipe.Outputs.Select(x => $"{QuantityFormatter.FormatNumber(x.Amount)} × {db.GetName(x.Item)}")];
 			Inputs = [.. recipe.Inputs.Select(x => new RequirementLine(x.Item, db.GetName(x.Item)))];
 			CraftableText = "";
+			RawMaterialLines = BuildRawMaterialLines(recipe, db);
 
 			searchText = string.Join(" ", new[] { Title, TileName, recipe.Id.Value }
 				.Concat(recipe.Inputs.Concat(recipe.Outputs).SelectMany(x => new[] { x.Item.Value, db.GetName(x.Item) })));
@@ -113,6 +115,13 @@ namespace MachineFree.ViewModels
 		public string TimeText { get; }
 
 		public IReadOnlyList<string> OutputLines { get; }
+
+		/// <summary>
+		/// 이 레시피 1회를 원료(생성기 산출물 등)까지 펼친 양. 재료가 곧 원료면 비어 있다.
+		/// </summary>
+		public IReadOnlyList<string> RawMaterialLines { get; }
+
+		public bool HasRawMaterials => RawMaterialLines.Count > 0;
 
 		public ObservableCollection<RequirementLine> Inputs { get; }
 
@@ -145,6 +154,36 @@ namespace MachineFree.ViewModels
 			CraftableText = Craftable > 0 ? QuantityFormatter.FormatCount(Craftable, style) : "";
 			IsCraftable = Craftable > 0;
 			IsDiscovered = Recipe.Inputs.All(x => simulation.State.Discovered.Contains(x.Item));
+		}
+
+		private static List<string> BuildRawMaterialLines(RecipeDef recipe, UranusDatabase db)
+		{
+			var total = new Dictionary<ItemId, double>();
+			foreach (var input in recipe.Inputs)
+			{
+				foreach (var (item, amount) in RecipeGraph.ComputeBillOfMaterials(db, input.Item, input.Amount))
+				{
+					total[item] = total.GetValueOrDefault(item) + amount;
+				}
+			}
+
+			// 재료를 더 펼칠 것이 없으면 따로 보여 주지 않는다
+			if (total.Count == recipe.Inputs.Count && recipe.Inputs.All(x => total.TryGetValue(x.Item, out var a) && a == x.Amount))
+			{
+				return [];
+			}
+
+			var lines = total
+				.OrderByDescending(x => x.Value)
+				.Take(6)
+				.Select(x => $"{QuantityFormatter.FormatNumber(x.Value, NumberStyle.Scientific)} × {db.GetName(x.Key)}")
+				.ToList();
+			if (total.Count > 6)
+			{
+				lines.Add($"… 외 {total.Count - 6}종");
+			}
+
+			return lines;
 		}
 
 		[RelayCommand]
