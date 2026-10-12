@@ -1,0 +1,17 @@
+# 의약 원료를 거두는 농장과 설비. 보유한 대수만큼 produces(초당)를 생산한다.
+generators:
+  - id: tea_plantation
+    name: { ko: 차 농장, en: Tea plantation }
+    build: { time: 150, in: { Fe: 300, NH3: 200, K3PO4: 60, H2O: 1000 } }
+    produces: { tea_leaf: 0.1 }
+    note: 차나무(Camellia sinensis) 밭. 새순을 따서 덖고 말린다
+  - id: cinchona_plantation
+    name: { ko: 키나나무 농장, en: Cinchona plantation }
+    build: { time: 180, in: { Fe: 300, NH3: 250, K3PO4: 80, H2O: 1200 } }
+    produces: { cinchona_bark: 0.05 }
+    note: 키나나무(Cinchona ledgeriana) 농장. 6~10년 자란 나무의 껍질을 벗겨 말린다. 자바 섬이 오랫동안 세계 퀴닌의 대부분을 댔다
+  - id: abattoir
+    name: { ko: 도축장, en: Abattoir }
+    build: { time: 200, in: { Fe: 600, Cu: 200, NaCl: 300, H2O: 2000 } }
+    produces: { porcine_mucosa: 0.5 }
+    note: 돼지 소장의 점막을 긁어 모은다. 의약용 헤파린은 거의 모두 돼지 소장 점막에서 나온다

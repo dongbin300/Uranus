@@ -1,0 +1,1373 @@
+# 의약품 제조. 화학식이 있는 물질끼리의 반응은 원자 수를 맞췄다.
+# 발효·추출처럼 게임식 비율인 레시피는 approximate로 표시했다(실제 역가·수율 기준).
+# 제형 레시피는 실제 처방의 질량(그램)을 분자 수로 바꿔 적었다.
+category: medicine
+recipes:
+
+  # 공통 생체 분자
+  - id: cellulose_acid_hydrolysis
+    name: { ko: 셀룰로스 산 가수분해 }
+    time: 2
+    in: { cotton_fiber: 1, H2O: 1 }
+    out: { glucose: 1 }
+    note: "묽은 황산, 가압 가열. C6H10O5 + H2O → C6H12O6"
+  - id: starch_biosynthesis
+    name: { ko: 녹말 생합성 }
+    time: 1
+    in: { glucose: 1 }
+    out: { starch: 1, H2O: 1 }
+    note: 식물의 아밀로플라스트가 ADP-포도당을 이어 녹말을 쌓는다. 실제 의약용 녹말은 옥수수·감자에서 뽑는다
+  - id: starch_saccharification
+    name: { ko: 녹말 당화 }
+    time: 1
+    in: { starch: 1, H2O: 1 }
+    out: { glucose: 1 }
+    note: α-아밀레이스로 액화하고 글루코아밀레이스로 당화한다. 주사용 포도당의 실제 제법
+  - id: lactose_biosynthesis
+    name: { ko: 젖당 생합성 }
+    time: 1
+    in: { glucose: 2 }
+    out: { lactose: 1, H2O: 1 }
+    note: 젖샘에서 포도당 하나가 UDP-갈락토스로 바뀐 뒤 다른 포도당과 이어진다. 의약용 젖당은 치즈 유청에서 결정으로 얻는다
+  - id: glucose_hydrogenation
+    name: { ko: 포도당 수소화 }
+    time: 1
+    in: { glucose: 1, H2: 1 }
+    out: { sorbitol: 1 }
+    note: "라니 니켈이나 루테늄 촉매, 약 130°C"
+  - id: lactic_acid_fermentation
+    name: { ko: 젖산 발효 }
+    time: 2
+    in: { glucose: 1 }
+    out: { lactic_acid: 2 }
+    note: 젖산균의 동형 젖산 발효. C6H12O6 → 2 C3H6O3
+  - id: citric_acid_fermentation
+    name: { ko: 시트르산 발효 }
+    time: 3
+    in: { glucose: 2, O2: 3 }
+    out: { citric_acid: 2, H2O: 4 }
+    note: 검은곰팡이(Aspergillus niger) 액중 발효. 세계 시트르산의 거의 전부를 이렇게 만든다
+  - id: glutamic_acid_fermentation
+    name: { ko: 글루탐산 발효 }
+    time: 3
+    in: { glucose: 2, NH3: 2, O2: 3 }
+    out: { glutamic_acid: 2, CO2: 2, H2O: 6 }
+    note: "코리네박테리움 글루타미쿰(교와 발효, 1956). 조미료(MSG)와 같은 공정"
+  - id: alanine_strecker_synthesis
+    name: { ko: 알라닌 스트레커 합성 }
+    time: 1
+    in: { acetaldehyde: 1, HCN: 1, H2O: 1 }
+    out: { alanine: 1 }
+    note: CH3CHO + NH3 + HCN → 아미노나이트릴 → 가수분해(DL-알라닌). 암모니아는 다시 나온다
+  - id: stearic_acid_biosynthesis
+    name: { ko: 스테아르산 생합성 }
+    time: 3
+    in: { glucose: 5, O2: 4 }
+    out: { stearic_acid: 1, CO2: 12, H2O: 12 }
+    note: 아세틸-CoA 9개를 잇는 지방산 합성을 묶었다(유지 생산 효모). 실제 스테아르산은 팜유·우지를 가수분해해 얻는다
+  - id: wfi_distillation
+    name: { ko: 주사용수 증류 }
+    time: 0.2
+    in: { H2O: 1 }
+    out: { water_for_injection: 1 }
+    note: 다중 효용 증류기로 증류해 엔도톡신을 없앤다
+  - id: gelatin_extraction
+    name: { ko: 젤라틴 추출 }
+    time: 5
+    in: { protein: 4 }
+    out: { gelatin: 1 }
+    note: 돼지 껍질·소뼈의 콜라겐을 산(A형)이나 알칼리(B형)로 처리한 뒤 뜨거운 물로 녹여 낸다. 콜라겐은 단백질로 단순화
+
+  # 아스피린(콜베-슈미트 반응과 아세틸화)
+  - id: sodium_phenoxide_formation
+    name: { ko: 나트륨 페녹사이드 생성 }
+    time: 0.4
+    in: { phenol: 1, NaOH: 1 }
+    out: { sodium_phenoxide: 1, H2O: 1 }
+    note: 물을 날려 마른 페녹사이드로 만든다
+  - id: kolbe_schmitt_reaction
+    name: { ko: 콜베-슈미트 반응 }
+    time: 1.5
+    in: { sodium_phenoxide: 1, CO2: 1 }
+    out: { sodium_salicylate: 1 }
+    note: "125°C, 이산화 탄소 약 100기압. 페녹사이드의 오르토 자리에 카복실기가 붙는다"
+  - id: salicylic_acid_precipitation
+    name: { ko: 살리실산 석출 }
+    time: 0.5
+    in: { sodium_salicylate: 2, H2SO4: 1 }
+    out: { salicylic_acid: 2, Na2SO4: 1 }
+  - id: aspirin_acetylation
+    name: { ko: 아스피린 합성(아세틸화) }
+    time: 1
+    in: { salicylic_acid: 1, acetic_anhydride: 1 }
+    out: { acetylsalicylic_acid: 1, CH3COOH: 1 }
+    note: "인산이나 황산 촉매. C7H6O3 + (CH3CO)2O → C9H8O4 + CH3COOH. 바이엘(호프만, 1897)"
+  - id: methyl_salicylate_esterification
+    name: { ko: 살리실산 메틸 에스터화 }
+    time: 1
+    in: { salicylic_acid: 1, CH3OH: 1 }
+    out: { methyl_salicylate: 1, H2O: 1 }
+    note: 황산 촉매 피셔 에스터화
+
+  # 아세트아미노펜
+  - id: phenol_nitration
+    name: { ko: 페놀 나이트로화 }
+    time: 0.8
+    in: { phenol: 2, HNO3: 2 }
+    out: { 4_nitrophenol: 1, 2_nitrophenol: 1, H2O: 2 }
+    note: "묽은 질산, 약 20°C. 오르토·파라 이성질체를 수증기 증류로 나눈다"
+  - id: nitrophenol_hydrogenation
+    name: { ko: 4-나이트로페놀 수소화 }
+    time: 0.8
+    in: { 4_nitrophenol: 1, H2: 3 }
+    out: { 4_aminophenol: 1, H2O: 2 }
+    note: Pd/C 촉매
+  - id: bamberger_rearrangement
+    name: { ko: 나이트로벤젠 부분 수소화(밤베르거 재배열) }
+    time: 1
+    in: { nitrobenzene: 1, H2: 2 }
+    out: { 4_aminophenol: 1, H2O: 1 }
+    note: 묽은 황산 속 백금 촉매로 페닐하이드록실아민까지만 환원하면 바로 4-아미노페놀로 재배열한다. 아세트아미노펜의 주된 공업 경로
+  - id: paracetamol_acetylation
+    name: { ko: 아세트아미노펜 합성(아세틸화) }
+    time: 0.8
+    in: { 4_aminophenol: 1, acetic_anhydride: 1 }
+    out: { paracetamol: 1, CH3COOH: 1 }
+    note: 수용액에서 아미노기만 골라 아세틸화한다
+  - id: phenol_acylation_hf
+    name: { ko: 페놀 아실화 }
+    time: 1
+    in: { phenol: 1, CH3COOH: 1 }
+    out: { 4_hydroxyacetophenone: 1, H2O: 1 }
+    note: 플루오린화 수소 촉매 프리델-크래프츠 아실화(훽스트-셀라니즈 공정 1단계)
+  - id: hydroxyacetophenone_oximation
+    name: { ko: 4-하이드록시아세토페논 옥심화 }
+    time: 0.6
+    in: { 4_hydroxyacetophenone: 1, NH2OH: 1 }
+    out: { 4_hydroxyacetophenone_oxime: 1, H2O: 1 }
+  - id: paracetamol_beckmann_rearrangement
+    name: { ko: 옥심 베크만 재배열 }
+    time: 0.6
+    in: { 4_hydroxyacetophenone_oxime: 1 }
+    out: { paracetamol: 1 }
+    note: 훽스트-셀라니즈 공정(1990년대). 부산물이 거의 없다
+  - id: hydroxylamine_synthesis
+    name: { ko: 하이드록실아민 합성 }
+    time: 0.6
+    in: { NO: 2, H2: 3 }
+    out: { NH2OH: 2 }
+    note: BASF 공정. 묽은 황산 속 백금 촉매로 일산화 질소를 환원한다
+
+  # 이부프로펜(BHC 공정)
+  - id: isobutylbenzene_synthesis
+    name: { ko: 아이소뷰틸벤젠 합성 }
+    time: 0.8
+    in: { toluene: 1, propylene: 1 }
+    out: { isobutylbenzene: 1 }
+    note: 나트륨·칼륨 촉매로 톨루엔의 메틸기에 프로필렌을 붙인다(곁사슬 알킬화)
+  - id: bhc_acylation
+    name: { ko: "BHC 1단계: 아실화" }
+    time: 1
+    in: { isobutylbenzene: 1, acetic_anhydride: 1 }
+    out: { 4_isobutylacetophenone: 1, CH3COOH: 1 }
+    note: 플루오린화 수소가 촉매이자 용매다. 보츠-훽스트-셀라니즈 공정(1992)
+  - id: bhc_hydrogenation
+    name: { ko: "BHC 2단계: 수소화" }
+    time: 0.8
+    in: { 4_isobutylacetophenone: 1, H2: 1 }
+    out: { isobutylphenylethanol: 1 }
+    note: 라니 니켈 촉매
+  - id: bhc_carbonylation
+    name: { ko: "BHC 3단계: 카보닐화" }
+    time: 1
+    in: { isobutylphenylethanol: 1, CO: 1 }
+    out: { ibuprofen: 1 }
+    note: "팔라듐 촉매. 6단계 부츠 공정을 3단계로 줄였다(원자 경제성 40% → 77%, 회수한 아세트산까지 치면 약 99%)"
+
+  # 나프록센
+  - id: naphthalene_recovery
+    name: { ko: 나프탈렌 회수 }
+    time: 5
+    in: { reformate: 50, H2: 2 }
+    out: { naphthalene: 1, CH4: 2, gasoline: 48 }
+    approximate: true
+    note: 중질 개질유(C10+)의 메틸나프탈렌을 수소화 탈알킬화한다. 나머지는 휘발유 배합재로 보낸다. 콜타르에서도 얻는다
+  - id: naphthalene_sulfonation
+    name: { ko: 나프탈렌 설폰화 }
+    time: 1
+    in: { naphthalene: 1, H2SO4: 1 }
+    out: { naphthalene_2_sulfonic_acid: 1, H2O: 1 }
+    note: 160°C에서는 열역학적으로 안정한 2-설폰산이 주로 생긴다
+  - id: naphthalenesulfonate_alkali_fusion
+    name: { ko: 나프탈렌설폰산 알칼리 용융 }
+    time: 1.5
+    in: { naphthalene_2_sulfonic_acid: 1, NaOH: 3 }
+    out: { sodium_2_naphthoxide: 1, Na2SO3: 1, H2O: 2 }
+    note: 약 300°C 수산화 나트륨 용융
+  - id: naphthol_precipitation
+    name: { ko: 2-나프톨 석출 }
+    time: 0.5
+    in: { sodium_2_naphthoxide: 2, H2SO4: 1 }
+    out: { 2_naphthol: 2, Na2SO4: 1 }
+  - id: naphthol_methylation
+    name: { ko: 2-나프톨 메틸화 }
+    time: 0.8
+    in: { 2_naphthol: 1, CH3OH: 1 }
+    out: { 2_methoxynaphthalene: 1, H2O: 1 }
+    note: 황산 촉매
+  - id: methoxynaphthalene_acylation
+    name: { ko: 2-메톡시나프탈렌 아실화 }
+    time: 1
+    in: { 2_methoxynaphthalene: 1, acetic_anhydride: 1 }
+    out: { 2_acetyl_6_methoxynaphthalene: 1, CH3COOH: 1 }
+    note: 제올라이트 촉매로 6번 자리에 아세틸기를 붙인다
+  - id: acetylmethoxynaphthalene_hydrogenation
+    name: { ko: 2-아세틸-6-메톡시나프탈렌 수소화 }
+    time: 0.8
+    in: { 2_acetyl_6_methoxynaphthalene: 1, H2: 1 }
+    out: { methoxynaphthylethanol: 1 }
+  - id: naproxen_carbonylation
+    name: { ko: 나프록센 카보닐화 }
+    time: 1
+    in: { methoxynaphthylethanol: 1, CO: 1 }
+    out: { racemic_naproxen: 1 }
+    note: 팔라듐 촉매. 알코올이 바이닐나프탈렌을 거쳐 카복실산이 된다. 이부프로펜 BHC 공정과 같은 원리
+  - id: naproxen_resolution
+    name: { ko: 나프록센 광학 분할 }
+    time: 2
+    in: { racemic_naproxen: 1 }
+    out: { naproxen: 1 }
+    note: "N-알킬글루카민 염으로 (S)-이성질체만 결정으로 거르고, 남은 (R)-이성질체는 가열해 라세미화한 뒤 다시 돌린다(포프-피치 분할)"
+  - id: naproxen_sodium_formation
+    name: { ko: 나프록센나트륨 생성 }
+    time: 0.4
+    in: { naproxen: 1, NaOH: 1 }
+    out: { naproxen_sodium: 1, H2O: 1 }
+    note: 나트륨염은 더 빨리 녹아 흡수된다
+
+  # 카페인
+  - id: caffeine_extraction
+    name: { ko: 카페인 추출 }
+    time: 10
+    in: { tea_leaf: 45 }
+    out: { caffeine: 1 }
+    approximate: true
+    note: "찻잎을 뜨거운 물로 우려 다이클로로메테인으로 옮긴 뒤 승화로 정제한다(수율 약 90%). 실제 천연 카페인은 대부분 커피 생두의 카페인 제거(초임계 CO2) 부산물이다"
+
+  # 벤조카인
+  - id: terephthalamic_acid_synthesis
+    name: { ko: 4-카바모일벤조산 합성 }
+    time: 1
+    in: { terephthalic_acid: 1, NH3: 1 }
+    out: { terephthalamic_acid: 1, H2O: 1 }
+    note: 실제로는 테레프탈산 모노메틸(DMT 공정 부산물)을 암모니아로 아마이드화한다
+  - id: paba_hofmann_degradation
+    name: { ko: 4-아미노벤조산 합성(호프만 분해) }
+    time: 1
+    in: { terephthalamic_acid: 1, NaClO: 1, NaOH: 2 }
+    out: { 4_aminobenzoic_acid: 1, Na2CO3: 1, NaCl: 1, H2O: 1 }
+    note: 하이포아염소산 나트륨이 아마이드를 탄소 하나 짧은 아민으로 바꾼다
+  - id: benzocaine_esterification
+    name: { ko: 벤조카인 합성(에스터화) }
+    time: 1
+    in: { 4_aminobenzoic_acid: 1, ethanol: 1 }
+    out: { benzocaine: 1, H2O: 1 }
+    note: "황산 촉매 피셔 에스터화(리츠셀, 1890)"
+
+  # 설파제
+  - id: chlorosulfonic_acid_synthesis
+    name: { ko: 클로로설폰산 합성 }
+    time: 0.4
+    in: { SO3: 1, HCl: 1 }
+    out: { HSO3Cl: 1 }
+  - id: acetanilide_synthesis
+    name: { ko: 아세트아닐라이드 합성 }
+    time: 0.6
+    in: { aniline: 1, acetic_anhydride: 1 }
+    out: { acetanilide: 1, CH3COOH: 1 }
+    note: 아미노기를 아세틸기로 막아 클로로설폰화에서 지킨다
+  - id: acetanilide_chlorosulfonation
+    name: { ko: 아세트아닐라이드 클로로설폰화 }
+    time: 1
+    in: { acetanilide: 1, HSO3Cl: 2 }
+    out: { acetamidobenzenesulfonyl_chloride: 1, H2SO4: 1, HCl: 1 }
+    note: 파라 자리에 설포닐 클로라이드가 붙는다
+  - id: sulfonyl_chloride_amidation
+    name: { ko: 설폰아마이드화 }
+    time: 0.6
+    in: { acetamidobenzenesulfonyl_chloride: 1, NH3: 2 }
+    out: { acetamidobenzenesulfonamide: 1, NH4Cl: 1 }
+  - id: sulfanilamide_hydrolysis
+    name: { ko: 설파닐아마이드 탈아세틸화 }
+    time: 0.8
+    in: { acetamidobenzenesulfonamide: 1, H2O: 1 }
+    out: { sulfanilamide: 1, CH3COOH: 1 }
+    note: 묽은 염산으로 끓인다. 도마크(1935)의 프론토실이 몸속에서 바뀌는 활성 물질
+  - id: oxobutanenitrile_synthesis
+    name: { ko: 3-옥소뷰테인나이트릴 합성 }
+    time: 1
+    in: { acetonitrile: 1, ethyl_acetate: 1 }
+    out: { 3_oxobutanenitrile: 1, ethanol: 1 }
+    note: 나트륨 메톡사이드를 염기로 쓰는 클라이젠 축합
+  - id: aminomethylisoxazole_synthesis
+    name: { ko: 3-아미노-5-메틸아이소옥사졸 합성 }
+    time: 1
+    in: { 3_oxobutanenitrile: 1, NH2OH: 1 }
+    out: { 3_amino_5_methylisoxazole: 1, H2O: 1 }
+    note: 하이드록실아민과 고리화
+  - id: sulfamethoxazole_condensation
+    name: { ko: 설포닐 클로라이드 축합 }
+    time: 1
+    in: { acetamidobenzenesulfonyl_chloride: 1, 3_amino_5_methylisoxazole: 1 }
+    out: { n4_acetylsulfamethoxazole: 1, HCl: 1 }
+    note: 피리딘 속에서 축합한다
+  - id: sulfamethoxazole_hydrolysis
+    name: { ko: 설파메톡사졸 탈아세틸화 }
+    time: 0.8
+    in: { n4_acetylsulfamethoxazole: 1, H2O: 1 }
+    out: { sulfamethoxazole: 1, CH3COOH: 1 }
+    note: 수산화 나트륨 수용액 가수분해
+
+  # 이소니아지드와 나이아신
+  - id: picoline_synthesis
+    name: { ko: 피콜린 합성 }
+    time: 2
+    in: { acetaldehyde: 6, NH3: 2 }
+    out: { 2_picoline: 1, 4_picoline: 1, H2O: 6, H2: 2 }
+    note: 치치바빈 피리딘 합성. 아세트알데하이드와 암모니아를 약 450°C 실리카-알루미나 촉매에 통과시킨다
+  - id: 4_picoline_ammoxidation
+    name: { ko: 4-피콜린 암모산화 }
+    time: 1
+    in: { 4_picoline: 2, NH3: 2, O2: 3 }
+    out: { 4_cyanopyridine: 2, H2O: 6 }
+    note: "바나듐 산화물 촉매, 350~400°C"
+  - id: hydrazine_peroxide_process
+    name: { ko: 하이드라진 합성(과산화물 공정) }
+    time: 1
+    in: { NH3: 2, H2O2: 1 }
+    out: { N2H4: 1, H2O: 2 }
+    note: 메틸 에틸 케톤과 케타진을 만든 뒤 가수분해한다(PCUK 공정). 케톤은 다시 돌린다
+  - id: isoniazid_synthesis
+    name: { ko: 이소니아지드 합성 }
+    time: 1
+    in: { 4_cyanopyridine: 1, N2H4: 1, H2O: 1 }
+    out: { isoniazid: 1, NH3: 1 }
+    note: 4-사이아노피리딘을 염기 수용액에서 하이드라진과 반응시킨다(1952)
+  - id: 3_picoline_synthesis
+    name: { ko: 3-피콜린 합성 }
+    time: 1.5
+    in: { acrolein: 2, NH3: 1 }
+    out: { 3_picoline: 1, H2O: 2 }
+    note: 아크롤레인과 암모니아를 기상 촉매에 통과시킨다
+  - id: 3_picoline_ammoxidation
+    name: { ko: 3-피콜린 암모산화 }
+    time: 1
+    in: { 3_picoline: 2, NH3: 2, O2: 3 }
+    out: { 3_cyanopyridine: 2, H2O: 6 }
+    note: 바나듐 산화물 촉매
+  - id: nicotinamide_biocatalysis
+    name: { ko: 니코틴아미드 효소 합성 }
+    time: 1
+    in: { 3_cyanopyridine: 1, H2O: 1 }
+    out: { nicotinamide: 1 }
+    note: 로도코쿠스 로도크로스 균의 나이트릴 하이드라테이스가 물을 붙인다(론자 공정). 부산물이 거의 없다
+  - id: nicotinamide_hydrolysis
+    name: { ko: 니코틴산 합성 }
+    time: 0.8
+    in: { nicotinamide: 1, H2O: 1 }
+    out: { nicotinic_acid: 1, NH3: 1 }
+
+  # 비타민 B6(옥사졸 경로)
+  - id: formylalanine_ester_synthesis
+    name: { ko: N-폼일알라닌 에틸 에스터 합성 }
+    time: 1
+    in: { alanine: 1, formic_acid: 1, ethanol: 1 }
+    out: { n_formylalanine_ethyl_ester: 1, H2O: 2 }
+  - id: oxazole_cyclization
+    name: { ko: 옥사졸 고리 닫기 }
+    time: 1
+    in: { n_formylalanine_ethyl_ester: 1 }
+    out: { 5_ethoxy_4_methyloxazole: 1, H2O: 1 }
+    note: 오산화 인이나 염화 포스포릴로 탈수한다
+  - id: oxazole_diels_alder
+    name: { ko: 옥사졸 딜스-알더 반응 }
+    time: 1.5
+    in: { 5_ethoxy_4_methyloxazole: 1, maleic_anhydride: 1 }
+    out: { pyridoxine_anhydride: 1, ethanol: 1 }
+    note: 옥사졸이 다이엔으로 붙은 뒤 에탄올이 빠지며 피리딘 고리가 된다(콘드라티예바 반응)
+  - id: pyridoxine_reduction
+    name: { ko: "피리독신 합성(환원, 개요)" }
+    time: 1
+    in: { pyridoxine_anhydride: 1, H2: 4 }
+    out: { pyridoxine: 1, H2O: 1 }
+    note: 무수물을 다이올로 환원한다. 실제로는 실레인이나 금속 수소화물을 쓴다
+  - id: pyridoxine_hydrochloride_formation
+    name: { ko: 피리독신염산염 생성 }
+    time: 0.3
+    in: { pyridoxine: 1, HCl: 1 }
+    out: { pyridoxine_hydrochloride: 1 }
+
+  # 비타민 C
+  - id: sorbitol_oxidative_fermentation
+    name: { ko: 소비톨 산화 발효 }
+    time: 2
+    in: { sorbitol: 2, O2: 1 }
+    out: { l_sorbose: 2, H2O: 2 }
+    note: 글루코노박터 옥시단스가 5번 탄소만 골라 산화한다(라이히슈타인 공정 2단계)
+  - id: sorbose_acetonation
+    name: { ko: 소르보스 아세톤화 }
+    time: 1
+    in: { l_sorbose: 1, acetone: 2 }
+    out: { diacetone_sorbose: 1, H2O: 2 }
+    note: 황산 촉매. 하이드록시기 넷을 아세톤으로 막아 1번 탄소만 남긴다
+  - id: diacetone_sorbose_oxidation
+    name: { ko: 다이아세톤 소르보스 산화 }
+    time: 1.5
+    in: { diacetone_sorbose: 1, O2: 1 }
+    out: { diacetone_ketogulonic_acid: 1, H2O: 1 }
+    note: 백금 촉매 공기 산화(예전에는 과망가니즈산 칼륨이나 하이포아염소산 나트륨)
+  - id: ketogulonic_acid_deprotection
+    name: { ko: 2-케토-L-굴론산 탈보호 }
+    time: 1
+    in: { diacetone_ketogulonic_acid: 1, H2O: 2 }
+    out: { 2_keto_l_gulonic_acid: 1, acetone: 2 }
+    note: 산 가수분해. 아세톤은 다시 쓴다
+  - id: ascorbic_acid_lactonization
+    name: { ko: 아스코르브산 합성(락톤화) }
+    time: 1
+    in: { 2_keto_l_gulonic_acid: 1 }
+    out: { ascorbic_acid: 1, H2O: 1 }
+    note: 메틸 에스터로 만든 뒤 염기로 고리를 닫는다. 라이히슈타인(1933)
+  - id: ketogulonic_acid_fermentation
+    name: { ko: 2-케토-L-굴론산 발효 }
+    time: 3
+    in: { l_sorbose: 1, O2: 1 }
+    out: { 2_keto_l_gulonic_acid: 1, H2O: 1 }
+    note: "케토굴로니시게니움 균과 도움균을 함께 키우는 2단계 발효(중국, 1970년대). 아세톤 보호가 필요 없어 지금 세계 생산의 대부분"
+  - id: sodium_ascorbate_formation
+    name: { ko: 아스코르브산나트륨 생성 }
+    time: 0.4
+    in: { ascorbic_acid: 1, NaHCO3: 1 }
+    out: { sodium_ascorbate: 1, CO2: 1, H2O: 1 }
+
+  # 엽산
+  - id: cyanamide_production
+    name: { ko: 사이안아마이드 생산 }
+    time: 1
+    in: { CaCN2: 1, H2O: 1, CO2: 1 }
+    out: { cyanamide: 1, CaCO3: 1 }
+    note: 석회질소를 물에 풀고 이산화 탄소로 칼슘을 탄산 칼슘으로 떨어뜨린다
+  - id: guanidine_synthesis
+    name: { ko: 구아니딘 합성 }
+    time: 0.6
+    in: { cyanamide: 1, NH3: 1 }
+    out: { guanidine: 1 }
+    note: 실제로는 질산염·염산염으로 다룬다
+  - id: chloroacetic_acid_synthesis
+    name: { ko: 클로로아세트산 합성 }
+    time: 0.8
+    in: { CH3COOH: 1, Cl2: 1 }
+    out: { chloroacetic_acid: 1, HCl: 1 }
+    note: "아세트산 무수물 촉매, 약 100°C"
+  - id: cyanoacetic_acid_synthesis
+    name: { ko: 사이아노아세트산 합성 }
+    time: 1
+    in: { chloroacetic_acid: 1, HCN: 1, NaOH: 1 }
+    out: { cyanoacetic_acid: 1, NaCl: 1, H2O: 1 }
+    note: 실제로는 클로로아세트산 나트륨에 사이안화 나트륨을 넣는다(콜베 나이트릴 합성)
+  - id: ethyl_cyanoacetate_esterification
+    name: { ko: 사이아노아세트산 에틸 에스터화 }
+    time: 0.8
+    in: { cyanoacetic_acid: 1, ethanol: 1 }
+    out: { ethyl_cyanoacetate: 1, H2O: 1 }
+  - id: diaminohydroxypyrimidine_synthesis
+    name: { ko: 다이아미노하이드록시피리미딘 합성 }
+    time: 1
+    in: { guanidine: 1, ethyl_cyanoacetate: 1 }
+    out: { diamino_hydroxypyrimidine: 1, ethanol: 1 }
+    note: 나트륨 에톡사이드 속 고리화(트라우베 합성)
+  - id: pyrimidine_nitrosation
+    name: { ko: 피리미딘 나이트로소화 }
+    time: 0.6
+    in: { diamino_hydroxypyrimidine: 1, NaNO2: 1, HCl: 1 }
+    out: { diamino_nitroso_hydroxypyrimidine: 1, NaCl: 1, H2O: 1 }
+  - id: nitrosopyrimidine_reduction
+    name: { ko: 나이트로소피리미딘 환원 }
+    time: 0.8
+    in: { diamino_nitroso_hydroxypyrimidine: 1, H2: 2 }
+    out: { triamino_hydroxypyrimidine: 1, H2O: 1 }
+    note: 촉매 수소화(다이싸이오나이트 나트륨으로도 환원한다)
+  - id: acetone_chlorination
+    name: { ko: "1,1,3-트라이클로로아세톤 합성" }
+    time: 1
+    in: { acetone: 1, Cl2: 3 }
+    out: { trichloroacetone: 1, HCl: 3 }
+  - id: aminobenzoyl_glutamic_acid_synthesis
+    name: { ko: N-(4-아미노벤조일)-L-글루탐산 합성(개요) }
+    time: 1
+    in: { 4_aminobenzoic_acid: 1, glutamic_acid: 1 }
+    out: { aminobenzoyl_glutamic_acid: 1, H2O: 1 }
+    note: 실제로는 4-나이트로벤조일 클로라이드로 글루탐산을 아실화한 뒤 나이트로기를 환원한다
+  - id: folic_acid_synthesis
+    name: { ko: 엽산 합성 }
+    time: 2
+    in: { triamino_hydroxypyrimidine: 1, aminobenzoyl_glutamic_acid: 1, trichloroacetone: 1 }
+    out: { folic_acid: 1, HCl: 3, H2O: 1 }
+    note: "세 성분을 한 번에 축합해 프테리딘 고리를 만든다(레덜리 연구소, 1945)"
+
+  # 메트포르민
+  - id: dicyandiamide_synthesis
+    name: { ko: 다이사이안다이아마이드 합성 }
+    time: 0.8
+    in: { cyanamide: 2 }
+    out: { dicyandiamide: 1 }
+    note: 약염기 수용액에서 사이안아마이드가 이량체가 된다
+  - id: dimethylamine_synthesis
+    name: { ko: 다이메틸아민 합성 }
+    time: 1
+    in: { CH3OH: 2, NH3: 1 }
+    out: { dimethylamine: 1, H2O: 2 }
+    note: "고체 산 촉매, 약 400°C 기상 아민화"
+  - id: metformin_synthesis
+    name: { ko: 메트포르민염산염 합성 }
+    time: 1
+    in: { dimethylamine: 1, HCl: 1, dicyandiamide: 1 }
+    out: { metformin_hydrochloride: 1 }
+    note: 다이메틸아민 염산염과 다이사이안다이아마이드를 함께 가열한다. 갈레가(프렌치 라일락)의 구아니딘 성분에서 비롯했다
+
+  # 메트로니다졸
+  - id: glyoxal_synthesis
+    name: { ko: 글라이옥살 합성 }
+    time: 1
+    in: { ethylene_glycol: 1, O2: 1 }
+    out: { glyoxal: 1, H2O: 2 }
+    note: 은 촉매 기상 산화
+  - id: methylimidazole_synthesis
+    name: { ko: 2-메틸이미다졸 합성 }
+    time: 1
+    in: { glyoxal: 1, acetaldehyde: 1, NH3: 2 }
+    out: { 2_methylimidazole: 1, H2O: 3 }
+    note: 라지셰프스키 이미다졸 합성
+  - id: methylimidazole_nitration
+    name: { ko: 2-메틸이미다졸 나이트로화 }
+    time: 1
+    in: { 2_methylimidazole: 1, HNO3: 1 }
+    out: { 2_methyl_5_nitroimidazole: 1, H2O: 1 }
+    note: 진한 황산 속에서 나이트로화
+  - id: metronidazole_synthesis
+    name: { ko: 메트로니다졸 합성 }
+    time: 1
+    in: { 2_methyl_5_nitroimidazole: 1, ethylene_oxide: 1 }
+    out: { metronidazole: 1 }
+    note: "폼산 속에서 에틸렌 옥사이드로 하이드록시에틸기를 붙인다(롱프랑, 1960)"
+
+  # 오메프라졸
+  - id: anisole_synthesis
+    name: { ko: 아니솔 합성 }
+    time: 0.8
+    in: { phenol: 1, CH3OH: 1 }
+    out: { anisole: 1, H2O: 1 }
+    note: 기상 메틸화
+  - id: anisole_nitration
+    name: { ko: 아니솔 나이트로화 }
+    time: 0.8
+    in: { anisole: 1, HNO3: 1 }
+    out: { 4_nitroanisole: 1, H2O: 1 }
+    note: 오르토 이성질체를 나눠 낸 파라 이성질체
+  - id: nitroanisole_hydrogenation
+    name: { ko: 4-나이트로아니솔 수소화 }
+    time: 0.8
+    in: { 4_nitroanisole: 1, H2: 3 }
+    out: { 4_methoxyaniline: 1, H2O: 2 }
+  - id: methoxyphenylenediamine_synthesis
+    name: { ko: 4-메톡시-o-페닐렌다이아민 합성(개요) }
+    time: 2
+    in: { 4_methoxyaniline: 1, HNO3: 1, H2: 3 }
+    out: { 4_methoxy_o_phenylenediamine: 1, H2O: 3 }
+    note: 아미노기를 아세틸기로 막고 나이트로화한 뒤 보호기를 떼고 환원하는 네 단계를 묶었다
+  - id: mercaptobenzimidazole_synthesis
+    name: { ko: 5-메톡시-2-머캅토벤즈이미다졸 합성 }
+    time: 1
+    in: { 4_methoxy_o_phenylenediamine: 1, CS2: 1 }
+    out: { methoxy_mercaptobenzimidazole: 1, H2S: 1 }
+    note: 수산화 칼륨 에탄올 용액에서 이황화 탄소와 고리화
+  - id: collidine_synthesis
+    name: { ko: "2,3,5-콜리딘 합성(개요)" }
+    time: 2
+    in: { methacrolein: 1, methyl_ethyl_ketone: 1, NH3: 1 }
+    out: { 2_3_5_collidine: 1, H2O: 2, H2: 1 }
+    note: 메틸 에틸 케톤이 메타크롤레인에 마이클 첨가한 뒤 암모니아로 고리를 닫고 탈수소화한다고 단순화
+  - id: collidine_n_oxidation
+    name: { ko: 콜리딘 N-산화 }
+    time: 0.8
+    in: { 2_3_5_collidine: 1, H2O2: 1 }
+    out: { collidine_n_oxide: 1, H2O: 1 }
+    note: 아세트산 속 과산화 수소
+  - id: collidine_oxide_nitration
+    name: { ko: 콜리딘 N-옥사이드 나이트로화 }
+    time: 1
+    in: { collidine_n_oxide: 1, HNO3: 1 }
+    out: { nitrocollidine_n_oxide: 1, H2O: 1 }
+    note: N-옥사이드가 4번 자리를 활성화한다
+  - id: sodium_methoxide_production
+    name: { ko: 나트륨 메톡사이드 생산 }
+    time: 0.5
+    in: { CH3OH: 1, NaOH: 1 }
+    out: { CH3ONa: 1, H2O: 1 }
+    note: 반응 증류로 물을 빼낸다
+  - id: nitro_methoxy_exchange
+    name: { ko: 나이트로기 메톡시 치환 }
+    time: 1
+    in: { nitrocollidine_n_oxide: 1, CH3ONa: 1 }
+    out: { methoxycollidine_n_oxide: 1, NaNO2: 1 }
+  - id: boekelheide_rearrangement
+    name: { ko: 뵈켈하이데 재배열 }
+    time: 1
+    in: { methoxycollidine_n_oxide: 1, acetic_anhydride: 1 }
+    out: { acetoxymethyl_methoxylutidine: 1, CH3COOH: 1 }
+    note: N-옥사이드의 산소가 2번 메틸기로 옮겨 가며 아세톡시메틸기가 된다
+  - id: acetoxymethylpyridine_hydrolysis
+    name: { ko: 아세톡시메틸피리딘 가수분해 }
+    time: 0.6
+    in: { acetoxymethyl_methoxylutidine: 1, H2O: 1 }
+    out: { hydroxymethyl_methoxylutidine: 1, CH3COOH: 1 }
+  - id: hydroxymethylpyridine_chlorination
+    name: { ko: 하이드록시메틸피리딘 염소화 }
+    time: 0.6
+    in: { hydroxymethyl_methoxylutidine: 1, HCl: 2 }
+    out: { chloromethyl_methoxylutidine_hcl: 1, H2O: 1 }
+    note: 염산염으로 걸러 낸다
+  - id: pyrmetazole_coupling
+    name: { ko: 피르메타졸 축합 }
+    time: 1
+    in: { chloromethyl_methoxylutidine_hcl: 1, methoxy_mercaptobenzimidazole: 1, NaOH: 2 }
+    out: { pyrmetazole: 1, NaCl: 2, H2O: 2 }
+    note: 싸이올레이트가 클로로메틸기의 염소를 밀어낸다
+  - id: omeprazole_oxidation
+    name: { ko: 오메프라졸 합성(설폭사이드화) }
+    time: 1
+    in: { pyrmetazole: 1, H2O2: 1 }
+    out: { omeprazole: 1, H2O: 1 }
+    note: 황을 설폭사이드까지만 산화한다(실제로는 m-CPBA나 금속 촉매 과산화물). 아스트라
+
+  # 아테놀롤
+  - id: glyoxylic_acid_synthesis
+    name: { ko: 글라이옥실산 합성 }
+    time: 1
+    in: { glyoxal: 3, HNO3: 2 }
+    out: { glyoxylic_acid: 3, NO: 2, H2O: 1 }
+    note: 글라이옥살의 알데하이드 하나만 질산으로 산화한다
+  - id: hydroxymandelic_acid_synthesis
+    name: { ko: 4-하이드록시만델산 합성 }
+    time: 1
+    in: { phenol: 1, glyoxylic_acid: 1 }
+    out: { 4_hydroxymandelic_acid: 1 }
+    note: 알칼리 수용액에서 페놀의 파라 자리에 붙는다
+  - id: hydroxyphenylacetic_acid_synthesis
+    name: { ko: 4-하이드록시페닐아세트산 합성 }
+    time: 1
+    in: { 4_hydroxymandelic_acid: 1, H2: 1 }
+    out: { 4_hydroxyphenylacetic_acid: 1, H2O: 1 }
+    note: 팔라듐 촉매 수소화 분해로 하이드록시기를 뗀다
+  - id: hydroxyphenylacetic_acid_esterification
+    name: { ko: 4-하이드록시페닐아세트산 에스터화 }
+    time: 0.8
+    in: { 4_hydroxyphenylacetic_acid: 1, CH3OH: 1 }
+    out: { methyl_4_hydroxyphenylacetate: 1, H2O: 1 }
+  - id: hydroxyphenylacetamide_synthesis
+    name: { ko: 4-하이드록시페닐아세트아마이드 합성 }
+    time: 0.8
+    in: { methyl_4_hydroxyphenylacetate: 1, NH3: 1 }
+    out: { 4_hydroxyphenylacetamide: 1, CH3OH: 1 }
+    note: 암모니아수로 아마이드화
+  - id: isopropylamine_synthesis
+    name: { ko: 아이소프로필아민 합성 }
+    time: 0.8
+    in: { isopropanol: 1, NH3: 1 }
+    out: { isopropylamine: 1, H2O: 1 }
+    note: "니켈 촉매, 수소 분위기 아민화"
+  - id: atenolol_glycidylation
+    name: { ko: 글리시딜 에테르화 }
+    time: 1
+    in: { 4_hydroxyphenylacetamide: 1, epichlorohydrin: 1, NaOH: 1 }
+    out: { atenolol_glycidyl_ether: 1, NaCl: 1, H2O: 1 }
+  - id: atenolol_synthesis
+    name: { ko: 아테놀롤 합성 }
+    time: 1
+    in: { atenolol_glycidyl_ether: 1, isopropylamine: 1 }
+    out: { atenolol: 1 }
+    note: "아이소프로필아민이 에폭사이드 고리를 연다(ICI, 1976)"
+
+  # 아시클로버
+  - id: dioxolane_synthesis
+    name: { ko: "1,3-다이옥솔레인 합성" }
+    time: 0.6
+    in: { ethylene_glycol: 1, CH2O: 1 }
+    out: { 1_3_dioxolane: 1, H2O: 1 }
+    note: 산 촉매 아세탈화
+  - id: dioxolane_acetolysis
+    name: { ko: 다이옥솔레인 아세트산 무수물 개환 }
+    time: 1
+    in: { 1_3_dioxolane: 1, acetic_anhydride: 1 }
+    out: { acetoxyethoxymethyl_acetate: 1 }
+    note: 루이스 산 촉매
+  - id: guanine_acetylation
+    name: { ko: 구아닌 아세틸화 }
+    time: 1
+    in: { guanine: 1, acetic_anhydride: 2 }
+    out: { diacetylguanine: 1, CH3COOH: 2 }
+  - id: acyclovir_alkylation
+    name: { ko: 구아닌 알킬화 }
+    time: 1.5
+    in: { diacetylguanine: 1, acetoxyethoxymethyl_acetate: 1 }
+    out: { diacetylacyclovir: 1, acetic_anhydride: 1 }
+    note: p-톨루엔설폰산 촉매로 9번 질소에 곁사슬을 붙인다
+  - id: acyclovir_deprotection
+    name: { ko: 아시클로버 합성(탈아세틸화) }
+    time: 1
+    in: { diacetylacyclovir: 1, H2O: 2 }
+    out: { acyclovir: 1, CH3COOH: 2 }
+    note: "암모니아수로 아세틸기를 떼어 낸다(버로스 웰컴, 1977)"
+
+  # 페니실린(발효 + 효소 공정)
+  - id: penicillin_g_fermentation
+    name: { ko: 페니실린 G 발효 }
+    time: 2400
+    in: { eukaryotic_cell: 1, glucose: 1.003e24, NH3: 3.642e23, H2SO4: 7.204e22, O2: 3.529e24 }
+    out: { benzylpenicillin: 7.204e22, eukaryotic_cell: 1, CO2: 3.764e24, H2O: 4.996e24 }
+    approximate: true
+    note: 1L 유가식 발효 한 번(실제 6~8일). 진핵세포를 페니실륨 크리소게눔 생산 균주로 본다. 역가 약 40g/L(플레밍의 첫 균주는 수 mg/L). 곁사슬 전구체 공급은 생략했다. 균주는 세포 은행에 되돌려 둔다
+  - id: benzylpenicillin_potassium_formation
+    name: { ko: 벤질페니실린칼륨 결정화 }
+    time: 0.5
+    in: { benzylpenicillin: 1, KOH: 1 }
+    out: { benzylpenicillin_potassium: 1, H2O: 1 }
+    note: 발효액에서 아세트산 뷰틸로 뽑아낸 뒤 칼륨염으로 결정화한다
+  - id: phenoxyacetic_acid_synthesis
+    name: { ko: 페녹시아세트산 합성 }
+    time: 1
+    in: { phenol: 1, chloroacetic_acid: 1, NaOH: 1 }
+    out: { phenoxyacetic_acid: 1, NaCl: 1, H2O: 1 }
+    note: 페녹사이드가 클로로아세트산의 염소를 밀어낸다(윌리엄슨 에테르 합성)
+  - id: penicillin_v_fermentation
+    name: { ko: 페니실린 V 발효 }
+    time: 2400
+    in: { eukaryotic_cell: 1, glucose: 9.36e23, NH3: 3.159e23, H2SO4: 6.015e22, phenoxyacetic_acid: 6.617e22, O2: 4.068e24 }
+    out: { phenoxymethylpenicillin: 6.015e22, eukaryotic_cell: 1, CO2: 4.205e24, H2O: 4.993e24 }
+    approximate: true
+    note: 1L 유가식 발효 한 번. 곁사슬 전구체 페녹시아세트산을 먹이면 페니실린 V가 나온다. 역가 약 35g/L
+  - id: penicillin_v_potassium_formation
+    name: { ko: 페녹시메틸페니실린칼륨 결정화 }
+    time: 0.5
+    in: { phenoxymethylpenicillin: 1, KOH: 1 }
+    out: { phenoxymethylpenicillin_potassium: 1, H2O: 1 }
+  - id: penicillin_v_acylase_hydrolysis
+    name: { ko: 페니실린 V 효소 가수분해 }
+    time: 1
+    in: { phenoxymethylpenicillin: 1, H2O: 1 }
+    out: { 6_aminopenicillanic_acid: 1, phenoxyacetic_acid: 1 }
+    note: "고정화 페니실린 V 아실레이스, 약 30°C. 떼어 낸 곁사슬(페녹시아세트산)은 다시 발효에 넣는다"
+  - id: hydroxyphenylhydantoin_synthesis
+    name: { ko: 5-(4-하이드록시페닐)하이단토인 합성 }
+    time: 1
+    in: { phenol: 1, glyoxylic_acid: 1, urea: 1 }
+    out: { hydroxyphenylhydantoin: 1, H2O: 2 }
+    note: 산성 수용액 아미도알킬화
+  - id: d_hydroxyphenylglycine_biocatalysis
+    name: { ko: D-4-하이드록시페닐글라이신 효소 전환 }
+    time: 1.5
+    in: { hydroxyphenylhydantoin: 1, H2O: 2 }
+    out: { d_hydroxyphenylglycine: 1, CO2: 1, NH3: 1 }
+    note: D-하이단토이네이스와 N-카바모일레이스가 D-이성질체만 만든다. 남은 L-하이단토인은 저절로 라세미화한다(동적 분할)
+  - id: d_hydroxyphenylglycine_esterification
+    name: { ko: D-4-하이드록시페닐글라이신 에스터화 }
+    time: 0.8
+    in: { d_hydroxyphenylglycine: 1, CH3OH: 1 }
+    out: { d_hydroxyphenylglycine_methyl_ester: 1, H2O: 1 }
+  - id: amoxicillin_enzymatic_synthesis
+    name: { ko: 아목시실린 효소 합성 }
+    time: 1.5
+    in: { 6_aminopenicillanic_acid: 1, d_hydroxyphenylglycine_methyl_ester: 1 }
+    out: { amoxicillin: 1, CH3OH: 1 }
+    note: 고정화 페니실린 G 아실레이스가 물속에서 곁사슬을 붙인다(DSM 공정). 염화 메틸렌 같은 용매가 필요 없다
+  - id: amoxicillin_crystallization
+    name: { ko: 아목시실린 삼수화물 결정화 }
+    time: 1
+    in: { amoxicillin: 1, H2O: 3 }
+    out: { amoxicillin_trihydrate: 1 }
+    note: 등전점(pH 약 5)에서 결정화한다
+  - id: benzaldehyde_synthesis
+    name: { ko: 벤즈알데하이드 합성 }
+    time: 1
+    in: { toluene: 1, O2: 1 }
+    out: { benzaldehyde: 1, H2O: 1 }
+    note: 톨루엔 공기 산화(벤조산 공정에서 함께 나온다)
+  - id: phenylhydantoin_synthesis
+    name: { ko: 5-페닐하이단토인 합성 }
+    time: 1
+    in: { benzaldehyde: 1, HCN: 1, NH3: 1, CO2: 1 }
+    out: { phenylhydantoin: 1, H2O: 1 }
+    note: 부허러-베르크스 반응(사이안화물과 탄산 암모늄)
+  - id: d_phenylglycine_biocatalysis
+    name: { ko: D-페닐글라이신 효소 전환 }
+    time: 1.5
+    in: { phenylhydantoin: 1, H2O: 2 }
+    out: { d_phenylglycine: 1, CO2: 1, NH3: 1 }
+    note: 하이단토이네이스·카바모일레이스 동적 분할
+  - id: d_phenylglycine_esterification
+    name: { ko: D-페닐글라이신 에스터화 }
+    time: 0.8
+    in: { d_phenylglycine: 1, CH3OH: 1 }
+    out: { d_phenylglycine_methyl_ester: 1, H2O: 1 }
+  - id: ampicillin_enzymatic_synthesis
+    name: { ko: 암피실린 효소 합성 }
+    time: 1.5
+    in: { 6_aminopenicillanic_acid: 1, d_phenylglycine_methyl_ester: 1 }
+    out: { ampicillin: 1, CH3OH: 1 }
+    note: 고정화 페니실린 G 아실레이스
+  - id: adipoyl_7_adca_fermentation
+    name: { ko: 아디포일-7-ADCA 발효 }
+    time: 2400
+    in: { eukaryotic_cell: 1, glucose: 8.357e23, NH3: 2.484e23, H2SO4: 2.638e22, adipic_acid: 3.43e22, O2: 3.801e24 }
+    out: { adipoyl_7_adca: 2.638e22, eukaryotic_cell: 1, CO2: 3.872e24, H2O: 4.467e24 }
+    approximate: true
+    note: "고리 확장 효소(익스팬데이스)를 넣은 페니실륨 균주에 아디프산을 먹여 세팔로스포린 뼈대를 바로 만든다(DSM, 2000년대). 역가 약 15g/L"
+  - id: adca_deacylation
+    name: { ko: 7-ADCA 효소 탈아실화 }
+    time: 1
+    in: { adipoyl_7_adca: 1, H2O: 1 }
+    out: { 7_adca: 1, adipic_acid: 1 }
+    note: 글루타릴 아실레이스가 곁사슬을 떼어 낸다. 아디프산은 다시 쓴다
+  - id: cephalexin_enzymatic_synthesis
+    name: { ko: 세팔렉신 효소 합성 }
+    time: 1.5
+    in: { 7_adca: 1, d_phenylglycine_methyl_ester: 1 }
+    out: { cephalexin: 1, CH3OH: 1 }
+    note: 고정화 페니실린 G 아실레이스
+  - id: cephalexin_crystallization
+    name: { ko: 세팔렉신 일수화물 결정화 }
+    time: 1
+    in: { cephalexin: 1, H2O: 1 }
+    out: { cephalexin_monohydrate: 1 }
+  - id: cefadroxil_enzymatic_synthesis
+    name: { ko: 세파드록실 효소 합성 }
+    time: 1.5
+    in: { 7_adca: 1, d_hydroxyphenylglycine_methyl_ester: 1 }
+    out: { cefadroxil: 1, CH3OH: 1 }
+    note: 아목시실린과 같은 곁사슬을 세팔로스포린 뼈대에 붙인다
+
+  # 그 밖의 발효 의약품
+  - id: streptomycin_fermentation
+    name: { ko: 스트렙토마이신 발효 }
+    time: 3000
+    in: { prokaryotic_cell: 1, glucose: 2.006e23, NH3: 1.603e23, O2: 5.759e23 }
+    out: { streptomycin: 1.243e22, prokaryotic_cell: 1, CO2: 5.756e23, H2O: 8.715e23 }
+    approximate: true
+    note: "1L 발효 한 번(실제 약 7일). 원핵세포를 방선균 스트렙토미세스 그리세우스로 본다(왁스먼·샤츠, 1943). 역가 약 12g/L. 첫 결핵 치료제"
+  - id: streptomycin_sulfate_formation
+    name: { ko: 스트렙토마이신황산염 생성 }
+    time: 0.5
+    in: { streptomycin: 2, H2SO4: 3 }
+    out: { streptomycin_sulfate: 1 }
+    note: 이온 교환 수지로 정제한 뒤 황산염으로 굳힌다
+  - id: erythromycin_fermentation
+    name: { ko: 에리트로마이신 발효 }
+    time: 3000
+    in: { prokaryotic_cell: 1, glucose: 2.674e23, NH3: 1.044e23, O2: 7.857e23 }
+    out: { erythromycin: 6.564e21, prokaryotic_cell: 1, CO2: 8.726e23, H2O: 1.101e24 }
+    approximate: true
+    note: 1L 발효 한 번. 원핵세포를 사카로폴리스포라 에리트레아로 본다. 실제로는 대두유·프로판올도 탄소원으로 쓴다. 역가 약 8g/L
+  - id: erythromycin_stearate_formation
+    name: { ko: 에리트로마이신스테아르산염 생성 }
+    time: 0.5
+    in: { erythromycin: 1, stearic_acid: 1 }
+    out: { erythromycin_stearate: 1 }
+    note: 위산에 덜 분해되는 염
+  - id: tetracycline_fermentation
+    name: { ko: 테트라사이클린 발효 }
+    time: 2700
+    in: { prokaryotic_cell: 1, glucose: 4.011e23, NH3: 1.52e23, O2: 1.283e24 }
+    out: { tetracycline: 2.71e22, prokaryotic_cell: 1, CO2: 1.321e24, H2O: 1.869e24 }
+    approximate: true
+    note: 1L 발효 한 번. 원핵세포를 스트렙토미세스 아우레오파시엔스로 본다. 염화 이온이 적은 배지에서는 염소가 붙지 않은 테트라사이클린이 나온다. 역가 약 20g/L
+  - id: tetracycline_hydrochloride_formation
+    name: { ko: 테트라사이클린염산염 생성 }
+    time: 0.5
+    in: { tetracycline: 1, HCl: 1 }
+    out: { tetracycline_hydrochloride: 1 }
+  - id: lovastatin_fermentation
+    name: { ko: 로바스타틴 발효 }
+    time: 3000
+    in: { eukaryotic_cell: 1, glucose: 2.674e23, NH3: 9.782e22, O2: 8.64e23 }
+    out: { lovastatin: 7.443e21, eukaryotic_cell: 1, CO2: 9.368e23, H2O: 1.177e24 }
+    approximate: true
+    note: 1L 발효 한 번. 진핵세포를 누룩곰팡이 아스페르길루스 테레우스로 본다. 역가 약 5g/L
+  - id: simvastatin_synthesis
+    name: { ko: 심바스타틴 합성(개요) }
+    time: 2
+    in: { lovastatin: 1, chloromethane: 1, NaOH: 1 }
+    out: { simvastatin: 1, NaCl: 1, H2O: 1 }
+    note: 로바스타틴 곁사슬의 α 탄소에 메틸기 하나를 더 붙인다. 실제로는 하이드록시기를 보호하고 강염기와 아이오도메테인을 쓴다
+  - id: proinsulin_expression
+    name: { ko: 프로인슐린 발현 }
+    time: 1800
+    in: { prokaryotic_cell: 1, glucose: 5.014e23, NH3: 2.665e23, H2SO4: 1.155e21, O2: 1.642e24 }
+    out: { proinsulin: 1.924e20, prokaryotic_cell: 1, CO2: 1.707e24, H2O: 2.248e24 }
+    approximate: true
+    note: 사람 프로인슐린 유전자를 넣은 대장균의 1L 고밀도 유가식 배양(실제 1~2일). 봉입체로 쌓인 것을 녹여 이황화 결합을 다시 맺힌 양. 역가 약 3g/L
+  - id: proinsulin_cleavage
+    name: { ko: 프로인슐린 효소 절단 }
+    time: 2
+    in: { proinsulin: 1, H2O: 6 }
+    out: { insulin: 1, c_peptide: 1, arginine: 3, lysine: 1 }
+    note: 트립신이 염기성 아미노산 쌍 뒤를 자르고 카복시펩티데이스 B가 남은 아르지닌·라이신을 떼어 낸다. 일라이 릴리는 1986년부터 이 경로로 휴물린을 만든다(처음 1982년에는 A·B 사슬을 따로 발현)
+
+  # 천연물 추출
+  - id: heparin_extraction
+    name: { ko: 헤파린 추출 }
+    time: 20
+    in: { porcine_mucosa: 25000, NaCl: 4 }
+    out: { heparin_sodium: 1 }
+    approximate: true
+    note: 점막을 단백질 분해 효소로 삭힌 뒤 음이온 교환 수지에 붙이고 진한 소금물로 떼어 메탄올로 가라앉힌다. 점막 1kg에서 약 0.27g
+  - id: quinine_extraction
+    name: { ko: 퀴닌 추출 }
+    time: 10
+    in: { cinchona_bark: 50, Ca(OH)2: 1 }
+    out: { quinine: 1, quinidine: 0.05 }
+    approximate: true
+    note: "껍질 가루를 석회와 섞어 알칼로이드를 풀어낸 뒤 톨루엔으로 뽑고 묽은 황산으로 되옮긴다(수율 약 80%)"
+  - id: quinine_sulfate_formation
+    name: { ko: 퀴닌황산염 결정화 }
+    time: 0.5
+    in: { quinine: 2, H2SO4: 1, H2O: 2 }
+    out: { quinine_sulfate: 1 }
+
+  # 부형제와 기제
+  - id: microcrystalline_cellulose_production
+    name: { ko: 미결정 셀룰로스 제조 }
+    time: 2
+    in: { cotton_fiber: 10, H2O: 1 }
+    out: { microcrystalline_cellulose: 9, glucose: 1 }
+    note: 면 린터·목재 펄프를 묽은 염산으로 끓여 비결정 부분만 녹여 낸다
+  - id: croscarmellose_synthesis
+    name: { ko: 크로스카멜로스나트륨 제조 }
+    time: 2
+    in: { cotton_fiber: 1, chloroacetic_acid: 1, NaOH: 2 }
+    out: { croscarmellose_sodium: 1, NaCl: 1, H2O: 2 }
+    note: 알칼리 셀룰로스를 카복시메틸화한 뒤 산으로 가교한다. 물을 빨아들여 정제를 터뜨린다
+  - id: methylcellulose_synthesis
+    name: { ko: 메틸셀룰로스 제조 }
+    time: 2
+    in: { cotton_fiber: 1, chloromethane: 2, NaOH: 2 }
+    out: { methylcellulose: 1, NaCl: 2, H2O: 2 }
+    note: 알칼리 셀룰로스를 클로로메테인으로 에테르화한다
+  - id: magnesium_stearate_production
+    name: { ko: 스테아르산 마그네슘 제조 }
+    time: 1
+    in: { stearic_acid: 2, Mg(OH)2: 1 }
+    out: { magnesium_stearate: 1, H2O: 2 }
+    note: 타정기 펀치에 가루가 달라붙지 않게 한다
+  - id: sodium_stearate_production
+    name: { ko: 스테아르산 나트륨 제조(비누화) }
+    time: 0.5
+    in: { stearic_acid: 1, NaOH: 1 }
+    out: { sodium_stearate: 1, H2O: 1 }
+  - id: colloidal_silica_production
+    name: { ko: 흄드 실리카 제조 }
+    time: 1
+    in: { SiCl4: 1, H2: 2, O2: 1 }
+    out: { colloidal_silica: 1, HCl: 4 }
+    note: 사염화 규소를 수소·산소 불꽃 속에서 가수분해한다(에어로실 공정)
+  - id: peg_polymerization
+    name: { ko: 폴리에틸렌 글라이콜 중합 }
+    time: 1
+    in: { ethylene_oxide: 1 }
+    out: { polyethylene_glycol: 1 }
+    note: 물이나 에틸렌 글라이콜을 개시제로 염기 촉매 개환 중합
+  - id: methacrylic_copolymer_polymerization
+    name: { ko: 메타크릴산 공중합체 중합 }
+    time: 1
+    in: { methacrylic_acid: 1, methyl_methacrylate: 1 }
+    out: { methacrylic_acid_copolymer: 1 }
+    note: "1:1 에멀션 중합. 산성인 위에서는 녹지 않고 장에서 녹는다"
+  - id: petrolatum_blending
+    name: { ko: 백색 바셀린 배합 }
+    time: 2
+    in: { paraffin_wax: 2, lubricating_oil: 3 }
+    out: { white_petrolatum: 5 }
+    note: 왁스를 정제 유동 파라핀에 녹여 섞는다
+  - id: calamine_preparation
+    name: { ko: 칼라민 제조 }
+    time: 1
+    in: { ZnO: 200, Fe2O3: 0.5 }
+    out: { calamine: 200 }
+    note: 분홍빛을 내는 산화 철을 고르게 섞는다
+  - id: trisodium_citrate_production
+    name: { ko: 시트르산 나트륨 생성 }
+    time: 0.6
+    in: { citric_acid: 1, NaOH: 3 }
+    out: { trisodium_citrate: 1, H2O: 1 }
+  - id: sodium_lactate_production
+    name: { ko: 젖산 나트륨 생성 }
+    time: 0.4
+    in: { lactic_acid: 1, NaOH: 1 }
+    out: { sodium_lactate: 1, H2O: 1 }
+
+  # 포장재와 용기
+  - id: hard_capsule_size_0
+    name: { ko: 0호 캡슐 성형 }
+    time: 0.5
+    in: { gelatin: 5.405e17, H2O: 4.346e20, TiO2: 1.131e19 }
+    out: { hard_capsule_size_0: 1 }
+    note: "스테인리스 핀을 젤라틴 용액에 담갔다 꺼내 말린다. 물 약 13%, 이산화 타이타늄으로 불투명하게"
+  - id: hard_capsule_size_2
+    name: { ko: 2호 캡슐 성형 }
+    time: 0.5
+    in: { gelatin: 3.428e17, H2O: 2.775e20, TiO2: 7.54e18 }
+    out: { hard_capsule_size_2: 1 }
+  - id: blister_pack_10
+    name: { ko: PTP 포장재 성형 }
+    time: 2
+    in: { pvc: 1.445e22, Al: 5.133e21, pvac: 2.099e20 }
+    out: { blister_pack_10: 1 }
+    note: 알루미늄 박에는 열 봉합용 바이닐 래커를 입힌다
+  - id: tablet_bottle
+    name: { ko: 정제 병 성형 }
+    time: 5
+    in: { polyethylene_hd: 2.791e23, polypropylene: 5.009e22, Al: 1.116e21, polyethylene_ld: 1.073e21 }
+    out: { tablet_bottle: 1 }
+  - id: pharmacy_bottle_120ml
+    name: { ko: 갈색 약병 성형 }
+    time: 5
+    in: { pet: 4.074e22, polypropylene: 4.293e22, Fe2O3: 7.542e19 }
+    out: { pharmacy_bottle_120ml: 1 }
+    note: 산화 철 안료로 갈색을 낸다
+  - id: glass_vial_10ml
+    name: { ko: 유리 바이알 성형 }
+    time: 8
+    in: { SiO2: 5.245e22, B2O3: 7.31e21, Na2CO3: 2.526e21, Al2O3: 9.598e20 }
+    out: { glass_vial_10ml: 1, CO2: 2.526e21 }
+    note: "SiO2 80.5 · B2O3 13 · Na2O 4 · Al2O3 2.5 wt%. 유리관을 데워 잘라 바닥과 입구를 만든다"
+  - id: rubber_stopper
+    name: { ko: 고무 마개 성형 }
+    time: 3
+    in: { isobutene: 5.689e21, isoprene: 9.725e19, Br2: 8.29e19, SiO2: 1.904e21, Al2O3: 9.45e20, ZnO: 1.48e20, TiO2: 1.508e20, pdms: 8.121e18 }
+    out: { rubber_stopper: 1, HBr: 8.299e19 }
+    note: "아이소뷰텐 98 · 아이소프렌 2 공중합 고무를 브로민화(Br 약 2 wt%)하고 소성 점토를 섞어 가황 성형한다. 실리콘 오일로 표면 처리"
+  - id: iv_bag_500ml
+    name: { ko: 수액 백 성형 }
+    time: 10
+    in: { flexible_pvc: 1.373e22, polypropylene: 1.431e22 }
+    out: { iv_bag_500ml: 1 }
+    note: 고주파로 필름 두 장을 붙이고 포트를 단다
+  - id: ointment_tube
+    name: { ko: 연고 튜브 성형 }
+    time: 4
+    in: { Al: 7.812e22, epoxy_resin: 8.845e19, polypropylene: 1.145e22 }
+    out: { ointment_tube: 1 }
+    note: 알루미늄 슬러그를 충격 압출하고 안쪽에 에폭시 래커를 입힌다
+
+  # 정제와 캡슐
+  - id: aspirin_tablet_500mg
+    name: { ko: 아스피린 정 타정 }
+    time: 1
+    in: { acetylsalicylic_acid: 1.671e21, starch: 2.228e20, microcrystalline_cellulose: 1.486e20 }
+    out: { aspirin_tablet_500mg: 1 }
+    note: 직접 타정. 옥수수 녹말과 셀룰로스 부형제
+  - id: aspirin_bottle_100
+    name: { ko: 아스피린 병 포장 }
+    time: 10
+    in: { tablet_bottle: 1, aspirin_tablet_500mg: 100 }
+    out: { aspirin_bottle_100: 1 }
+  - id: paracetamol_tablet_500mg
+    name: { ko: 아세트아미노펜 정 타정 }
+    time: 1
+    in: { paracetamol: 1.992e21, starch: 1.783e20, methylcellulose: 3.166e19, stearic_acid: 1.058e19, colloidal_silica: 2.005e19 }
+    out: { paracetamol_tablet_500mg: 1 }
+    note: 습식 과립 후 타정
+  - id: paracetamol_blister_10
+    name: { ko: 아세트아미노펜 PTP 포장 }
+    time: 5
+    in: { blister_pack_10: 1, paracetamol_tablet_500mg: 10 }
+    out: { paracetamol_blister_10: 1 }
+  - id: ibuprofen_tablet_200mg
+    name: { ko: 이부프로펜 정 타정 }
+    time: 1
+    in: { ibuprofen: 5.839e20, microcrystalline_cellulose: 2.228e20, croscarmellose_sodium: 3.73e19, colloidal_silica: 2.005e19, magnesium_stearate: 3.056e18, pva: 5.468e19, polyethylene_glycol: 2.734e19, TiO2: 2.262e19 }
+    out: { ibuprofen_tablet_200mg: 1 }
+    note: PVA·PEG·이산화 타이타늄 필름 코팅
+  - id: ibuprofen_blister_10
+    name: { ko: 이부프로펜 PTP 포장 }
+    time: 5
+    in: { blister_pack_10: 1, ibuprofen_tablet_200mg: 10 }
+    out: { ibuprofen_blister_10: 1 }
+  - id: naproxen_sodium_tablet_220mg
+    name: { ko: 나프록센나트륨 정 타정 }
+    time: 1
+    in: { naproxen_sodium: 5.252e20, microcrystalline_cellulose: 1.114e20, methylcellulose: 3.166e19, magnesium_stearate: 3.056e18, pva: 4.374e19, polyethylene_glycol: 2.187e19, TiO2: 1.81e19 }
+    out: { naproxen_sodium_tablet_220mg: 1 }
+  - id: analgesic_combination_tablet
+    name: { ko: 복합 진통제 타정 }
+    time: 1
+    in: { paracetamol: 9.96e20, acetylsalicylic_acid: 8.357e20, caffeine: 2.016e20, microcrystalline_cellulose: 1.857e20, starch: 1.114e20, stearic_acid: 1.058e19, pva: 6.835e19, polyethylene_glycol: 3.418e19, TiO2: 2.828e19 }
+    out: { analgesic_combination_tablet: 1 }
+  - id: amoxicillin_capsule_500mg
+    name: { ko: 아목시실린 캡슐 충전 }
+    time: 1
+    in: { amoxicillin_trihydrate: 8.241e20, magnesium_stearate: 5.093e18, hard_capsule_size_0: 1 }
+    out: { amoxicillin_capsule_500mg: 1 }
+  - id: amoxicillin_blister_10
+    name: { ko: 아목시실린 PTP 포장 }
+    time: 5
+    in: { blister_pack_10: 1, amoxicillin_capsule_500mg: 10 }
+    out: { amoxicillin_blister_10: 1 }
+  - id: ampicillin_capsule_250mg
+    name: { ko: 암피실린 캡슐 충전 }
+    time: 1
+    in: { ampicillin: 4.309e20, magnesium_stearate: 3.056e18, hard_capsule_size_2: 1 }
+    out: { ampicillin_capsule_250mg: 1 }
+  - id: cephalexin_capsule_500mg
+    name: { ko: 세팔렉신 캡슐 충전 }
+    time: 1
+    in: { cephalexin_monohydrate: 8.669e20, magnesium_stearate: 5.093e18, hard_capsule_size_0: 1 }
+    out: { cephalexin_capsule_500mg: 1 }
+  - id: tetracycline_capsule_250mg
+    name: { ko: 테트라사이클린 캡슐 충전 }
+    time: 1
+    in: { tetracycline_hydrochloride: 3.131e20, lactose: 1.056e20, magnesium_stearate: 3.056e18, hard_capsule_size_2: 1 }
+    out: { tetracycline_capsule_250mg: 1 }
+  - id: erythromycin_tablet_250mg
+    name: { ko: 에리트로마이신 정 타정 }
+    time: 1
+    in: { erythromycin_stearate: 2.052e20, microcrystalline_cellulose: 2.228e20, starch: 7.428e19, magnesium_stearate: 3.056e18, pva: 6.835e19, polyethylene_glycol: 3.418e19, TiO2: 2.828e19 }
+    out: { erythromycin_tablet_250mg: 1 }
+  - id: penicillin_v_tablet_250mg
+    name: { ko: 페니실린 V 정 타정 }
+    time: 1
+    in: { phenoxymethylpenicillin_potassium: 4.294e20, microcrystalline_cellulose: 2.228e20, magnesium_stearate: 3.056e18, pva: 5.468e19, polyethylene_glycol: 2.734e19, TiO2: 2.262e19 }
+    out: { penicillin_v_tablet_250mg: 1 }
+  - id: simvastatin_tablet_20mg
+    name: { ko: 심바스타틴 정 타정 }
+    time: 1
+    in: { simvastatin: 2.877e19, lactose: 2.463e20, microcrystalline_cellulose: 9.285e19, starch: 3.714e19, magnesium_stearate: 1.019e18, methylcellulose: 1.267e19, TiO2: 1.508e19 }
+    out: { simvastatin_tablet_20mg: 1 }
+  - id: metformin_tablet_500mg
+    name: { ko: 메트포르민 정 타정 }
+    time: 1
+    in: { metformin_hydrochloride: 1.818e21, methylcellulose: 9.499e19, magnesium_stearate: 5.093e18, polyethylene_glycol: 4.101e19, TiO2: 1.508e19 }
+    out: { metformin_tablet_500mg: 1 }
+  - id: atenolol_tablet_50mg
+    name: { ko: 아테놀롤 정 타정 }
+    time: 1
+    in: { atenolol: 1.131e20, microcrystalline_cellulose: 2.228e20, starch: 7.428e19, croscarmellose_sodium: 1.243e19, magnesium_stearate: 1.528e18 }
+    out: { atenolol_tablet_50mg: 1 }
+  - id: omeprazole_capsule_20mg
+    name: { ko: 오메프라졸 캡슐 충전 }
+    time: 2
+    in: { omeprazole: 3.487e19, microcrystalline_cellulose: 4.457e20, methylcellulose: 4.749e19, Na2HPO4: 1.273e19, methacrylic_acid_copolymer: 1.294e20, polyethylene_glycol: 5.468e19, hard_capsule_size_2: 1 }
+    out: { omeprazole_capsule_20mg: 1 }
+    note: "셀룰로스 구슬에 약물을 입히고 메틸셀룰로스 중간층, 메타크릴산 공중합체 장용층을 차례로 입힌다. 오메프라졸은 산에서 바로 분해된다"
+  - id: metronidazole_tablet_500mg
+    name: { ko: 메트로니다졸 정 타정 }
+    time: 1
+    in: { metronidazole: 1.759e21, starch: 1.857e20, microcrystalline_cellulose: 1.114e20, magnesium_stearate: 5.093e18, colloidal_silica: 3.007e19, methylcellulose: 3.166e19, polyethylene_glycol: 2.734e19 }
+    out: { metronidazole_tablet_500mg: 1 }
+  - id: isoniazid_tablet_300mg
+    name: { ko: 이소니아지드 정 타정 }
+    time: 1
+    in: { isoniazid: 1.317e21, lactose: 1.056e20, starch: 1.114e20, magnesium_stearate: 3.056e18, colloidal_silica: 2.005e19 }
+    out: { isoniazid_tablet_300mg: 1 }
+  - id: pyridoxine_tablet_25mg
+    name: { ko: 피리독신 정 타정 }
+    time: 1
+    in: { pyridoxine_hydrochloride: 7.321e19, lactose: 1.232e20, starch: 7.428e19, magnesium_stearate: 1.019e18 }
+    out: { pyridoxine_tablet_25mg: 1 }
+  - id: acyclovir_tablet_400mg
+    name: { ko: 아시클로버 정 타정 }
+    time: 1
+    in: { acyclovir: 1.07e21, microcrystalline_cellulose: 2.971e20, croscarmellose_sodium: 3.73e19, magnesium_stearate: 4.074e18, colloidal_silica: 2.005e19 }
+    out: { acyclovir_tablet_400mg: 1 }
+  - id: quinine_sulfate_tablet_300mg
+    name: { ko: 퀴닌 정 타정 }
+    time: 1
+    in: { quinine_sulfate: 2.307e20, starch: 1.857e20, microcrystalline_cellulose: 1.486e20, magnesium_stearate: 3.056e18, methylcellulose: 2.533e19, polyethylene_glycol: 2.734e19 }
+    out: { quinine_sulfate_tablet_300mg: 1 }
+  - id: vitamin_c_tablet_500mg
+    name: { ko: 비타민 C 정 타정 }
+    time: 1
+    in: { ascorbic_acid: 1.71e21, microcrystalline_cellulose: 2.228e20, methylcellulose: 3.166e19, magnesium_stearate: 4.074e18, colloidal_silica: 2.005e19 }
+    out: { vitamin_c_tablet_500mg: 1 }
+  - id: folic_acid_tablet_5mg
+    name: { ko: 엽산 정 타정 }
+    time: 1
+    in: { folic_acid: 6.822e18, lactose: 1.232e20, starch: 7.428e19, magnesium_stearate: 1.019e18 }
+    out: { folic_acid_tablet_5mg: 1 }
+  - id: niacin_tablet_500mg
+    name: { ko: 나이아신 서방정 타정 }
+    time: 1
+    in: { nicotinic_acid: 2.446e21, methylcellulose: 2.533e20, microcrystalline_cellulose: 1.114e20, stearic_acid: 1.058e19 }
+    out: { niacin_tablet_500mg: 1 }
+    note: 메틸셀룰로스 매트릭스가 물을 머금고 천천히 녹으며 약을 내보낸다
+  - id: calcium_carbonate_chewable_tablet
+    name: { ko: 탄산 칼슘 츄어블정 타정 }
+    time: 1
+    in: { CaCO3: 3.008e21, sorbitol: 1.983e21, starch: 1.114e20, magnesium_stearate: 1.019e19 }
+    out: { calcium_carbonate_chewable_tablet: 1 }
+  - id: potassium_iodide_tablet_130mg
+    name: { ko: 아이오딘화 칼륨 정 타정 }
+    time: 1
+    in: { KI: 4.716e20, microcrystalline_cellulose: 1.857e20, magnesium_stearate: 1.019e18, colloidal_silica: 1.002e19 }
+    out: { potassium_iodide_tablet_130mg: 1 }
+  - id: ferrous_sulfate_tablet_325mg
+    name: { ko: 황산 철 정 타정 }
+    time: 1
+    in: { FeSO4·7H2O: 7.04e20, microcrystalline_cellulose: 1.857e20, magnesium_stearate: 2.037e18, methylcellulose: 2.533e19, TiO2: 1.508e19 }
+    out: { ferrous_sulfate_tablet_325mg: 1 }
+  - id: zinc_sulfate_tablet_20mg
+    name: { ko: 아연 분산정 타정 }
+    time: 1
+    in: { ZnSO4·H2O: 1.842e20, microcrystalline_cellulose: 3.714e20, sorbitol: 1.653e20, croscarmellose_sodium: 2.487e19, magnesium_stearate: 2.037e18 }
+    out: { zinc_sulfate_tablet_20mg: 1 }
+
+  # 주사제와 수액
+  - id: insulin_vial_10ml
+    name: { ko: 인슐린 바이알 충전 }
+    time: 15
+    in: { insulin: 3.598e18, glycerol: 1.046e21, phenol: 1.6e20, ZnO: 1.184e18, water_for_injection: 3.343e23, Al: 1.116e22, polypropylene: 4.293e21, glass_vial_10ml: 1, rubber_stopper: 1 }
+    out: { insulin_vial_10ml: 1 }
+    note: "무균 충전. 글리세롤은 등장화제, 페놀은 보존제(제품에 따라 m-크레솔), 아연은 인슐린 육량체를 안정시킨다"
+  - id: heparin_vial_10ml
+    name: { ko: 헤파린 바이알 충전 }
+    time: 15
+    in: { heparin_sodium: 5.032e19, NaCl: 9.274e20, water_for_injection: 3.343e23, Al: 1.116e22, polypropylene: 4.293e21, glass_vial_10ml: 1, rubber_stopper: 1 }
+    out: { heparin_vial_10ml: 1 }
+  - id: benzylpenicillin_vial
+    name: { ko: 페니실린 바이알 충전 }
+    time: 10
+    in: { benzylpenicillin_potassium: 9.701e20, Al: 1.116e22, polypropylene: 4.293e21, glass_vial_10ml: 1, rubber_stopper: 1 }
+    out: { benzylpenicillin_vial: 1 }
+    note: 멸균 분말을 무균 상태로 나눠 담는다
+  - id: streptomycin_vial_1g
+    name: { ko: 스트렙토마이신 바이알 충전 }
+    time: 10
+    in: { streptomycin_sulfate: 5.178e20, Al: 1.116e22, polypropylene: 4.293e21, glass_vial_10ml: 1, rubber_stopper: 1 }
+    out: { streptomycin_vial_1g: 1 }
+  - id: saline_bag_500ml
+    name: { ko: 생리 식염수 충전 }
+    time: 15
+    in: { NaCl: 4.637e22, water_for_injection: 1.664e25, iv_bag_500ml: 1 }
+    out: { saline_bag_500ml: 1 }
+    note: 수액 백에 채우고 121°C에서 고압 증기 멸균
+  - id: dextrose_bag_500ml
+    name: { ko: 포도당 수액 충전 }
+    time: 15
+    in: { glucose: 8.357e22, water_for_injection: 1.616e25, iv_bag_500ml: 1 }
+    out: { dextrose_bag_500ml: 1 }
+  - id: ringer_lactate_bag_500ml
+    name: { ko: 젖산 링거액 충전 }
+    time: 15
+    in: { NaCl: 3.091e22, sodium_lactate: 8.33e21, KCl: 1.212e21, CaCl2: 4.097e20, water_for_injection: 1.663e25, iv_bag_500ml: 1 }
+    out: { ringer_lactate_bag_500ml: 1 }
+
+  # 경구 액제·가루
+  - id: ors_sachet
+    name: { ko: 경구 수액염 포장 }
+    time: 3
+    in: { NaCl: 2.679e22, glucose: 4.513e22, KCl: 1.212e22, trisodium_citrate: 5.938e21, pet: 1.254e21, Al: 1.295e22, polyethylene_ld: 2.361e22 }
+    out: { ors_sachet: 1 }
+    note: PET 12µm / 알루미늄 9µm / PE 50µm 적층 파우치(약 10×12cm)
+  - id: antacid_suspension_120ml
+    name: { ko: 제산제 현탁액 충전 }
+    time: 8
+    in: { Al(OH)3: 3.706e22, Mg(OH)2: 4.957e22, sorbitol: 3.967e22, methylcellulose: 1.9e21, H2O: 3.543e24, pharmacy_bottle_120ml: 1 }
+    out: { antacid_suspension_120ml: 1 }
+    note: 알루미늄의 변비와 마그네슘의 설사가 서로 상쇄된다
+  - id: sulfanilamide_powder_5g
+    name: { ko: 설파닐아마이드 가루 포장 }
+    time: 2
+    in: { sulfanilamide: 1.749e22, polyethylene_ld: 1.073e22 }
+    out: { sulfanilamide_powder_5g: 1 }
+
+  # 외용제와 소독제
+  - id: zinc_oxide_ointment_30g
+    name: { ko: 산화 아연 연고 충전 }
+    time: 5
+    in: { ZnO: 4.44e22, white_petrolatum: 3.285e22, ointment_tube: 1 }
+    out: { zinc_oxide_ointment_30g: 1 }
+  - id: methyl_salicylate_ointment_30g
+    name: { ko: 살리실산 메틸 연고 충전 }
+    time: 5
+    in: { methyl_salicylate: 1.781e22, white_petrolatum: 3.49e22, ointment_tube: 1 }
+    out: { methyl_salicylate_ointment_30g: 1 }
+  - id: benzocaine_ointment_30g
+    name: { ko: 벤조카인 연고 충전 }
+    time: 5
+    in: { benzocaine: 2.187e22, polyethylene_glycol: 3.281e23, ointment_tube: 1 }
+    out: { benzocaine_ointment_30g: 1 }
+    note: 물에 씻기는 PEG(마크로골) 기제
+  - id: calamine_lotion_100ml
+    name: { ko: 칼라민 로션 충전 }
+    time: 6
+    in: { calamine: 1.105e23, ZnO: 3.7e22, glycerol: 3.27e22, methylcellulose: 3.166e21, trisodium_citrate: 1.024e21, phenol: 3.199e21, H2O: 2.44e24, pharmacy_bottle_120ml: 1 }
+    out: { calamine_lotion_100ml: 1 }
+    note: 영국 약전 처방. 벤토나이트 대신 메틸셀룰로스로 가루를 띄운다
+  - id: glycerin_suppository
+    name: { ko: 글리세린 좌약 성형 }
+    time: 2
+    in: { glycerol: 1.151e22, sodium_stearate: 3.537e20, H2O: 3.343e21 }
+    out: { glycerin_suppository: 1 }
+    note: 스테아르산 나트륨(비누)으로 글리세롤을 굳힌다
+  - id: ethanol_antiseptic_500ml
+    name: { ko: 소독용 에탄올 충전 }
+    time: 6
+    in: { ethanol: 3.61e24, H2O: 5.559e24, polyethylene_hd: 5.367e23, polypropylene: 4.293e22 }
+    out: { ethanol_antiseptic_500ml: 1 }
+  - id: alcohol_prep_pad
+    name: { ko: 알코올 솜 포장 }
+    time: 1
+    in: { isopropanol: 2.205e21, H2O: 4.011e21, polypropylene: 1.002e21, Al: 4.464e21, polyethylene_ld: 6.44e21 }
+    out: { alcohol_prep_pad: 1 }
+  - id: hydrogen_peroxide_solution_100ml
+    name: { ko: 과산화 수소수 충전 }
+    time: 5
+    in: { H2O2: 5.365e22, H2O: 3.276e24, polyethylene_hd: 2.147e23, polypropylene: 2.862e22 }
+    out: { hydrogen_peroxide_solution_100ml: 1 }
+  - id: iodine_tincture_30ml
+    name: { ko: 아이오딘 팅크 충전 }
+    time: 5
+    in: { I2: 1.424e21, NaI: 2.893e21, ethanol: 1.451e23, H2O: 5.148e23, polyethylene_hd: 1.073e23, polypropylene: 2.147e22 }
+    out: { iodine_tincture_30ml: 1 }
+    note: 아이오딘화 이온이 I3-를 만들어 아이오딘을 녹인다
+
+  # 의료 소모품
+  - id: syringe_5ml
+    name: { ko: 주사기 조립 }
+    time: 5
+    in: { polypropylene: 6.154e22, natural_rubber: 2.21e21, pdms: 1.624e19 }
+    out: { syringe_5ml: 1 }
+    note: "PP 실린더 3.0g과 밀대 1.3g, 고무 개스킷. 안쪽에 실리콘 오일을 바른다"
+  - id: hypodermic_needle
+    name: { ko: 주사침 조립 }
+    time: 3
+    in: { Fe: 1.068e21, NiO: 9.232e19, C: 9.225e19, polypropylene: 8.586e21, epoxy_resin: 3.538e18, pdms: 8.121e17 }
+    out: { hypodermic_needle: 1, CO: 9.223e19 }
+    note: 산화 니켈을 탄소로 환원해 철과 합금한 관을 뽑고 끝을 세 면으로 간다. 허브에 에폭시로 붙인다
+  - id: gauze_pad
+    name: { ko: 거즈 제조 }
+    time: 3
+    in: { cotton_fiber: 6.834e21 }
+    out: { gauze_pad: 1 }
+    note: 표백·탈지한 면사를 성기게 짜서 접는다
+  - id: adhesive_bandage
+    name: { ko: 일회용 밴드 제조 }
+    time: 2
+    in: { flexible_pvc: 7.603e19, natural_rubber: 2.652e20, ZnO: 9.62e19, rayon_fiber: 2.637e20, polyethylene_ld: 1.417e21 }
+    out: { adhesive_bandage: 1 }
+    note: 연질 PVC 바탕에 고무·산화 아연 점착제를 바르고 레이온 패드를 붙인다
+  - id: surgical_mask
+    name: { ko: 덴탈 마스크 제조 }
+    time: 4
+    in: { polypropylene: 3.291e22, polyester_fiber: 9.401e20, Fe: 2.588e21, polyethylene_ld: 2.147e21 }
+    out: { surgical_mask: 1 }
+    note: 멜트블로운 층을 정전 처리해 미세 입자를 붙잡는다. 귀걸이 끈과 PE 피복 철사 코 지지대
