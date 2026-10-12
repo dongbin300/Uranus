@@ -35,14 +35,14 @@ namespace MachineFree.Core
 				SavedAt = state.SavedAt,
 				PlayTime = state.PlayTime,
 				TotalCrafts = state.TotalCrafts,
-				Inventory = state.Inventory.ToDictionary(x => x.Key.Value, x => x.Value),
+				Inventory = state.Inventory.Where(x => double.IsFinite(x.Value)).ToDictionary(x => x.Key.Value, x => x.Value),
 				Discovered = [.. state.Discovered.Select(x => x.Value).Order(StringComparer.Ordinal)],
 				Queue = [.. state.Queue.Select(x => new QueueDto
 				{
 					Recipe = x.Recipe.Value,
 					Remaining = x.Remaining,
-					Progress = x.Progress,
-					Paid = x.Paid.ToDictionary(p => p.Key.Value, p => p.Value),
+					Progress = double.IsFinite(x.Progress) ? x.Progress : 0,
+					Paid = x.Paid.Where(p => double.IsFinite(p.Value)).ToDictionary(p => p.Key.Value, p => p.Value),
 				})],
 			};
 
@@ -74,7 +74,7 @@ namespace MachineFree.Core
 				TotalCrafts = dto.TotalCrafts,
 			};
 
-			foreach (var (id, amount) in dto.Inventory)
+			foreach (var (id, amount) in dto.Inventory ?? [])
 			{
 				if (amount > 0 && double.IsFinite(amount))
 				{
@@ -82,13 +82,17 @@ namespace MachineFree.Core
 				}
 			}
 
-			state.Discovered.UnionWith(dto.Discovered.Select(x => new ItemId(x)));
-			foreach (var x in dto.Queue.Where(x => x.Remaining > 0))
+			state.Discovered.UnionWith((dto.Discovered ?? []).OfType<string>().Select(x => new ItemId(x)));
+			foreach (var x in (dto.Queue ?? []).OfType<QueueDto>().Where(x => x.Remaining > 0 && !string.IsNullOrEmpty(x.Recipe)))
 			{
-				var entry = new QueueEntry { Recipe = new RecipeId(x.Recipe), Remaining = x.Remaining, Progress = Math.Max(0, x.Progress) };
-				foreach (var (id, amount) in x.Paid)
+				var progress = double.IsFinite(x.Progress) ? Math.Max(0, x.Progress) : 0;
+				var entry = new QueueEntry { Recipe = new RecipeId(x.Recipe), Remaining = x.Remaining, Progress = progress };
+				foreach (var (id, amount) in x.Paid ?? [])
 				{
-					entry.Paid[new ItemId(id)] = amount;
+					if (amount > 0 && double.IsFinite(amount))
+					{
+						entry.Paid[new ItemId(id)] = amount;
+					}
 				}
 
 				state.Queue.Add(entry);
@@ -116,11 +120,13 @@ namespace MachineFree.Core
 		}
 
 		/// <summary>
-		/// 세이브를 읽는다. 본 파일이 깨졌으면 .bak을 시도한다. 둘 다 없으면 null.
+		/// 세이브를 읽는다. 본 파일이 깨졌으면 .bak을 시도한다.
+		/// 파일이 있는데 읽지 못하면 Unreadable을 돌려준다. 이때 새 게임으로 덮어쓰면 안 된다.
 		/// </summary>
-		public static GameState? TryRead(string path, UranusDatabase db, out IReadOnlyList<string> warnings)
+		public static SaveReadResult Read(string path, UranusDatabase db)
 		{
-			warnings = [];
+			string? firstError = null;
+			var any = false;
 			foreach (var candidate in new[] { path, path + ".bak" })
 			{
 				if (!File.Exists(candidate))
@@ -128,23 +134,47 @@ namespace MachineFree.Core
 					continue;
 				}
 
+				any = true;
 				try
 				{
-					var state = Deserialize(File.ReadAllText(candidate), db, out warnings);
+					var state = Deserialize(File.ReadAllText(candidate), db, out var warnings);
 					if (candidate != path)
 					{
 						warnings = [.. warnings, $"세이브가 손상되어 백업({Path.GetFileName(candidate)})에서 불러왔다"];
 					}
 
-					return state;
+					return new SaveReadResult(SaveReadStatus.Loaded, state, warnings, null);
 				}
-				catch (JsonException)
+				catch (Exception e) when (IsReadFailure(e))
 				{
+					firstError ??= $"{Path.GetFileName(candidate)}: {e.Message}";
 				}
 			}
 
-			return null;
+			return any
+				? new SaveReadResult(SaveReadStatus.Unreadable, null, [], firstError)
+				: new SaveReadResult(SaveReadStatus.Missing, null, [], null);
 		}
+
+		/// <summary>
+		/// 읽지 못한 세이브(본 파일과 .bak)를 이름 뒤에 .unreadable-시각을 붙여 옮긴다. 옮긴 경로를 돌려준다.
+		/// </summary>
+		public static IReadOnlyList<string> MoveAside(string path, DateTimeOffset now)
+		{
+			var moved = new List<string>();
+			foreach (var candidate in new[] { path, path + ".bak" }.Where(File.Exists))
+			{
+				var target = $"{candidate}.unreadable-{now:yyyyMMdd-HHmmss}";
+				File.Move(candidate, target);
+				moved.Add(target);
+			}
+
+			return moved;
+		}
+
+		private static bool IsReadFailure(Exception e) =>
+			e is JsonException or InvalidOperationException or FormatException or NotSupportedException
+				or ArgumentException or IOException or UnauthorizedAccessException;
 
 		private sealed class SaveDto
 		{
@@ -152,9 +182,9 @@ namespace MachineFree.Core
 			public DateTimeOffset SavedAt { get; set; }
 			public double PlayTime { get; set; }
 			public long TotalCrafts { get; set; }
-			public Dictionary<string, double> Inventory { get; set; } = [];
-			public List<string> Discovered { get; set; } = [];
-			public List<QueueDto> Queue { get; set; } = [];
+			public Dictionary<string, double>? Inventory { get; set; } = [];
+			public List<string?>? Discovered { get; set; } = [];
+			public List<QueueDto?>? Queue { get; set; } = [];
 		}
 
 		private sealed class QueueDto
@@ -162,9 +192,26 @@ namespace MachineFree.Core
 			public string Recipe { get; set; } = "";
 			public long Remaining { get; set; }
 			public double Progress { get; set; }
-			public Dictionary<string, double> Paid { get; set; } = [];
+			public Dictionary<string, double>? Paid { get; set; } = [];
 		}
 	}
+
+	public enum SaveReadStatus
+	{
+		/// <summary>
+		/// 세이브 파일이 없다 (새 게임)
+		/// </summary>
+		Missing,
+
+		Loaded,
+
+		/// <summary>
+		/// 파일은 있지만 읽지 못했다. 덮어쓰기 전에 옮겨 둬야 한다.
+		/// </summary>
+		Unreadable,
+	}
+
+	public sealed record SaveReadResult(SaveReadStatus Status, GameState? State, IReadOnlyList<string> Warnings, string? Error);
 
 	/// <summary>
 	/// 예전(v1) 세이브 변환. 아이템은 한국어 이름으로 찾고, 대기열은 재료로 환불한다.

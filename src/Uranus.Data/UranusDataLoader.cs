@@ -33,9 +33,9 @@ namespace Uranus.Data
 		{
 			var context = new LoadContext(dataDirectory);
 
-			var elements = context.Read<ElementFileDto>("elements.yaml")?.Elements
+			var elements = context.Entries(context.Read<ElementFileDto>("elements.yaml")?.Elements, "elements.yaml")
 				.Select(x => new ElementDef(x.Symbol ?? "", ToText(x.Name, x.Symbol ?? ""), x.Mass))
-				.ToList() ?? [];
+				.ToList();
 
 			var items = new List<ItemDef>();
 			var recipes = new List<RecipeDef>();
@@ -45,13 +45,13 @@ namespace Uranus.Data
 			{
 				if (context.Read<ItemFileDto>(path) is { } file)
 				{
-					items.AddRange(file.Items.Select(x => context.ToItem(x, file, path)).OfType<ItemDef>());
+					items.AddRange(context.Entries(file.Items, path).Select(x => context.ToItem(x, file, path)).OfType<ItemDef>());
 				}
 			}
 
 			if (context.Read<GeneratorFileDto>("generators.yaml") is { } generatorFile)
 			{
-				foreach (var dto in generatorFile.Generators)
+				foreach (var dto in context.Entries(generatorFile.Generators, "generators.yaml"))
 				{
 					context.AddGenerator(dto, items, recipes, generators);
 				}
@@ -61,7 +61,7 @@ namespace Uranus.Data
 			{
 				if (context.Read<RecipeFileDto>(path) is { } file)
 				{
-					recipes.AddRange(file.Recipes.Select(x => context.ToRecipe(x, file.Category ?? "misc", path)).OfType<RecipeDef>());
+					recipes.AddRange(context.Entries(file.Recipes, path).Select(x => context.ToRecipe(x, file.Category ?? "misc", path)).OfType<RecipeDef>());
 				}
 			}
 
@@ -136,6 +136,23 @@ namespace Uranus.Data
 					var message = e.InnerException?.Message ?? e.Message;
 					Issues.Add(new DataIssue(IssueSeverity.Error, SyntaxErrorCode, $"{e.Start.Line}행 {e.Start.Column}열: {message}", Display(relativePath)));
 					return null;
+				}
+			}
+
+			/// <summary>
+			/// 목록의 항목. 목록이 비어 있으면(null) 빈 목록, 빈 항목(-)은 문제로 보고하고 건너뛴다.
+			/// </summary>
+			public IEnumerable<T> Entries<T>(List<T?>? list, string path) where T : class
+			{
+				foreach (var entry in list ?? [])
+				{
+					if (entry is null)
+					{
+						Invalid("빈 항목(-)이 있다", Display(path));
+						continue;
+					}
+
+					yield return entry;
 				}
 			}
 
@@ -269,7 +286,7 @@ namespace Uranus.Data
 
 		private sealed class ElementFileDto
 		{
-			public List<ElementDto> Elements { get; set; } = [];
+			public List<ElementDto?>? Elements { get; set; } = [];
 		}
 
 		private sealed class ElementDto
@@ -283,7 +300,7 @@ namespace Uranus.Data
 		{
 			public string? Category { get; set; }
 			public string? Unit { get; set; }
-			public List<ItemDto> Items { get; set; } = [];
+			public List<ItemDto?>? Items { get; set; } = [];
 		}
 
 		private sealed class ItemDto
@@ -303,7 +320,7 @@ namespace Uranus.Data
 		private sealed class RecipeFileDto
 		{
 			public string? Category { get; set; }
-			public List<RecipeDto> Recipes { get; set; } = [];
+			public List<RecipeDto?>? Recipes { get; set; } = [];
 		}
 
 		private sealed class RecipeDto
@@ -320,7 +337,7 @@ namespace Uranus.Data
 
 		private sealed class GeneratorFileDto
 		{
-			public List<GeneratorDto> Generators { get; set; } = [];
+			public List<GeneratorDto?>? Generators { get; set; } = [];
 		}
 
 		private sealed class GeneratorDto

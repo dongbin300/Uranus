@@ -121,9 +121,14 @@ namespace Uranus.Validation
 				}
 			}
 
-			if (!(db.Config.GeneratorCostGrowth >= 1))
+			if (!(db.Config.GeneratorCostGrowth >= 1) || !double.IsFinite(db.Config.GeneratorCostGrowth))
 			{
-				issues.Add(Error(Codes.InvalidGenerator, $"generator_cost_growth는 1 이상이어야 한다: {db.Config.GeneratorCostGrowth}"));
+				issues.Add(Error(Codes.InvalidGenerator, $"generator_cost_growth는 1 이상의 유한한 값이어야 한다: {db.Config.GeneratorCostGrowth}"));
+			}
+
+			if (!(db.Config.OfflineCapHours >= 0) || !double.IsFinite(db.Config.OfflineCapHours))
+			{
+				issues.Add(Error(Codes.InvalidGenerator, $"offline_cap_hours는 0 이상의 유한한 값이어야 한다: {db.Config.OfflineCapHours}"));
 			}
 		}
 

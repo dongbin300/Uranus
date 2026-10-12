@@ -54,7 +54,7 @@ namespace MachineFree
 				Simulation.State.SavedAt = DateTimeOffset.UtcNow;
 				SaveFile.Write(SavePath, Simulation.State);
 			}
-			catch (Exception e) when (e is IOException or UnauthorizedAccessException)
+			catch (Exception e) when (e is IOException or UnauthorizedAccessException or ArgumentException or NotSupportedException)
 			{
 				SaveFailed?.Invoke(e);
 			}
@@ -66,8 +66,17 @@ namespace MachineFree
 			var seconds = (now - last).TotalSeconds;
 			last = now;
 
-			Simulation.Tick(Math.Min(seconds, Simulation.Database.Config.OfflineCapHours * 3600));
+			// 절전 등으로 오래 멈췄다 돌아온 경우만 오프라인 진행처럼 상한을 둔다
+			if (seconds > LongPauseSeconds)
+			{
+				var cap = Simulation.Database.Config.OfflineCapHours;
+				seconds = Math.Min(seconds, double.IsFinite(cap) && cap > 0 ? cap * 3600 : 0);
+			}
+
+			Simulation.Tick(seconds);
 			Ticked?.Invoke();
 		}
+
+		private const double LongPauseSeconds = 60;
 	}
 }

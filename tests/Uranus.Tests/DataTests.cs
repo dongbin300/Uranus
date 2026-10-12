@@ -136,6 +136,20 @@ namespace Uranus.Tests
 		}
 
 		[Fact]
+		public void EmptyListsAndBlankEntries_AreReportedNotThrown()
+		{
+			Write("items/a.yaml", "items:\n  - { id: H, name: { ko: 수소 } }\n  -\n");
+			Write("recipes/a.yaml", "recipes:\n");
+			Write("generators.yaml", "generators:\n");
+
+			var result = UranusDataLoader.Load(directory);
+
+			Assert.Contains(result.Issues, x => x.Code == UranusDataLoader.InvalidValueCode && x.Source == "data/items/a.yaml");
+			Assert.NotNull(result.Database.FindItem(new ItemId("H")));
+			Assert.Empty(result.Database.RecipeList);
+		}
+
+		[Fact]
 		public void ReportsInvalidAmount()
 		{
 			Write("items/a.yaml", "items:\n  - { id: H, name: { ko: 수소 } }\n");
@@ -228,6 +242,18 @@ namespace Uranus.Tests
 
 			var issue = Assert.Single(UranusValidator.Validate(db), x => x.Code == UranusValidator.Codes.MassOutOfRange);
 			Assert.Contains("18 g", issue.Message);
+		}
+
+		[Theory]
+		[InlineData(1.15, double.NaN)]
+		[InlineData(1.15, -1)]
+		[InlineData(double.PositiveInfinity, 24)]
+		[InlineData(0.9, 24)]
+		public void InvalidGameConfig_IsError(double growth, double offlineCap)
+		{
+			var db = new UranusDatabase(TestData.Elements, Chemistry, [], [], new GameConfig([], growth, offlineCap));
+
+			Assert.Contains(UranusValidator.Validate(db), x => x.Code == UranusValidator.Codes.InvalidGenerator && x.Severity == IssueSeverity.Error);
 		}
 
 		[Fact]

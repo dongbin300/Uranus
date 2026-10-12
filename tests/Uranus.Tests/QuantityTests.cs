@@ -59,6 +59,13 @@ namespace Uranus.Tests
 		}
 
 		[Fact]
+		public void IsAtLeast_RejectsNonFiniteNeed()
+		{
+			Assert.False(Quantity.IsAtLeast(1e300, double.PositiveInfinity));
+			Assert.False(Quantity.IsAtLeast(1, double.NaN));
+		}
+
+		[Fact]
 		public void IsAtLeast_RejectsClearShortfall()
 		{
 			Assert.False(Quantity.IsAtLeast(0.99, 1));

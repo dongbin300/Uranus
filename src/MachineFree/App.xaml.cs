@@ -46,8 +46,11 @@ namespace MachineFree
 			var savePath = e.Args.SkipWhile(x => x != "--save").Skip(1).FirstOrDefault() ?? SaveFile.DefaultPath;
 
 			var warnings = new List<string>();
-			var state = SaveFile.TryRead(savePath, db, out var saveWarnings) ?? ImportLegacySave(db, warnings) ?? GameState.CreateNew(db);
-			warnings.InsertRange(0, saveWarnings);
+			if (LoadState(savePath, db, warnings) is not { } state)
+			{
+				Shutdown(1);
+				return;
+			}
 
 			var simulation = new Simulation(db, state);
 			var offline = simulation.CatchUp(DateTimeOffset.UtcNow);
@@ -122,6 +125,37 @@ namespace MachineFree
 		}
 
 		/// <summary>
+		/// 세이브를 읽는다. 읽을 수 없는 세이브는 새 게임으로 덮어쓰지 않도록 옆으로 옮긴다.
+		/// 옮기지도 못하면 알리고 null(종료).
+		/// </summary>
+		private static GameState? LoadState(string savePath, UranusDatabase db, List<string> warnings)
+		{
+			var result = SaveFile.Read(savePath, db);
+			warnings.AddRange(result.Warnings);
+			if (result.Status == SaveReadStatus.Loaded)
+			{
+				return result.State;
+			}
+
+			if (result.Status == SaveReadStatus.Unreadable)
+			{
+				try
+				{
+					var moved = SaveFile.MoveAside(savePath, DateTimeOffset.Now);
+					warnings.Add($"세이브를 읽을 수 없어 새 게임으로 시작했습니다({result.Error}). 원래 파일은 옮겨 두었습니다: {string.Join(", ", moved.Select(Path.GetFileName))}");
+				}
+				catch (Exception e) when (e is IOException or UnauthorizedAccessException)
+				{
+					MessageBox.Show($"세이브를 읽을 수 없고 옮기지도 못했습니다. 파일을 지키려고 종료합니다.{Environment.NewLine}{result.Error}{Environment.NewLine}{e.Message}",
+						"MACHINE FREE", MessageBoxButton.OK, MessageBoxImage.Error);
+					return null;
+				}
+			}
+
+			return ImportLegacySave(db, warnings) ?? GameState.CreateNew(db);
+		}
+
+		/// <summary>
 		/// 예전 버전이 실행 폴더에 남긴 Dictionary/Save.json이 있으면 변환한다.
 		/// </summary>
 		private static GameState? ImportLegacySave(UranusDatabase db, List<string> warnings)
@@ -132,10 +166,16 @@ namespace MachineFree
 				return null;
 			}
 
-			var state = SaveFile.Deserialize(File.ReadAllText(path), db, out var importWarnings);
+			var result = SaveFile.Read(path, db);
+			if (result.State is null)
+			{
+				warnings.Add($"예전 세이브를 읽지 못했습니다({result.Error}).");
+				return null;
+			}
+
 			warnings.Add("예전 세이브를 새 형식으로 옮겼습니다.");
-			warnings.AddRange(importWarnings);
-			return state;
+			warnings.AddRange(result.Warnings);
+			return result.State;
 		}
 
 		private void OnUnhandledException(object sender, DispatcherUnhandledExceptionEventArgs e)

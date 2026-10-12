@@ -251,6 +251,91 @@ namespace MachineFree.Core.Tests
 		}
 
 		[Fact]
+		public void HugeGeneratorOrder_IsNotAffordable()
+		{
+			// 비용이 double 범위를 넘어 무한대가 되어도 살 수 있다고 판정하면 안 된다
+			var sim = Fixtures.Start(Fixtures.Small());
+			var build = new RecipeId("build_synth");
+
+			Assert.False(sim.TryEnqueue(build, 6000));
+			Assert.Equal(15, sim.GetAmount(H));
+			Assert.Empty(sim.State.Queue);
+			Assert.Equal(1, sim.GetMaxCraftable(sim.Database.FindRecipe(build)!));
+		}
+
+		[Fact]
+		public void CancellingGeneratorBuilds_RefundsMostExpensiveFirst()
+		{
+			var sim = Fixtures.Start(Fixtures.Small());
+			sim.State.Add(H, 985);
+			var build = new RecipeId("build_synth");
+			for (var i = 0; i < 10; i++)
+			{
+				Assert.True(sim.TryEnqueue(build, 1));
+			}
+
+			Assert.Equal(10, Assert.Single(sim.State.Queue).Remaining);
+			for (var i = 0; i < 9; i++)
+			{
+				sim.Cancel(0, 1);
+			}
+
+			// 남은 1대는 첫 번째 가격(15)만 낸 셈이어야 한다
+			Assert.Equal(1000 - 15, sim.GetAmount(H), 6);
+		}
+
+		[Fact]
+		public void FinishedGeneratorBuild_UsesCheapestPrice()
+		{
+			var sim = Fixtures.Start(Fixtures.Small());
+			sim.State.Add(H, 985);
+			var build = new RecipeId("build_synth");
+			sim.TryEnqueue(build, 10);
+
+			sim.Tick(12);
+			sim.Cancel(0, 100);
+
+			// 1대 완성(15) 외에는 모두 돌려받고, 그 사이 1대가 생산한 수소는 없다(완성 직후 취소)
+			Assert.Equal(1, sim.GetOwnedCount(Synth));
+			Assert.Equal(1000 - 15, sim.GetAmount(H), 6);
+		}
+
+		[Fact]
+		public void ProgressBeyondShortenedRecipeTime_GivesNoFreeTime()
+		{
+			var sim = Fixtures.Start(Fixtures.Small());
+			sim.State.Add(Synth, 10);
+			sim.State.Add(O, 1);
+			sim.TryEnqueue(new RecipeId("water"), 1);
+			sim.State.Queue[0].Progress = 50;
+			var before = sim.GetAmount(H);
+
+			sim.Tick(0.1);
+
+			// 물은 즉시 완성되고, 생성기는 0.1초 × 10대 × 0.25만 생산한다
+			Assert.Equal(before + 0.25, sim.GetAmount(H), 9);
+			Assert.Equal(1, sim.GetAmount(Water));
+		}
+
+		[Fact]
+		public void CatchUp_WithZeroCap_SimulatesNothing()
+		{
+			var db = Fixtures.Small();
+			var config = db.Config with { OfflineCapHours = 0 };
+			var sim = Fixtures.Start(new UranusDatabase(db.ElementList, db.ItemList, db.RecipeList, db.GeneratorList, config));
+			sim.State.Add(Synth, 1);
+			sim.State.SavedAt = DateTimeOffset.UtcNow.AddHours(-1);
+
+			var report = sim.CatchUp(DateTimeOffset.UtcNow);
+
+			Assert.Equal(TimeSpan.Zero, report.Simulated);
+			Assert.Empty(report.Gained);
+
+			sim.Tick(4);
+			Assert.Equal(16, sim.GetAmount(H), 9);
+		}
+
+		[Fact]
 		public void CatchUp_IsCappedAndReportsGains()
 		{
 			var sim = Fixtures.Start(Fixtures.Small());
@@ -340,11 +425,11 @@ namespace MachineFree.Core.Tests
 			SaveFile.Write(path, state);
 
 			Assert.True(File.Exists(path + ".bak"));
-			Assert.Equal(16, SaveFile.TryRead(path, db, out _)!.GetAmount(Fixtures.Id("H")));
+			Assert.Equal(16, SaveFile.Read(path, db).State!.GetAmount(Fixtures.Id("H")));
 		}
 
 		[Fact]
-		public void TryRead_FallsBackToBackupWhenCorrupted()
+		public void Read_FallsBackToBackupWhenCorrupted()
 		{
 			var db = Fixtures.Small();
 			var path = Path.Combine(directory, "save.json");
@@ -352,16 +437,61 @@ namespace MachineFree.Core.Tests
 			SaveFile.Write(path, GameState.CreateNew(db));
 			File.WriteAllText(path, "{ broken");
 
-			var state = SaveFile.TryRead(path, db, out var warnings);
+			var result = SaveFile.Read(path, db);
 
-			Assert.NotNull(state);
-			Assert.Contains(warnings, x => x.Contains("백업"));
+			Assert.Equal(SaveReadStatus.Loaded, result.Status);
+			Assert.Contains(result.Warnings, x => x.Contains("백업"));
 		}
 
 		[Fact]
-		public void TryRead_ReturnsNullWhenMissing()
+		public void Read_ReportsMissing()
 		{
-			Assert.Null(SaveFile.TryRead(Path.Combine(directory, "none.json"), Fixtures.Small(), out _));
+			Assert.Equal(SaveReadStatus.Missing, SaveFile.Read(Path.Combine(directory, "none.json"), Fixtures.Small()).Status);
+		}
+
+		[Theory]
+		[InlineData("""{ "version": 3, "inventory": { "H": 1 } }""")]
+		[InlineData("[1, 2, 3]")]
+		[InlineData("{ broken")]
+		public void Read_ReportsUnreadableInsteadOfMissing(string json)
+		{
+			var path = Path.Combine(directory, "save.json");
+			Directory.CreateDirectory(directory);
+			File.WriteAllText(path, json);
+
+			var result = SaveFile.Read(path, Fixtures.Small());
+
+			Assert.Equal(SaveReadStatus.Unreadable, result.Status);
+			Assert.NotNull(result.Error);
+		}
+
+		[Fact]
+		public void Read_ToleratesNullEntries()
+		{
+			var path = Path.Combine(directory, "save.json");
+			Directory.CreateDirectory(directory);
+			File.WriteAllText(path, """{ "version": 2, "inventory": null, "discovered": [null, "H"], "queue": [null, { "recipe": "water", "remaining": 1, "paid": null }] }""");
+
+			var result = SaveFile.Read(path, Fixtures.Small());
+
+			Assert.Equal(SaveReadStatus.Loaded, result.Status);
+			Assert.Single(result.State!.Queue);
+			Assert.Contains(Fixtures.Id("H"), result.State.Discovered);
+		}
+
+		[Fact]
+		public void MoveAside_KeepsUnreadableFiles()
+		{
+			var path = Path.Combine(directory, "save.json");
+			Directory.CreateDirectory(directory);
+			File.WriteAllText(path, """{ "version": 3 }""");
+			File.WriteAllText(path + ".bak", """{ "version": 3 }""");
+
+			var moved = SaveFile.MoveAside(path, new DateTimeOffset(2026, 10, 12, 9, 0, 0, TimeSpan.Zero));
+
+			Assert.Equal(2, moved.Count);
+			Assert.False(File.Exists(path));
+			Assert.All(moved, x => Assert.True(File.Exists(x)));
 		}
 
 		[Fact]
