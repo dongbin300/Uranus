@@ -58,6 +58,11 @@ namespace Uranus
 		/// 입자 단위 레시피·생성기의 규모를 Factor배로 키운다 (예: 몰 = 6.022e23)
 		/// </summary>
 		Scale,
+
+		/// <summary>
+		/// 레시피 자동 반복을 해금한다 (재료가 있으면 끝날 때마다 다시 주문)
+		/// </summary>
+		Automation,
 	}
 
 	/// <summary>

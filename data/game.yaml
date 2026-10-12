@@ -12,12 +12,14 @@ offline_cap_hours: 24
 # - line: 생산 라인 +1 (대기열 앞쪽을 동시에 만든다)
 # - scale: 결과물이 모두 입자인 레시피와 입자를 내는 생성기가 factor배 규모로 돈다.
 #          부품(개수 단위)은 규모와 상관없이 하나씩 만든다.
+# - automation: 레시피 자동 반복 해금 (Ctrl+클릭한 레시피를 끝날 때마다 다시 주문)
 # 비용은 초안 값이다. 밸런스는 시뮬레이터로 조정한다.
 upgrades:
   - { id: line_2, name: { ko: 생산 라인 2 }, kind: line, cost: { H2O: 50, CO2: 20 } }
   - { id: line_3, name: { ko: 생산 라인 3 }, kind: line, cost: { Cu: 600, Fe: 300 }, requires: [line_2] }
   - { id: line_4, name: { ko: 생산 라인 4 }, kind: line, cost: { transistor: 10 }, requires: [line_3] }
   - { id: line_5, name: { ko: 생산 라인 5 }, kind: line, cost: { microcontroller: 1 }, requires: [line_4] }
+  - { id: automation, name: { ko: 자동화 }, kind: automation, cost: { Cu: 150, Fe: 150 }, requires: [line_2], note: 조립기를 들여 같은 레시피를 계속 돌린다 }
 
   - id: scale_atto
     name: { ko: 아토몰 규모 }

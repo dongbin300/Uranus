@@ -84,12 +84,15 @@ namespace MachineFree.ViewModels
 		private readonly UranusDatabase db;
 		private readonly Func<RecipeDef, long, bool> enqueue;
 		private readonly Func<RecipeDef, long> maxCraftable;
+		private readonly Func<RecipeDef, bool>? toggleAutoRepeat;
 		private readonly string searchText;
 
-		public RecipeCardViewModel(RecipeDef recipe, UranusDatabase db, Func<RecipeDef, long, bool> enqueue, Func<RecipeDef, long> maxCraftable)
+		public RecipeCardViewModel(RecipeDef recipe, UranusDatabase db, Func<RecipeDef, long, bool> enqueue, Func<RecipeDef, long> maxCraftable,
+			Func<RecipeDef, bool>? toggleAutoRepeat = null)
 		{
 			this.enqueue = enqueue;
 			this.maxCraftable = maxCraftable;
+			this.toggleAutoRepeat = toggleAutoRepeat;
 
 			Recipe = recipe;
 			Title = db.GetName(recipe);
@@ -100,6 +103,8 @@ namespace MachineFree.ViewModels
 			Inputs = [.. recipe.Inputs.Select(x => new RequirementLine(x.Item, db.GetName(x.Item)))];
 			CraftableText = "";
 			ScaleText = "";
+			AutoRepeatText = "";
+			AutoRepeatHint = "";
 			RawMaterialLines = BuildRawMaterialLines(recipe, db);
 
 			searchText = string.Join(" ", new[] { Title, TileName, recipe.Id.Value }
@@ -153,6 +158,18 @@ namespace MachineFree.ViewModels
 		[ObservableProperty]
 		public partial bool IsDiscovered { get; set; }
 
+		/// <summary>
+		/// 자동 반복 중이면 "↻", 아니면 빈 문자열
+		/// </summary>
+		[ObservableProperty]
+		public partial string AutoRepeatText { get; set; }
+
+		/// <summary>
+		/// 툴팁에 쓰는 자동 반복 안내. 자동화를 못 쓰는 레시피면 빈 문자열
+		/// </summary>
+		[ObservableProperty]
+		public partial string AutoRepeatHint { get; set; }
+
 		public bool Matches(string text) => searchText.Contains(text.Trim(), StringComparison.OrdinalIgnoreCase);
 
 		public virtual void Refresh(Simulation simulation, NumberStyle style)
@@ -167,6 +184,12 @@ namespace MachineFree.ViewModels
 			CraftableText = Craftable > 0 ? QuantityFormatter.FormatCount(Craftable, style) : "";
 			IsCraftable = Craftable > 0;
 			IsDiscovered = Recipe.Inputs.All(x => simulation.State.Discovered.Contains(x.Item));
+
+			var auto = simulation.IsAutoRepeat(Recipe.Id) && simulation.IsAutomationUnlocked;
+			AutoRepeatText = auto ? "↻" : "";
+			AutoRepeatHint = toggleAutoRepeat is null || !simulation.CanAutoRepeat(Recipe) || !simulation.IsAutomationUnlocked ? ""
+				: auto ? "↻ 자동 반복 중: 끝날 때마다 재료가 되는 만큼 다시 주문한다 · Ctrl+클릭으로 끈다"
+				: "Ctrl+클릭 자동 반복";
 
 			var scale = simulation.GetRecipeScale(Recipe);
 			var scaleText = scale > 1 ? $"규모 ×{QuantityFormatter.FormatNumber(scale, NumberStyle.Scientific)} (1회에 이만큼씩)" : "";
@@ -215,6 +238,9 @@ namespace MachineFree.ViewModels
 
 		[RelayCommand]
 		private void CraftMax() => enqueue(Recipe, maxCraftable(Recipe));
+
+		[RelayCommand]
+		private void ToggleAutoRepeat() => toggleAutoRepeat?.Invoke(Recipe);
 	}
 
 	/// <summary>
@@ -307,9 +333,13 @@ namespace MachineFree.ViewModels
 			this.buy = buy;
 			Upgrade = upgrade;
 			Title = upgrade.Name.Ko;
-			EffectText = upgrade.Kind == UpgradeKind.Line
-				? "생산 라인 +1: 대기열 앞쪽을 하나 더 동시에 만든다"
-				: $"규모 ×{QuantityFormatter.FormatNumber(upgrade.Factor, NumberStyle.Scientific)}: 입자 레시피와 생성기가 이만큼 크게 돈다";
+			EffectText = upgrade.Kind switch
+			{
+				UpgradeKind.Line => "생산 라인 +1: 대기열 앞쪽을 하나 더 동시에 만든다",
+				UpgradeKind.Scale => $"규모 ×{QuantityFormatter.FormatNumber(upgrade.Factor, NumberStyle.Scientific)}: 입자 레시피와 생성기가 이만큼 크게 돈다",
+				UpgradeKind.Automation => "레시피 자동 반복: Ctrl+클릭한 레시피를 끝날 때마다 재료가 되는 만큼 다시 주문한다",
+				_ => "",
+			};
 			var names = db.Config.Upgrades.ToDictionary(x => x.Id, x => x.Name.Ko);
 			RequiresText = upgrade.Requires.Count > 0 ? "선행: " + string.Join(", ", upgrade.Requires.Select(x => names.GetValueOrDefault(x, x))) : "";
 			Note = upgrade.Note ?? "";

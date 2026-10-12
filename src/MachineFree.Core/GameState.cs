@@ -26,6 +26,11 @@ namespace MachineFree.Core
 		public HashSet<string> Upgrades { get; } = [];
 
 		/// <summary>
+		/// 자동 반복을 켠 레시피. 자동화 업그레이드가 있으면 대기열에서 빠질 때마다 다시 주문한다.
+		/// </summary>
+		public HashSet<RecipeId> AutoRepeat { get; } = [];
+
+		/// <summary>
 		/// 달성한 목표 ID → 달성한 게임 시간(초)
 		/// </summary>
 		public Dictionary<string, double> CompletedGoals { get; } = [];

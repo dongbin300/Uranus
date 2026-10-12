@@ -82,6 +82,17 @@
                     <ItemsControl ItemsSource="{Binding RawMaterialLines}" ItemTemplate="{StaticResource LineTemplate}"/>
                 </StackPanel>
                 <TextBlock Style="{StaticResource TipHint}" Text="클릭 1개 · 우클릭 5개 · Shift+클릭 가능한 만큼"/>
+                <TextBlock Text="{Binding AutoRepeatHint}">
+                    <TextBlock.Style>
+                        <Style TargetType="TextBlock" BasedOn="{StaticResource TipHint}">
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding AutoRepeatHint}" Value="">
+                                    <Setter Property="Visibility" Value="Collapsed"/>
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </TextBlock.Style>
+                </TextBlock>
             </StackPanel>
         </DataTemplate>
 
@@ -113,6 +124,7 @@
                     <MouseBinding Gesture="LeftClick" Command="{Binding CraftOneCommand}"/>
                     <MouseBinding Gesture="RightClick" Command="{Binding CraftFiveCommand}"/>
                     <MouseBinding Gesture="Shift+LeftClick" Command="{Binding CraftMaxCommand}"/>
+                    <MouseBinding Gesture="Ctrl+LeftClick" Command="{Binding ToggleAutoRepeatCommand}"/>
                 </Border.InputBindings>
                 <Border.ToolTip>
                     <ToolTip>
@@ -120,6 +132,7 @@
                     </ToolTip>
                 </Border.ToolTip>
                 <Grid>
+                    <TextBlock Style="{StaticResource TileBadge}" Text="{Binding AutoRepeatText}" FontSize="12"/>
                     <TextBlock Style="{StaticResource TileName}" Text="{Binding TileName}"/>
                     <TextBlock Style="{StaticResource TileCount}" Text="{Binding CraftableText}"/>
                 </Grid>
@@ -158,6 +171,7 @@
                             <TextBlock Style="{StaticResource TipTitle}" Text="{Binding Title}"/>
                             <TextBlock Style="{StaticResource TipText}" Text="{Binding ProgressText}"/>
                             <TextBlock Style="{StaticResource TipHint}" Text="클릭 전부 취소 · 우클릭 1개 취소 (재료는 돌려받는다)"/>
+                            <TextBlock Style="{StaticResource TipHint}" Text="↻ 자동 반복 칸을 전부 취소하면 자동 반복도 멈춘다"/>
                         </StackPanel>
                     </ToolTip>
                 </Border.ToolTip>

@@ -14,6 +14,7 @@ namespace MachineFree.Core
 	///   생산 라인 수만큼 대기열 앞쪽을 동시에 만든다.
 	/// - 생성기: 보유한 대수 × 초당 생산량. n대째 비용은 기본 비용 × 성장률^n.
 	/// - 규모: 결과물이 모두 입자인 레시피와 입자를 내는 생성기는 현재 규모 배율만큼 크게 돈다.
+	/// - 자동 반복: 자동화 업그레이드가 있으면 켠 레시피를 대기열에서 빠질 때마다 재료가 되는 만큼 다시 주문한다.
 	/// - 1보다 작은 결과물은 소수로 쌓인다.
 	/// </summary>
 	public sealed class Simulation(UranusDatabase database, GameState state)
@@ -22,6 +23,11 @@ namespace MachineFree.Core
 		/// 한 번에 넣을 수 있는 최대 제작 횟수
 		/// </summary>
 		public const long MaxBatch = 1_000_000_000;
+
+		/// <summary>
+		/// 자동 반복이 한 번에 미리 주문하는 최대 시간(초). 재료를 나눠 쓰는 다른 자동 레시피가 굶지 않도록 짧게 끊는다.
+		/// </summary>
+		public const double AutoRepeatHorizon = 60;
 
 		public UranusDatabase Database { get; } = database;
 
@@ -41,6 +47,11 @@ namespace MachineFree.Core
 		/// 마지막으로 내린 뒤 업그레이드를 샀는가. UI가 읽고 내린다.
 		/// </summary>
 		public bool UpgradesChanged { get; set; }
+
+		/// <summary>
+		/// 마지막으로 내린 뒤 자동 반복 설정이 바뀌었는가. UI가 읽고 내린다.
+		/// </summary>
+		public bool AutoRepeatChanged { get; set; }
 
 		/// <summary>
 		/// 새로 달성한 목표. UI가 읽고 비운다.
@@ -67,6 +78,40 @@ namespace MachineFree.Core
 			.MaxBy(x => x.Factor);
 
 		public double ScaleFactor => CurrentScale?.Factor ?? 1;
+
+		/// <summary>
+		/// 자동화 업그레이드를 가졌는가
+		/// </summary>
+		public bool IsAutomationUnlocked => Database.Config.Upgrades.Any(x => x.Kind == UpgradeKind.Automation && State.Upgrades.Contains(x.Id));
+
+		/// <summary>
+		/// 자동 반복할 수 있는 레시피인가. 생성기는 갈수록 비싸지므로, 시간 0 레시피는 끝없이 돌므로 뺀다.
+		/// </summary>
+		public bool CanAutoRepeat(RecipeDef recipe) =>
+			recipe.Time > 0 && recipe.Inputs.Count > 0 && recipe.Outputs.Count > 0 && Database.FindGeneratorBuiltBy(recipe.Id) is null;
+
+		public bool IsAutoRepeat(RecipeId recipe) => State.AutoRepeat.Contains(recipe);
+
+		/// <summary>
+		/// 레시피 자동 반복을 켜거나 끈다. 켤 때는 자동화 업그레이드가 있어야 한다.
+		/// </summary>
+		public bool SetAutoRepeat(RecipeId id, bool enabled)
+		{
+			if (!enabled)
+			{
+				AutoRepeatChanged |= State.AutoRepeat.Remove(id);
+				return true;
+			}
+
+			if (!IsAutomationUnlocked || Database.FindRecipe(id) is not { } recipe || !CanAutoRepeat(recipe))
+			{
+				return false;
+			}
+
+			AutoRepeatChanged |= State.AutoRepeat.Add(id);
+			RefillAutoRepeat(0);
+			return true;
+		}
 
 		/// <summary>
 		/// 이 레시피 1회의 규모 배율. 결과물이 모두 입자이고 생성기를 만드는 레시피가 아니면 현재 규모, 아니면 1.
@@ -239,7 +284,9 @@ namespace MachineFree.Core
 			entry.Remaining -= cancel;
 			if (entry.Remaining <= 0)
 			{
+				// 통째로 취소하면 자동 반복도 멈춘다. 안 그러면 바로 다시 주문된다
 				State.Queue.RemoveAt(index);
+				AutoRepeatChanged |= State.AutoRepeat.Remove(entry.Recipe);
 			}
 
 			QueueChanged = true;
@@ -308,15 +355,16 @@ namespace MachineFree.Core
 			var remaining = seconds;
 			while (remaining > 0)
 			{
+				var wait = RefillAutoRepeat(remaining);
 				var active = PrepareActiveEntries();
-				if (active.Count == 0)
+				if (active.Count == 0 && wait >= remaining)
 				{
 					Produce(remaining);
 					break;
 				}
 
-				// 다음 사건: 생성기 1대 완성, 또는 다른 칸이 통째로 끝남
-				var step = remaining;
+				// 다음 사건: 생성기 1대 완성, 다른 칸이 통째로 끝남, 또는 재료를 기다리는 자동 레시피를 다시 볼 때
+				var step = Math.Min(remaining, wait);
 				foreach (var (entry, recipe) in active)
 				{
 					var untilNext = Math.Max(0, recipe.Time - entry.Progress);
@@ -345,6 +393,8 @@ namespace MachineFree.Core
 				}
 			}
 
+			// 이번 시간 끝에 끝난 자동 반복 칸도 바로 다시 채워, 대기열이 틱 사이에 비어 보이지 않게 한다
+			RefillAutoRepeat(0);
 			UpdateGoals();
 		}
 
@@ -370,6 +420,40 @@ namespace MachineFree.Core
 				.Where(x => x.Delta > Quantity.Tolerance(x.Delta))
 				.ToDictionary(x => x.Key, x => x.Delta);
 			return new OfflineReport(elapsed, simulated, gained);
+		}
+
+		/// <summary>
+		/// 대기열에 없는 자동 반복 레시피를 다시 주문한다. 앞으로 남은 시간(최대 AutoRepeatHorizon초)만큼, 재료가 되는 만큼만 주문한다.
+		/// 재료가 모자라 주문하지 못한 레시피가 있으면 다시 볼 때까지의 시간을, 없으면 무한대를 돌려준다.
+		/// </summary>
+		private double RefillAutoRepeat(double remaining)
+		{
+			if (State.AutoRepeat.Count == 0 || !IsAutomationUnlocked)
+			{
+				return double.PositiveInfinity;
+			}
+
+			var wait = double.PositiveInfinity;
+			foreach (var recipe in Database.RecipeList) // 데이터 순서로 돌아야 결과가 항상 같다
+			{
+				if (!State.AutoRepeat.Contains(recipe.Id) || !CanAutoRepeat(recipe) || State.Queue.Any(x => x.Recipe == recipe.Id))
+				{
+					continue;
+				}
+
+				var want = (long)Math.Clamp(Math.Ceiling(Math.Min(remaining, AutoRepeatHorizon) / recipe.Time - 1e-9), 1, MaxBatch);
+				var count = GetMaxCraftable(recipe, want);
+				if (count > 0)
+				{
+					TryEnqueue(recipe.Id, count);
+				}
+				else
+				{
+					wait = Math.Min(wait, Math.Max(recipe.Time, 1));
+				}
+			}
+
+			return wait;
 		}
 
 		/// <summary>

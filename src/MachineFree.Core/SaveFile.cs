@@ -38,6 +38,7 @@ namespace MachineFree.Core
 				Inventory = state.Inventory.Where(x => double.IsFinite(x.Value)).ToDictionary(x => x.Key.Value, x => x.Value),
 				Discovered = [.. state.Discovered.Select(x => x.Value).Order(StringComparer.Ordinal)],
 				Upgrades = [.. state.Upgrades.Order(StringComparer.Ordinal)],
+				AutoRepeat = [.. state.AutoRepeat.Select(x => x.Value).Order(StringComparer.Ordinal)],
 				CompletedGoals = new Dictionary<string, double>(state.CompletedGoals),
 				Queue = [.. state.Queue.Select(x => new QueueDto
 				{
@@ -87,6 +88,7 @@ namespace MachineFree.Core
 
 			state.Discovered.UnionWith((dto.Discovered ?? []).OfType<string>().Select(x => new ItemId(x)));
 			state.Upgrades.UnionWith((dto.Upgrades ?? []).OfType<string>());
+			state.AutoRepeat.UnionWith((dto.AutoRepeat ?? []).OfType<string>().Select(x => new RecipeId(x)).Where(x => db.FindRecipe(x) is not null));
 			foreach (var (id, time) in dto.CompletedGoals ?? [])
 			{
 				state.CompletedGoals[id] = double.IsFinite(time) ? time : 0;
@@ -194,6 +196,7 @@ namespace MachineFree.Core
 			public Dictionary<string, double>? Inventory { get; set; } = [];
 			public List<string?>? Discovered { get; set; } = [];
 			public List<string?>? Upgrades { get; set; } = [];
+			public List<string?>? AutoRepeat { get; set; } = [];
 			public Dictionary<string, double>? CompletedGoals { get; set; } = [];
 			public List<QueueDto?>? Queue { get; set; } = [];
 		}

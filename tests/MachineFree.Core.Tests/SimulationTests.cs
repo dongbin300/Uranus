@@ -47,6 +47,7 @@ namespace MachineFree.Core.Tests
 						new UpgradeDef("line_2", new LocalizedText("라인 2"), UpgradeKind.Line, 1, [new ItemAmount(Id("H"), 5)], []),
 						new UpgradeDef("scale_10", new LocalizedText("10배"), UpgradeKind.Scale, 10, [new ItemAmount(Id("O"), 1)], []),
 						new UpgradeDef("scale_100", new LocalizedText("100배"), UpgradeKind.Scale, 100, [new ItemAmount(Id("O"), 1)], ["scale_10"]),
+						new UpgradeDef("automation", new LocalizedText("자동화"), UpgradeKind.Automation, 1, [new ItemAmount(Id("O"), 1)], []),
 					],
 					Goals = [new GoalDef("water", new LocalizedText("물"), [new ItemAmount(Id("H2O"), 1)])],
 				});
@@ -351,6 +352,83 @@ namespace MachineFree.Core.Tests
 		}
 
 		[Fact]
+		public void AutoRepeat_NeedsAutomationAndSkipsGeneratorsAndInstantRecipes()
+		{
+			var sim = Fixtures.Start(Fixtures.Small());
+			var water = new RecipeId("water");
+
+			Assert.False(sim.SetAutoRepeat(water, true));
+
+			sim.State.Add(O, 1);
+			Assert.True(sim.TryBuyUpgrade("automation"));
+			Assert.True(sim.SetAutoRepeat(water, true));
+			Assert.False(sim.SetAutoRepeat(new RecipeId("build_synth"), true));
+			Assert.False(sim.SetAutoRepeat(new RecipeId("instant"), true));
+			Assert.Equal([water], sim.State.AutoRepeat);
+			Assert.True(sim.AutoRepeatChanged);
+		}
+
+		[Theory]
+		[InlineData(1)]
+		[InlineData(1000)]
+		public void AutoRepeat_ReordersAsGeneratorOutputArrives(int ticks)
+		{
+			// 합성기가 초당 수소 0.25개를 내고, 물 레시피(수소 2 + 산소 1)를 자동 반복한다
+			var sim = Fixtures.Start(Fixtures.Small());
+			sim.State.Remove(H, 15);
+			sim.State.Add(O, 101);
+			sim.State.Add(Synth, 1);
+			sim.TryBuyUpgrade("automation");
+			Assert.True(sim.SetAutoRepeat(new RecipeId("water"), true));
+
+			for (var i = 0; i < ticks; i++)
+			{
+				sim.Tick(100.0 / ticks);
+			}
+
+			// 100초 동안 수소 25개 → 물 12개, 수소 1개 남음
+			Assert.Equal(12, Quantity.Floor(sim.GetAmount(Water)));
+			Assert.Equal(1, sim.GetAmount(H), 6);
+			Assert.Equal(88, sim.GetAmount(O), 6);
+		}
+
+		[Fact]
+		public void AutoRepeat_LargeTickUsesAllMaterials()
+		{
+			var sim = Fixtures.Start(Fixtures.Small());
+			sim.State.Add(H, 10_000);
+			sim.State.Add(O, 10_001);
+			sim.TryBuyUpgrade("automation");
+			sim.SetAutoRepeat(new RecipeId("water"), true);
+			Assert.Equal(1, Assert.Single(sim.State.Queue).Remaining);
+
+			// 60초씩 끊어 주문하며 수소 10,015개를 다 쓴다
+			sim.Tick(1000);
+			Assert.Equal(5007, Quantity.Floor(sim.GetAmount(Water)));
+			Assert.Equal(1, sim.GetAmount(H), 9);
+			Assert.Empty(sim.State.Queue);
+		}
+
+		[Fact]
+		public void CancellingAutoRepeatEntry_StopsAutoRepeat()
+		{
+			var sim = Fixtures.Start(Fixtures.Small());
+			sim.State.Add(O, 10);
+			sim.TryBuyUpgrade("automation");
+			sim.SetAutoRepeat(new RecipeId("water"), true);
+			Assert.Single(sim.State.Queue);
+			sim.AutoRepeatChanged = false;
+
+			sim.Cancel(0, 1);
+			sim.Tick(1);
+
+			Assert.Empty(sim.State.Queue);
+			Assert.Empty(sim.State.AutoRepeat);
+			Assert.True(sim.AutoRepeatChanged);
+			Assert.Equal(15, sim.GetAmount(H), 9);
+		}
+
+		[Fact]
 		public void Goals_AreRecordedWithPlayTime()
 		{
 			var sim = Fixtures.Start(Fixtures.Small());
@@ -548,6 +626,19 @@ namespace MachineFree.Core.Tests
 			Assert.Equal(10, loaded.Queue[0].Scale);
 			Assert.Contains("scale_10", loaded.Upgrades);
 			Assert.True(loaded.CompletedGoals.ContainsKey("water"));
+		}
+
+		[Fact]
+		public void RoundTrip_KeepsAutoRepeatAndDropsUnknownRecipes()
+		{
+			var db = Fixtures.Small();
+			var state = GameState.CreateNew(db);
+			state.AutoRepeat.Add(new RecipeId("water"));
+			state.AutoRepeat.Add(new RecipeId("removed_recipe"));
+
+			var loaded = SaveFile.Deserialize(SaveFile.Serialize(state), db, out _);
+
+			Assert.Equal([new RecipeId("water")], loaded.AutoRepeat);
 		}
 
 		[Fact]

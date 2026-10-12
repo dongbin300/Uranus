@@ -59,7 +59,7 @@ namespace MachineFree.ViewModels
 				}
 				else
 				{
-					Recipes.Add(new RecipeCardViewModel(recipe, db, Enqueue, x => simulation.GetMaxCraftable(x)));
+					Recipes.Add(new RecipeCardViewModel(recipe, db, Enqueue, x => simulation.GetMaxCraftable(x), ToggleAutoRepeat));
 				}
 			}
 
@@ -250,6 +250,8 @@ namespace MachineFree.ViewModels
 			simulation.ChangedItems.Clear();
 			var upgraded = simulation.UpgradesChanged;
 			simulation.UpgradesChanged = false;
+			var autoChanged = simulation.AutoRepeatChanged;
+			simulation.AutoRepeatChanged = false;
 
 			// 규모가 바뀌면 모든 칸의 생산량 표시가 달라진다
 			if (upgraded)
@@ -262,7 +264,7 @@ namespace MachineFree.ViewModels
 				UpdateSlot(item);
 			}
 
-			if (force || upgraded || changed.Count > 0)
+			if (force || upgraded || autoChanged || changed.Count > 0)
 			{
 				foreach (var card in Recipes)
 				{
@@ -288,7 +290,7 @@ namespace MachineFree.ViewModels
 				RefreshViews(force || upgraded);
 			}
 
-			if (force || upgraded || simulation.QueueChanged)
+			if (force || upgraded || autoChanged || simulation.QueueChanged)
 			{
 				simulation.QueueChanged = false;
 				RebuildQueue();
@@ -410,6 +412,11 @@ namespace MachineFree.ViewModels
 			{
 				var entry = simulation.State.Queue[i];
 				var title = db.FindRecipe(entry.Recipe) is { } recipe ? db.GetName(recipe) : entry.Recipe.Value;
+				if (simulation.IsAutoRepeat(entry.Recipe) && simulation.IsAutomationUnlocked)
+				{
+					title = "↻ " + title;
+				}
+
 				var vm = new QueueEntryViewModel(i, title, Cancel)
 				{
 					RemainingText = QuantityFormatter.FormatCount(entry.Remaining, NumberStyle),
@@ -447,6 +454,23 @@ namespace MachineFree.ViewModels
 		{
 			if (count <= 0 || !simulation.TryEnqueue(recipe.Id, count))
 			{
+				return false;
+			}
+
+			Refresh();
+			return true;
+		}
+
+		private bool ToggleAutoRepeat(RecipeDef recipe)
+		{
+			var enable = !simulation.IsAutoRepeat(recipe.Id);
+			if (!simulation.SetAutoRepeat(recipe.Id, enable))
+			{
+				if (!simulation.IsAutomationUnlocked)
+				{
+					AddNotice("자동 반복은 '자동화' 업그레이드를 산 뒤에 쓸 수 있다");
+				}
+
 				return false;
 			}
 
