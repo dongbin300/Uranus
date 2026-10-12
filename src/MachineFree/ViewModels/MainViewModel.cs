@@ -79,6 +79,7 @@ namespace MachineFree.ViewModels
 			GeneratorsView.Filter = x => ((RecipeCardViewModel)x).IsDiscovered;
 			UpgradesView = CollectionViewSource.GetDefaultView(Upgrades);
 			UpgradesView.Filter = x => ((UpgradeCardViewModel)x).IsVisible;
+			Statistics = new StatisticsViewModel(simulation);
 
 			Refresh(force: true);
 
@@ -89,12 +90,14 @@ namespace MachineFree.ViewModels
 		public ObservableCollection<SlotViewModel> Inventory { get; } = [];
 
 		/// <summary>
-		/// 0: 레시피, 1: 생성기, 2: 업그레이드, 3: 목표
+		/// 0: 레시피, 1: 생성기, 2: 업그레이드, 3: 목표, 4: 통계
 		/// </summary>
 		[ObservableProperty]
 		public partial int SelectedTab { get; set; }
 
 		public ObservableCollection<RecipeCardViewModel> Recipes { get; } = [];
+
+		public StatisticsViewModel Statistics { get; }
 
 		public ObservableCollection<GeneratorCardViewModel> Generators { get; } = [];
 
@@ -217,6 +220,14 @@ namespace MachineFree.ViewModels
 
 		partial void OnSelectedCategoryChanged(CategoryOption value) => RecipesView?.Refresh();
 
+		partial void OnSelectedTabChanged(int value)
+		{
+			if (value == 4)
+			{
+				Statistics?.Refresh(NumberStyle);
+			}
+		}
+
 		partial void OnSearchTextChanged(string value) => RecipesView?.Refresh();
 
 		partial void OnShowCraftableOnlyChanged(bool value) => RecipesView?.Refresh();
@@ -298,6 +309,12 @@ namespace MachineFree.ViewModels
 
 			UpdateQueueProgress();
 			ShowNewGoals();
+
+			// 통계는 기록할 때만, 통계 탭을 보고 있을 때만 갱신한다
+			if ((Statistics.Record() || force) && SelectedTab == 4)
+			{
+				Statistics.Refresh(NumberStyle);
+			}
 
 			var scale = simulation.CurrentScale is { } current
 				? $"{current.Name.Ko} ×{QuantityFormatter.FormatNumber(current.Factor, NumberStyle.Scientific)}"
@@ -496,7 +513,7 @@ namespace MachineFree.ViewModels
 			Refresh();
 		}
 
-		private static string FormatDuration(double seconds)
+		internal static string FormatDuration(double seconds)
 		{
 			var time = TimeSpan.FromSeconds(Math.Max(0, Math.Min(seconds, TimeSpan.MaxValue.TotalSeconds - 1)));
 			if (time.TotalDays >= 1)

@@ -373,7 +373,7 @@
                 <TabItem Header="업그레이드">
                     <DockPanel Margin="2">
                         <TextBlock DockPanel.Dock="Top" FontSize="11" Foreground="#666" Margin="2,2,0,4" TextWrapping="Wrap"
-                                   Text="생산 라인은 대기열 앞쪽을 동시에 만든다. 규모는 입자(원자·분자) 레시피와 생성기를 한 번에 그 배율만큼 돌린다. 부품은 계속 하나씩 만든다."/>
+                                   Text="생산 라인은 대기열 앞쪽을 동시에 만든다. 규모는 입자(원자·분자) 레시피와 생성기를 한 번에 그 배율만큼 돌린다. 부품은 계속 하나씩 만든다. 자동화를 사면 레시피를 Ctrl+클릭해 자동 반복할 수 있다."/>
                         <ScrollViewer VerticalScrollBarVisibility="Auto">
                             <ItemsControl ItemsSource="{Binding UpgradesView}" ItemTemplate="{StaticResource UpgradeTemplate}" ItemsPanel="{StaticResource WrapItems}"/>
                         </ScrollViewer>
@@ -383,6 +383,65 @@
                     <ScrollViewer VerticalScrollBarVisibility="Auto" Margin="2">
                         <ItemsControl ItemsSource="{Binding Goals}" ItemTemplate="{StaticResource GoalTemplate}"/>
                     </ScrollViewer>
+                </TabItem>
+                <TabItem Header="통계">
+                    <DockPanel Margin="2" DataContext="{Binding Statistics}">
+                        <!-- 고른 아이템의 보유량 그래프 -->
+                        <StackPanel DockPanel.Dock="Top" Margin="2,2,2,6">
+                            <TextBlock Text="{Binding ChartTitle}" FontWeight="Bold" Margin="0,0,0,2"/>
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="Auto"/>
+                                    <ColumnDefinition Width="*"/>
+                                </Grid.ColumnDefinitions>
+                                <Grid Grid.Column="0" Margin="0,0,4,0">
+                                    <TextBlock Text="{Binding ChartMaxText}" FontSize="10" Foreground="#777" VerticalAlignment="Top" HorizontalAlignment="Right"/>
+                                    <TextBlock Text="{Binding ChartMinText}" FontSize="10" Foreground="#777" VerticalAlignment="Bottom" HorizontalAlignment="Right"/>
+                                </Grid>
+                                <Border Grid.Column="1" Height="160" BorderBrush="#C8D0C8" BorderThickness="1" Background="#FAFCFA">
+                                    <Viewbox Stretch="Fill" Margin="2">
+                                        <Canvas Width="520" Height="180">
+                                            <Polyline Points="{Binding ChartPoints}" Stroke="#3C8D93" StrokeThickness="2" StrokeLineJoin="Round"/>
+                                        </Canvas>
+                                    </Viewbox>
+                                </Border>
+                            </Grid>
+                            <TextBlock Text="{Binding ChartSpanText}" FontSize="10" Foreground="#777" HorizontalAlignment="Right" Margin="0,2,0,0"/>
+                        </StackPanel>
+
+                        <!-- 아이템별 표 -->
+                        <Grid DockPanel.Dock="Top" Margin="6,0,24,2" TextElement.FontSize="11" TextElement.Foreground="#666">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="90"/>
+                                <ColumnDefinition Width="100"/>
+                                <ColumnDefinition Width="100"/>
+                            </Grid.ColumnDefinitions>
+                            <TextBlock Grid.Column="0" Text="아이템"/>
+                            <TextBlock Grid.Column="1" Text="보유" HorizontalAlignment="Right"/>
+                            <TextBlock Grid.Column="2" Text="최근 1분 순변화" HorizontalAlignment="Right" ToolTip="생산에서 소비를 뺀 양을 분당으로"/>
+                            <TextBlock Grid.Column="3" Text="생성기 생산" HorizontalAlignment="Right"/>
+                        </Grid>
+                        <ListBox ItemsSource="{Binding Rows}" SelectedItem="{Binding SelectedRow}" BorderBrush="Gainsboro"
+                                 ScrollViewer.HorizontalScrollBarVisibility="Disabled" HorizontalContentAlignment="Stretch">
+                            <ListBox.ItemTemplate>
+                                <DataTemplate DataType="{x:Type vm:StatRowViewModel}">
+                                    <Grid>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="*"/>
+                                            <ColumnDefinition Width="90"/>
+                                            <ColumnDefinition Width="100"/>
+                                            <ColumnDefinition Width="100"/>
+                                        </Grid.ColumnDefinitions>
+                                        <TextBlock Grid.Column="0" Text="{Binding Name}" TextTrimming="CharacterEllipsis"/>
+                                        <TextBlock Grid.Column="1" Text="{Binding AmountText}" HorizontalAlignment="Right"/>
+                                        <TextBlock Grid.Column="2" Text="{Binding RateText}" HorizontalAlignment="Right" Foreground="#2F6B36"/>
+                                        <TextBlock Grid.Column="3" Text="{Binding GeneratorText}" HorizontalAlignment="Right" Foreground="#555"/>
+                                    </Grid>
+                                </DataTemplate>
+                            </ListBox.ItemTemplate>
+                        </ListBox>
+                    </DockPanel>
                 </TabItem>
             </TabControl>
         </Grid>

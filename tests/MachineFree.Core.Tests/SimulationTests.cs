@@ -756,3 +756,66 @@ namespace MachineFree.Core.Tests
 		}
 	}
 }
+
+namespace MachineFree.Core.Tests
+{
+	public class InventoryHistoryTests
+	{
+		private static readonly ItemId H = new("H");
+		private static readonly ItemId O = new("O");
+
+		[Fact]
+		public void Record_KeepsIntervalAndBackfillsNewItemsWithZero()
+		{
+			var history = new InventoryHistory(interval: 5, capacity: 10);
+
+			Assert.True(history.Record(0, new Dictionary<ItemId, double> { [H] = 1 }));
+			Assert.False(history.Record(4, new Dictionary<ItemId, double> { [H] = 2 }));
+			Assert.True(history.Record(5, new Dictionary<ItemId, double> { [H] = 3, [O] = 7 }));
+
+			Assert.Equal([0.0, 5.0], history.Times);
+			Assert.Equal([1.0, 3.0], history.GetAmounts(H));
+			Assert.Equal([0.0, 7.0], history.GetAmounts(O));
+		}
+
+		[Fact]
+		public void Record_DropsOldestBeyondCapacity()
+		{
+			var history = new InventoryHistory(interval: 1, capacity: 3);
+			for (var t = 0; t < 5; t++)
+			{
+				history.Record(t, new Dictionary<ItemId, double> { [H] = t });
+			}
+
+			Assert.Equal([2.0, 3.0, 4.0], history.Times);
+			Assert.Equal([2.0, 3.0, 4.0], history.GetAmounts(H));
+		}
+
+		[Fact]
+		public void GetRate_UsesSamplesWithinWindow()
+		{
+			var history = new InventoryHistory(interval: 10, capacity: 100);
+			Assert.Null(history.GetRate(H, 60));
+
+			// 처음 100초는 초당 1개, 그 뒤 60초는 초당 3개
+			for (var t = 0; t <= 160; t += 10)
+			{
+				history.Record(t, new Dictionary<ItemId, double> { [H] = t <= 100 ? t : 100 + 3 * (t - 100) });
+			}
+
+			Assert.Equal(3, history.GetRate(H, 60)!.Value, 9);
+			Assert.Equal(0, history.GetRate(O, 60)!.Value);
+		}
+
+		[Fact]
+		public void Record_StartsOverWhenTimeGoesBack()
+		{
+			var history = new InventoryHistory(interval: 1, capacity: 10);
+			history.Record(100, new Dictionary<ItemId, double> { [H] = 1 });
+			history.Record(0, new Dictionary<ItemId, double> { [O] = 1 });
+
+			Assert.Equal([0.0], history.Times);
+			Assert.Empty(history.GetAmounts(H));
+		}
+	}
+}
