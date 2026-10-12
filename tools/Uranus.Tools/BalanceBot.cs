@@ -9,7 +9,7 @@ namespace Uranus.Tools
 {
 	/// <summary>
 	/// 밸런스 확인용 자동 플레이. 사람보다 서툴지만 매번 같은 결과가 나와서 수치를 바꿨을 때 비교하기 좋다.
-	/// 매 스텝마다: 업그레이드 구매 → 새 생성기 → 다음 규모 업그레이드 재료 → 다음 목표 재료 → (라인이 남으면) 다른 업그레이드 재료
+	/// 매 스텝마다: 업그레이드 구매 → 다음 규모 업그레이드 재료 → 다음 목표 재료 → (라인이 남으면) 다른 업그레이드 재료
 	/// → 생성기 증설 → 시간 진행. 규모는 모든 것을 빠르게 하므로 사람도 먼저 챙긴다.
 	/// </summary>
 	public sealed class BalanceBot(UranusDatabase db)
@@ -21,11 +21,21 @@ namespace Uranus.Tools
 		/// </summary>
 		private const int SmallScaleCrafts = 100;
 
+		/// <summary>
+		/// 이보다 많이 돌려야 하면 지금 규모로는 가망이 없다고 보고 건너뛴다 (라인을 다른 일에 쓴다)
+		/// </summary>
+		private const int HopelessCrafts = 20_000;
+
 		private readonly Simulation sim = new(db, GameState.CreateNew(db));
 
 		public sealed record Milestone(double Time, string Kind, string Name);
 
 		public List<Milestone> Milestones { get; } = [];
+
+		/// <summary>
+		/// 한 대 이상 가져 본 생성기 (마일스톤 기록용). 생성기는 목표나 재료에 필요할 때만 짓는다
+		/// </summary>
+		private readonly HashSet<ItemId> builtGenerators = [];
 
 		public Simulation Simulation => sim;
 
@@ -37,7 +47,7 @@ namespace Uranus.Tools
 				BuyUpgrades();
 				if (sim.State.Queue.Count < sim.LineCount * 2)
 				{
-					BuildNewGeneratorTypes();
+					BuildAffordableGeneratorTypes();
 					WorkOnNextUpgrade(UpgradeKind.Scale);
 					WorkOnNextGoal();
 					if (sim.State.Queue.Count < sim.LineCount)
@@ -49,6 +59,14 @@ namespace Uranus.Tools
 				}
 
 				sim.Tick(stepSeconds);
+				foreach (var generator in db.GeneratorList)
+				{
+					if (sim.GetOwnedCount(generator.Item) > 0 && builtGenerators.Add(generator.Item))
+					{
+						Milestones.Add(new Milestone(sim.State.PlayTime, "생성기", db.GetName(generator.Item)));
+					}
+				}
+
 				foreach (var goal in sim.NewGoals)
 				{
 					Milestones.Add(new Milestone(sim.State.PlayTime, "목표", goal.Name.Ko));
@@ -70,14 +88,19 @@ namespace Uranus.Tools
 			}
 		}
 
-		private void BuildNewGeneratorTypes()
+		/// <summary>
+		/// 아직 없는 생성기는 첫 대 비용의 2배 이상을 가졌을 때 미리 짓는다 (원료를 넉넉히 확보해 두는 사람처럼).
+		/// 그보다 비싸면 목표나 재료에 필요해질 때 Produce가 짓는다.
+		/// </summary>
+		private void BuildAffordableGeneratorTypes()
 		{
 			foreach (var generator in db.GeneratorList)
 			{
 				if (sim.GetOwnedCount(generator.Item) == 0 && sim.GetQueuedAmount(generator.Item) == 0 &&
-					db.FindRecipe(generator.BuildRecipe) is { } recipe && sim.TryEnqueue(recipe.Id, 1))
+					db.FindRecipe(generator.BuildRecipe) is { } recipe &&
+					sim.GetCost(recipe, 1).All(x => sim.GetAmount(x.Item) >= x.Amount * 2))
 				{
-					Milestones.Add(new Milestone(sim.State.PlayTime, "생성기", db.GetName(generator.Item)));
+					sim.TryEnqueue(recipe.Id, 1);
 				}
 			}
 		}
@@ -271,7 +294,7 @@ namespace Uranus.Tools
 						foreach (var recipe in producers)
 						{
 							var perCraft = PerCraft(recipe, item);
-							if (perCraft <= 0 || (i > scales.IndexOf(fit) && missing / perCraft > SmallScaleCrafts))
+							if (perCraft <= 0 || missing / perCraft > HopelessCrafts || (i > scales.IndexOf(fit) && missing / perCraft > SmallScaleCrafts))
 							{
 								continue;
 							}
@@ -289,7 +312,7 @@ namespace Uranus.Tools
 					{
 						sim.SetCraftScale(fit);
 						var perCraft = PerCraft(recipe, item);
-						if (perCraft <= 0)
+						if (perCraft <= 0 || missing / perCraft > HopelessCrafts)
 						{
 							continue;
 						}
