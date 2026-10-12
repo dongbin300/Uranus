@@ -60,13 +60,25 @@
             <StackPanel>
                 <TextBlock Style="{StaticResource TipTitle}" Text="{Binding Title}"/>
                 <TextBlock Style="{StaticResource TipText}" Text="{Binding TimeText}"/>
+                <TextBlock Text="{Binding ScaleText}">
+                    <TextBlock.Style>
+                        <Style TargetType="TextBlock" BasedOn="{StaticResource TipText}">
+                            <Setter Property="Foreground" Value="#9FD8A6"/>
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding ScaleText}" Value="">
+                                    <Setter Property="Visibility" Value="Collapsed"/>
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </TextBlock.Style>
+                </TextBlock>
                 <Separator Style="{StaticResource TipSeparator}"/>
                 <ItemsControl ItemsSource="{Binding Inputs}" ItemTemplate="{StaticResource RequirementTemplate}"/>
                 <Separator Style="{StaticResource TipSeparator}"/>
                 <ItemsControl ItemsSource="{Binding OutputLines}" ItemTemplate="{StaticResource LineTemplate}"/>
                 <StackPanel Visibility="{Binding HasRawMaterials, Converter={StaticResource BoolToVisibility}}">
                     <Separator Style="{StaticResource TipSeparator}"/>
-                    <TextBlock Style="{StaticResource TipHint}" Text="원료까지 펼치면 (1회, 부산물 무시)"/>
+                    <TextBlock Style="{StaticResource TipHint}" Text="원료까지 펼치면 (분자 단위 1회, 부산물 무시)"/>
                     <ItemsControl ItemsSource="{Binding RawMaterialLines}" ItemTemplate="{StaticResource LineTemplate}"/>
                 </StackPanel>
                 <TextBlock Style="{StaticResource TipHint}" Text="클릭 1개 · 우클릭 5개 · Shift+클릭 가능한 만큼"/>
@@ -144,6 +156,7 @@
                     <ToolTip>
                         <StackPanel>
                             <TextBlock Style="{StaticResource TipTitle}" Text="{Binding Title}"/>
+                            <TextBlock Style="{StaticResource TipText}" Text="{Binding ProgressText}"/>
                             <TextBlock Style="{StaticResource TipHint}" Text="클릭 전부 취소 · 우클릭 1개 취소 (재료는 돌려받는다)"/>
                         </StackPanel>
                     </ToolTip>
@@ -155,19 +168,101 @@
             </Border>
         </DataTemplate>
 
+        <!-- 지금 만드는 칸: 칸 아래에 진행 막대 -->
+        <DataTemplate x:Key="ActiveQueueTemplate" DataType="{x:Type vm:QueueEntryViewModel}">
+            <StackPanel Margin="0,0,3,0">
+                <ContentControl Content="{Binding}" ContentTemplate="{StaticResource QueueTemplate}"/>
+                <ProgressBar Style="{StaticResource ThinBar}" Width="64" Height="5" Background="#E3E8E3" Foreground="#4FB0B0"
+                             Value="{Binding Progress, Mode=OneWay}"/>
+            </StackPanel>
+        </DataTemplate>
+
+        <DataTemplate x:Key="UpgradeTip" DataType="{x:Type vm:UpgradeCardViewModel}">
+            <StackPanel>
+                <TextBlock Style="{StaticResource TipTitle}" Text="{Binding Title}"/>
+                <TextBlock Style="{StaticResource TipText}" Text="{Binding EffectText}"/>
+                <TextBlock Style="{StaticResource TipHint}" Text="{Binding Note}"/>
+                <TextBlock Style="{StaticResource TipHint}" Text="{Binding RequiresText}"/>
+                <Separator Style="{StaticResource TipSeparator}"/>
+                <ItemsControl ItemsSource="{Binding Cost}" ItemTemplate="{StaticResource RequirementTemplate}"/>
+                <TextBlock Style="{StaticResource TipHint}" Text="클릭해서 산다"/>
+            </StackPanel>
+        </DataTemplate>
+
+        <DataTemplate x:Key="UpgradeTemplate" DataType="{x:Type vm:UpgradeCardViewModel}">
+            <Border Style="{StaticResource CraftTile}" Width="96">
+                <Border.InputBindings>
+                    <MouseBinding Gesture="LeftClick" Command="{Binding BuyCommand}"/>
+                </Border.InputBindings>
+                <Border.ToolTip>
+                    <ToolTip>
+                        <ContentControl Content="{Binding}" ContentTemplate="{StaticResource UpgradeTip}"/>
+                    </ToolTip>
+                </Border.ToolTip>
+                <Grid>
+                    <TextBlock Style="{StaticResource TileBadge}" Text="{Binding BadgeText}"/>
+                    <TextBlock Style="{StaticResource TileName}" Text="{Binding Title}"/>
+                </Grid>
+            </Border>
+        </DataTemplate>
+
+        <DataTemplate x:Key="GoalTemplate" DataType="{x:Type vm:GoalViewModel}">
+            <Border BorderBrush="Gainsboro" BorderThickness="0,0,0,1" Padding="4,3">
+                <Border.Style>
+                    <Style TargetType="Border">
+                        <Style.Triggers>
+                            <DataTrigger Binding="{Binding IsDone}" Value="True">
+                                <Setter Property="Background" Value="#EAF6EA"/>
+                            </DataTrigger>
+                        </Style.Triggers>
+                    </Style>
+                </Border.Style>
+                <StackPanel>
+                    <DockPanel>
+                        <TextBlock DockPanel.Dock="Right" Text="{Binding DoneText}" FontSize="11" Foreground="#2F6B36"/>
+                        <TextBlock Text="{Binding Title}" FontWeight="Bold"/>
+                    </DockPanel>
+                    <ItemsControl ItemsSource="{Binding Requirements}">
+                        <ItemsControl.ItemsPanel>
+                            <ItemsPanelTemplate>
+                                <WrapPanel/>
+                            </ItemsPanelTemplate>
+                        </ItemsControl.ItemsPanel>
+                        <ItemsControl.ItemTemplate>
+                            <DataTemplate DataType="{x:Type vm:RequirementLine}">
+                                <TextBlock Text="{Binding Text}" FontSize="11" Margin="0,0,10,0">
+                                    <TextBlock.Style>
+                                        <Style TargetType="TextBlock">
+                                            <Setter Property="Foreground" Value="#888"/>
+                                            <Style.Triggers>
+                                                <DataTrigger Binding="{Binding IsMet}" Value="True">
+                                                    <Setter Property="Foreground" Value="#2F6B36"/>
+                                                </DataTrigger>
+                                            </Style.Triggers>
+                                        </Style>
+                                    </TextBlock.Style>
+                                </TextBlock>
+                            </DataTemplate>
+                        </ItemsControl.ItemTemplate>
+                    </ItemsControl>
+                    <TextBlock Text="{Binding Note}" FontSize="10.5" Foreground="#999"/>
+                </StackPanel>
+            </Border>
+        </DataTemplate>
+
         <ItemsPanelTemplate x:Key="WrapItems">
             <WrapPanel/>
         </ItemsPanelTemplate>
     </Window.Resources>
 
     <DockPanel Background="#F7F9F7">
-        <!-- 자리를 비운 동안의 결과, 세이브 경고 -->
+        <!-- 알림: 자리를 비운 동안의 결과, 목표 달성, 업그레이드, 세이브 경고 -->
         <Border DockPanel.Dock="Top" Background="#FFF7D6" BorderBrush="#E8D48A" BorderThickness="0,0,0,1" Padding="8,4"
-                Visibility="{Binding HasOfflineMessage, Converter={StaticResource BoolToVisibility}}">
+                Visibility="{Binding HasNotice, Converter={StaticResource BoolToVisibility}}">
             <DockPanel>
-                <Button DockPanel.Dock="Right" Content="✕" Command="{Binding DismissOfflineCommand}"
+                <Button DockPanel.Dock="Right" Content="✕" Command="{Binding DismissNoticeCommand}"
                         Background="Transparent" BorderThickness="0" Padding="6,0" VerticalAlignment="Top"/>
-                <TextBlock Text="{Binding OfflineMessage}" TextWrapping="Wrap" FontSize="12"/>
+                <TextBlock Text="{Binding NoticeText}" TextWrapping="Wrap" FontSize="12"/>
             </DockPanel>
         </Border>
 
@@ -183,58 +278,43 @@
         <!-- 제작 대기열 -->
         <Border DockPanel.Dock="Bottom" BorderBrush="Gainsboro" BorderThickness="0,1,0,0" Padding="4,3">
             <StackPanel>
-                <Grid Height="42">
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="Auto"/>
-                        <ColumnDefinition Width="*"/>
-                    </Grid.ColumnDefinitions>
-                    <ContentControl Grid.Column="0" Content="{Binding CurrentQueue}" ContentTemplate="{StaticResource QueueTemplate}">
-                        <ContentControl.Style>
-                            <Style TargetType="ContentControl">
-                                <Style.Triggers>
-                                    <DataTrigger Binding="{Binding CurrentQueue}" Value="{x:Null}">
-                                        <Setter Property="Visibility" Value="Collapsed"/>
-                                    </DataTrigger>
-                                </Style.Triggers>
-                            </Style>
-                        </ContentControl.Style>
-                    </ContentControl>
-                    <StackPanel Grid.Column="1" Margin="6,0" VerticalAlignment="Center">
-                        <StackPanel.Style>
-                            <Style TargetType="StackPanel">
-                                <Style.Triggers>
-                                    <DataTrigger Binding="{Binding CurrentQueue}" Value="{x:Null}">
-                                        <Setter Property="Visibility" Value="Collapsed"/>
-                                    </DataTrigger>
-                                </Style.Triggers>
-                            </Style>
-                        </StackPanel.Style>
-                        <TextBlock Text="{Binding CurrentQueue.ProgressText}" FontSize="11" Foreground="#333"/>
-                        <ProgressBar Style="{StaticResource ThinBar}" Height="8" Margin="0,3,0,0" Background="#E3E8E3" Foreground="#70C0C0"
-                                     Value="{Binding CurrentQueue.Progress, Mode=OneWay}"/>
-                    </StackPanel>
-                    <TextBlock Grid.ColumnSpan="2" Text="대기열이 비어 있다. 레시피나 생성기를 클릭하면 만든다." FontSize="11" Foreground="#888" VerticalAlignment="Center">
+                <DockPanel Margin="1,0,0,2">
+                    <TextBlock DockPanel.Dock="Right" Text="{Binding QueueSummary}" FontSize="11" Foreground="#666"/>
+                    <TextBlock Text="제작 대기열" FontSize="11" FontWeight="Bold" Foreground="#444"/>
+                </DockPanel>
+                <Grid MinHeight="47">
+                    <ScrollViewer HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Disabled"
+                                  Visibility="{Binding HasQueue, Converter={StaticResource BoolToVisibility}}">
+                        <StackPanel Orientation="Horizontal">
+                            <ItemsControl ItemsSource="{Binding ActiveQueue}" ItemTemplate="{StaticResource ActiveQueueTemplate}">
+                                <ItemsControl.ItemsPanel>
+                                    <ItemsPanelTemplate>
+                                        <StackPanel Orientation="Horizontal"/>
+                                    </ItemsPanelTemplate>
+                                </ItemsControl.ItemsPanel>
+                            </ItemsControl>
+                            <Border Width="1" Margin="4,2,6,8" Background="#C8D0C8"/>
+                            <ItemsControl ItemsSource="{Binding WaitingQueue}" ItemTemplate="{StaticResource QueueTemplate}" VerticalAlignment="Top">
+                                <ItemsControl.ItemsPanel>
+                                    <ItemsPanelTemplate>
+                                        <StackPanel Orientation="Horizontal"/>
+                                    </ItemsPanelTemplate>
+                                </ItemsControl.ItemsPanel>
+                            </ItemsControl>
+                        </StackPanel>
+                    </ScrollViewer>
+                    <TextBlock Text="대기열이 비어 있다. 레시피나 생성기를 클릭하면 만든다." FontSize="11" Foreground="#888" VerticalAlignment="Center">
                         <TextBlock.Style>
                             <Style TargetType="TextBlock">
-                                <Setter Property="Visibility" Value="Collapsed"/>
                                 <Style.Triggers>
-                                    <DataTrigger Binding="{Binding CurrentQueue}" Value="{x:Null}">
-                                        <Setter Property="Visibility" Value="Visible"/>
+                                    <DataTrigger Binding="{Binding HasQueue}" Value="True">
+                                        <Setter Property="Visibility" Value="Collapsed"/>
                                     </DataTrigger>
                                 </Style.Triggers>
                             </Style>
                         </TextBlock.Style>
                     </TextBlock>
                 </Grid>
-                <ScrollViewer HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Disabled">
-                    <ItemsControl ItemsSource="{Binding WaitingQueue}" ItemTemplate="{StaticResource QueueTemplate}">
-                        <ItemsControl.ItemsPanel>
-                            <ItemsPanelTemplate>
-                                <StackPanel Orientation="Horizontal"/>
-                            </ItemsPanelTemplate>
-                        </ItemsControl.ItemsPanel>
-                    </ItemsControl>
-                </ScrollViewer>
             </StackPanel>
         </Border>
 
@@ -274,6 +354,20 @@
                 <TabItem Header="생성기">
                     <ScrollViewer VerticalScrollBarVisibility="Auto" Margin="2">
                         <ItemsControl ItemsSource="{Binding GeneratorsView}" ItemTemplate="{StaticResource GeneratorTemplate}" ItemsPanel="{StaticResource WrapItems}"/>
+                    </ScrollViewer>
+                </TabItem>
+                <TabItem Header="업그레이드">
+                    <DockPanel Margin="2">
+                        <TextBlock DockPanel.Dock="Top" FontSize="11" Foreground="#666" Margin="2,2,0,4" TextWrapping="Wrap"
+                                   Text="생산 라인은 대기열 앞쪽을 동시에 만든다. 규모는 입자(원자·분자) 레시피와 생성기를 한 번에 그 배율만큼 돌린다. 부품은 계속 하나씩 만든다."/>
+                        <ScrollViewer VerticalScrollBarVisibility="Auto">
+                            <ItemsControl ItemsSource="{Binding UpgradesView}" ItemTemplate="{StaticResource UpgradeTemplate}" ItemsPanel="{StaticResource WrapItems}"/>
+                        </ScrollViewer>
+                    </DockPanel>
+                </TabItem>
+                <TabItem Header="{Binding GoalsSummary}">
+                    <ScrollViewer VerticalScrollBarVisibility="Auto" Margin="2">
+                        <ItemsControl ItemsSource="{Binding Goals}" ItemTemplate="{StaticResource GoalTemplate}"/>
                     </ScrollViewer>
                 </TabItem>
             </TabControl>

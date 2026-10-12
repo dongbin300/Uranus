@@ -53,6 +53,9 @@ namespace MachineFree
 			}
 
 			var simulation = new Simulation(db, state);
+
+			// 불러온 시점에 이미 달성한 목표는 알림 없이 기록한다 (예전 세이브)
+			simulation.UpdateGoals(notify: false);
 			var offline = simulation.CatchUp(DateTimeOffset.UtcNow);
 
 			session = new GameSession(simulation, savePath);

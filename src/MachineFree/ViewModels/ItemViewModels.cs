@@ -81,6 +81,7 @@ namespace MachineFree.ViewModels
 	/// </summary>
 	public partial class RecipeCardViewModel : ObservableObject
 	{
+		private readonly UranusDatabase db;
 		private readonly Func<RecipeDef, long, bool> enqueue;
 		private readonly Func<RecipeDef, long> maxCraftable;
 		private readonly string searchText;
@@ -94,9 +95,11 @@ namespace MachineFree.ViewModels
 			Title = db.GetName(recipe);
 			TileName = recipe.Name?.Ko ?? (recipe.Outputs.Count > 0 ? db.GetName(recipe.Outputs[0].Item) : recipe.Id.Value);
 			TimeText = recipe.Time > 0 ? $"제작 시간 {QuantityFormatter.FormatNumber(recipe.Time)}초" : "제작 시간 미정(즉시)";
+			this.db = db;
 			OutputLines = [.. recipe.Outputs.Select(x => $"{QuantityFormatter.FormatNumber(x.Amount)} × {db.GetName(x.Item)}")];
 			Inputs = [.. recipe.Inputs.Select(x => new RequirementLine(x.Item, db.GetName(x.Item)))];
 			CraftableText = "";
+			ScaleText = "";
 			RawMaterialLines = BuildRawMaterialLines(recipe, db);
 
 			searchText = string.Join(" ", new[] { Title, TileName, recipe.Id.Value }
@@ -114,7 +117,17 @@ namespace MachineFree.ViewModels
 
 		public string TimeText { get; }
 
-		public IReadOnlyList<string> OutputLines { get; }
+		/// <summary>
+		/// 1회 결과물 (현재 규모 반영)
+		/// </summary>
+		[ObservableProperty]
+		public partial IReadOnlyList<string> OutputLines { get; set; }
+
+		/// <summary>
+		/// 규모가 1보다 크면 "규모 ×6.02e5", 아니면 빈 문자열
+		/// </summary>
+		[ObservableProperty]
+		public partial string ScaleText { get; set; }
 
 		/// <summary>
 		/// 이 레시피 1회를 원료(생성기 산출물 등)까지 펼친 양. 재료가 곧 원료면 비어 있다.
@@ -154,6 +167,14 @@ namespace MachineFree.ViewModels
 			CraftableText = Craftable > 0 ? QuantityFormatter.FormatCount(Craftable, style) : "";
 			IsCraftable = Craftable > 0;
 			IsDiscovered = Recipe.Inputs.All(x => simulation.State.Discovered.Contains(x.Item));
+
+			var scale = simulation.GetRecipeScale(Recipe);
+			var scaleText = scale > 1 ? $"규모 ×{QuantityFormatter.FormatNumber(scale, NumberStyle.Scientific)} (1회에 이만큼씩)" : "";
+			if (scaleText != ScaleText || OutputLines.Count == 0)
+			{
+				ScaleText = scaleText;
+				OutputLines = [.. simulation.GetOutputs(Recipe).Select(x => $"{QuantityFormatter.FormatNumber(x.Amount, style)} × {db.GetName(x.Item)}")];
+			}
 		}
 
 		private static List<string> BuildRawMaterialLines(RecipeDef recipe, UranusDatabase db)
@@ -230,7 +251,7 @@ namespace MachineFree.ViewModels
 			var owned = simulation.GetOwnedCount(Generator.Item);
 			OwnedText = owned > 0 ? $"×{QuantityFormatter.FormatCount(owned, style)}" : "";
 			RateText = owned > 0
-				? "현재 " + string.Join(", ", Generator.OutputPerSecond.Select(x => $"{db.GetName(x.Item)} {QuantityFormatter.FormatNumber(x.Amount * owned, style)}/초"))
+				? "현재 " + string.Join(", ", Generator.OutputPerSecond.Select(x => $"{db.GetName(x.Item)} {QuantityFormatter.FormatNumber(x.Amount * owned * simulation.GetOutputScale(x.Item), style)}/초"))
 				: "아직 없음";
 		}
 	}
@@ -272,6 +293,116 @@ namespace MachineFree.ViewModels
 
 		[RelayCommand]
 		private void CancelOne() => cancel(Index, 1);
+	}
+
+	/// <summary>
+	/// 업그레이드 칸. 클릭하면 산다.
+	/// </summary>
+	public partial class UpgradeCardViewModel : ObservableObject
+	{
+		private readonly Func<UpgradeDef, bool> buy;
+
+		public UpgradeCardViewModel(UpgradeDef upgrade, UranusDatabase db, Func<UpgradeDef, bool> buy)
+		{
+			this.buy = buy;
+			Upgrade = upgrade;
+			Title = upgrade.Name.Ko;
+			EffectText = upgrade.Kind == UpgradeKind.Line
+				? "생산 라인 +1: 대기열 앞쪽을 하나 더 동시에 만든다"
+				: $"규모 ×{QuantityFormatter.FormatNumber(upgrade.Factor, NumberStyle.Scientific)}: 입자 레시피와 생성기가 이만큼 크게 돈다";
+			var names = db.Config.Upgrades.ToDictionary(x => x.Id, x => x.Name.Ko);
+			RequiresText = upgrade.Requires.Count > 0 ? "선행: " + string.Join(", ", upgrade.Requires.Select(x => names.GetValueOrDefault(x, x))) : "";
+			Note = upgrade.Note ?? "";
+			Cost = [.. upgrade.Cost.Select(x => new RequirementLine(x.Item, db.GetName(x.Item)))];
+			BadgeText = "";
+		}
+
+		public UpgradeDef Upgrade { get; }
+
+		public string Title { get; }
+
+		public string EffectText { get; }
+
+		public string RequiresText { get; }
+
+		public string Note { get; }
+
+		public ObservableCollection<RequirementLine> Cost { get; }
+
+		[ObservableProperty]
+		public partial bool IsOwned { get; set; }
+
+		/// <summary>
+		/// 선행 업그레이드를 모두 가져서 목록에 보이는가
+		/// </summary>
+		[ObservableProperty]
+		public partial bool IsVisible { get; set; }
+
+		/// <summary>
+		/// 지금 살 수 있는가 (칸을 진하게 보여 준다)
+		/// </summary>
+		[ObservableProperty]
+		public partial bool IsCraftable { get; set; }
+
+		[ObservableProperty]
+		public partial string BadgeText { get; set; }
+
+		public void Refresh(Simulation simulation, NumberStyle style)
+		{
+			for (var i = 0; i < Upgrade.Cost.Count; i++)
+			{
+				Cost[i].Update(simulation.GetAmount(Upgrade.Cost[i].Item), Upgrade.Cost[i].Amount, style);
+			}
+
+			IsOwned = simulation.IsUpgradeOwned(Upgrade);
+			IsVisible = IsOwned || simulation.IsUpgradeAvailable(Upgrade);
+			IsCraftable = IsOwned || simulation.CanBuyUpgrade(Upgrade);
+			BadgeText = IsOwned ? "✔" : "";
+		}
+
+		[RelayCommand]
+		private void Buy() => buy(Upgrade);
+	}
+
+	/// <summary>
+	/// 목표 한 줄
+	/// </summary>
+	public partial class GoalViewModel : ObservableObject
+	{
+		public GoalViewModel(GoalDef goal, UranusDatabase db)
+		{
+			Goal = goal;
+			Title = goal.Name.Ko;
+			Note = goal.Note ?? "";
+			Requirements = [.. goal.Requirements.Select(x => new RequirementLine(x.Item, db.GetName(x.Item)))];
+			DoneText = "";
+		}
+
+		public GoalDef Goal { get; }
+
+		public string Title { get; }
+
+		public string Note { get; }
+
+		public ObservableCollection<RequirementLine> Requirements { get; }
+
+		[ObservableProperty]
+		public partial bool IsDone { get; set; }
+
+		[ObservableProperty]
+		public partial string DoneText { get; set; }
+
+		public void Refresh(Simulation simulation, NumberStyle style)
+		{
+			for (var i = 0; i < Goal.Requirements.Count; i++)
+			{
+				Requirements[i].Update(simulation.GetAmount(Goal.Requirements[i].Item), Goal.Requirements[i].Amount, style);
+			}
+
+			IsDone = simulation.State.CompletedGoals.TryGetValue(Goal.Id, out var time);
+			var at = TimeSpan.FromSeconds(Math.Clamp(time, 0, TimeSpan.MaxValue.TotalSeconds - 1));
+			DoneText = IsDone ? $"✔ 플레이 {(int)at.TotalHours}:{at.Minutes:00}:{at.Seconds:00}에 달성" : "";
+		}
 	}
 
 	public sealed record CategoryOption(string Label, string? Key)

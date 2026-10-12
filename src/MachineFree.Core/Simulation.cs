@@ -419,7 +419,10 @@ namespace MachineFree.Core
 
 		private bool IsParticle(ItemId item) => Database.FindItem(item)?.Unit == ItemUnit.Particle;
 
-		private double GetOutputScale(ItemId item) => IsParticle(item) ? ScaleFactor : 1;
+		/// <summary>
+		/// 생성기가 내는 이 아이템에 붙는 규모 배율 (입자면 현재 규모, 아니면 1)
+		/// </summary>
+		public double GetOutputScale(ItemId item) => IsParticle(item) ? ScaleFactor : 1;
 
 		private bool CanAfford(IReadOnlyList<ItemAmount> cost) => cost.All(x => Quantity.IsAtLeast(State.GetAmount(x.Item), x.Amount));
 

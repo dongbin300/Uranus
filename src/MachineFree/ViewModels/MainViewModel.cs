@@ -23,6 +23,7 @@ namespace MachineFree.ViewModels
 		private readonly UranusDatabase db;
 		private readonly MassTable masses;
 		private readonly Dictionary<ItemId, SlotViewModel> slots = [];
+		private readonly List<string> notices = [];
 		private int discoveredCount = -1;
 		private string craftableSignature = "";
 
@@ -44,7 +45,9 @@ namespace MachineFree.ViewModels
 			SearchText = "";
 			HiddenRecipesText = "";
 			StatusText = "";
-			OfflineMessage = "";
+			NoticeText = "";
+			QueueSummary = "";
+			GoalsSummary = "";
 			NumberStyleLabel = GetNumberStyleLabel(NumberStyle.Short);
 
 			foreach (var recipe in db.RecipeList)
@@ -59,10 +62,22 @@ namespace MachineFree.ViewModels
 				}
 			}
 
+			foreach (var upgrade in db.Config.Upgrades)
+			{
+				Upgrades.Add(new UpgradeCardViewModel(upgrade, db, BuyUpgrade));
+			}
+
+			foreach (var goal in db.Config.Goals)
+			{
+				Goals.Add(new GoalViewModel(goal, db));
+			}
+
 			RecipesView = CollectionViewSource.GetDefaultView(Recipes);
 			RecipesView.Filter = x => FilterRecipe((RecipeCardViewModel)x);
 			GeneratorsView = CollectionViewSource.GetDefaultView(Generators);
 			GeneratorsView.Filter = x => ((RecipeCardViewModel)x).IsDiscovered;
+			UpgradesView = CollectionViewSource.GetDefaultView(Upgrades);
+			UpgradesView.Filter = x => ((UpgradeCardViewModel)x).IsVisible;
 
 			Refresh(force: true);
 
@@ -73,7 +88,7 @@ namespace MachineFree.ViewModels
 		public ObservableCollection<SlotViewModel> Inventory { get; } = [];
 
 		/// <summary>
-		/// 0: 레시피, 1: 생성기
+		/// 0: 레시피, 1: 생성기, 2: 업그레이드, 3: 목표
 		/// </summary>
 		[ObservableProperty]
 		public partial int SelectedTab { get; set; }
@@ -82,17 +97,28 @@ namespace MachineFree.ViewModels
 
 		public ObservableCollection<GeneratorCardViewModel> Generators { get; } = [];
 
+		public ObservableCollection<UpgradeCardViewModel> Upgrades { get; } = [];
+
+		public ObservableCollection<GoalViewModel> Goals { get; } = [];
+
 		public ICollectionView RecipesView { get; }
 
 		public ICollectionView GeneratorsView { get; }
 
+		public ICollectionView UpgradesView { get; }
+
 		/// <summary>
-		/// 대기열에서 지금 만들고 있는 칸 (없으면 null)
+		/// 지금 만들고 있는 칸 (라인 수만큼)
 		/// </summary>
-		[ObservableProperty]
-		public partial QueueEntryViewModel? CurrentQueue { get; set; }
+		public ObservableCollection<QueueEntryViewModel> ActiveQueue { get; } = [];
 
 		public ObservableCollection<QueueEntryViewModel> WaitingQueue { get; } = [];
+
+		[ObservableProperty]
+		public partial bool HasQueue { get; set; }
+
+		[ObservableProperty]
+		public partial string QueueSummary { get; set; }
 
 		public IReadOnlyList<CategoryOption> Categories { get; }
 
@@ -109,13 +135,19 @@ namespace MachineFree.ViewModels
 		public partial string HiddenRecipesText { get; set; }
 
 		[ObservableProperty]
+		public partial string GoalsSummary { get; set; }
+
+		[ObservableProperty]
 		public partial string StatusText { get; set; }
 
+		/// <summary>
+		/// 위쪽 알림 띠: 자리를 비운 동안 얻은 것, 목표 달성, 세이브 경고
+		/// </summary>
 		[ObservableProperty]
-		public partial string OfflineMessage { get; set; }
+		public partial string NoticeText { get; set; }
 
 		[ObservableProperty]
-		public partial bool HasOfflineMessage { get; set; }
+		public partial bool HasNotice { get; set; }
 
 		[ObservableProperty]
 		public partial NumberStyle NumberStyle { get; set; }
@@ -130,23 +162,30 @@ namespace MachineFree.ViewModels
 
 		public void ShowOfflineReport(OfflineReport report, IEnumerable<string> warnings)
 		{
-			var lines = new List<string>();
 			var gains = report.Gained.Where(x => Quantity.Floor(x.Value) >= 1).OrderByDescending(x => x.Value).ToList();
 			if (gains.Count > 0)
 			{
 				var capped = report.Simulated < report.Elapsed ? $", 최대 {FormatDuration(report.Simulated.TotalSeconds)}만 반영" : "";
 				var shown = gains.Take(6).Select(x => $"{db.GetName(x.Key)} +{QuantityFormatter.FormatCount(x.Value, NumberStyle)}");
 				var more = gains.Count > 6 ? $" 외 {gains.Count - 6}종" : "";
-				lines.Add($"자리를 비운 동안({FormatDuration(report.Elapsed.TotalSeconds)}{capped}) 얻은 것: {string.Join(", ", shown)}{more}");
+				AddNotice($"자리를 비운 동안({FormatDuration(report.Elapsed.TotalSeconds)}{capped}) 얻은 것: {string.Join(", ", shown)}{more}");
 			}
 
-			lines.AddRange(warnings);
-			OfflineMessage = string.Join(Environment.NewLine, lines);
-			HasOfflineMessage = lines.Count > 0;
+			foreach (var warning in warnings)
+			{
+				AddNotice(warning);
+			}
+
+			ShowNewGoals();
 		}
 
 		[RelayCommand]
-		private void DismissOffline() => HasOfflineMessage = false;
+		private void DismissNotice()
+		{
+			notices.Clear();
+			NoticeText = "";
+			HasNotice = false;
+		}
 
 		[RelayCommand]
 		private void CycleNumberStyle()
@@ -181,17 +220,48 @@ namespace MachineFree.ViewModels
 
 		partial void OnShowCraftableOnlyChanged(bool value) => RecipesView?.Refresh();
 
+		private void AddNotice(string text)
+		{
+			notices.Add(text);
+			while (notices.Count > 5)
+			{
+				notices.RemoveAt(0);
+			}
+
+			NoticeText = string.Join(Environment.NewLine, notices);
+			HasNotice = true;
+		}
+
+		private void ShowNewGoals()
+		{
+			if (simulation.NewGoals.Count == 0)
+			{
+				return;
+			}
+
+			AddNotice("목표 달성: " + string.Join(", ", simulation.NewGoals.Select(x => x.Name.Ko)));
+			simulation.NewGoals.Clear();
+		}
+
 		private void Refresh(bool force)
 		{
 			List<ItemId> changed = force ? [.. simulation.State.Inventory.Keys, .. slots.Keys] : [.. simulation.ChangedItems];
 			simulation.ChangedItems.Clear();
+			var upgraded = simulation.UpgradesChanged;
+			simulation.UpgradesChanged = false;
+
+			// 규모가 바뀌면 모든 칸의 생산량 표시가 달라진다
+			if (upgraded)
+			{
+				changed.AddRange(slots.Keys);
+			}
 
 			foreach (var item in changed.Distinct())
 			{
 				UpdateSlot(item);
 			}
 
-			if (force || changed.Count > 0)
+			if (force || upgraded || changed.Count > 0)
 			{
 				foreach (var card in Recipes)
 				{
@@ -203,17 +273,33 @@ namespace MachineFree.ViewModels
 					card.Refresh(simulation, NumberStyle);
 				}
 
-				RefreshViews(force);
+				foreach (var card in Upgrades)
+				{
+					card.Refresh(simulation, NumberStyle);
+				}
+
+				foreach (var goal in Goals)
+				{
+					goal.Refresh(simulation, NumberStyle);
+				}
+
+				GoalsSummary = $"목표 {Goals.Count(x => x.IsDone)}/{Goals.Count}";
+				RefreshViews(force || upgraded);
 			}
 
-			if (force || simulation.QueueChanged)
+			if (force || upgraded || simulation.QueueChanged)
 			{
 				simulation.QueueChanged = false;
 				RebuildQueue();
 			}
 
 			UpdateQueueProgress();
-			StatusText = $"플레이 {FormatDuration(simulation.State.PlayTime)} · 제작 {simulation.State.TotalCrafts:N0}회";
+			ShowNewGoals();
+
+			var scale = simulation.CurrentScale is { } current
+				? $"{current.Name.Ko} ×{QuantityFormatter.FormatNumber(current.Factor, NumberStyle.Scientific)}"
+				: "분자 단위";
+			StatusText = $"플레이 {FormatDuration(simulation.State.PlayTime)} · 제작 {simulation.State.TotalCrafts:N0}회 · {scale} · 라인 {simulation.LineCount} · {GoalsSummary}";
 		}
 
 		private void UpdateSlot(ItemId item)
@@ -264,7 +350,8 @@ namespace MachineFree.ViewModels
 
 			if (db.Generators.TryGetValue(id, out var generator))
 			{
-				lines.Add("1대당 " + string.Join(", ", generator.OutputPerSecond.Select(x => $"{db.GetName(x.Item)} {QuantityFormatter.FormatNumber(x.Amount)}/초")));
+				lines.Add("1대당 " + string.Join(", ", generator.OutputPerSecond.Select(x =>
+					$"{db.GetName(x.Item)} {QuantityFormatter.FormatNumber(x.Amount * simulation.GetOutputScale(x.Item), NumberStyle)}/초")));
 			}
 
 			if (item?.Formula is { } formula)
@@ -290,7 +377,8 @@ namespace MachineFree.ViewModels
 		private void RefreshViews(bool force)
 		{
 			var discovered = simulation.State.Discovered.Count;
-			var signature = ShowCraftableOnly ? string.Concat(Recipes.Select(x => x.IsCraftable ? '1' : '0')) : "";
+			var signature = string.Concat(Upgrades.Select(x => x.IsVisible ? '1' : '0'))
+				+ (ShowCraftableOnly ? string.Concat(Recipes.Select(x => x.IsCraftable ? '1' : '0')) : "");
 			if (!force && discovered == discoveredCount && signature == craftableSignature)
 			{
 				return;
@@ -300,6 +388,7 @@ namespace MachineFree.ViewModels
 			craftableSignature = signature;
 			RecipesView.Refresh();
 			GeneratorsView.Refresh();
+			UpgradesView.Refresh();
 
 			var hidden = Recipes.Count(x => !x.IsDiscovered);
 			HiddenRecipesText = hidden > 0 ? $"미발견 레시피 {hidden}개 · 재료를 한 번씩 모으면 나타난다" : "";
@@ -313,44 +402,44 @@ namespace MachineFree.ViewModels
 
 		private void RebuildQueue()
 		{
+			ActiveQueue.Clear();
 			WaitingQueue.Clear();
-			CurrentQueue = null;
+			var lines = simulation.LineCount;
 			for (var i = 0; i < simulation.State.Queue.Count; i++)
 			{
 				var entry = simulation.State.Queue[i];
 				var title = db.FindRecipe(entry.Recipe) is { } recipe ? db.GetName(recipe) : entry.Recipe.Value;
-				var vm = new QueueEntryViewModel(i, title, Cancel);
-				if (i == 0)
+				var vm = new QueueEntryViewModel(i, title, Cancel)
 				{
-					CurrentQueue = vm;
-				}
-				else
-				{
-					WaitingQueue.Add(vm);
-				}
+					RemainingText = QuantityFormatter.FormatCount(entry.Remaining, NumberStyle),
+				};
+				(i < lines ? ActiveQueue : WaitingQueue).Add(vm);
 			}
 
-			foreach (var vm in WaitingQueue)
-			{
-				vm.RemainingText = QuantityFormatter.FormatCount(simulation.State.Queue[vm.Index].Remaining, NumberStyle);
-			}
+			HasQueue = simulation.State.Queue.Count > 0;
+			QueueSummary = HasQueue
+				? $"라인 {Math.Min(lines, ActiveQueue.Count)}/{lines} 사용 중" + (WaitingQueue.Count > 0 ? $" · 대기 {WaitingQueue.Count}칸" : "")
+				: "";
 		}
 
 		private void UpdateQueueProgress()
 		{
-			if (CurrentQueue is null || simulation.State.Queue.Count == 0)
+			foreach (var vm in ActiveQueue)
 			{
-				return;
+				if (vm.Index >= simulation.State.Queue.Count)
+				{
+					continue;
+				}
+
+				var entry = simulation.State.Queue[vm.Index];
+				var time = db.FindRecipe(entry.Recipe)?.Time ?? 0;
+				var progress = time > 0 ? Math.Clamp(entry.Progress / time, 0, 1) : 1;
+				var left = Math.Max(0, entry.Remaining * time - entry.Progress);
+
+				vm.Progress = progress;
+				vm.RemainingText = QuantityFormatter.FormatCount(entry.Remaining, NumberStyle);
+				vm.ProgressText = $"{(int)(progress * 100)}% · 남은 {QuantityFormatter.FormatCount(entry.Remaining, NumberStyle)}회 · 약 {FormatDuration(left)}";
 			}
-
-			var entry = simulation.State.Queue[0];
-			var time = db.FindRecipe(entry.Recipe)?.Time ?? 0;
-			var progress = time > 0 ? Math.Clamp(entry.Progress / time, 0, 1) : 1;
-			var left = Math.Max(0, entry.Remaining * time - entry.Progress);
-
-			CurrentQueue.Progress = progress;
-			CurrentQueue.RemainingText = QuantityFormatter.FormatCount(entry.Remaining, NumberStyle);
-			CurrentQueue.ProgressText = $"{(int)(progress * 100)}% · 남은 {QuantityFormatter.FormatCount(entry.Remaining, NumberStyle)}개 · 약 {FormatDuration(left)}";
 		}
 
 		private bool Enqueue(RecipeDef recipe, long count)
@@ -360,6 +449,18 @@ namespace MachineFree.ViewModels
 				return false;
 			}
 
+			Refresh();
+			return true;
+		}
+
+		private bool BuyUpgrade(UpgradeDef upgrade)
+		{
+			if (!simulation.TryBuyUpgrade(upgrade.Id))
+			{
+				return false;
+			}
+
+			AddNotice($"업그레이드: {upgrade.Name.Ko}");
 			Refresh();
 			return true;
 		}
