@@ -19,11 +19,6 @@ generators:
     build: { time: 110, in: { Fe: 700, Cu: 250, H2SO4: 200 } }
     produces: { nickel_laterite: 0.06 }
     note: 열대 지방의 노천 광산(인도네시아·뉴칼레도니아·필리핀)
-  - id: mineral_sands_dredge
-    name: { ko: 중광물 모래 채취선, en: Mineral sands dredge }
-    build: { time: 100, in: { Fe: 600, Cu: 200, SiO2: 100 } }
-    produces: { ilmenite: 0.04 }
-    note: 해안 사구의 중광물 모래를 퍼 올려 비중·자력 선별로 티탄철석을 고른다
   - id: rare_gas_unit
     name: { ko: 희유 기체 정제 설비, en: Rare gas recovery unit }
     build: { time: 150, in: { Fe: 800, Cu: 400, N2: 200, electrolyte: 100 } }

@@ -5,11 +5,6 @@ generators:
     build: { time: 60, in: { Fe: 400, Cu: 150, CaO: 60 } }
     produces: { coal: 0.3 }
     note: 제철용 점결탄 탄광
-  - id: manganese_miner
-    name: { ko: 망가니즈 광산, en: Manganese mine }
-    build: { time: 75, in: { Fe: 500, Cu: 200, Al: 120 } }
-    produces: { pyrolusite: 0.05 }
-    note: 칼라하리형 퇴적 망가니즈 광상
   - id: galena_miner
     name: { ko: 방연석 광산, en: Galena mine }
     build: { time: 90, in: { steel: 600, Cu: 200, H2SO4: 100 } }

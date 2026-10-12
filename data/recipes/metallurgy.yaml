@@ -104,11 +104,6 @@ recipes:
     in: { pyrolusite: 2, coke: 1 }
     out: { MnO: 2, CO2: 1 }
     note: "2MnO2 + C → 2MnO + CO2. 산에 녹지 않는 MnO2를 녹는 MnO로 바꾼다"
-  - id: manganese_oxide_leaching
-    name: { ko: 산화 망가니즈 침출 }
-    time: 1
-    in: { MnO: 1, H2SO4: 1 }
-    out: { MnSO4: 1, H2O: 1 }
   - id: manganese_electrowinning
     name: { ko: 망가니즈 전해채취 }
     time: 2
@@ -117,12 +112,6 @@ recipes:
     note: "전해 망가니즈(EMM). 음극에 순도 99.7%의 망가니즈가 붙고 황산은 침출로 돌아간다"
 
   # ───────────── 크로뮴 ─────────────
-  - id: chlor_alkali_membrane
-    name: { ko: 이온교환막 식염수 전해 }
-    time: 1
-    in: { NaCl: 2, H2O: 2 }
-    out: { NaOH: 2, H2: 1, Cl2: 1 }
-    note: "2NaCl + 2H2O → 2NaOH + H2 + Cl2. 가성소다와 염소를 함께 만든다"
   - id: caustic_soda_carbonation
     name: { ko: 가성소다 탄산화 }
     time: 0.5
@@ -519,22 +508,6 @@ recipes:
     in: { beta_spodumene: 2, H2SO4: 1 }
     out: { Li2SO4: 1, spodumene_residue: 2 }
     note: "250°C 황산 배소. 2LiAlSi2O6 + H2SO4 → Li2SO4 + 2HAlSi2O6"
-  - id: lithium_carbonate_precipitation
-    name: { ko: 탄산 리튬 침전 }
-    time: 1
-    in: { Li2SO4: 1, Na2CO3: 1 }
-    out: { Li2CO3: 1, Na2SO4: 1 }
-    note: 뜨거운 용액에 소다회를 넣으면 잘 녹지 않는 탄산 리튬이 가라앉는다. 배터리 등급 원료
-  - id: lithium_hydroxide_causticization
-    name: { ko: 수산화 리튬 가성화 }
-    time: 1
-    in: { Li2CO3: 1, Ca(OH)2: 1 }
-    out: { LiOH: 2, CaCO3: 1 }
-  - id: lithium_chloride_conversion
-    name: { ko: 염화 리튬 전환 }
-    time: 1
-    in: { Li2CO3: 1, HCl: 2 }
-    out: { LiCl: 2, H2O: 1, CO2: 1 }
   - id: lithium_electrolysis
     name: { ko: 염화 리튬 용융염 전해 }
     time: 2
