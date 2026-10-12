@@ -129,6 +129,20 @@ namespace MachineFree.ViewModels
 		[ObservableProperty]
 		public partial CategoryOption SelectedCategory { get; set; }
 
+		/// <summary>
+		/// 작업 규모 선택지: 가장 큰 규모(자동), 분자 단위, 가진 규모들. Key는 Simulation.SetCraftScale에 넘기는 값
+		/// </summary>
+		public ObservableCollection<CategoryOption> ScaleOptions { get; } = [];
+
+		[ObservableProperty]
+		public partial CategoryOption? SelectedScaleOption { get; set; }
+
+		/// <summary>
+		/// 규모 업그레이드를 하나라도 가져서 작업 규모를 고를 수 있는가
+		/// </summary>
+		[ObservableProperty]
+		public partial bool HasScaleOptions { get; set; }
+
 		[ObservableProperty]
 		public partial string SearchText { get; set; }
 
@@ -220,6 +234,14 @@ namespace MachineFree.ViewModels
 
 		partial void OnSelectedCategoryChanged(CategoryOption value) => RecipesView?.Refresh();
 
+		partial void OnSelectedScaleOptionChanged(CategoryOption? value)
+		{
+			if (value is not null && !rebuildingScaleOptions && simulation.SetCraftScale(value.Key))
+			{
+				Refresh();
+			}
+		}
+
 		partial void OnSelectedTabChanged(int value)
 		{
 			if (value == 4)
@@ -275,6 +297,11 @@ namespace MachineFree.ViewModels
 				UpdateSlot(item);
 			}
 
+			if (force || upgraded)
+			{
+				RebuildScaleOptions();
+			}
+
 			if (force || upgraded || autoChanged || changed.Count > 0)
 			{
 				foreach (var card in Recipes)
@@ -319,7 +346,45 @@ namespace MachineFree.ViewModels
 			var scale = simulation.CurrentScale is { } current
 				? $"{current.Name.Ko} ×{QuantityFormatter.FormatNumber(current.Factor, NumberStyle.Scientific)}"
 				: "분자 단위";
+			if (simulation.CraftScale != simulation.CurrentScale)
+			{
+				scale += $" (작업: {simulation.CraftScale?.Name.Ko ?? "분자 단위"})";
+			}
 			StatusText = $"플레이 {FormatDuration(simulation.State.PlayTime)} · 제작 {simulation.State.TotalCrafts:N0}회 · {scale} · 라인 {simulation.LineCount} · {GoalsSummary}";
+		}
+
+		private bool rebuildingScaleOptions;
+
+		private void RebuildScaleOptions()
+		{
+			var owned = simulation.OwnedScales.ToList();
+			List<CategoryOption> options =
+			[
+				new("가장 큰 규모", null),
+				new("분자 단위 ×1", Simulation.UnitScaleId),
+				.. owned.Select(x => new CategoryOption($"{x.Name.Ko} ×{QuantityFormatter.FormatNumber(x.Factor, NumberStyle.Scientific)}", x.Id)),
+			];
+
+			rebuildingScaleOptions = true;
+			try
+			{
+				if (!ScaleOptions.SequenceEqual(options))
+				{
+					ScaleOptions.Clear();
+					foreach (var option in options)
+					{
+						ScaleOptions.Add(option);
+					}
+				}
+
+				var chosen = simulation.State.CraftScale;
+				SelectedScaleOption = ScaleOptions.FirstOrDefault(x => x.Key == chosen) ?? ScaleOptions[0];
+				HasScaleOptions = owned.Count > 0;
+			}
+			finally
+			{
+				rebuildingScaleOptions = false;
+			}
 		}
 
 		private void UpdateSlot(ItemId item)

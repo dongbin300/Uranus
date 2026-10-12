@@ -31,6 +31,11 @@ namespace MachineFree.Core
 		public HashSet<RecipeId> AutoRepeat { get; } = [];
 
 		/// <summary>
+		/// 레시피를 돌릴 규모. null이면 가진 것 중 가장 큰 규모, Simulation.UnitScaleId면 분자 단위, 아니면 규모 업그레이드 ID
+		/// </summary>
+		public string? CraftScale { get; set; }
+
+		/// <summary>
 		/// 달성한 목표 ID → 달성한 게임 시간(초)
 		/// </summary>
 		public Dictionary<string, double> CompletedGoals { get; } = [];

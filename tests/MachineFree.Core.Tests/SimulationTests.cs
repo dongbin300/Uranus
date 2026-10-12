@@ -335,6 +335,42 @@ namespace MachineFree.Core.Tests
 		}
 
 		[Fact]
+		public void CraftScale_CanBeLoweredWhileGeneratorsKeepMaxScale()
+		{
+			var sim = Fixtures.Start(Fixtures.Small());
+			sim.State.Add(O, 2);
+			sim.TryBuyUpgrade("scale_10");
+			sim.TryBuyUpgrade("scale_100");
+			sim.State.Add(Synth, 1);
+			var water = sim.Database.FindRecipe(new RecipeId("water"))!;
+			Assert.Equal(100, sim.GetRecipeScale(water));
+
+			Assert.True(sim.SetCraftScale("scale_10"));
+			Assert.Equal(10, sim.GetRecipeScale(water));
+			Assert.True(sim.SetCraftScale(Simulation.UnitScaleId));
+			Assert.Equal(1, sim.GetRecipeScale(water));
+			Assert.Equal(25, sim.GetProductionRate(H), 9);
+
+			Assert.False(sim.SetCraftScale("line_2"));
+			Assert.False(sim.SetCraftScale("unknown"));
+			Assert.True(sim.SetCraftScale(null));
+			Assert.Equal(100, sim.GetRecipeScale(water));
+		}
+
+		[Fact]
+		public void CraftScale_FallsBackToMaxWhenChosenScaleIsGone()
+		{
+			var sim = Fixtures.Start(Fixtures.Small());
+			sim.State.Add(O, 1);
+			sim.TryBuyUpgrade("scale_10");
+			sim.SetCraftScale("scale_10");
+			sim.State.Upgrades.Remove("scale_10");
+
+			Assert.Null(sim.CraftScale);
+			Assert.Equal(1, sim.CraftScaleFactor);
+		}
+
+		[Fact]
 		public void QueuedEntry_KeepsScaleItWasPaidAt()
 		{
 			var sim = Fixtures.Start(Fixtures.Small());
@@ -611,6 +647,7 @@ namespace MachineFree.Core.Tests
 			sim.TryBuyUpgrade("scale_10");
 			sim.State.Add(Fixtures.Id("H"), 40);
 			sim.TryEnqueue(new RecipeId("water"), 2);
+			sim.SetCraftScale(Simulation.UnitScaleId);
 			sim.State.Add(Fixtures.Id("H2O"), 1);
 			sim.UpdateGoals();
 			sim.Tick(0.05);
@@ -625,6 +662,7 @@ namespace MachineFree.Core.Tests
 			Assert.Equal(0.05, loaded.Queue[0].Progress, 9);
 			Assert.Equal(10, loaded.Queue[0].Scale);
 			Assert.Contains("scale_10", loaded.Upgrades);
+			Assert.Equal(Simulation.UnitScaleId, loaded.CraftScale);
 			Assert.True(loaded.CompletedGoals.ContainsKey("water"));
 		}
 

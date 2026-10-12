@@ -55,13 +55,13 @@ upgrades:
     name: { ko: 밀리몰 규모 }
     kind: scale
     factor: 6.02214076e20
-    cost: { ribose: 2e20, GaAs: 1e19, protein: 1e15 }
+    cost: { ribose: 2e20, GaAs: 5e18, protein: 1e14 }
     requires: [scale_micro]
   - id: scale_mole
     name: { ko: 몰 규모 }
     kind: scale
     factor: 6.02214076e23
-    cost: { Si: 1e24, InGaAs: 1e21, mrna: 1e18 }
+    cost: { Si: 1e24, InGaAs: 1e21, mrna: 1e16 }
     requires: [scale_milli]
     note: 아보가드로 수. 한 번 반응에 1몰씩 다룬다
 

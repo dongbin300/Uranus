@@ -8,16 +8,16 @@ recipes:
     out: { metallic_hydrogen: 2e24 }
     note: 수소 분자를 금속 상태로 바꿔 상온에 붙잡아 둔다 (가상)
   - id: rt_superconductor
-    time: 300
+    time: 60
     in: { metallic_hydrogen: 6e23, Cu: 1e22, Ca: 1e21 }
     out: { rt_superconductor: 1 }
   - id: programmable_matter
     time: 900
-    in: { microcontroller: 100, rt_superconductor: 10, protein: 1e18 }
+    in: { microcontroller: 20, rt_superconductor: 5, protein: 1e18 }
     out: { programmable_matter: 1 }
   - id: molecular_assembler
     time: 1800
-    in: { programmable_matter: 1, ribosome_50s: 1e6, ribosome_30s: 1e6, transistor: 1000 }
+    in: { programmable_matter: 1, ribosome_50s: 1e6, ribosome_30s: 1e6, transistor: 100 }
     out: { molecular_assembler: 1 }
     note: 리보솜이 단백질을 짓듯 무엇이든 짓는 기계로 일반화했다
   - id: synthetic_cell
@@ -26,5 +26,5 @@ recipes:
     out: { synthetic_cell: 1 }
   - id: matter_compiler
     time: 7200
-    in: { molecular_assembler: 10, synthetic_cell: 1, ccd_camera: 1, rt_superconductor: 100 }
+    in: { molecular_assembler: 10, synthetic_cell: 1, ccd_camera: 1, rt_superconductor: 20 }
     out: { matter_compiler: 1 }

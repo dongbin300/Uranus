@@ -13,7 +13,8 @@ namespace MachineFree.Core
 	/// - 제작: 재료를 먼저 내고 대기열에 넣으면 시간이 지나 결과물이 나온다(팩토리오식).
 	///   생산 라인 수만큼 대기열 앞쪽을 동시에 만든다.
 	/// - 생성기: 보유한 대수 × 초당 생산량. n대째 비용은 기본 비용 × 성장률^n.
-	/// - 규모: 결과물이 모두 입자인 레시피와 입자를 내는 생성기는 현재 규모 배율만큼 크게 돈다.
+	/// - 규모: 입자를 내는 생성기는 가진 가장 큰 규모로 돈다. 결과물이 모두 입자인 레시피는 작업 규모(가진 것 중 플레이어가 고른 것,
+	///   기본은 가장 큰 것)로 돈다. 큰 규모에서는 1회 재료도 커지므로, 조금만 필요할 때 작은 규모로 내릴 수 있다.
 	/// - 자동 반복: 자동화 업그레이드가 있으면 켠 레시피를 대기열에서 빠질 때마다 재료가 되는 만큼 다시 주문한다.
 	/// - 1보다 작은 결과물은 소수로 쌓인다.
 	/// </summary>
@@ -28,6 +29,11 @@ namespace MachineFree.Core
 		/// 자동 반복이 한 번에 미리 주문하는 최대 시간(초). 재료를 나눠 쓰는 다른 자동 레시피가 굶지 않도록 짧게 끊는다.
 		/// </summary>
 		public const double AutoRepeatHorizon = 60;
+
+		/// <summary>
+		/// 작업 규모를 분자 단위(×1)로 고를 때 쓰는 ID
+		/// </summary>
+		public const string UnitScaleId = "unit";
 
 		public UranusDatabase Database { get; } = database;
 
@@ -80,6 +86,44 @@ namespace MachineFree.Core
 		public double ScaleFactor => CurrentScale?.Factor ?? 1;
 
 		/// <summary>
+		/// 레시피를 돌리는 작업 규모 (null = 분자 단위). 고른 규모를 더는 갖고 있지 않으면 가장 큰 규모로 돌아간다.
+		/// </summary>
+		public UpgradeDef? CraftScale => State.CraftScale switch
+		{
+			null => CurrentScale,
+			UnitScaleId => null,
+			var id => OwnedScales.FirstOrDefault(x => x.Id == id) ?? CurrentScale,
+		};
+
+		public double CraftScaleFactor => CraftScale?.Factor ?? 1;
+
+		/// <summary>
+		/// 가진 규모 업그레이드 (작은 것부터)
+		/// </summary>
+		public IEnumerable<UpgradeDef> OwnedScales => Database.Config.Upgrades
+			.Where(x => x.Kind == UpgradeKind.Scale && State.Upgrades.Contains(x.Id))
+			.OrderBy(x => x.Factor);
+
+		/// <summary>
+		/// 작업 규모를 고른다. null은 늘 가장 큰 규모, UnitScaleId는 분자 단위, 그 밖에는 가진 규모 업그레이드 ID
+		/// </summary>
+		public bool SetCraftScale(string? id)
+		{
+			if (id is not null && id != UnitScaleId && !OwnedScales.Any(x => x.Id == id))
+			{
+				return false;
+			}
+
+			if (State.CraftScale != id)
+			{
+				State.CraftScale = id;
+				UpgradesChanged = true;
+			}
+
+			return true;
+		}
+
+		/// <summary>
 		/// 자동화 업그레이드를 가졌는가
 		/// </summary>
 		public bool IsAutomationUnlocked => Database.Config.Upgrades.Any(x => x.Kind == UpgradeKind.Automation && State.Upgrades.Contains(x.Id));
@@ -114,11 +158,11 @@ namespace MachineFree.Core
 		}
 
 		/// <summary>
-		/// 이 레시피 1회의 규모 배율. 결과물이 모두 입자이고 생성기를 만드는 레시피가 아니면 현재 규모, 아니면 1.
+		/// 이 레시피 1회의 규모 배율. 결과물이 모두 입자이고 생성기를 만드는 레시피가 아니면 작업 규모, 아니면 1.
 		/// </summary>
 		public double GetRecipeScale(RecipeDef recipe) =>
 			Database.FindGeneratorBuiltBy(recipe.Id) is null && recipe.Outputs.Count > 0 && recipe.Outputs.All(x => IsParticle(x.Item))
-				? ScaleFactor
+				? CraftScaleFactor
 				: 1;
 
 		/// <summary>
@@ -504,7 +548,7 @@ namespace MachineFree.Core
 		private bool IsParticle(ItemId item) => Database.FindItem(item)?.Unit == ItemUnit.Particle;
 
 		/// <summary>
-		/// 생성기가 내는 이 아이템에 붙는 규모 배율 (입자면 현재 규모, 아니면 1)
+		/// 생성기가 내는 이 아이템에 붙는 규모 배율 (입자면 가진 가장 큰 규모, 아니면 1)
 		/// </summary>
 		public double GetOutputScale(ItemId item) => IsParticle(item) ? ScaleFactor : 1;
 

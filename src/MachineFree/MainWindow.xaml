@@ -355,6 +355,9 @@
                     <DockPanel Margin="2">
                         <DockPanel DockPanel.Dock="Top" Margin="0,2,0,4">
                             <ComboBox DockPanel.Dock="Left" Width="90" ItemsSource="{Binding Categories}" SelectedItem="{Binding SelectedCategory}"/>
+                            <ComboBox DockPanel.Dock="Left" Width="140" Margin="6,0,0,0" ItemsSource="{Binding ScaleOptions}" SelectedItem="{Binding SelectedScaleOption}"
+                                      Visibility="{Binding HasScaleOptions, Converter={StaticResource BoolToVisibility}}"
+                                      ToolTip="작업 규모: 입자 레시피를 한 번에 이만큼씩 돌린다. 조금만 필요하면 작은 규모로 내린다. 생성기는 늘 가장 큰 규모로 생산한다."/>
                             <CheckBox DockPanel.Dock="Right" Content="만들 수 있는 것만" IsChecked="{Binding ShowCraftableOnly}" VerticalAlignment="Center" Margin="6,0,0,0"/>
                             <TextBox Text="{Binding SearchText, UpdateSourceTrigger=PropertyChanged}" Margin="6,0,0,0" VerticalContentAlignment="Center"
                                      ToolTip="이름이나 ID로 찾기 (예: 물, H2O)"/>

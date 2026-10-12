@@ -73,12 +73,15 @@ int Simulate()
 		.Take(12)
 		.Select(x => $"{db.GetName(x.Key)} {QuantityFormatter.FormatCount(x.Value, NumberStyle.Scientific)}")));
 	Console.WriteLine("대기열: " + string.Join(", ", sim.State.Queue.Select(x => $"{x.Recipe}×{x.Remaining}")));
+	foreach (var line in bot.ExplainNextGoal().Take(40))
+	{
+		Console.WriteLine(line);
+	}
 
-	var next = db.Config.Upgrades.FirstOrDefault(x => !sim.IsUpgradeOwned(x));
-	if (next is not null)
+	foreach (var next in db.Config.Upgrades.Where(sim.IsUpgradeAvailable))
 	{
 		var lines = next.Cost.Select(x => $"{db.GetName(x.Item)} {QuantityFormatter.FormatCount(sim.GetAmount(x.Item), NumberStyle.Scientific)}/{QuantityFormatter.FormatCount(x.Amount, NumberStyle.Scientific)}");
-		Console.WriteLine($"다음 업그레이드 '{next.Name.Ko}': {string.Join(", ", lines)}");
+		Console.WriteLine($"살 수 있게 된 업그레이드 '{next.Name.Ko}': {string.Join(", ", lines)}");
 	}
 
 	return 0;

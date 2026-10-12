@@ -39,6 +39,7 @@ namespace MachineFree.Core
 				Discovered = [.. state.Discovered.Select(x => x.Value).Order(StringComparer.Ordinal)],
 				Upgrades = [.. state.Upgrades.Order(StringComparer.Ordinal)],
 				AutoRepeat = [.. state.AutoRepeat.Select(x => x.Value).Order(StringComparer.Ordinal)],
+				CraftScale = state.CraftScale,
 				CompletedGoals = new Dictionary<string, double>(state.CompletedGoals),
 				Queue = [.. state.Queue.Select(x => new QueueDto
 				{
@@ -76,6 +77,7 @@ namespace MachineFree.Core
 				SavedAt = dto.SavedAt,
 				PlayTime = dto.PlayTime,
 				TotalCrafts = dto.TotalCrafts,
+				CraftScale = string.IsNullOrEmpty(dto.CraftScale) ? null : dto.CraftScale,
 			};
 
 			foreach (var (id, amount) in dto.Inventory ?? [])
@@ -197,6 +199,7 @@ namespace MachineFree.Core
 			public List<string?>? Discovered { get; set; } = [];
 			public List<string?>? Upgrades { get; set; } = [];
 			public List<string?>? AutoRepeat { get; set; } = [];
+			public string? CraftScale { get; set; }
 			public Dictionary<string, double>? CompletedGoals { get; set; } = [];
 			public List<QueueDto?>? Queue { get; set; } = [];
 		}
