@@ -1,0 +1,287 @@
+# 의약품과 의료 소모품.
+# 원료 의약품(API)과 중간체는 분자식을 쓰고, 정제·캡슐·주사제·소모품은 실제 제품 질량의 부품이다.
+# 제형 한 개에 든 API 분자 수 = 함량 ÷ 몰 질량 × 아보가드로 수 (예: 아스피린 500mg = 1.671e21 분자).
+# 발효 의약품은 생산 균주(세포)를 넣고 1L 배양 한 번 분량을 얻은 뒤 균주를 돌려받는다.
+# 마약류·향정신성 의약품과 그 전구체는 다루지 않는다.
+category: medicine
+unit: particle
+items:
+
+  # 공통 생체 분자. 생화학·식품 쪽과 같은 ID와 화학식을 쓴다
+  - { id: glucose, name: { ko: 포도당, en: Glucose }, category: biology, formula: C6H12O6, note: D-글루코스. 약전 이름은 덱스트로스(포도당 주사액) }
+  - { id: starch, name: { ko: 녹말, en: Starch }, category: biology, formula: C6H10O5, note: 반복 단위(무수 포도당) 1개를 1로 센다. 정제의 부형제·붕해제 }
+  - { id: lactose, name: { ko: 젖당, en: Lactose }, category: biology, formula: C12H22O11, note: 락토스. 정제·캡슐의 희석제 }
+  - { id: sorbitol, name: { ko: 소비톨, en: Sorbitol }, category: biology, formula: C6H14O6, note: D-글루시톨. 당알코올 감미료·보습제 }
+  - { id: lactic_acid, name: { ko: 젖산, en: Lactic acid }, category: biology, formula: C3H6O3 }
+  - { id: citric_acid, name: { ko: 시트르산, en: Citric acid }, category: biology, formula: C6H8O7, note: 구연산 }
+  - { id: glutamic_acid, name: { ko: 글루탐산, en: Glutamic acid }, category: biology, formula: C5H9NO4, note: L-글루탐산 }
+  - { id: alanine, name: { ko: 알라닌, en: Alanine }, category: biology, formula: C3H7NO2 }
+  - { id: arginine, name: { ko: 아르지닌, en: Arginine }, category: biology, formula: C6H14N4O2, note: L-아르지닌 }
+  - { id: lysine, name: { ko: 라이신, en: Lysine }, category: biology, formula: C6H14N2O2, note: L-라이신 }
+  - { id: stearic_acid, name: { ko: 스테아르산, en: Stearic acid }, category: biology, formula: C18H36O2, note: 옥타데칸산. 포화 지방산 }
+  - { id: gelatin, name: { ko: 젤라틴, en: Gelatin }, category: biology, note: 콜라겐을 풀어 얻는 단백질 혼합물. 사슬 하나(약 9만 Da)를 1로 센다 }
+
+  # 용매·시약
+  - { id: water_for_injection, name: { ko: 주사용수, en: Water for injection }, formula: H2O, note: 증류나 역삼투로 발열성 물질을 없앤 물 }
+  - { id: NH2OH, name: { ko: 하이드록실아민, en: Hydroxylamine }, formula: NH2OH, note: 옥심을 만드는 시약. 실제로는 황산염으로 다룬다 }
+  - { id: N2H4, name: { ko: 하이드라진, en: Hydrazine }, formula: N2H4, note: 물에 녹인 하이드라진 수화물로 다룬다 }
+  - { id: HSO3Cl, name: { ko: 클로로설폰산, en: Chlorosulfonic acid }, formula: HSO3Cl }
+  - { id: CH3ONa, name: { ko: 나트륨 메톡사이드, en: Sodium methoxide }, formula: CH3ONa, note: 메탄올 용액으로 쓰는 강염기 }
+  - { id: chloroacetic_acid, name: { ko: 클로로아세트산, en: Chloroacetic acid }, formula: C2H3ClO2 }
+  - { id: glyoxal, name: { ko: 글라이옥살, en: Glyoxal }, formula: C2H2O2, note: 가장 작은 다이알데하이드 }
+  - { id: glyoxylic_acid, name: { ko: 글라이옥실산, en: Glyoxylic acid }, formula: C2H2O3 }
+  - { id: cyanamide, name: { ko: 사이안아마이드, en: Cyanamide }, formula: CH2N2 }
+  - { id: guanidine, name: { ko: 구아니딘, en: Guanidine }, formula: CH5N3 }
+  - { id: dicyandiamide, name: { ko: 다이사이안다이아마이드, en: Dicyandiamide }, formula: C2H4N4, note: 사이아노구아니딘 }
+  - { id: dimethylamine, name: { ko: 다이메틸아민, en: Dimethylamine }, formula: C2H7N }
+  - { id: isopropylamine, name: { ko: 아이소프로필아민, en: Isopropylamine }, formula: C3H9N }
+  - { id: benzaldehyde, name: { ko: 벤즈알데하이드, en: Benzaldehyde }, formula: C7H6O }
+  - { id: naphthalene, name: { ko: 나프탈렌, en: Naphthalene }, formula: C10H8 }
+  - { id: anisole, name: { ko: 아니솔, en: Anisole }, formula: C7H8O, note: 메톡시벤젠 }
+
+  # 아스피린과 살리실산 계열
+  - { id: sodium_phenoxide, name: { ko: 나트륨 페녹사이드, en: Sodium phenoxide }, formula: C6H5NaO }
+  - { id: sodium_salicylate, name: { ko: 살리실산 나트륨, en: Sodium salicylate }, formula: C7H5NaO3 }
+  - { id: salicylic_acid, name: { ko: 살리실산, en: Salicylic acid }, formula: C7H6O3, note: 버드나무 껍질의 살리신에서 처음 얻었다 }
+  - { id: acetylsalicylic_acid, name: { ko: 아세틸살리실산, en: Acetylsalicylic acid }, formula: C9H8O4, note: "아스피린. 해열·진통·소염, 저용량은 혈전 예방" }
+  - { id: methyl_salicylate, name: { ko: 살리실산 메틸, en: Methyl salicylate }, formula: C8H8O3, note: 노루발풀 기름(윈터그린유)의 주성분. 근육통 외용제 }
+
+  # 아세트아미노펜
+  - { id: 4_nitrophenol, name: { ko: 4-나이트로페놀, en: 4-Nitrophenol }, formula: C6H5NO3 }
+  - { id: 2_nitrophenol, name: { ko: 2-나이트로페놀, en: 2-Nitrophenol }, formula: C6H5NO3 }
+  - { id: 4_aminophenol, name: { ko: 4-아미노페놀, en: 4-Aminophenol }, formula: C6H7NO }
+  - { id: 4_hydroxyacetophenone, name: { ko: 4-하이드록시아세토페논, en: 4-Hydroxyacetophenone }, formula: C8H8O2 }
+  - { id: 4_hydroxyacetophenone_oxime, name: { ko: 4-하이드록시아세토페논 옥심, en: 4-Hydroxyacetophenone oxime }, formula: C8H9NO2 }
+  - { id: paracetamol, name: { ko: 아세트아미노펜, en: Paracetamol }, formula: C8H9NO2, note: 파라세타몰. N-(4-하이드록시페닐)아세트아마이드. 해열진통제 }
+
+  # 이부프로펜(BHC 공정)
+  - { id: isobutylbenzene, name: { ko: 아이소뷰틸벤젠, en: Isobutylbenzene }, formula: C10H14 }
+  - { id: 4_isobutylacetophenone, name: { ko: 4-아이소뷰틸아세토페논, en: 4-Isobutylacetophenone }, formula: C12H16O }
+  - { id: isobutylphenylethanol, name: { ko: 1-(4-아이소뷰틸페닐)에탄올, en: 1-(4-Isobutylphenyl)ethanol }, formula: C12H18O }
+  - { id: ibuprofen, name: { ko: 이부프로펜, en: Ibuprofen }, formula: C13H18O2, note: "프로피온산계 비스테로이드 소염진통제(부츠, 1961)" }
+
+  # 나프록센
+  - { id: naphthalene_2_sulfonic_acid, name: { ko: 나프탈렌-2-설폰산, en: Naphthalene-2-sulfonic acid }, formula: C10H8O3S }
+  - { id: sodium_2_naphthoxide, name: { ko: 나트륨 2-나프톡사이드, en: Sodium 2-naphthoxide }, formula: C10H7NaO }
+  - { id: 2_naphthol, name: { ko: 2-나프톨, en: 2-Naphthol }, formula: C10H8O }
+  - { id: 2_methoxynaphthalene, name: { ko: 2-메톡시나프탈렌, en: 2-Methoxynaphthalene }, formula: C11H10O, note: 네롤린 }
+  - { id: 2_acetyl_6_methoxynaphthalene, name: { ko: 2-아세틸-6-메톡시나프탈렌, en: 2-Acetyl-6-methoxynaphthalene }, formula: C13H12O2 }
+  - { id: methoxynaphthylethanol, name: { ko: 1-(6-메톡시-2-나프틸)에탄올, en: 1-(6-Methoxy-2-naphthyl)ethanol }, formula: C13H14O2 }
+  - { id: racemic_naproxen, name: { ko: 라세미 나프록센, en: Racemic naproxen }, formula: C14H14O3, note: (R)과 (S)가 반씩 섞인 것 }
+  - { id: naproxen, name: { ko: 나프록센, en: Naproxen }, formula: C14H14O3, note: "(S)-이성질체만 약효가 있다(신텍스, 1976)" }
+  - { id: naproxen_sodium, name: { ko: 나프록센나트륨, en: Naproxen sodium }, formula: C14H13NaO3 }
+
+  # 카페인
+  - { id: tea_leaf, name: { ko: 찻잎, en: Tea leaf }, note: "말린 차나무 잎. 한 단위를 평균 분자량 약 160의 잎 성분 하나로 본다. 카페인 약 3 wt%" }
+  - { id: caffeine, name: { ko: 카페인, en: Caffeine }, formula: C8H10N4O2, note: "1,3,7-트라이메틸잔틴" }
+
+  # 벤조카인과 설파제
+  - { id: terephthalamic_acid, name: { ko: 4-카바모일벤조산, en: Terephthalamic acid }, formula: C8H7NO3, note: 테레프탈산 모노아마이드 }
+  - { id: 4_aminobenzoic_acid, name: { ko: 4-아미노벤조산, en: 4-Aminobenzoic acid }, formula: C7H7NO2, note: PABA }
+  - { id: benzocaine, name: { ko: 벤조카인, en: Benzocaine }, formula: C9H11NO2, note: 4-아미노벤조산 에틸. 표면 국소 마취제 }
+  - { id: acetanilide, name: { ko: 아세트아닐라이드, en: Acetanilide }, formula: C8H9NO }
+  - { id: acetamidobenzenesulfonyl_chloride, name: { ko: 4-아세트아미도벤젠설포닐 클로라이드, en: 4-Acetamidobenzenesulfonyl chloride }, formula: C8H8ClNO3S }
+  - { id: acetamidobenzenesulfonamide, name: { ko: 4-아세트아미도벤젠설폰아마이드, en: 4-Acetamidobenzenesulfonamide }, formula: C8H10N2O3S }
+  - { id: sulfanilamide, name: { ko: 설파닐아마이드, en: Sulfanilamide }, formula: C6H8N2O2S, note: 최초의 합성 항균제(설파제) }
+  - { id: 3_oxobutanenitrile, name: { ko: 3-옥소뷰테인나이트릴, en: 3-Oxobutanenitrile }, formula: C4H5NO, note: 아세토아세토나이트릴 }
+  - { id: 3_amino_5_methylisoxazole, name: { ko: 3-아미노-5-메틸아이소옥사졸, en: 3-Amino-5-methylisoxazole }, formula: C4H6N2O }
+  - { id: n4_acetylsulfamethoxazole, name: { ko: N4-아세틸설파메톡사졸, en: N4-Acetylsulfamethoxazole }, formula: C12H13N3O4S }
+  - { id: sulfamethoxazole, name: { ko: 설파메톡사졸, en: Sulfamethoxazole }, formula: C10H11N3O3S, note: 트라이메토프림과 함께 쓰는 설파제(코트리목사졸) }
+
+  # 피리딘 계열: 이소니아지드, 나이아신, 비타민 B6
+  - { id: 2_picoline, name: { ko: 2-피콜린, en: 2-Picoline }, formula: C6H7N, note: 2-메틸피리딘 }
+  - { id: 3_picoline, name: { ko: 3-피콜린, en: 3-Picoline }, formula: C6H7N, note: 3-메틸피리딘 }
+  - { id: 4_picoline, name: { ko: 4-피콜린, en: 4-Picoline }, formula: C6H7N, note: 4-메틸피리딘 }
+  - { id: 3_cyanopyridine, name: { ko: 3-사이아노피리딘, en: 3-Cyanopyridine }, formula: C6H4N2 }
+  - { id: 4_cyanopyridine, name: { ko: 4-사이아노피리딘, en: 4-Cyanopyridine }, formula: C6H4N2 }
+  - { id: isoniazid, name: { ko: 이소니아지드, en: Isoniazid }, formula: C6H7N3O, note: 아이소니코틴산 하이드라자이드. 결핵 1차 약 }
+  - { id: nicotinamide, name: { ko: 니코틴아미드, en: Nicotinamide }, formula: C6H6N2O, note: 비타민 B3의 아마이드형 }
+  - { id: nicotinic_acid, name: { ko: 니코틴산, en: Nicotinic acid }, formula: C6H5NO2, note: 나이아신(비타민 B3) }
+  - { id: n_formylalanine_ethyl_ester, name: { ko: N-폼일알라닌 에틸 에스터, en: N-Formylalanine ethyl ester }, formula: C6H11NO3 }
+  - { id: 5_ethoxy_4_methyloxazole, name: { ko: 5-에톡시-4-메틸옥사졸, en: 5-Ethoxy-4-methyloxazole }, formula: C6H9NO2 }
+  - { id: pyridoxine_anhydride, name: { ko: "3-하이드록시-2-메틸피리딘-4,5-다이카복실산 무수물", en: "3-Hydroxy-2-methylpyridine-4,5-dicarboxylic anhydride" }, formula: C8H5NO4 }
+  - { id: pyridoxine, name: { ko: 피리독신, en: Pyridoxine }, formula: C8H11NO3, note: 비타민 B6 }
+  - { id: pyridoxine_hydrochloride, name: { ko: 피리독신염산염, en: Pyridoxine hydrochloride }, formula: C8H12ClNO3 }
+
+  # 비타민 C(라이히슈타인 공정)
+  - { id: l_sorbose, name: { ko: L-소르보스, en: L-Sorbose }, formula: C6H12O6 }
+  - { id: diacetone_sorbose, name: { ko: 다이아세톤-L-소르보스, en: Diacetone-L-sorbose }, formula: C12H20O6 }
+  - { id: diacetone_ketogulonic_acid, name: { ko: 다이아세톤-2-케토-L-굴론산, en: Diacetone-2-keto-L-gulonic acid }, formula: C12H18O7 }
+  - { id: 2_keto_l_gulonic_acid, name: { ko: 2-케토-L-굴론산, en: 2-Keto-L-gulonic acid }, formula: C6H10O7 }
+  - { id: ascorbic_acid, name: { ko: 아스코르브산, en: Ascorbic acid }, formula: C6H8O6, note: 비타민 C }
+  - { id: sodium_ascorbate, name: { ko: 아스코르브산나트륨, en: Sodium ascorbate }, formula: C6H7NaO6 }
+
+  # 엽산
+  - { id: cyanoacetic_acid, name: { ko: 사이아노아세트산, en: Cyanoacetic acid }, formula: C3H3NO2 }
+  - { id: ethyl_cyanoacetate, name: { ko: 사이아노아세트산 에틸, en: Ethyl cyanoacetate }, formula: C5H7NO2 }
+  - { id: diamino_hydroxypyrimidine, name: { ko: "2,4-다이아미노-6-하이드록시피리미딘", en: "2,4-Diamino-6-hydroxypyrimidine" }, formula: C4H6N4O }
+  - { id: diamino_nitroso_hydroxypyrimidine, name: { ko: "2,4-다이아미노-6-하이드록시-5-나이트로소피리미딘", en: "2,4-Diamino-6-hydroxy-5-nitrosopyrimidine" }, formula: C4H5N5O2 }
+  - { id: triamino_hydroxypyrimidine, name: { ko: "2,4,5-트라이아미노-6-하이드록시피리미딘", en: "2,4,5-Triamino-6-hydroxypyrimidine" }, formula: C4H7N5O }
+  - { id: trichloroacetone, name: { ko: "1,1,3-트라이클로로아세톤", en: "1,1,3-Trichloroacetone" }, formula: C3H3Cl3O }
+  - { id: aminobenzoyl_glutamic_acid, name: { ko: N-(4-아미노벤조일)-L-글루탐산, en: N-(4-Aminobenzoyl)-L-glutamic acid }, formula: C12H14N2O5 }
+  - { id: folic_acid, name: { ko: 엽산, en: Folic acid }, formula: C19H19N7O6, note: 비타민 B9. 임신 초기 신경관 결손을 막는다 }
+
+  # 메트포르민·메트로니다졸·아테놀롤·아시클로버
+  - { id: metformin_hydrochloride, name: { ko: 메트포르민염산염, en: Metformin hydrochloride }, formula: C4H12ClN5, note: 제2형 당뇨병 1차 약 }
+  - { id: 2_methylimidazole, name: { ko: 2-메틸이미다졸, en: 2-Methylimidazole }, formula: C4H6N2 }
+  - { id: 2_methyl_5_nitroimidazole, name: { ko: 2-메틸-5-나이트로이미다졸, en: 2-Methyl-5-nitroimidazole }, formula: C4H5N3O2 }
+  - { id: metronidazole, name: { ko: 메트로니다졸, en: Metronidazole }, formula: C6H9N3O3, note: 혐기성 세균·원충 치료제 }
+  - { id: 4_hydroxymandelic_acid, name: { ko: 4-하이드록시만델산, en: 4-Hydroxymandelic acid }, formula: C8H8O4 }
+  - { id: 4_hydroxyphenylacetic_acid, name: { ko: 4-하이드록시페닐아세트산, en: 4-Hydroxyphenylacetic acid }, formula: C8H8O3 }
+  - { id: methyl_4_hydroxyphenylacetate, name: { ko: 4-하이드록시페닐아세트산 메틸, en: Methyl 4-hydroxyphenylacetate }, formula: C9H10O3 }
+  - { id: 4_hydroxyphenylacetamide, name: { ko: 4-하이드록시페닐아세트아마이드, en: 4-Hydroxyphenylacetamide }, formula: C8H9NO2 }
+  - { id: atenolol_glycidyl_ether, name: { ko: "2-[4-(옥시레인-2-일메톡시)페닐]아세트아마이드", en: "2-[4-(Oxiran-2-ylmethoxy)phenyl]acetamide" }, formula: C11H13NO3 }
+  - { id: atenolol, name: { ko: 아테놀롤, en: Atenolol }, formula: C14H22N2O3, note: 심장 선택성 베타 차단제(고혈압·협심증) }
+  - { id: 1_3_dioxolane, name: { ko: "1,3-다이옥솔레인", en: "1,3-Dioxolane" }, formula: C3H6O2 }
+  - { id: acetoxyethoxymethyl_acetate, name: { ko: (2-아세톡시에톡시)메틸 아세테이트, en: (2-Acetoxyethoxy)methyl acetate }, formula: C7H12O5 }
+  - { id: diacetylguanine, name: { ko: "N2,9-다이아세틸구아닌", en: "N2,9-Diacetylguanine" }, formula: C9H9N5O3 }
+  - { id: diacetylacyclovir, name: { ko: 다이아세틸아시클로버, en: Diacetylacyclovir }, formula: C12H15N5O5 }
+  - { id: acyclovir, name: { ko: 아시클로버, en: Aciclovir }, formula: C8H11N5O3, note: "헤르페스 바이러스 치료제(거트루드 엘리언, 1988 노벨상)" }
+
+  # 오메프라졸
+  - { id: 4_nitroanisole, name: { ko: 4-나이트로아니솔, en: 4-Nitroanisole }, formula: C7H7NO3 }
+  - { id: 4_methoxyaniline, name: { ko: p-아니시딘, en: p-Anisidine }, formula: C7H9NO, note: 4-메톡시아닐린 }
+  - { id: 4_methoxy_o_phenylenediamine, name: { ko: 4-메톡시-o-페닐렌다이아민, en: 4-Methoxy-o-phenylenediamine }, formula: C7H10N2O }
+  - { id: methoxy_mercaptobenzimidazole, name: { ko: 5-메톡시-2-머캅토벤즈이미다졸, en: 5-Methoxy-2-mercaptobenzimidazole }, formula: C8H8N2OS }
+  - { id: 2_3_5_collidine, name: { ko: "2,3,5-콜리딘", en: "2,3,5-Collidine" }, formula: C8H11N, note: "2,3,5-트라이메틸피리딘" }
+  - { id: collidine_n_oxide, name: { ko: "2,3,5-콜리딘 N-옥사이드", en: "2,3,5-Collidine N-oxide" }, formula: C8H11NO }
+  - { id: nitrocollidine_n_oxide, name: { ko: "4-나이트로-2,3,5-콜리딘 N-옥사이드", en: "4-Nitro-2,3,5-collidine N-oxide" }, formula: C8H10N2O3 }
+  - { id: methoxycollidine_n_oxide, name: { ko: "4-메톡시-2,3,5-콜리딘 N-옥사이드", en: "4-Methoxy-2,3,5-collidine N-oxide" }, formula: C9H13NO2 }
+  - { id: acetoxymethyl_methoxylutidine, name: { ko: "2-아세톡시메틸-4-메톡시-3,5-다이메틸피리딘", en: "2-Acetoxymethyl-4-methoxy-3,5-dimethylpyridine" }, formula: C11H15NO3 }
+  - { id: hydroxymethyl_methoxylutidine, name: { ko: "2-하이드록시메틸-4-메톡시-3,5-다이메틸피리딘", en: "2-Hydroxymethyl-4-methoxy-3,5-dimethylpyridine" }, formula: C9H13NO2 }
+  - { id: chloromethyl_methoxylutidine_hcl, name: { ko: "2-클로로메틸-4-메톡시-3,5-다이메틸피리딘 염산염", en: "2-Chloromethyl-4-methoxy-3,5-dimethylpyridine hydrochloride" }, formula: C9H13Cl2NO }
+  - { id: pyrmetazole, name: { ko: 피르메타졸, en: Pyrmetazole }, formula: C17H19N3O2S, note: 오메프라졸 설파이드(우피프라졸) }
+  - { id: omeprazole, name: { ko: 오메프라졸, en: Omeprazole }, formula: C17H19N3O3S, note: "최초의 양성자 펌프 억제제(아스트라, 1988)" }
+
+  # 페니실린과 세팔로스포린
+  - { id: benzylpenicillin, name: { ko: 벤질페니실린, en: Benzylpenicillin }, formula: C16H18N2O4S, note: 페니실린 G }
+  - { id: benzylpenicillin_potassium, name: { ko: 벤질페니실린칼륨, en: Benzylpenicillin potassium }, formula: C16H17KN2O4S, note: "1,595IU/mg. 100만 IU가 약 0.6g" }
+  - { id: phenoxyacetic_acid, name: { ko: 페녹시아세트산, en: Phenoxyacetic acid }, formula: C8H8O3, note: 페니실린 V 발효의 곁사슬 전구체 }
+  - { id: phenoxymethylpenicillin, name: { ko: 페녹시메틸페니실린, en: Phenoxymethylpenicillin }, formula: C16H18N2O5S, note: 페니실린 V. 위산에 강해 먹는 약으로 쓴다 }
+  - { id: phenoxymethylpenicillin_potassium, name: { ko: 페녹시메틸페니실린칼륨, en: Phenoxymethylpenicillin potassium }, formula: C16H17KN2O5S }
+  - { id: 6_aminopenicillanic_acid, name: { ko: 6-아미노페니실란산, en: 6-Aminopenicillanic acid }, formula: C8H12N2O3S, note: 6-APA. 반합성 페니실린의 뼈대 }
+  - { id: hydroxyphenylhydantoin, name: { ko: 5-(4-하이드록시페닐)하이단토인, en: 5-(4-Hydroxyphenyl)hydantoin }, formula: C9H8N2O3 }
+  - { id: d_hydroxyphenylglycine, name: { ko: D-4-하이드록시페닐글라이신, en: D-4-Hydroxyphenylglycine }, formula: C8H9NO3 }
+  - { id: d_hydroxyphenylglycine_methyl_ester, name: { ko: D-4-하이드록시페닐글라이신 메틸 에스터, en: D-4-Hydroxyphenylglycine methyl ester }, formula: C9H11NO3 }
+  - { id: amoxicillin, name: { ko: 아목시실린, en: Amoxicillin }, formula: C16H19N3O5S }
+  - { id: amoxicillin_trihydrate, name: { ko: 아목시실린수화물, en: Amoxicillin trihydrate }, formula: C16H19N3O5S·3H2O, note: 삼수화물. 캡슐에 넣는 형태 }
+  - { id: phenylhydantoin, name: { ko: 5-페닐하이단토인, en: 5-Phenylhydantoin }, formula: C9H8N2O2 }
+  - { id: d_phenylglycine, name: { ko: D-페닐글라이신, en: D-Phenylglycine }, formula: C8H9NO2 }
+  - { id: d_phenylglycine_methyl_ester, name: { ko: D-페닐글라이신 메틸 에스터, en: D-Phenylglycine methyl ester }, formula: C9H11NO2 }
+  - { id: ampicillin, name: { ko: 암피실린, en: Ampicillin }, formula: C16H19N3O4S, note: "최초의 광범위 페니실린(비첨, 1961)" }
+  - { id: adipoyl_7_adca, name: { ko: 아디포일-7-ADCA, en: Adipoyl-7-ADCA }, formula: C14H18N2O6S }
+  - { id: 7_adca, name: { ko: 7-아미노데스아세톡시세팔로스포란산, en: 7-ADCA }, formula: C8H10N2O3S, note: 7-ADCA. 경구 세팔로스포린의 뼈대 }
+  - { id: cephalexin, name: { ko: 세팔렉신, en: Cephalexin }, formula: C16H17N3O4S, note: 1세대 세팔로스포린 }
+  - { id: cephalexin_monohydrate, name: { ko: 세팔렉신수화물, en: Cephalexin monohydrate }, formula: C16H17N3O4S·H2O }
+  - { id: cefadroxil, name: { ko: 세파드록실, en: Cefadroxil }, formula: C16H17N3O5S, note: 1세대 세팔로스포린 }
+
+  # 발효 의약품: 아미노글리코사이드·마크롤라이드·테트라사이클린·스타틴·인슐린
+  - { id: streptomycin, name: { ko: 스트렙토마이신, en: Streptomycin }, formula: C21H39N7O12 }
+  - { id: streptomycin_sulfate, name: { ko: 스트렙토마이신황산염, en: Streptomycin sulfate }, formula: (C21H39N7O12)2·3H2SO4 }
+  - { id: erythromycin, name: { ko: 에리트로마이신, en: Erythromycin }, formula: C37H67NO13, note: 에리트로마이신 A. 14원 고리 마크롤라이드 }
+  - { id: erythromycin_stearate, name: { ko: 에리트로마이신스테아르산염, en: Erythromycin stearate }, formula: C37H67NO13·C18H36O2 }
+  - { id: tetracycline, name: { ko: 테트라사이클린, en: Tetracycline }, formula: C22H24N2O8 }
+  - { id: tetracycline_hydrochloride, name: { ko: 테트라사이클린염산염, en: Tetracycline hydrochloride }, formula: C22H25ClN2O8 }
+  - { id: lovastatin, name: { ko: 로바스타틴, en: Lovastatin }, formula: C24H36O5, note: "최초로 허가된 스타틴(머크, 1987)" }
+  - { id: simvastatin, name: { ko: 심바스타틴, en: Simvastatin }, formula: C25H38O5, note: 콜레스테롤 합성 효소(HMG-CoA 환원효소) 억제제 }
+  - { id: proinsulin, name: { ko: 프로인슐린, en: Proinsulin }, formula: C410H638N114O127S6, note: "사람 프로인슐린 86아미노산(B사슬-C펩타이드-A사슬), 이황화 결합 3개" }
+  - { id: insulin, name: { ko: 인슐린, en: Insulin }, formula: C257H383N65O77S6, note: 사람 인슐린. A사슬 21 + B사슬 30 아미노산. 100IU = 3.47mg }
+  - { id: c_peptide, name: { ko: C-펩타이드, en: C-peptide }, formula: C129H211N35O48, note: 인슐린 분비량을 재는 지표 }
+
+  # 천연물 의약품
+  - { id: porcine_mucosa, name: { ko: 돼지 소장 점막, en: Porcine intestinal mucosa }, note: "한 단위를 평균 분자량 약 100의 점막 성분 하나로 본다(대부분 물). 헤파린 약 0.03 wt%" }
+  - { id: heparin_sodium, name: { ko: 헤파린나트륨, en: Heparin sodium }, formula: C12H15NNa4O19S3, note: 삼황산 이당(IdoA2S-GlcNS6S) 반복 단위 1개를 1로 센다. 사슬 하나는 약 15kDa(이당 약 23개). 약 180IU/mg }
+  - { id: cinchona_bark, name: { ko: 키나 껍질, en: Cinchona bark }, note: "말린 키나나무 껍질. 한 단위를 평균 분자량 약 160의 껍질 성분 하나로 본다. 퀴닌 약 5 wt%" }
+  - { id: quinine, name: { ko: 퀴닌, en: Quinine }, formula: C20H24N2O2, note: 말라리아 치료제. 강장수(토닉 워터)의 쓴맛 }
+  - { id: quinidine, name: { ko: 퀴니딘, en: Quinidine }, formula: C20H24N2O2, note: 퀴닌의 부분입체이성질체. 부정맥 치료제 }
+  - { id: quinine_sulfate, name: { ko: 퀴닌황산염, en: Quinine sulfate }, formula: (C20H24N2O2)2·H2SO4·2H2O, note: 이수화물 }
+
+  # 부형제와 연고 기제
+  - { id: microcrystalline_cellulose, name: { ko: 미결정 셀룰로스, en: Microcrystalline cellulose }, formula: C6H10O5, note: MCC. 무수 포도당 단위 1개를 1로 센다. 직접 타정용 결합제 }
+  - { id: croscarmellose_sodium, name: { ko: 크로스카멜로스나트륨, en: Croscarmellose sodium }, formula: C8H11NaO7, note: 가교 카복시메틸셀룰로스 나트륨. 치환도 1로 단순화한 반복 단위. 붕해제 }
+  - { id: methylcellulose, name: { ko: 메틸셀룰로스, en: Methylcellulose }, formula: C8H14O5, note: 치환도 2로 단순화한 반복 단위. 결합제·필름 코팅제·현탁화제 }
+  - { id: magnesium_stearate, name: { ko: 스테아르산 마그네슘, en: Magnesium stearate }, formula: C36H70MgO4, note: 활택제 }
+  - { id: sodium_stearate, name: { ko: 스테아르산 나트륨, en: Sodium stearate }, formula: C18H35NaO2, note: 비누의 주성분 }
+  - { id: colloidal_silica, name: { ko: 콜로이드성 이산화규소, en: Colloidal silicon dioxide }, formula: SiO2, note: 흄드 실리카. 비표면적 약 200m²/g. 가루가 잘 흐르게 하는 활주제 }
+  - { id: polyethylene_glycol, name: { ko: 폴리에틸렌 글라이콜, en: Polyethylene glycol }, formula: C2H4O, note: PEG(마크로골). 반복 단위 1개를 1로 센다 }
+  - { id: methacrylic_acid_copolymer, name: { ko: 메타크릴산 공중합체, en: Methacrylic acid copolymer }, formula: C9H14O4, note: 메타크릴산 1 + 메타크릴산 메틸 1 단위. pH 6 이상에서 녹는 장용 코팅 }
+  - { id: white_petrolatum, name: { ko: 백색 바셀린, en: White petrolatum }, note: C25 이상 탄화수소의 반고체 혼합물. 한 단위를 평균 분자량 약 440의 분자 하나로 본다 }
+  - { id: calamine, name: { ko: 칼라민, en: Calamine }, note: "산화 아연에 산화 철(III) 약 0.5 wt%를 섞은 분홍 가루. ZnO 한 단위를 1로 센다" }
+  - { id: trisodium_citrate, name: { ko: 시트르산 나트륨, en: Trisodium citrate dihydrate }, formula: C6H5Na3O7·2H2O, note: 이수화물. 완충제 }
+  - { id: sodium_lactate, name: { ko: 젖산 나트륨, en: Sodium lactate }, formula: C3H5NaO3 }
+
+  # 포장재와 용기
+  - { id: hard_capsule_size_0, name: { ko: 경질 젤라틴 캡슐(0호), en: Hard gelatin capsule (size 0) }, unit: piece, expected_mass: [85mg, 110mg], note: "빈 캡슐 한 벌(몸통+뚜껑). 내용적 약 0.68mL, 약 96mg" }
+  - { id: hard_capsule_size_2, name: { ko: 경질 젤라틴 캡슐(2호), en: Hard gelatin capsule (size 2) }, unit: piece, expected_mass: [55mg, 70mg], note: "빈 캡슐 한 벌. 내용적 약 0.37mL, 약 61mg" }
+  - { id: blister_pack_10, name: { ko: PTP 포장(10정용), en: Blister pack (10 cavities) }, unit: piece, expected_mass: [1.2g, 2.8g], note: 경질 PVC 250µm를 열성형한 판과 알루미늄 박 20µm 뚜껑. 약 9.5×4.5cm }
+  - { id: tablet_bottle, name: { ko: 정제 병(100mL), en: Tablet bottle (100 mL) }, unit: piece, expected_mass: [12g, 24g], note: "HDPE 병과 PP 어린이 보호 마개, 알루미늄 실링" }
+  - { id: pharmacy_bottle_120ml, name: { ko: 갈색 약병(120mL), en: Amber pharmacy bottle (120 mL) }, unit: piece, expected_mass: [12g, 22g], note: 빛을 막는 갈색 PET 물약병과 PP 마개 }
+  - { id: glass_vial_10ml, name: { ko: 유리 바이알(10mL), en: Glass vial (10 mL) }, unit: piece, expected_mass: [5g, 9g], note: Ⅰ형 붕규산 유리 관병(10R). 약물과 거의 반응하지 않는다 }
+  - { id: rubber_stopper, name: { ko: 고무 마개(20mm), en: Rubber stopper (20 mm) }, unit: piece, expected_mass: [0.6g, 1.5g], note: 바이알용 브로모뷰틸 고무 마개 }
+  - { id: iv_bag_500ml, name: { ko: 수액 백(500mL), en: IV bag (500 mL) }, unit: piece, expected_mass: [18g, 40g], note: 연질 PVC 수액 백과 투여·주입 포트 }
+  - { id: ointment_tube, name: { ko: 연고 튜브(30g), en: Ointment tube (30 g) }, unit: piece, expected_mass: [3g, 6g], note: 알루미늄 접이식 튜브와 PP 마개 }
+
+  # 정제와 캡슐
+  - { id: aspirin_tablet_500mg, name: { ko: 아스피린 500mg 정, en: Aspirin 500 mg tablet }, unit: piece, expected_mass: [0.5g, 0.8g], note: 아세틸살리실산 500mg }
+  - { id: aspirin_bottle_100, name: { ko: 아스피린 500mg 100정 병, en: "Aspirin 500 mg, bottle of 100" }, unit: piece, expected_mass: [65g, 95g], note: 정제 병에 100정 }
+  - { id: paracetamol_tablet_500mg, name: { ko: 아세트아미노펜 500mg 정, en: Paracetamol 500 mg tablet }, unit: piece, expected_mass: [0.5g, 0.75g], note: 해열진통제. 하루 4g을 넘기면 간이 상한다 }
+  - { id: paracetamol_blister_10, name: { ko: 아세트아미노펜 500mg 10정 PTP, en: "Paracetamol 500 mg, blister of 10" }, unit: piece, expected_mass: [6g, 9.5g], note: PTP 한 판 }
+  - { id: ibuprofen_tablet_200mg, name: { ko: 이부프로펜 200mg 정, en: Ibuprofen 200 mg tablet }, unit: piece, expected_mass: [0.25g, 0.45g], note: 필름 코팅정 }
+  - { id: ibuprofen_blister_10, name: { ko: 이부프로펜 200mg 10정 PTP, en: "Ibuprofen 200 mg, blister of 10" }, unit: piece, expected_mass: [3.5g, 6g], note: PTP 한 판 }
+  - { id: naproxen_sodium_tablet_220mg, name: { ko: 나프록센나트륨 220mg 정, en: Naproxen sodium 220 mg tablet }, unit: piece, expected_mass: [0.22g, 0.4g], note: 나프록센 200mg에 해당 }
+  - { id: analgesic_combination_tablet, name: { ko: 아세트아미노펜·아스피린·카페인 복합정, en: Paracetamol/aspirin/caffeine tablet }, unit: piece, expected_mass: [0.55g, 0.85g], note: 편두통약 처방(250mg/250mg/65mg) }
+  - { id: amoxicillin_capsule_500mg, name: { ko: 아목시실린 500mg 캡슐, en: Amoxicillin 500 mg capsule }, unit: piece, expected_mass: [0.6g, 0.8g], note: 아목시실린 삼수화물 574mg(무수물 500mg) }
+  - { id: amoxicillin_blister_10, name: { ko: 아목시실린 500mg 10캡슐 PTP, en: "Amoxicillin 500 mg, blister of 10" }, unit: piece, expected_mass: [7g, 10g], note: PTP 한 판 }
+  - { id: ampicillin_capsule_250mg, name: { ko: 암피실린 250mg 캡슐, en: Ampicillin 250 mg capsule }, unit: piece, expected_mass: [0.28g, 0.45g] }
+  - { id: cephalexin_capsule_500mg, name: { ko: 세팔렉신 500mg 캡슐, en: Cephalexin 500 mg capsule }, unit: piece, expected_mass: [0.55g, 0.75g], note: 세팔렉신 일수화물 526mg(무수물 500mg) }
+  - { id: tetracycline_capsule_250mg, name: { ko: 테트라사이클린 250mg 캡슐, en: Tetracycline 250 mg capsule }, unit: piece, expected_mass: [0.3g, 0.5g], note: 테트라사이클린염산염 250mg }
+  - { id: erythromycin_tablet_250mg, name: { ko: 에리트로마이신 250mg 정, en: Erythromycin 250 mg tablet }, unit: piece, expected_mass: [0.38g, 0.6g], note: 스테아르산염 347mg(에리트로마이신 250mg) }
+  - { id: penicillin_v_tablet_250mg, name: { ko: 페니실린 V 250mg 정, en: Penicillin V 250 mg tablet }, unit: piece, expected_mass: [0.3g, 0.5g], note: "페녹시메틸페니실린칼륨 277mg(페니실린 V 250mg, 40만 IU)" }
+  - { id: simvastatin_tablet_20mg, name: { ko: 심바스타틴 20mg 정, en: Simvastatin 20 mg tablet }, unit: piece, expected_mass: [0.15g, 0.3g] }
+  - { id: metformin_tablet_500mg, name: { ko: 메트포르민 500mg 정, en: Metformin 500 mg tablet }, unit: piece, expected_mass: [0.5g, 0.7g], note: 메트포르민염산염 500mg }
+  - { id: atenolol_tablet_50mg, name: { ko: 아테놀롤 50mg 정, en: Atenolol 50 mg tablet }, unit: piece, expected_mass: [0.1g, 0.2g] }
+  - { id: omeprazole_capsule_20mg, name: { ko: 오메프라졸 20mg 캡슐, en: Omeprazole 20 mg capsule }, unit: piece, expected_mass: [0.2g, 0.4g], note: 장용성 펠릿을 채운 캡슐 }
+  - { id: metronidazole_tablet_500mg, name: { ko: 메트로니다졸 500mg 정, en: Metronidazole 500 mg tablet }, unit: piece, expected_mass: [0.55g, 0.8g] }
+  - { id: isoniazid_tablet_300mg, name: { ko: 이소니아지드 300mg 정, en: Isoniazid 300 mg tablet }, unit: piece, expected_mass: [0.33g, 0.5g] }
+  - { id: pyridoxine_tablet_25mg, name: { ko: 피리독신 25mg 정, en: Pyridoxine 25 mg tablet }, unit: piece, expected_mass: [0.08g, 0.17g], note: 이소니아지드로 생기는 말초 신경병증을 막으려고 함께 먹는다 }
+  - { id: acyclovir_tablet_400mg, name: { ko: 아시클로버 400mg 정, en: Aciclovir 400 mg tablet }, unit: piece, expected_mass: [0.45g, 0.65g] }
+  - { id: quinine_sulfate_tablet_300mg, name: { ko: 퀴닌황산염 300mg 정, en: Quinine sulfate 300 mg tablet }, unit: piece, expected_mass: [0.35g, 0.55g] }
+  - { id: vitamin_c_tablet_500mg, name: { ko: 비타민 C 500mg 정, en: Vitamin C 500 mg tablet }, unit: piece, expected_mass: [0.5g, 0.8g], note: 아스코르브산 500mg }
+  - { id: folic_acid_tablet_5mg, name: { ko: 엽산 5mg 정, en: Folic acid 5 mg tablet }, unit: piece, expected_mass: [70mg, 150mg] }
+  - { id: niacin_tablet_500mg, name: { ko: 나이아신 500mg 서방정, en: Niacin 500 mg extended-release tablet }, unit: piece, expected_mass: [0.55g, 0.85g], note: 니코틴산 500mg. 혈중 지질 개선제 }
+  - { id: calcium_carbonate_chewable_tablet, name: { ko: 탄산 칼슘 500mg 츄어블정, en: Calcium carbonate 500 mg chewable tablet }, unit: piece, expected_mass: [0.9g, 1.6g], note: 제산제·칼슘 보충제 }
+  - { id: potassium_iodide_tablet_130mg, name: { ko: 아이오딘화 칼륨 130mg 정, en: Potassium iodide 130 mg tablet }, unit: piece, expected_mass: [0.15g, 0.3g], note: 원전 사고 때 방사성 아이오딘이 갑상샘에 쌓이지 않게 미리 채운다 }
+  - { id: ferrous_sulfate_tablet_325mg, name: { ko: 황산 철 325mg 정, en: Ferrous sulfate 325 mg tablet }, unit: piece, expected_mass: [0.33g, 0.5g], note: 황산 철(II) 칠수화물 325mg(철 65mg). 철 결핍 빈혈 }
+  - { id: zinc_sulfate_tablet_20mg, name: { ko: 아연 20mg 분산정, en: Zinc 20 mg dispersible tablet }, unit: piece, expected_mass: [0.15g, 0.35g], note: 황산 아연 55mg(아연 20mg). 설사하는 아이에게 경구 수액과 함께 10~14일 준다(WHO) }
+
+  # 주사제와 수액
+  - { id: insulin_vial_10ml, name: { ko: 인슐린 바이알(10mL), en: Insulin vial (10 mL) }, unit: piece, expected_mass: [14g, 25g], note: "U-100 속효성 사람 인슐린 1,000IU(34.7mg)" }
+  - { id: heparin_vial_10ml, name: { ko: 헤파린 바이알(10mL), en: Heparin vial (10 mL) }, unit: piece, expected_mass: [14g, 25g], note: "헤파린나트륨 1,000IU/mL × 10mL(약 56mg). 항응고제" }
+  - { id: benzylpenicillin_vial, name: { ko: 벤질페니실린칼륨 100만 IU 바이알, en: Benzylpenicillin potassium 1 MU vial }, unit: piece, expected_mass: [7g, 12g], note: 주사용 분말 600mg. 녹여서 쓴다 }
+  - { id: streptomycin_vial_1g, name: { ko: 스트렙토마이신 1g 바이알, en: Streptomycin 1 g vial }, unit: piece, expected_mass: [7.5g, 13g], note: 스트렙토마이신황산염 1.25g(스트렙토마이신 1g). 주사용 분말 }
+  - { id: saline_bag_500ml, name: { ko: 생리 식염수(500mL), en: Normal saline (500 mL) }, unit: piece, expected_mass: [500g, 580g], note: "0.9% 염화 나트륨 주사액" }
+  - { id: dextrose_bag_500ml, name: { ko: "5% 포도당 수액(500mL)", en: "5% dextrose injection (500 mL)" }, unit: piece, expected_mass: [500g, 580g], note: 포도당 25g }
+  - { id: ringer_lactate_bag_500ml, name: { ko: 젖산 링거액(500mL), en: "Lactated Ringer's solution (500 mL)" }, unit: piece, expected_mass: [500g, 580g], note: "하트만 용액. 1L당 NaCl 6.0g, 젖산 나트륨 3.1g, KCl 0.3g, CaCl2·2H2O 0.2g" }
+
+  # 경구 액제·가루
+  - { id: ors_sachet, name: { ko: 경구 수액염(1L용), en: Oral rehydration salts sachet }, unit: piece, expected_mass: [21g, 25g], note: WHO 저삼투압 처방 20.5g. 물 1L에 녹여 설사로 잃은 물과 염분을 채운다 }
+  - { id: antacid_suspension_120ml, name: { ko: 제산제 현탁액(120mL), en: Antacid suspension (120 mL) }, unit: piece, expected_mass: [120g, 180g], note: 5mL에 수산화 알루미늄 200mg과 수산화 마그네슘 200mg }
+  - { id: sulfanilamide_powder_5g, name: { ko: 설파닐아마이드 상처 가루(5g), en: Sulfanilamide wound powder (5 g) }, unit: piece, expected_mass: [5g, 7g], note: 2차 세계 대전 때 병사의 구급낭에 들어 있던 살균 가루 }
+
+  # 외용제와 소독제
+  - { id: zinc_oxide_ointment_30g, name: { ko: 산화 아연 연고(30g), en: Zinc oxide ointment (30 g) }, unit: piece, expected_mass: [32g, 40g], note: "산화 아연 20%. 기저귀 발진·피부 보호" }
+  - { id: methyl_salicylate_ointment_30g, name: { ko: 살리실산 메틸 연고(30g), en: Methyl salicylate ointment (30 g) }, unit: piece, expected_mass: [32g, 40g], note: "살리실산 메틸 15%. 근육통 소염 외용제" }
+  - { id: benzocaine_ointment_30g, name: { ko: 벤조카인 연고(30g), en: Benzocaine ointment (30 g) }, unit: piece, expected_mass: [32g, 40g], note: "벤조카인 20%. 햇볕 화상·벌레 물림의 통증을 가라앉힌다" }
+  - { id: calamine_lotion_100ml, name: { ko: 칼라민 로션(100mL), en: Calamine lotion (100 mL) }, unit: piece, expected_mass: [100g, 140g], note: 가려움과 땀띠를 가라앉히는 분홍 로션 }
+  - { id: glycerin_suppository, name: { ko: 글리세린 좌약, en: Glycerin suppository }, unit: piece, expected_mass: [1.6g, 2.8g], note: 성인용 2g. 변비약 }
+  - { id: ethanol_antiseptic_500ml, name: { ko: 소독용 에탄올(500mL), en: "Antiseptic ethanol 70% (500 mL)" }, unit: piece, expected_mass: [430g, 520g], note: "에탄올 70% v/v. 세균의 단백질을 굳혀 죽인다" }
+  - { id: alcohol_prep_pad, name: { ko: 알코올 솜, en: Alcohol prep pad }, unit: piece, expected_mass: [0.6g, 1.5g], note: "아이소프로필 알코올 70%를 적신 부직포 한 장과 알루미늄 파우치" }
+  - { id: hydrogen_peroxide_solution_100ml, name: { ko: "과산화 수소수 3%(100mL)", en: "Hydrogen peroxide 3% (100 mL)" }, unit: piece, expected_mass: [100g, 130g], note: 상처 소독용(옥시돌). 카탈레이스와 만나 거품을 내며 산소를 낸다 }
+  - { id: iodine_tincture_30ml, name: { ko: 아이오딘 팅크(30mL), en: Iodine tincture (30 mL) }, unit: piece, expected_mass: [28g, 45g], note: "아이오딘 2%, 아이오딘화 나트륨 2.4%, 에탄올 약 47%(미국 약전)" }
+
+  # 의료 소모품
+  - { id: syringe_5ml, name: { ko: 주사기(5mL), en: Syringe (5 mL) }, unit: piece, expected_mass: [3.5g, 7g], note: 일회용 주사기(바늘 없음) }
+  - { id: hypodermic_needle, name: { ko: 주사침(21G), en: Hypodermic needle (21G) }, unit: piece, expected_mass: [0.4g, 1.2g], note: "21G × 38mm 주사침과 허브, 캡. 실제 바늘은 304 스테인리스강(크롬 18 · 니켈 8%)이다. 크롬 원료가 아직 없어 그 몫을 철로 채웠다" }
+  - { id: gauze_pad, name: { ko: 멸균 거즈(10×10cm), en: Sterile gauze pad (10×10 cm) }, unit: piece, expected_mass: [1g, 3g], note: "8겹 면 거즈(타입 VII, 약 23g/m²)" }
+  - { id: adhesive_bandage, name: { ko: 일회용 밴드, en: Adhesive bandage }, unit: piece, expected_mass: [0.2g, 0.6g], note: 19×72mm 반창고 }
+  - { id: surgical_mask, name: { ko: 덴탈 마스크, en: Surgical mask }, unit: piece, expected_mass: [2.5g, 4.5g], note: 3겹(스펀본드·멜트블로운·스펀본드 PP) }
