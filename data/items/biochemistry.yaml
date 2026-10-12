@@ -19,8 +19,6 @@ items:
   - { id: ascorbic_acid, name: { ko: 아스코브산, en: Ascorbic acid }, formula: C6H8O6, note: "비타민 C" }
   - { id: pyruvic_acid, name: { ko: 피루브산, en: Pyruvic acid }, formula: C3H4O3 }
   - { id: lactic_acid, name: { ko: 젖산, en: Lactic acid }, formula: C3H6O3 }
-  - { id: ethanol, name: { ko: 에탄올, en: Ethanol }, formula: C2H5OH }
-  - { id: glycerol, name: { ko: 글리세롤, en: Glycerol }, formula: C3H8O3 }
   - { id: citric_acid, name: { ko: 시트르산, en: Citric acid }, formula: C6H8O7 }
   - { id: fumaric_acid, name: { ko: 푸마르산, en: Fumaric acid }, formula: C4H4O4 }
   - { id: succinic_acid, name: { ko: 숙신산, en: Succinic acid }, formula: C4H6O4 }
