@@ -1,0 +1,62 @@
+# 금속 광산. 광상 유형마다 실제로 함께 나오는 광물을 함께 캔다.
+generators:
+  - id: coal_miner
+    name: { ko: 석탄 광산, en: Coal mine }
+    build: { time: 60, in: { Fe: 400, Cu: 150, CaO: 60 } }
+    produces: { coal: 0.3 }
+    note: 제철용 점결탄 탄광
+  - id: manganese_miner
+    name: { ko: 망가니즈 광산, en: Manganese mine }
+    build: { time: 75, in: { Fe: 500, Cu: 200, Al: 120 } }
+    produces: { pyrolusite: 0.05 }
+    note: 칼라하리형 퇴적 망가니즈 광상
+  - id: galena_miner
+    name: { ko: 방연석 광산, en: Galena mine }
+    build: { time: 90, in: { steel: 600, Cu: 200, H2SO4: 100 } }
+    produces: { galena: 0.06, acanthite: 0.002 }
+    note: 은을 함께 품은 납 광맥
+  - id: nickel_sulfide_miner
+    name: { ko: 황화 니켈 광산, en: Nickel sulfide mine }
+    build: { time: 100, in: { steel: 800, Cu: 300, CaO: 100 } }
+    produces: { pentlandite: 0.04 }
+    note: 서드베리형 마그마 황화 광상
+  - id: copperbelt_miner
+    name: { ko: 구리 벨트 광산, en: Copperbelt mine }
+    build: { time: 100, in: { steel: 700, Cu: 300, H2SO4: 200 } }
+    produces: { malachite: 0.06, heterogenite: 0.01 }
+    note: 콩고·잠비아 구리 벨트의 산화 구리-코발트 광석
+  - id: titanomagnetite_miner
+    name: { ko: 티탄자철광 광산, en: Titanomagnetite mine }
+    build: { time: 110, in: { steel: 900, Cu: 300, Al: 200 } }
+    produces: { magnetite: 0.08, ilmenite: 0.03, coulsonite: 0.003 }
+    note: 판즈화·부시벨트형 바나듐 티탄자철광 광상
+  - id: mineral_sands_miner
+    name: { ko: 광물 모래 채취선, en: Mineral sands dredge }
+    build: { time: 110, in: { steel: 800, Cu: 200, Al: 200 } }
+    produces: { ilmenite: 0.06, rutile: 0.02, zircon: 0.02, xenotime: 0.001 }
+    note: 해안 사구의 중광물 모래를 준설해 비중·자력·정전 선별로 나눈다
+  - id: ug2_reef_miner
+    name: { ko: 부시벨트 광맥 광산, en: Bushveld reef mine }
+    build: { time: 150, in: { steel: 1000, Cu: 400, Ni: 100 } }
+    produces: { chromite: 0.08, cooperite: 0.004, vysotskite: 0.003, bowieite: 0.00025 }
+    note: 남아프리카 부시벨트 복합체의 UG2 크로마이트층. 세계 백금의 약 70%가 이곳에서 나온다
+  - id: pegmatite_miner
+    name: { ko: 리튬 페그마타이트 광산, en: Lithium pegmatite mine }
+    build: { time: 120, in: { steel: 900, Cu: 300, Ni: 80 } }
+    produces: { spodumene: 0.06, cassiterite: 0.02, tantalite: 0.003, columbite: 0.002 }
+    note: 그린부시스형 LCT 페그마타이트. 리튬·주석·탄탈럼을 함께 캔다
+  - id: scheelite_miner
+    name: { ko: 회중석 광산, en: Scheelite mine }
+    build: { time: 120, in: { steel: 900, Cu: 300, HCl: 100 } }
+    produces: { scheelite: 0.03 }
+    note: 스카른형 텅스텐 광상
+  - id: carbonatite_miner
+    name: { ko: 카보나타이트 광산, en: Carbonatite mine }
+    build: { time: 140, in: { steel: 1000, Cu: 300, Ni: 100 } }
+    produces: { dolomite: 0.1, bastnasite: 0.03, pyrochlore: 0.02 }
+    note: 탄산염 마그마가 굳은 암체. 희토류(마운틴패스)와 나이오븀(아라샤)의 주 산지
+  - id: gold_miner
+    name: { ko: 금광, en: Gold mine }
+    build: { time: 120, in: { steel: 1000, Cu: 400, CaO: 200 } }
+    produces: { gold_ore: 0.05 }
+    note: 석영맥 금광
