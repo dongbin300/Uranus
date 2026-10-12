@@ -1,4 +1,4 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <OutputType>WinExe</OutputType>
@@ -7,23 +7,16 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Uranus\Uranus.csproj" />
+    <PackageReference Include="CommunityToolkit.Mvvm" Version="8.4.2" />
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Extensions\" />
+    <ProjectReference Include="..\MachineFree.Core\MachineFree.Core.csproj" />
+    <ProjectReference Include="..\Uranus.Data\Uranus.Data.csproj" />
   </ItemGroup>
 
   <ItemGroup>
-    <Compile Update="Views\Controls\InventoryItemToolTip.xaml.cs">
-      <SubType>Code</SubType>
-    </Compile>
-  </ItemGroup>
-
-  <ItemGroup>
-    <Page Update="Views\Controls\InventoryItemToolTip.xaml">
-      <SubType>Designer</SubType>
-    </Page>
+    <Content Include="..\..\data\**\*.yaml" Link="data\%(RecursiveDir)%(Filename)%(Extension)" CopyToOutputDirectory="PreserveNewest" />
   </ItemGroup>
 
 </Project>

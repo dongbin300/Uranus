@@ -1,148 +1,277 @@
-﻿<Window x:Class="MachineFree.MainWindow"
+<Window x:Class="MachineFree.MainWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:MachineFree"
-        xmlns:c="clr-namespace:MachineFree.Views.Controls"
         xmlns:vm="clr-namespace:MachineFree.ViewModels"
-        xmlns:u="clr-namespace:Uranus;assembly=Uranus"
         mc:Ignorable="d"
-        Title="MACHINE FREE" Height="600" Width="820"
-        WindowStartupLocation="Manual" Top="750" Left="0" PreviewMouseDown="Window_PreviewMouseDown">
-    <Window.DataContext>
-        <vm:MainViewModel x:Name="ViewModel" />
-    </Window.DataContext>
+        d:DataContext="{d:DesignInstance Type=vm:MainViewModel}"
+        Title="MACHINE FREE" Width="900" Height="640" MinWidth="640" MinHeight="420"
+        WindowStartupLocation="Manual" Background="#F7F9F7">
 
     <Window.Resources>
-        <Style TargetType="c:InventoryItemControl">
-            <Setter Property="Opacity" Value="1"/>
-            <Setter Property="RenderTransformOrigin" Value="0.5,0.5"/>
-            <Setter Property="RenderTransform">
-                <Setter.Value>
-                    <ScaleTransform ScaleX="1" ScaleY="1"/>
-                </Setter.Value>
-            </Setter>
+        <!-- 수량이 바뀌면 잠깐 깜박인다 -->
+        <Storyboard x:Key="Flash">
+            <DoubleAnimation Storyboard.TargetProperty="Opacity" From="0.2" To="1" Duration="0:0:0.3"/>
+        </Storyboard>
 
+        <DataTemplate x:Key="SlotTemplate" DataType="{x:Type vm:SlotViewModel}">
+            <Border Style="{StaticResource Tile}">
+                <Border.ToolTip>
+                    <ToolTip>
+                        <TextBlock Style="{StaticResource TipText}" Text="{Binding Details}"/>
+                    </ToolTip>
+                </Border.ToolTip>
+                <Grid>
+                    <TextBlock Style="{StaticResource TileName}" Text="{Binding Name}"/>
+                    <TextBlock Style="{StaticResource TileCount}" Text="{Binding CountText, NotifyOnTargetUpdated=True}">
+                        <TextBlock.Triggers>
+                            <EventTrigger RoutedEvent="Binding.TargetUpdated">
+                                <BeginStoryboard Storyboard="{StaticResource Flash}"/>
+                            </EventTrigger>
+                        </TextBlock.Triggers>
+                    </TextBlock>
+                    <ProgressBar Style="{StaticResource ThinBar}" Height="3" VerticalAlignment="Bottom"
+                                 Value="{Binding Fraction, Mode=OneWay}"
+                                 Visibility="{Binding HasFraction, Converter={StaticResource BoolToVisibility}}"/>
+                </Grid>
+            </Border>
+        </DataTemplate>
+
+        <DataTemplate x:Key="RequirementTemplate" DataType="{x:Type vm:RequirementLine}">
+            <TextBlock Text="{Binding Text}">
+                <TextBlock.Style>
+                    <Style TargetType="TextBlock" BasedOn="{StaticResource TipText}">
+                        <Style.Triggers>
+                            <DataTrigger Binding="{Binding IsMet}" Value="False">
+                                <Setter Property="Foreground" Value="#FF7B7B"/>
+                            </DataTrigger>
+                        </Style.Triggers>
+                    </Style>
+                </TextBlock.Style>
+            </TextBlock>
+        </DataTemplate>
+
+        <DataTemplate x:Key="LineTemplate">
+            <TextBlock Style="{StaticResource TipText}" Text="{Binding}"/>
+        </DataTemplate>
+
+        <DataTemplate x:Key="RecipeTip" DataType="{x:Type vm:RecipeCardViewModel}">
+            <StackPanel>
+                <TextBlock Style="{StaticResource TipTitle}" Text="{Binding Title}"/>
+                <TextBlock Style="{StaticResource TipText}" Text="{Binding TimeText}"/>
+                <Separator Style="{StaticResource TipSeparator}"/>
+                <ItemsControl ItemsSource="{Binding Inputs}" ItemTemplate="{StaticResource RequirementTemplate}"/>
+                <Separator Style="{StaticResource TipSeparator}"/>
+                <ItemsControl ItemsSource="{Binding OutputLines}" ItemTemplate="{StaticResource LineTemplate}"/>
+                <TextBlock Style="{StaticResource TipHint}" Text="클릭 1개 · 우클릭 5개 · Shift+클릭 가능한 만큼"/>
+            </StackPanel>
+        </DataTemplate>
+
+        <DataTemplate x:Key="GeneratorTip" DataType="{x:Type vm:GeneratorCardViewModel}">
+            <StackPanel>
+                <TextBlock Style="{StaticResource TipTitle}" Text="{Binding Title}"/>
+                <TextBlock Style="{StaticResource TipText}" Text="{Binding PerUnitText}"/>
+                <TextBlock Style="{StaticResource TipText}" Text="{Binding RateText}"/>
+                <TextBlock Style="{StaticResource TipText}" Text="{Binding TimeText}"/>
+                <Separator Style="{StaticResource TipSeparator}"/>
+                <TextBlock Style="{StaticResource TipHint}" Text="다음 1대 비용"/>
+                <ItemsControl ItemsSource="{Binding Inputs}" ItemTemplate="{StaticResource RequirementTemplate}"/>
+                <TextBlock Style="{StaticResource TipHint}" Text="클릭 1대 · 우클릭 5대 · Shift+클릭 가능한 만큼"/>
+            </StackPanel>
+        </DataTemplate>
+
+        <Style x:Key="CraftTile" TargetType="Border" BasedOn="{StaticResource Tile}">
+            <Setter Property="Cursor" Value="Hand"/>
             <Style.Triggers>
-                <DataTrigger Binding="{Binding IsUpdated}" Value="True">
-                    <DataTrigger.EnterActions>
-                        <BeginStoryboard>
-                            <Storyboard>
-                                <DoubleAnimation Storyboard.TargetProperty="Opacity"
-                                         From="1.0" To="0.2"
-                                         Duration="0:0:0.095"
-                                         AutoReverse="True"/>
-                            </Storyboard>
-                        </BeginStoryboard>
-                    </DataTrigger.EnterActions>
+                <DataTrigger Binding="{Binding IsCraftable}" Value="False">
+                    <Setter Property="Opacity" Value="0.35"/>
                 </DataTrigger>
             </Style.Triggers>
         </Style>
-    </Window.Resources>
-    
-    <Grid>
-        <Grid.RowDefinitions>
-            <RowDefinition Height="*"/>
-            <RowDefinition Height="90"/>
-        </Grid.RowDefinitions>
 
-        <Grid Grid.Row="0">
+        <DataTemplate x:Key="RecipeTemplate" DataType="{x:Type vm:RecipeCardViewModel}">
+            <Border Style="{StaticResource CraftTile}">
+                <Border.InputBindings>
+                    <MouseBinding Gesture="LeftClick" Command="{Binding CraftOneCommand}"/>
+                    <MouseBinding Gesture="RightClick" Command="{Binding CraftFiveCommand}"/>
+                    <MouseBinding Gesture="Shift+LeftClick" Command="{Binding CraftMaxCommand}"/>
+                </Border.InputBindings>
+                <Border.ToolTip>
+                    <ToolTip>
+                        <ContentControl Content="{Binding}" ContentTemplate="{StaticResource RecipeTip}"/>
+                    </ToolTip>
+                </Border.ToolTip>
+                <Grid>
+                    <TextBlock Style="{StaticResource TileName}" Text="{Binding TileName}"/>
+                    <TextBlock Style="{StaticResource TileCount}" Text="{Binding CraftableText}"/>
+                </Grid>
+            </Border>
+        </DataTemplate>
+
+        <DataTemplate x:Key="GeneratorTemplate" DataType="{x:Type vm:GeneratorCardViewModel}">
+            <Border Style="{StaticResource CraftTile}">
+                <Border.InputBindings>
+                    <MouseBinding Gesture="LeftClick" Command="{Binding CraftOneCommand}"/>
+                    <MouseBinding Gesture="RightClick" Command="{Binding CraftFiveCommand}"/>
+                    <MouseBinding Gesture="Shift+LeftClick" Command="{Binding CraftMaxCommand}"/>
+                </Border.InputBindings>
+                <Border.ToolTip>
+                    <ToolTip>
+                        <ContentControl Content="{Binding}" ContentTemplate="{StaticResource GeneratorTip}"/>
+                    </ToolTip>
+                </Border.ToolTip>
+                <Grid>
+                    <TextBlock Style="{StaticResource TileBadge}" Text="{Binding OwnedText}"/>
+                    <TextBlock Style="{StaticResource TileName}" Text="{Binding TileName}"/>
+                    <TextBlock Style="{StaticResource TileCount}" Text="{Binding CraftableText}"/>
+                </Grid>
+            </Border>
+        </DataTemplate>
+
+        <DataTemplate x:Key="QueueTemplate" DataType="{x:Type vm:QueueEntryViewModel}">
+            <Border Style="{StaticResource Tile}" Width="64" Height="40" Cursor="Hand">
+                <Border.InputBindings>
+                    <MouseBinding Gesture="LeftClick" Command="{Binding CancelAllCommand}"/>
+                    <MouseBinding Gesture="RightClick" Command="{Binding CancelOneCommand}"/>
+                </Border.InputBindings>
+                <Border.ToolTip>
+                    <ToolTip>
+                        <StackPanel>
+                            <TextBlock Style="{StaticResource TipTitle}" Text="{Binding Title}"/>
+                            <TextBlock Style="{StaticResource TipHint}" Text="클릭 전부 취소 · 우클릭 1개 취소 (재료는 돌려받는다)"/>
+                        </StackPanel>
+                    </ToolTip>
+                </Border.ToolTip>
+                <Grid>
+                    <TextBlock Style="{StaticResource TileName}" FontSize="10" Text="{Binding Title}"/>
+                    <TextBlock Style="{StaticResource TileCount}" Text="{Binding RemainingText}"/>
+                </Grid>
+            </Border>
+        </DataTemplate>
+
+        <ItemsPanelTemplate x:Key="WrapItems">
+            <WrapPanel/>
+        </ItemsPanelTemplate>
+    </Window.Resources>
+
+    <DockPanel Background="#F7F9F7">
+        <!-- 자리를 비운 동안의 결과, 세이브 경고 -->
+        <Border DockPanel.Dock="Top" Background="#FFF7D6" BorderBrush="#E8D48A" BorderThickness="0,0,0,1" Padding="8,4"
+                Visibility="{Binding HasOfflineMessage, Converter={StaticResource BoolToVisibility}}">
+            <DockPanel>
+                <Button DockPanel.Dock="Right" Content="✕" Command="{Binding DismissOfflineCommand}"
+                        Background="Transparent" BorderThickness="0" Padding="6,0" VerticalAlignment="Top"/>
+                <TextBlock Text="{Binding OfflineMessage}" TextWrapping="Wrap" FontSize="12"/>
+            </DockPanel>
+        </Border>
+
+        <!-- 상태 표시줄 -->
+        <Border DockPanel.Dock="Bottom" Background="#EEF2EE" BorderBrush="Gainsboro" BorderThickness="0,1,0,0" Padding="8,2">
+            <DockPanel>
+                <Button DockPanel.Dock="Right" Content="{Binding NumberStyleLabel}" Command="{Binding CycleNumberStyleCommand}"
+                        FontSize="11" Padding="6,0" ToolTip="숫자 표시 방식 바꾸기"/>
+                <TextBlock Text="{Binding StatusText}" FontSize="11" Foreground="#555" VerticalAlignment="Center"/>
+            </DockPanel>
+        </Border>
+
+        <!-- 제작 대기열 -->
+        <Border DockPanel.Dock="Bottom" BorderBrush="Gainsboro" BorderThickness="0,1,0,0" Padding="4,3">
+            <StackPanel>
+                <Grid Height="42">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+                    <ContentControl Grid.Column="0" Content="{Binding CurrentQueue}" ContentTemplate="{StaticResource QueueTemplate}">
+                        <ContentControl.Style>
+                            <Style TargetType="ContentControl">
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding CurrentQueue}" Value="{x:Null}">
+                                        <Setter Property="Visibility" Value="Collapsed"/>
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </ContentControl.Style>
+                    </ContentControl>
+                    <StackPanel Grid.Column="1" Margin="6,0" VerticalAlignment="Center">
+                        <StackPanel.Style>
+                            <Style TargetType="StackPanel">
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding CurrentQueue}" Value="{x:Null}">
+                                        <Setter Property="Visibility" Value="Collapsed"/>
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </StackPanel.Style>
+                        <TextBlock Text="{Binding CurrentQueue.ProgressText}" FontSize="11" Foreground="#333"/>
+                        <ProgressBar Style="{StaticResource ThinBar}" Height="8" Margin="0,3,0,0" Background="#E3E8E3" Foreground="#70C0C0"
+                                     Value="{Binding CurrentQueue.Progress, Mode=OneWay}"/>
+                    </StackPanel>
+                    <TextBlock Grid.ColumnSpan="2" Text="대기열이 비어 있다. 레시피나 생성기를 클릭하면 만든다." FontSize="11" Foreground="#888" VerticalAlignment="Center">
+                        <TextBlock.Style>
+                            <Style TargetType="TextBlock">
+                                <Setter Property="Visibility" Value="Collapsed"/>
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding CurrentQueue}" Value="{x:Null}">
+                                        <Setter Property="Visibility" Value="Visible"/>
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </TextBlock.Style>
+                    </TextBlock>
+                </Grid>
+                <ScrollViewer HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Disabled">
+                    <ItemsControl ItemsSource="{Binding WaitingQueue}" ItemTemplate="{StaticResource QueueTemplate}">
+                        <ItemsControl.ItemsPanel>
+                            <ItemsPanelTemplate>
+                                <StackPanel Orientation="Horizontal"/>
+                            </ItemsPanelTemplate>
+                        </ItemsControl.ItemsPanel>
+                    </ItemsControl>
+                </ScrollViewer>
+            </StackPanel>
+        </Border>
+
+        <Grid Margin="4">
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="1*"/>
-                <ColumnDefinition Width="1*"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="6"/>
+                <ColumnDefinition Width="1.25*"/>
             </Grid.ColumnDefinitions>
 
-            <Grid Grid.Column="0">
-                <ItemsControl ItemsSource="{Binding Source={x:Static local:GameManager.Inventory}, Path=Items, UpdateSourceTrigger=PropertyChanged}">
-                    <ItemsControl.ItemsPanel>
-                        <ItemsPanelTemplate>
-                            <UniformGrid Columns="10" Rows="10" />
-                        </ItemsPanelTemplate>
-                    </ItemsControl.ItemsPanel>
-                    <ItemsControl.ItemTemplate>
-                        <DataTemplate>
-                            <c:InventoryItemControl Item="{Binding}"/>
-                        </DataTemplate>
-                    </ItemsControl.ItemTemplate>
-                </ItemsControl>
-            </Grid>
+            <!-- 인벤토리 -->
+            <DockPanel Grid.Column="0">
+                <TextBlock DockPanel.Dock="Top" Text="인벤토리" FontWeight="Bold" Margin="2,2,0,4"/>
+                <ScrollViewer VerticalScrollBarVisibility="Auto">
+                    <ItemsControl ItemsSource="{Binding Inventory}" ItemTemplate="{StaticResource SlotTemplate}" ItemsPanel="{StaticResource WrapItems}"/>
+                </ScrollViewer>
+            </DockPanel>
 
-            <Grid Grid.Column="1">
-                <TabControl SelectedIndex="0">
-                    <TabItem Header="Recipes">
-                        <ItemsControl Background="Transparent" ItemsSource="{Binding Source={x:Static local:GameManager.UranusRecipes}}">
-                            <ItemsControl.ItemsPanel>
-                                <ItemsPanelTemplate>
-                                    <UniformGrid Columns="15" Rows="15" />
-                                </ItemsPanelTemplate>
-                            </ItemsControl.ItemsPanel>
-                            <ItemsControl.ItemTemplate>
-                                <DataTemplate>
-                                    <c:RecipeItemControl Recipe="{Binding}" />
-                                </DataTemplate>
-                            </ItemsControl.ItemTemplate>
-                            <ItemsControl.ItemContainerStyle>
-                                <Style TargetType="ContentPresenter">
-                                    <Style.Triggers>
-                                        <DataTrigger Binding="{Binding ProducableCount}" Value="0">
-                                            <Setter Property="Opacity" Value="0.2"/>
-                                        </DataTrigger>
-                                    </Style.Triggers>
-                                </Style>
-                            </ItemsControl.ItemContainerStyle>
-                        </ItemsControl>
-                    </TabItem>
-                    <TabItem Header="Generators">
-                        <ItemsControl Background="Transparent" ItemsSource="{Binding Source={x:Static local:GameManager.UranusGenerators}}">
-                            <ItemsControl.ItemsPanel>
-                                <ItemsPanelTemplate>
-                                    <UniformGrid Columns="15" Rows="15" />
-                                </ItemsPanelTemplate>
-                            </ItemsControl.ItemsPanel>
-                            <ItemsControl.ItemTemplate>
-                                <DataTemplate>
-                                    <c:RecipeItemControl Recipe="{Binding}" />
-                                </DataTemplate>
-                            </ItemsControl.ItemTemplate>
-                            <ItemsControl.ItemContainerStyle>
-                                <Style TargetType="ContentPresenter">
-                                    <Style.Triggers>
-                                        <DataTrigger Binding="{Binding ProducableCount}" Value="0">
-                                            <Setter Property="Opacity" Value="0.2"/>
-                                        </DataTrigger>
-                                    </Style.Triggers>
-                                </Style>
-                            </ItemsControl.ItemContainerStyle>
-                        </ItemsControl>
-                    </TabItem>
-                </TabControl>
-            </Grid>
+            <GridSplitter Grid.Column="1" Width="6" HorizontalAlignment="Stretch" Background="Transparent"/>
+
+            <!-- 레시피·생성기 -->
+            <TabControl Grid.Column="2" BorderBrush="Gainsboro" Background="Transparent" SelectedIndex="{Binding SelectedTab}">
+                <TabItem Header="레시피">
+                    <DockPanel Margin="2">
+                        <DockPanel DockPanel.Dock="Top" Margin="0,2,0,4">
+                            <ComboBox DockPanel.Dock="Left" Width="90" ItemsSource="{Binding Categories}" SelectedItem="{Binding SelectedCategory}"/>
+                            <CheckBox DockPanel.Dock="Right" Content="만들 수 있는 것만" IsChecked="{Binding ShowCraftableOnly}" VerticalAlignment="Center" Margin="6,0,0,0"/>
+                            <TextBox Text="{Binding SearchText, UpdateSourceTrigger=PropertyChanged}" Margin="6,0,0,0" VerticalContentAlignment="Center"
+                                     ToolTip="이름이나 ID로 찾기 (예: 물, H2O)"/>
+                        </DockPanel>
+                        <TextBlock DockPanel.Dock="Bottom" Text="{Binding HiddenRecipesText}" FontSize="11" Foreground="#777" Margin="2,4,0,0" TextWrapping="Wrap"/>
+                        <ScrollViewer VerticalScrollBarVisibility="Auto">
+                            <ItemsControl ItemsSource="{Binding RecipesView}" ItemTemplate="{StaticResource RecipeTemplate}" ItemsPanel="{StaticResource WrapItems}"/>
+                        </ScrollViewer>
+                    </DockPanel>
+                </TabItem>
+                <TabItem Header="생성기">
+                    <ScrollViewer VerticalScrollBarVisibility="Auto" Margin="2">
+                        <ItemsControl ItemsSource="{Binding GeneratorsView}" ItemTemplate="{StaticResource GeneratorTemplate}" ItemsPanel="{StaticResource WrapItems}"/>
+                    </ScrollViewer>
+                </TabItem>
+            </TabControl>
         </Grid>
-
-        <Grid Grid.Row="1">
-            <Grid.RowDefinitions>
-                <RowDefinition Height="1*"/>
-                <RowDefinition Height="1*"/>
-            </Grid.RowDefinitions>
-
-            <ItemsControl Grid.Row="0" Background="Transparent" ItemsSource="{Binding Source={x:Static local:GameManager.Queue}, Path=WaitingItems, UpdateSourceTrigger=PropertyChanged}">
-                <ItemsControl.ItemsPanel>
-                    <ItemsPanelTemplate>
-                        <UniformGrid Columns="25" Rows="1" />
-                    </ItemsPanelTemplate>
-                </ItemsControl.ItemsPanel>
-                <ItemsControl.ItemTemplate>
-                    <DataTemplate>
-                        <c:QueueItemControl Item="{Binding}" />
-                    </DataTemplate>
-                </ItemsControl.ItemTemplate>
-            </ItemsControl>
-
-            <Grid Grid.Row="1" x:Name="CurrentQueueGrid">
-                <c:QueueControl Item="{Binding Source={x:Static local:GameManager.Queue}, Path=CurrentItem}"  />
-            </Grid>
-        </Grid>
-
-    </Grid>
+    </DockPanel>
 </Window>
