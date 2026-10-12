@@ -25,3 +25,4 @@ items:
   - { id: nucleoid, name: { ko: 핵양체, en: Nucleoid }, goal: true }
   - { id: prokaryotic_cell, name: { ko: 원핵세포, en: Prokaryotic cell }, goal: true }
   - { id: eukaryotic_cell, name: { ko: 진핵세포, en: Eukaryotic cell }, goal: true }
+  - { id: glycine, name: { ko: 글라이신, en: Glycine }, formula: C2H5NO2, note: 가장 단순한 아미노산 }

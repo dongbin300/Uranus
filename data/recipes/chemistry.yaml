@@ -173,22 +173,22 @@ recipes:
     out: { hydroxyapatite: 1/3, fluorapatite: 1/3, chlorapatite: 1/3 }
   - id: silicon_oxidation
     name: { ko: 규소 산화 }
-    time: 0
+    time: 0.5
     in: { Si: 1, O2: 1 }
     out: { SiO2: 1 }
   - id: gallium_arsenide_synthesis
     name: { ko: 갈륨비소 합성 }
-    time: 0
+    time: 0.5
     in: { Ga: 2, As2: 1 }
     out: { GaAs: 2 }
   - id: arsenic_dimerization
     name: { ko: 비소 분자 결합 }
-    time: 0
+    time: 0.2
     in: { As: 2 }
     out: { As2: 1 }
   - id: indium_gallium_arsenide_synthesis
     name: { ko: 인듐갈륨비소 합성 }
-    time: 0
+    time: 0.5
     in: { In: 2, Ga: 2, As2: 1 }
     out: { InGaAs: 2 }
   - id: alumina_synthesis
@@ -212,3 +212,81 @@ recipes:
     time: 6
     in: { C: 1080, H: 1080 }
     out: { C6H6: 180 }
+  - id: nitrogen_dissociation
+    name: { ko: 질소 분자 해리 }
+    time: 0.3
+    in: { N2: 1 }
+    out: { N: 2 }
+  - id: haber_process
+    name: { ko: 하버-보슈 공정 }
+    time: 0.8
+    in: { N2: 1, H2: 3 }
+    out: { NH3: 2 }
+  - id: andrussow_process
+    name: { ko: 안드루소프 공정 }
+    time: 1
+    in: { CH4: 2, NH3: 2, O2: 3 }
+    out: { HCN: 2, H2O: 6 }
+  - id: methanol_oxidation
+    name: { ko: 메탄올 산화 }
+    time: 0.5
+    in: { CH3OH: 2, O2: 1 }
+    out: { CH2O: 2, H2O: 2 }
+  - id: urea_synthesis
+    name: { ko: 요소 합성 }
+    time: 0.6
+    in: { NH3: 2, CO2: 1 }
+    out: { urea: 1, H2O: 1 }
+  - id: cyanoacetylene_synthesis
+    name: { ko: 사이아노아세틸렌 합성 }
+    time: 0.6
+    in: { C2H2: 1, HCN: 1 }
+    out: { HC3N: 1, H2: 1 }
+  - id: silicon_reduction
+    name: { ko: 규소 탄소환원 }
+    time: 1
+    in: { SiO2: 1, C: 2 }
+    out: { Si: 1, CO: 2 }
+    note: 아크로에서 석영을 탄소로 환원한다
+  - id: hall_heroult_process
+    name: { ko: 홀-에루 공정 }
+    time: 2
+    in: { Al2O3: 2, C: 3 }
+    out: { Al: 4, CO2: 3 }
+    note: 녹인 알루미나를 탄소 전극으로 전기분해한다
+  - id: zinc_reduction
+    name: { ko: 산화 아연 환원 }
+    time: 1
+    in: { ZnO: 1, C: 1 }
+    out: { Zn: 1, CO: 1 }
+  - id: magnesium_chloride_electrolysis
+    name: { ko: 염화 마그네슘 전기분해 }
+    time: 1
+    in: { MgCl2: 1 }
+    out: { Mg: 1, Cl2: 1 }
+  - id: borax_acidification
+    name: { ko: 붕사 산 처리 }
+    time: 1
+    in: { borax: 1, HCl: 2 }
+    out: { H3BO3: 4, NaCl: 2, H2O: 5 }
+  - id: boric_acid_dehydration
+    name: { ko: 붕산 탈수 }
+    time: 1
+    in: { H3BO3: 2 }
+    out: { B2O3: 1, H2O: 3 }
+  - id: boron_reduction
+    name: { ko: 붕소 마그네슘환원 }
+    time: 2
+    in: { B2O3: 1, Mg: 3 }
+    out: { B: 2, MgO: 3 }
+  - id: wohler_process
+    name: { ko: 뵐러 공정 }
+    time: 4
+    in: { Ca3(PO4)2: 2, SiO2: 6, C: 10 }
+    out: { CaSiO3: 6, CO: 10, P4: 1 }
+    note: 인산칼슘을 규사·코크스와 함께 전기로에서 환원해 인을 얻는다
+  - id: phosphorus_dissociation
+    name: { ko: 백린 해리 }
+    time: 0.5
+    in: { P4: 1 }
+    out: { P: 4 }

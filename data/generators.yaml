@@ -40,3 +40,32 @@ generators:
     name: { ko: 철 채굴기, en: Iron miner }
     build: { time: 75, in: { Cu: 360, H2SO4: 120, CH3COOH: 100, electrolyte: 200 } }
     produces: { iron_ore: 0.05 }
+  - id: air_separator
+    name: { ko: 공기 분리기, en: Air separator }
+    build: { time: 90, in: { Fe: 600, Cu: 300, electrolyte: 100 } }
+    produces: { N2: 0.078, O2: 0.021, Ar: 0.00093 }
+    note: 공기 조성(질소 78%, 산소 21%, 아르곤 0.93%) 그대로 나온다
+  - id: quartz_miner
+    name: { ko: 석영 채굴기, en: Quartz miner }
+    build: { time: 80, in: { Fe: 400, C2H4: 100, H2SO4: 80 } }
+    produces: { SiO2: 0.05 }
+  - id: oil_well
+    name: { ko: 유정, en: Oil well }
+    build: { time: 120, in: { Fe: 800, Cu: 200, SiO2: 50 } }
+    produces: { crude_oil: 0.5, natural_gas: 0.05 }
+  - id: seawater_processor
+    name: { ko: 해수 처리기, en: Seawater processor }
+    build: { time: 60, in: { Fe: 300, NaCl: 500, electrolyte: 100 } }
+    produces: { NaCl: 0.08, MgCl2: 0.01 }
+  - id: bauxite_miner
+    name: { ko: 보크사이트 채굴기, en: Bauxite miner }
+    build: { time: 90, in: { Fe: 500, Cu: 200, CaO: 100 } }
+    produces: { bauxite: 0.05 }
+  - id: zinc_miner
+    name: { ko: 섬아연석 채굴기, en: Sphalerite miner }
+    build: { time: 100, in: { Fe: 500, Cu: 300, H2SO4: 200 } }
+    produces: { sphalerite: 0.04 }
+  - id: borax_miner
+    name: { ko: 붕사 채굴기, en: Borax miner }
+    build: { time: 90, in: { Fe: 400, NaCl: 300, HCl: 100 } }
+    produces: { borax: 0.02 }

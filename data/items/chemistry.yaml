@@ -42,3 +42,16 @@ items:
   - { id: CuO, name: { ko: 산화구리, en: Copper(II) oxide }, formula: CuO }
   - { id: GaAs, name: { ko: 갈륨비소, en: Gallium arsenide }, formula: GaAs }
   - { id: InGaAs, name: { ko: 인듐갈륨비소, en: Indium gallium arsenide }, formula: InGaAs }
+  - { id: N2, name: { ko: 질소 분자, en: Dinitrogen }, formula: N2 }
+  - { id: NH3, name: { ko: 암모니아, en: Ammonia }, formula: NH3 }
+  - { id: HCN, name: { ko: 시안화 수소, en: Hydrogen cyanide }, formula: HCN }
+  - { id: CH2O, name: { ko: 폼알데하이드, en: Formaldehyde }, formula: CH2O }
+  - { id: HC3N, name: { ko: 사이아노아세틸렌, en: Cyanoacetylene }, formula: HC3N }
+  - { id: urea, name: { ko: 요소, en: Urea }, formula: CO(NH2)2 }
+  - { id: MgCl2, name: { ko: 염화 마그네슘, en: Magnesium chloride }, formula: MgCl2 }
+  - { id: MgO, name: { ko: 산화 마그네슘, en: Magnesium oxide }, formula: MgO }
+  - { id: H3BO3, name: { ko: 붕산, en: Boric acid }, formula: H3BO3 }
+  - { id: B2O3, name: { ko: 삼산화 붕소, en: Boron trioxide }, formula: B2O3 }
+  - { id: P4, name: { ko: 백린, en: White phosphorus }, formula: P4 }
+  - { id: CaSiO3, name: { ko: 규산 칼슘, en: Calcium silicate }, formula: CaSiO3 }
+  - { id: ZnO, name: { ko: 산화 아연, en: Zinc oxide }, formula: ZnO }

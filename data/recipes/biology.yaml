@@ -1,55 +1,95 @@
 # 생체 분자. 생산량이 1보다 작으면 소수로 누적된다(0.2 = 5번에 1개).
+# RNA 합성 시간은 전사 속도 약 50 nt/초, 리보솜 조립은 수 분 기준.
 category: biology
 recipes:
   - id: mrna
-    time: 0
+    time: 29
     in: { ribose: 1433, adenine: 396, cytosine: 317, guanine: 392, uracil: 328 }
     out: { mrna: 0.2 }
   - id: trna
-    time: 0
+    time: 2
     in: { ribose: 80, adenine: 26, cytosine: 21, guanine: 22, uracil: 11 }
     out: { trna: 0.6 }
   - id: rrna_5s
-    time: 0
+    time: 2.4
     in: { ribose: 122, adenine: 34, cytosine: 18, guanine: 26, uracil: 44 }
     out: { rrna_5s: 0.5 }
   - id: rrna_16s
-    time: 0
+    time: 31
     in: { ribose: 1548, adenine: 312, cytosine: 372, guanine: 450, uracil: 414 }
     out: { rrna_16s: 0.18 }
   - id: rrna_23s
-    time: 0
+    time: 58
     in: { ribose: 2904, adenine: 838, cytosine: 404, guanine: 727, uracil: 935 }
     out: { rrna_23s: 0.1 }
   - id: ribosome_50s
-    time: 0
+    time: 120
     in: { rrna_5s: 1, rrna_23s: 1, ribosomal_protein: 27 }
     out: { ribosome_50s: 0.04 }
   - id: ribosome_30s
-    time: 0
+    time: 60
     in: { rrna_16s: 1, ribosomal_protein: 19 }
     out: { ribosome_30s: 0.08 }
   - id: rrna_5_8s
-    time: 0
+    time: 3
     in: { ribose: 150, adenine: 44, cytosine: 29, guanine: 44, uracil: 33 }
     out: { rrna_5_8s: 0.45 }
   - id: rrna_28s
-    time: 0
+    time: 96
     in: { ribose: 4808, adenine: 1116, cytosine: 1402, guanine: 1154, uracil: 1136 }
     out: { rrna_28s: 0.05 }
   - id: ribosome_60s
-    time: 0
+    time: 150
     in: { rrna_28s: 1, ribosomal_protein: 42 }
     out: { ribosome_60s: 0.02 }
   - id: rrna_18s
-    time: 0
+    time: 39
     in: { ribose: 1951, adenine: 519, cytosine: 351, guanine: 434, uracil: 647 }
     out: { rrna_18s: 0.15 }
   - id: ribosome_40s
-    time: 0
+    time: 75
     in: { rrna_18s: 1, ribosomal_protein: 33 }
     out: { ribosome_40s: 0.06 }
   - id: ribosomal_protein
-    time: 0
+    time: 10
     in: { protein: 40 }
     out: { ribosomal_protein: 15 }
+  - id: formose_reaction
+    name: { ko: 포르모스 반응 }
+    time: 2
+    in: { CH2O: 5 }
+    out: { ribose: 1 }
+    note: 실제로는 여러 당이 섞여 나온다
+  - id: adenine_synthesis
+    name: { ko: 아데닌 합성 }
+    time: 2
+    in: { HCN: 5 }
+    out: { adenine: 1 }
+    note: 오로(1960) — 시안화 수소 5분자가 아데닌이 된다
+  - id: guanine_synthesis
+    name: { ko: 구아닌 합성 }
+    time: 2
+    in: { HCN: 5, H2O: 1 }
+    out: { guanine: 1, H2: 1 }
+  - id: cytosine_synthesis
+    name: { ko: 시토신 합성 }
+    time: 2
+    in: { HC3N: 1, urea: 1 }
+    out: { cytosine: 1 }
+  - id: cytosine_deamination
+    name: { ko: 시토신 탈아미노화 }
+    time: 1
+    in: { cytosine: 1, H2O: 1 }
+    out: { uracil: 1, NH3: 1 }
+  - id: strecker_synthesis
+    name: { ko: 스트레커 합성 }
+    time: 1
+    in: { CH2O: 1, HCN: 1, H2O: 1 }
+    out: { glycine: 1 }
+    note: CH2O + NH3 + HCN → 아미노나이트릴 → 가수분해. 암모니아는 다시 나온다
+  - id: protein_synthesis
+    name: { ko: 단백질 합성 }
+    time: 27
+    in: { glycine: 400 }
+    out: { protein: 1, H2O: 399 }
+    note: 아미노산 400개짜리 단백질. 번역 속도 약 15개/초

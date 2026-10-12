@@ -20,3 +20,6 @@ items:
   - { id: As, name: { ko: 비소, en: Arsenic }, formula: As }
   - { id: In, name: { ko: 인듐, en: Indium }, formula: In }
   - { id: B, name: { ko: 붕소, en: Boron }, formula: B }
+  - { id: Mg, name: { ko: 마그네슘, en: Magnesium }, formula: Mg }
+  - { id: Zn, name: { ko: 아연, en: Zinc }, formula: Zn }
+  - { id: Ar, name: { ko: 아르곤, en: Argon }, formula: Ar }

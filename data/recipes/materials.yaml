@@ -36,3 +36,30 @@ recipes:
     in: { crude_oil: 10000, natural_gas: 100 }
     out: { petroleum: 10000 }
     approximate: true
+  - id: bayer_process
+    name: { ko: 바이어 공정 }
+    time: 10
+    in: { bauxite: 100 }
+    out: { Al2O3: 50, Ga: 0.01 }
+    approximate: true
+    note: 보크사이트에서 알루미나를 뽑고 같은 용액에서 갈륨을 회수한다
+  - id: zinc_roasting
+    name: { ko: 섬아연석 배소 }
+    time: 10
+    in: { sphalerite: 100, O2: 150 }
+    out: { ZnO: 100, SO2: 100, In: 0.01 }
+    approximate: true
+    note: 2ZnS + 3O2 → 2ZnO + 2SO2. 배소 잔재에서 인듐을 회수한다
+  - id: arsenic_recovery
+    name: { ko: 비소 회수 }
+    time: 20
+    in: { copper_ore: 200, C: 10 }
+    out: { As: 1 }
+    approximate: true
+    note: 구리 제련 분진의 삼산화 비소를 탄소로 환원한다
+  - id: natural_gas_processing
+    name: { ko: 천연가스 정제 }
+    time: 5
+    in: { natural_gas: 100 }
+    out: { CH4: 90, C2H6: 5 }
+    approximate: true

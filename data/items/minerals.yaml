@@ -10,3 +10,6 @@ items:
   - { id: iron_ore, name: { ko: 철광석, en: Iron ore } }
   - { id: crude_oil, name: { ko: 원유, en: Crude oil } }
   - { id: natural_gas, name: { ko: 가스, en: Natural gas } }
+  - { id: bauxite, name: { ko: 보크사이트, en: Bauxite }, note: "알루미늄 광석. 수십 ppm의 갈륨이 함께 들어 있다" }
+  - { id: sphalerite, name: { ko: 섬아연석, en: Sphalerite }, note: "아연 광석(ZnS). 인듐이 미량 섞여 있다" }
+  - { id: borax, name: { ko: 붕사, en: Borax }, formula: Na2B4O7·10H2O }

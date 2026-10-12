@@ -2,67 +2,67 @@
 category: electronics
 recipes:
   - id: ccd
-    time: 0
+    time: 300
     in: { wafer_8in: 1, photodiode: 2073600, transfer_gate: 3000, shift_register: 3000, output_amplifier: 1, clock_generator: 1, clock_distributor: 1, sequencer: 1, multiplexer: 1, trigger_sync_circuit: 1, signal_conditioning_circuit: 4, control_register: 4, bias_voltage_generator: 1, analog_signal_processor: 1, control_circuit: 1, temperature_control_system: 1, communication_interface: 1 }
     out: { ccd: 1 }
   - id: wafer_8in
-    time: 0
+    time: 120
     in: { Si: 1.133e24, SiO2: 1.81e16 }
     out: { wafer_8in: 1 }
   - id: photodiode
-    time: 0
+    time: 1
     in: { diode: 1, InGaAs: 1e18, optical_window: 1, ar_coating: 1, pn_junction: 1, metal_contact: 1 }
     out: { photodiode: 1 }
   - id: diode
-    time: 0
+    time: 1
     in: { Si: 1e17, GaAs: 1e17 }
     out: { diode: 1 }
   - id: optical_window
-    time: 0
+    time: 5
     in: { glass: 1, ar_coating: 1, window_holder: 1 }
     out: { optical_window: 1 }
   - id: ar_coating
-    time: 0
+    time: 2
     in: { SiO2: 2.2e14 }
     out: { ar_coating: 1 }
   - id: window_holder
-    time: 0
+    time: 2
     in: { Al: 2.7e16 }
     out: { window_holder: 1 }
   - id: glass
-    time: 0
+    time: 5
     in: { SiO2: 3.06e20 }
     out: { glass: 1 }
   - id: pn_junction
-    time: 0
+    time: 1
     in: { p_type_semiconductor: 1, n_type_semiconductor: 1 }
     out: { pn_junction: 1 }
   - id: p_type_semiconductor
-    time: 0
+    time: 1
     in: { Si: 1e17, B: 1e17 }
     out: { p_type_semiconductor: 1 }
   - id: n_type_semiconductor
-    time: 0
+    time: 1
     in: { Si: 1e17, P: 1e17 }
     out: { n_type_semiconductor: 1 }
   - id: metal_contact
-    time: 0
+    time: 1
     in: { Al: 1e17 }
     out: { metal_contact: 1 }
   - id: transfer_gate
-    time: 0
+    time: 1
     in: { Si: 1e16, insulating_layer: 1, metal_electrode: 1, gate_oxide: 1 }
     out: { transfer_gate: 1 }
   - id: insulating_layer
-    time: 0
+    time: 1
     in: { SiO2: 3.01e22 }
     out: { insulating_layer: 1 }
   - id: metal_electrode
-    time: 0
+    time: 1
     in: { Al: 6.022e22 }
     out: { metal_electrode: 1 }
   - id: gate_oxide
-    time: 0
+    time: 1
     in: { SiO2: 2.19e22 }
     out: { gate_oxide: 1 }
   - id: shift_register
@@ -147,8 +147,9 @@ recipes:
     out: { filter: 1 }
   - id: crystal
     time: 86
-    in: { SiO2: 3e24 }
+    in: { SiO2: 3e20 }
     out: { crystal: 1 }
+    note: 수정 진동자 블랭크 약 30mg. 원본 3e24(약 300g)는 1만 배 컸다
   - id: resistor
     time: 6
     in: { C: 2.5e21, Cu: 1.2e21, ceramic: 6e20 }
@@ -181,3 +182,46 @@ recipes:
     time: 8
     in: { Fe: 7e22, plastic: 5e22, Cu: 3e22 }
     out: { switch: 1 }
+  - id: transistor
+    time: 3
+    in: { n_type_semiconductor: 2, p_type_semiconductor: 1, metal_contact: 3, plastic: 2e21 }
+    out: { transistor: 1 }
+    note: NPN 양극성 트랜지스터와 수지 패키지
+  - id: inductor
+    time: 3
+    in: { Cu: 5e21, Fe: 1e21 }
+    out: { inductor: 1 }
+  - id: op_amp
+    time: 8
+    in: { transistor: 20, resistor: 12, capacitor: 1 }
+    out: { op_amp: 1 }
+    note: μA741 연산 증폭기는 트랜지스터 20개로 이루어진다
+  - id: voltage_regulator
+    time: 8
+    in: { transistor: 20, resistor: 10, capacitor: 2, diode: 2 }
+    out: { voltage_regulator: 1 }
+  - id: microcontroller
+    time: 60
+    in: { logic_gate: 3000, flip_flop: 1000, clock_circuit: 1, plastic: 1e22 }
+    out: { microcontroller: 1 }
+  - id: transceiver
+    time: 10
+    in: { op_amp: 2, oscillator: 1, transistor: 10, inductor: 2, capacitor: 4 }
+    out: { transceiver: 1 }
+  - id: temperature_sensor
+    time: 3
+    in: { ceramic: 1e21, metal_contact: 2 }
+    out: { temperature_sensor: 1 }
+    note: 서미스터(세라믹 저항체)
+  - id: thermostat
+    time: 6
+    in: { temperature_sensor: 1, op_amp: 1, switch: 1, resistor: 4 }
+    out: { thermostat: 1 }
+  - id: fan
+    time: 8
+    in: { inductor: 4, Fe: 1e22, plastic: 5e22 }
+    out: { fan: 1 }
+  - id: heater
+    time: 4
+    in: { Fe: 1e22, ceramic: 1e21, metal_contact: 2 }
+    out: { heater: 1 }
