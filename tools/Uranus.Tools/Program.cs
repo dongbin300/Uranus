@@ -1,5 +1,7 @@
 using System.Text;
 
+using MachineFree.Core;
+
 using Uranus;
 using Uranus.Analysis;
 using Uranus.Data;
@@ -29,8 +31,39 @@ return command switch
 	"validate" => Validate(),
 	"bom" => Bom(),
 	"tree" => Tree(),
+	"import-save" => ImportSave(),
 	_ => Help(),
 };
+
+int ImportSave()
+{
+	var db = LoadOrExit();
+	var source = arguments.Skip(1).FirstOrDefault(x => !x.StartsWith("--"));
+	if (db is null || source is null || !File.Exists(source))
+	{
+		Console.Error.WriteLine($"세이브 파일을 찾지 못했다: {source}");
+		return 2;
+	}
+
+	var target = TakeOption("--out") ?? SaveFile.DefaultPath;
+	if (File.Exists(target) && !arguments.Contains("--force"))
+	{
+		Console.Error.WriteLine($"이미 세이브가 있다: {target} (덮어쓰려면 --force)");
+		return 2;
+	}
+
+	var state = SaveFile.Deserialize(File.ReadAllText(source), db, out var warnings);
+	state.SavedAt = DateTimeOffset.UtcNow;
+	SaveFile.Write(target, state);
+
+	foreach (var warning in warnings)
+	{
+		Console.WriteLine($"경고: {warning}");
+	}
+
+	Console.WriteLine($"변환 완료: 아이템 {state.Inventory.Count}종, 플레이 {TimeSpan.FromSeconds(state.PlayTime):h\\:mm\\:ss} → {target}");
+	return 0;
+}
 
 int Help()
 {
@@ -40,6 +73,7 @@ int Help()
 		  validate [--verbose]              데이터를 불러와 검증한다. 오류가 있으면 종료 코드 1
 		  bom <아이템> [--amount N]          기본 레시피를 따라 펼친 필요 원료와 질량
 		  tree <아이템> [--depth N]          제작 트리를 Mermaid 그래프로 출력
+		  import-save <예전 Save.json>       예전 세이브를 새 형식으로 바꿔 저장 위치에 쓴다 [--out 경로] [--force]
 
 		  공통 옵션: --data <data 폴더>  (기본: 현재 폴더에서 위로 찾기)
 		  <아이템>은 ID(H2O) 또는 한국어 이름(물)

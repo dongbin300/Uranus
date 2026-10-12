@@ -8,6 +8,7 @@
   <ItemGroup>
     <ProjectReference Include="..\..\src\Uranus\Uranus.csproj" />
     <ProjectReference Include="..\..\src\Uranus.Data\Uranus.Data.csproj" />
+    <ProjectReference Include="..\..\src\MachineFree.Core\MachineFree.Core.csproj" />
   </ItemGroup>
 
 </Project>

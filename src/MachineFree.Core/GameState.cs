@@ -1,0 +1,96 @@
+using Uranus;
+using Uranus.Quantities;
+
+namespace MachineFree.Core
+{
+	/// <summary>
+	/// 저장되는 게임 상태. 게임 규칙은 Simulation에 있다.
+	/// </summary>
+	public sealed class GameState
+	{
+		/// <summary>
+		/// 보유 수량. 소수(다음 1개까지 쌓인 양)도 그대로 들고 있다.
+		/// </summary>
+		public Dictionary<ItemId, double> Inventory { get; } = [];
+
+		public List<QueueEntry> Queue { get; } = [];
+
+		/// <summary>
+		/// 한 번이라도 1개 이상 가져 본 아이템. 레시피 공개에 쓴다.
+		/// </summary>
+		public HashSet<ItemId> Discovered { get; } = [];
+
+		/// <summary>
+		/// 진행된 게임 시간(초)
+		/// </summary>
+		public double PlayTime { get; set; }
+
+		/// <summary>
+		/// 완성한 제작 횟수
+		/// </summary>
+		public long TotalCrafts { get; set; }
+
+		public DateTimeOffset SavedAt { get; set; }
+
+		public double GetAmount(ItemId item) => Inventory.GetValueOrDefault(item);
+
+		public void Add(ItemId item, double amount)
+		{
+			if (!(amount > 0))
+			{
+				return;
+			}
+
+			var total = GetAmount(item) + amount;
+			Inventory[item] = total;
+			if (Quantity.IsAtLeast(total, 1))
+			{
+				Discovered.Add(item);
+			}
+		}
+
+		public void Remove(ItemId item, double amount)
+		{
+			var rest = Quantity.Subtract(GetAmount(item), amount);
+			if (rest > 0)
+			{
+				Inventory[item] = rest;
+			}
+			else
+			{
+				Inventory.Remove(item);
+			}
+		}
+
+		public static GameState CreateNew(UranusDatabase db)
+		{
+			var state = new GameState { SavedAt = DateTimeOffset.UtcNow };
+			foreach (var x in db.Config.StartInventory)
+			{
+				state.Add(x.Item, x.Amount);
+			}
+
+			return state;
+		}
+	}
+
+	/// <summary>
+	/// 제작 대기열 한 칸. 같은 레시피를 Remaining번 만든다.
+	/// </summary>
+	public sealed class QueueEntry
+	{
+		public required RecipeId Recipe { get; init; }
+
+		public long Remaining { get; set; }
+
+		/// <summary>
+		/// 지금 만들고 있는 1회의 경과 시간(초)
+		/// </summary>
+		public double Progress { get; set; }
+
+		/// <summary>
+		/// 남은 횟수만큼 미리 낸 재료. 취소하면 비율대로 돌려준다.
+		/// </summary>
+		public Dictionary<ItemId, double> Paid { get; } = [];
+	}
+}
