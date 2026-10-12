@@ -1,0 +1,854 @@
+# 무기 화학 공업. 실제 공정의 대표 반응을 화학량론 그대로 적는다.
+# 공정 이름과 조건은 note에 적는다. 여러 단계를 하나로 묶은 것은 전체 반응식을 쓴다.
+category: chemistry
+recipes:
+  # ─── 수소·합성 가스·공업용 기체 ───
+  - id: steam_methane_reforming
+    name: { ko: 메탄 수증기 개질 }
+    time: 1
+    in: { CH4: 1, H2O: 1 }
+    out: { H2: 3, CO: 1 }
+    note: 니켈 촉매, 800~900°C. CH4 + H2O → CO + 3H2. 세계 수소의 대부분이 이렇게 나온다
+  - id: water_gas_shift
+    name: { ko: 수성 가스 전환 반응 }
+    time: 0.6
+    in: { CO: 1, H2O: 1 }
+    out: { H2: 1, CO2: 1 }
+    note: 철·크로뮴 고온 전환 촉매 다음 구리·아연 저온 전환 촉매. CO + H2O → CO2 + H2
+  - id: ozone_generation
+    name: { ko: 오존 발생 }
+    time: 0.5
+    in: { O2: 3 }
+    out: { O3: 2 }
+    note: 무성 방전(코로나 방전)으로 산소 일부를 오존으로 바꾼다. 정수 소독과 펄프 표백
+  - id: anthraquinone_process
+    name: { ko: 안트라퀴논 공정 }
+    time: 1
+    in: { H2: 1, O2: 1 }
+    out: { H2O2: 1 }
+    note: 2-에틸안트라퀴논을 팔라듐 촉매로 수소화한 뒤 공기로 산화하면 H2O2가 나오고 안트라퀴논은 되돌아온다. 전체 반응 H2 + O2 → H2O2
+  - id: hydrogen_sulfide_synthesis
+    name: { ko: 황화 수소 직접 합성 }
+    time: 0.4
+    in: { H2: 1, S: 1 }
+    out: { H2S: 1 }
+    note: 녹인 황에 수소를 불어 넣는다(약 450°C)
+  - id: claus_process
+    name: { ko: 클라우스 공정 }
+    time: 1
+    in: { H2S: 2, O2: 1 }
+    out: { S: 2, H2O: 2 }
+    note: 열 단계에서 H2S의 1/3을 SO2로 태우고 알루미나 촉매 단계에서 2H2S + SO2 → 3S + 2H2O. 정유·천연가스 탈황에서 나오는 황이 세계 황 생산의 대부분이다
+
+  # ─── 염소-알칼리와 염소 표백·소독제 ───
+  - id: chloralkali_electrolysis
+    name: { ko: 염소-알칼리 전기분해 }
+    time: 2
+    in: { NaCl: 2, H2O: 2 }
+    out: { NaOH: 2, Cl2: 1, H2: 1 }
+    note: 이온 교환막 전해조. 2NaCl + 2H2O → 2NaOH + Cl2 + H2
+  - id: potassium_chloralkali_electrolysis
+    name: { ko: 염화 칼륨 전기분해 }
+    time: 2
+    in: { KCl: 2, H2O: 2 }
+    out: { KOH: 2, Cl2: 1, H2: 1 }
+    note: 염소-알칼리와 같은 막 전해조로 염화 칼륨 수용액을 전기분해한다. 공업용 수산화 칼륨은 거의 모두 이 방법으로 만든다
+  - id: sodium_hypochlorite_production
+    name: { ko: 하이포아염소산 나트륨 제조 }
+    time: 0.5
+    in: { Cl2: 1, NaOH: 2 }
+    out: { NaClO: 1, NaCl: 1, H2O: 1 }
+    note: 묽은 수산화 나트륨 용액에 염소를 흡수시킨다(차갑게 유지). 가정용 표백제
+  - id: chlorine_hydrolysis
+    name: { ko: 염소 가수분해 }
+    time: 0.3
+    in: { Cl2: 1, H2O: 1 }
+    out: { HOCl: 1, HCl: 1 }
+    note: 정수장 염소 소독. 물에 녹은 염소가 하이포아염소산과 염산이 된다
+  - id: calcium_hypochlorite_production
+    name: { ko: 하이포아염소산 칼슘 제조 }
+    time: 1
+    in: { Cl2: 2, Ca(OH)2: 2 }
+    out: { Ca(ClO)2: 1, CaCl2: 1, H2O: 2 }
+    note: 석회유에 염소를 흡수시킨다. 표백분과 고도 표백분의 기본 반응
+  - id: sodium_chlorate_electrolysis
+    name: { ko: 염소산 나트륨 전해 }
+    time: 3
+    in: { NaCl: 1, H2O: 3 }
+    out: { NaClO3: 1, H2: 3 }
+    note: 격막 없는 전해조에서 생긴 염소와 수산화 이온이 바로 반응해 염소산 이온이 된다. NaCl + 3H2O → NaClO3 + 3H2
+  - id: chlorine_dioxide_hcl_process
+    name: { ko: 이산화 염소 제조(염산법) }
+    time: 1
+    in: { NaClO3: 2, HCl: 4 }
+    out: { ClO2: 2, Cl2: 1, NaCl: 2, H2O: 2 }
+    note: 케스팅(R2) 공정. 펄프 공장 현장에서 만든다
+  - id: chlorine_dioxide_peroxide_process
+    name: { ko: 이산화 염소 제조(과산화 수소법) }
+    time: 1
+    in: { NaClO3: 2, H2O2: 1, H2SO4: 1 }
+    out: { ClO2: 2, O2: 1, Na2SO4: 1, H2O: 2 }
+    note: SVP-HP 공정. 부산물로 염소가 나오지 않아 무염소(ECF) 표백에 쓴다
+  - id: sodium_chlorite_production
+    name: { ko: 아염소산 나트륨 제조 }
+    time: 1
+    in: { ClO2: 2, NaOH: 2, H2O2: 1 }
+    out: { NaClO2: 2, O2: 1, H2O: 2 }
+    note: 이산화 염소를 알칼리성 과산화 수소 용액에 흡수시켜 환원한다
+
+  # ─── 소다회(솔베이 공정)와 나트륨 염 ───
+  - id: solvay_carbonation
+    name: { ko: 솔베이 탄산화 }
+    time: 1
+    in: { NaCl: 1, NH3: 1, CO2: 1, H2O: 1 }
+    out: { NaHCO3: 1, NH4Cl: 1 }
+    note: 솔베이 공정(암모니아 소다법). 암모니아를 포화시킨 소금물에 CO2를 불어 넣으면 덜 녹는 탄산수소 나트륨이 가라앉는다
+  - id: sodium_bicarbonate_calcination
+    name: { ko: 탄산수소 나트륨 소성 }
+    time: 0.8
+    in: { NaHCO3: 2 }
+    out: { Na2CO3: 1, H2O: 1, CO2: 1 }
+    note: 약 200°C에서 구워 소다회를 얻는다. CO2는 탄산화탑으로 되돌린다
+  - id: solvay_ammonia_recovery
+    name: { ko: 솔베이 암모니아 회수 }
+    time: 1
+    in: { NH4Cl: 2, Ca(OH)2: 1 }
+    out: { NH3: 2, CaCl2: 1, H2O: 2 }
+    note: 모액의 염화 암모늄을 석회유로 분해해 암모니아를 되찾는다. 염화 칼슘은 부산물
+  - id: sodium_bicarbonate_refining
+    name: { ko: 정제 중탄산 제조 }
+    time: 0.8
+    in: { Na2CO3: 1, CO2: 1, H2O: 1 }
+    out: { NaHCO3: 2 }
+    note: 소다회 용액을 다시 탄산화해 식품·의약용 탄산수소 나트륨을 얻는다
+  - id: leblanc_process
+    name: { ko: 르블랑 공정 }
+    time: 2
+    in: { Na2SO4: 1, CaCO3: 1, C: 2 }
+    out: { Na2CO3: 1, CaS: 1, CO2: 2 }
+    note: 1791년 르블랑. 망초·석회석·석탄을 함께 구워 소다회를 얻었다. 19세기 말 솔베이 공정에 밀려났다
+  - id: chance_process
+    name: { ko: 찬스 공정 }
+    time: 1
+    in: { CaS: 1, H2O: 1, CO2: 1 }
+    out: { H2S: 1, CaCO3: 1 }
+    note: 1882년 찬스. 르블랑 찌꺼기의 황화 칼슘을 탄산화해 황화 수소를 뽑고 클라우스 가마로 황을 되찾았다
+  - id: mannheim_bisulfate
+    name: { ko: 만하임 공정 1단 }
+    time: 1
+    in: { NaCl: 1, H2SO4: 1 }
+    out: { NaHSO4: 1, HCl: 1 }
+    note: 소금과 황산을 데우면 염화 수소가 먼저 빠져나간다
+  - id: mannheim_sulfate
+    name: { ko: 만하임 공정 2단 }
+    time: 1.5
+    in: { NaHSO4: 1, NaCl: 1 }
+    out: { Na2SO4: 1, HCl: 1 }
+    note: 만하임 로(약 600°C)에서 황산 나트륨과 염산을 함께 얻는다
+  - id: lime_causticization
+    name: { ko: 석회 가성화 }
+    time: 1
+    in: { Na2CO3: 1, Ca(OH)2: 1 }
+    out: { NaOH: 2, CaCO3: 1 }
+    note: 크라프트 펄프 공장의 녹액 재가성화. 탄산 칼슘은 석회로에서 다시 굽는다
+  - id: sodium_sulfite_production
+    name: { ko: 아황산 나트륨 제조 }
+    time: 0.6
+    in: { Na2CO3: 1, SO2: 1 }
+    out: { Na2SO3: 1, CO2: 1 }
+    note: 소다회 용액에 이산화 황을 흡수시킨다
+  - id: sodium_bisulfite_production
+    name: { ko: 아황산수소 나트륨 제조 }
+    time: 0.6
+    in: { Na2CO3: 1, SO2: 2, H2O: 1 }
+    out: { NaHSO3: 2, CO2: 1 }
+    note: 이산화 황을 더 흡수시켜 산성 아황산염 용액을 만든다
+  - id: sodium_metabisulfite_crystallization
+    name: { ko: 이아황산 나트륨 결정화 }
+    time: 0.8
+    in: { NaHSO3: 2 }
+    out: { Na2S2O5: 1, H2O: 1 }
+    note: 진한 아황산수소 나트륨 용액에서 이아황산 나트륨이 결정으로 나온다
+  - id: sodium_thiosulfate_production
+    name: { ko: 싸이오황산 나트륨 제조 }
+    time: 1
+    in: { Na2SO3: 1, S: 1 }
+    out: { Na2S2O3: 1 }
+    note: 아황산 나트륨 용액에 황 가루를 넣고 끓인다
+  - id: sodium_sulfide_reduction
+    name: { ko: 망초 탄소 환원 }
+    time: 1.5
+    in: { Na2SO4: 1, C: 2 }
+    out: { Na2S: 1, CO2: 2 }
+    note: 망초를 석탄과 함께 약 1000°C에서 환원한다
+  - id: sodium_hydrosulfide_production
+    name: { ko: 황화수소 나트륨 제조 }
+    time: 0.4
+    in: { NaOH: 1, H2S: 1 }
+    out: { NaHS: 1, H2O: 1 }
+    note: 정유 공장의 황화 수소를 가성 소다로 흡수한다
+  - id: sodium_silicate_fusion
+    name: { ko: 규산 나트륨 용융 }
+    time: 2
+    in: { Na2CO3: 1, SiO2: 1 }
+    out: { Na2SiO3: 1, CO2: 1 }
+    note: 소다회와 규사를 1300°C 이상의 탱크로에서 녹인다. 식혀 물에 녹이면 물유리
+  - id: sodium_silicate_hydrothermal
+    name: { ko: 규산 나트륨 수열 합성 }
+    time: 1.5
+    in: { NaOH: 2, SiO2: 1 }
+    out: { Na2SiO3: 1, H2O: 1 }
+    note: 규사를 진한 수산화 나트륨 용액과 오토클레이브에서 녹인다
+  - id: bayer_digestion
+    name: { ko: 바이어 용출 }
+    time: 1.5
+    in: { Al2O3: 1, NaOH: 2, H2O: 3 }
+    out: { NaAl(OH)4: 2 }
+    note: 바이어 공정의 용출 단계. 알루미나를 뜨거운 가성 소다 용액에 녹인다
+  - id: aluminium_hydroxide_precipitation
+    name: { ko: 수산화 알루미늄 석출 }
+    time: 2
+    in: { NaAl(OH)4: 1 }
+    out: { Al(OH)3: 1, NaOH: 1 }
+    note: 식힌 알루민산 나트륨 용액에 깁사이트 씨결정을 넣어 석출시킨다. 가성 소다는 용출 단계로 돌아간다
+  - id: zeolite_a_synthesis
+    name: { ko: 제올라이트 A 합성 }
+    time: 8
+    in: { NaAl(OH)4: 12, Na2SiO3: 12, H2O: 15 }
+    out: { zeolite_a: 1, NaOH: 24 }
+    note: 알루민산 나트륨과 규산 나트륨 용액을 섞어 겔을 만든 뒤 약 90°C에서 결정화한다
+  - id: trisodium_phosphate_production
+    name: { ko: 인산 나트륨 제조 }
+    time: 0.6
+    in: { H3PO4: 1, NaOH: 3 }
+    out: { Na3PO4: 1, H2O: 3 }
+    note: 인산을 가성 소다로 완전히 중화한다. 세정제·보일러 수처리
+  - id: monosodium_phosphate_production
+    name: { ko: 인산 이수소 나트륨 제조 }
+    time: 0.5
+    in: { H3PO4: 1, NaOH: 1 }
+    out: { NaH2PO4: 1, H2O: 1 }
+  - id: disodium_phosphate_production
+    name: { ko: 인산 수소 이나트륨 제조 }
+    time: 0.6
+    in: { H3PO4: 1, Na2CO3: 1 }
+    out: { Na2HPO4: 1, H2O: 1, CO2: 1 }
+  - id: sodium_tripolyphosphate_calcination
+    name: { ko: 트라이폴리인산 나트륨 소성 }
+    time: 2
+    in: { Na2HPO4: 2, NaH2PO4: 1 }
+    out: { Na5P3O10: 1, H2O: 2 }
+    note: Na/P 비를 5/3로 맞춘 오르토인산염 혼합물을 약 400°C에서 축합한다
+  - id: sodium_nitrate_production
+    name: { ko: 질산 나트륨 제조 }
+    time: 0.6
+    in: { Na2CO3: 1, HNO3: 2 }
+    out: { NaNO3: 2, CO2: 1, H2O: 1 }
+    note: 소다회를 질산으로 중화하는 합성 칠레 초석
+  - id: sodium_nitrite_absorption
+    name: { ko: 아질산 나트륨 흡수 }
+    time: 0.8
+    in: { Na2CO3: 1, NO: 1, NO2: 1 }
+    out: { NaNO2: 2, CO2: 1 }
+    note: 암모니아 산화 가스(NO와 NO2 같은 양)를 소다회 용액에 흡수시킨다
+  - id: sodium_fluoride_production
+    name: { ko: 플루오린화 나트륨 제조 }
+    time: 0.4
+    in: { NaOH: 1, HF: 1 }
+    out: { NaF: 1, H2O: 1 }
+  - id: sodium_perborate_production
+    name: { ko: 과붕산 나트륨 제조 }
+    time: 2
+    in: { borax: 1, NaOH: 2, H2O2: 4, H2O: 1 }
+    out: { NaBO3·4H2O: 4 }
+    note: 붕사를 가성 소다로 메타붕산 나트륨으로 바꾼 뒤 과산화 수소와 반응시켜 결정화한다
+  - id: sodium_percarbonate_production
+    name: { ko: 과탄산 나트륨 제조 }
+    time: 1
+    in: { Na2CO3: 2, H2O2: 3 }
+    out: { sodium_percarbonate: 1 }
+    note: 소다회 용액에 과산화 수소를 넣어 결정화한다. 산소계 표백제와 세탁 세제
+
+  # ─── 질소 화합물(오스트발트 공정)과 비료 염 ───
+  - id: ostwald_ammonia_oxidation
+    name: { ko: 오스트발트 암모니아 산화 }
+    time: 0.8
+    in: { NH3: 4, O2: 5 }
+    out: { NO: 4, H2O: 6 }
+    note: 백금-로듐 망 촉매, 약 900°C. 4NH3 + 5O2 → 4NO + 6H2O
+  - id: nitric_oxide_oxidation
+    name: { ko: 일산화 질소 산화 }
+    time: 0.5
+    in: { NO: 2, O2: 1 }
+    out: { NO2: 2 }
+    note: 식히면서 공기와 섞으면 저절로 산화된다
+  - id: nitric_acid_absorption
+    name: { ko: 질산 흡수 }
+    time: 0.8
+    in: { NO2: 3, H2O: 1 }
+    out: { HNO3: 2, NO: 1 }
+    note: 흡수탑에서 물에 녹인다. 다시 나온 일산화 질소는 산화 단계로 돌아간다
+  - id: birkeland_eyde_process
+    name: { ko: 비르켈란-에위데 공정 }
+    time: 3
+    in: { N2: 1, O2: 1 }
+    out: { NO: 2 }
+    note: 1903년 노르웨이. 전기 아크로 공기 중 질소를 직접 산화했다. 전력 소모가 커서 하버-보슈와 오스트발트 공정에 밀려났다
+  - id: potassium_nitrate_conversion
+    name: { ko: 질산 칼륨 복분해 }
+    time: 1
+    in: { KCl: 1, NaNO3: 1 }
+    out: { KNO3: 1, NaCl: 1 }
+    note: 뜨거운 용액에서 염화 나트륨을 걸러 내고 식혀 질산 칼륨을 결정화한다(칠레의 비료용 질산 칼륨 공정)
+  - id: nitrophosphate_process
+    name: { ko: 질산 인산 공정 }
+    time: 3
+    in: { fluorapatite: 1, HNO3: 10 }
+    out: { Ca(NO3)2: 5, H3PO4: 3, HF: 1 }
+    note: 오다(Odda) 공정. 인광석을 질산으로 녹이고 식혀 질산 칼슘을 결정으로 뽑는다. 질산 칼슘 비료 대부분이 이 공정에서 나온다
+  - id: calcium_nitrate_production
+    name: { ko: 질산 칼슘 제조 }
+    time: 0.8
+    in: { CaCO3: 1, HNO3: 2 }
+    out: { Ca(NO3)2: 1, CO2: 1, H2O: 1 }
+    note: 석회석을 질산에 녹인다
+  - id: ammonium_chloride_production
+    name: { ko: 염화 암모늄 제조 }
+    time: 0.3
+    in: { NH3: 1, HCl: 1 }
+    out: { NH4Cl: 1 }
+  - id: ammonium_sulfate_production
+    name: { ko: 황산 암모늄 제조 }
+    time: 0.5
+    in: { NH3: 2, H2SO4: 1 }
+    out: { (NH4)2SO4: 1 }
+    note: 포화기에서 황산에 암모니아를 흡수시킨다. 코크스로 가스와 카프로락탐 공장의 부산물로도 나온다
+  - id: merseburg_process
+    name: { ko: 메르제부르크 공정 }
+    time: 2
+    in: { CaSO4: 1, NH3: 2, CO2: 1, H2O: 1 }
+    out: { (NH4)2SO4: 1, CaCO3: 1 }
+    note: 석고(인산 공장의 인석고)를 탄산 암모늄 용액과 반응시켜 황산 암모늄을 얻는다
+  - id: monoammonium_phosphate_production
+    name: { ko: 인산 이수소 암모늄 제조 }
+    time: 0.6
+    in: { NH3: 1, H3PO4: 1 }
+    out: { NH4H2PO4: 1 }
+    note: 파이프 반응기에서 인산을 암모니아로 중화하고 조립한다(MAP)
+  - id: diammonium_phosphate_production
+    name: { ko: 인산 수소 이암모늄 제조 }
+    time: 0.8
+    in: { NH3: 2, H3PO4: 1 }
+    out: { (NH4)2HPO4: 1 }
+    note: 암모니아를 두 배로 넣어 중화한다(DAP)
+  - id: ammonium_bicarbonate_production
+    name: { ko: 탄산수소 암모늄 제조 }
+    time: 0.5
+    in: { NH3: 1, CO2: 1, H2O: 1 }
+    out: { NH4HCO3: 1 }
+    note: 암모니아수를 탄산화한다
+  - id: frank_caro_process
+    name: { ko: 프랑크-카로 공정 }
+    time: 2
+    in: { CaC2: 1, N2: 1 }
+    out: { CaCN2: 1, C: 1 }
+    note: 1898년. 탄화 칼슘을 약 1000°C 질소 기류에서 질화한다. 최초의 공업적 질소 고정
+  - id: sulfamic_acid_production
+    name: { ko: 설팜산 제조 }
+    time: 1
+    in: { urea: 1, H2S2O7: 1 }
+    out: { H3NSO3: 2, CO2: 1 }
+    note: 요소를 발연 황산과 반응시킨다
+
+  # ─── 황 화합물 ───
+  - id: oleum_formation
+    name: { ko: 발연 황산 생성 }
+    time: 0.4
+    in: { H2SO4: 1, SO3: 1 }
+    out: { H2S2O7: 1 }
+    note: 접촉 공정의 흡수탑. SO3는 물보다 98% 황산에 잘 흡수되어 발연 황산이 된다
+  - id: carbon_disulfide_methane_process
+    name: { ko: 메탄-황 공정 }
+    time: 1.5
+    in: { CH4: 1, S: 4 }
+    out: { CS2: 1, H2S: 2 }
+    note: 약 600°C 실리카겔·알루미나 촉매. 지금의 주된 이황화 탄소 제법. 황화 수소는 클라우스 공정으로 보낸다
+  - id: carbon_disulfide_charcoal_process
+    name: { ko: 숯-황 공정 }
+    time: 2
+    in: { C: 1, S: 2 }
+    out: { CS2: 1 }
+    note: 옛 제법. 레토르트에서 숯 위로 황 증기를 지나가게 한다(약 900°C)
+
+  # ─── 인 화합물과 인산 비료 ───
+  - id: phosphorus_combustion
+    name: { ko: 인 연소 }
+    time: 0.5
+    in: { P4: 1, O2: 5 }
+    out: { P4O10: 1 }
+    note: 건식 인산의 첫 단계. 녹인 백린을 공기로 태운다
+  - id: phosphorus_trichloride_synthesis
+    name: { ko: 삼염화 인 합성 }
+    time: 0.8
+    in: { P4: 1, Cl2: 6 }
+    out: { PCl3: 4 }
+    note: 녹인 백린에 염소를 불어 넣고 생긴 삼염화 인을 증류한다
+  - id: phosphorus_pentachloride_synthesis
+    name: { ko: 오염화 인 합성 }
+    time: 0.5
+    in: { PCl3: 1, Cl2: 1 }
+    out: { PCl5: 1 }
+  - id: phosphoryl_chloride_oxidation
+    name: { ko: 염화 포스포릴 합성(산소 산화) }
+    time: 0.6
+    in: { PCl3: 2, O2: 1 }
+    out: { POCl3: 2 }
+    note: 삼염화 인을 산소로 직접 산화하는 주된 공업 제법
+  - id: phosphoryl_chloride_pentoxide
+    name: { ko: 염화 포스포릴 합성(오산화 인법) }
+    time: 1.5
+    in: { P4O10: 1, PCl5: 6 }
+    out: { POCl3: 10 }
+  - id: phosphorous_acid_hydrolysis
+    name: { ko: 아인산 제조 }
+    time: 0.6
+    in: { PCl3: 1, H2O: 3 }
+    out: { H3PO3: 1, HCl: 3 }
+    note: 삼염화 인을 물로 가수분해한다. 염화 수소는 회수해 쓴다
+  - id: single_superphosphate
+    name: { ko: 과인산 석회 제조 }
+    time: 3
+    in: { fluorapatite: 2, H2SO4: 7 }
+    out: { Ca(H2PO4)2: 3, CaSO4: 7, HF: 2 }
+    note: 1842년 로스. 인광석을 황산으로 분해해 숙성시킨다. 제품은 인산 이수소 칼슘과 석고의 혼합물(SSP)
+  - id: triple_superphosphate
+    name: { ko: 중과인산 석회 제조 }
+    time: 3
+    in: { fluorapatite: 1, H3PO4: 7 }
+    out: { Ca(H2PO4)2: 5, HF: 1 }
+    note: 황산 대신 인산으로 인광석을 분해해 석고가 섞이지 않는다(TSP)
+  - id: dicalcium_phosphate_production
+    name: { ko: 인산 수소 칼슘 제조 }
+    time: 0.8
+    in: { H3PO4: 1, CaCO3: 1 }
+    out: { CaHPO4: 1, CO2: 1, H2O: 1 }
+    note: 정제 인산을 석회석으로 중화한다. 사료용 인 보충제
+  - id: monopotassium_phosphate_production
+    name: { ko: 인산 이수소 칼륨 제조 }
+    time: 0.5
+    in: { KOH: 1, H3PO4: 1 }
+    out: { KH2PO4: 1, H2O: 1 }
+
+  # ─── 플루오린 화학 ───
+  - id: hydrofluoric_acid_production
+    name: { ko: 플루오린화 수소 제조 }
+    time: 1.5
+    in: { fluorite: 1, H2SO4: 1 }
+    out: { HF: 2, CaSO4: 1 }
+    note: 산 등급 형석을 진한 황산과 회전 가마에서 200~250°C로 반응시킨다
+  - id: fluorine_electrolysis
+    name: { ko: 플루오린 전기분해 }
+    time: 2
+    in: { HF: 2 }
+    out: { F2: 1, H2: 1 }
+    note: 무아상(1886). KF·2HF 용융염(약 90°C)을 탄소 양극으로 전기분해한다
+  - id: fluorosilicic_acid_recovery
+    name: { ko: 헥사플루오로규산 회수 }
+    time: 1
+    in: { HF: 6, SiO2: 1 }
+    out: { H2SiF6: 1, H2O: 2 }
+    note: 인광석 분해에서 나온 플루오린화 수소가 규산과 만나 생긴 사플루오린화 규소를 물로 씻어 낸다
+  - id: sodium_fluorosilicate_precipitation
+    name: { ko: 헥사플루오로규산 나트륨 침전 }
+    time: 0.6
+    in: { H2SiF6: 1, NaCl: 2 }
+    out: { Na2SiF6: 1, HCl: 2 }
+  - id: aluminium_fluoride_from_fluorosilicic_acid
+    name: { ko: 플루오린화 알루미늄 제조(헥사플루오로규산법) }
+    time: 2
+    in: { H2SiF6: 1, Al(OH)3: 2 }
+    out: { AlF3: 2, SiO2: 1, H2O: 4 }
+    note: 인산 공장에서 회수한 헥사플루오로규산을 수산화 알루미늄과 반응시킨다
+  - id: aluminium_fluoride_dry_process
+    name: { ko: 플루오린화 알루미늄 제조(건식) }
+    time: 1.5
+    in: { Al(OH)3: 1, HF: 3 }
+    out: { AlF3: 1, H2O: 3 }
+    note: 유동층에서 수산화 알루미늄에 플루오린화 수소 기체를 통한다. 알루미늄 전해조의 첨가제
+  - id: synthetic_cryolite_production
+    name: { ko: 합성 빙정석 제조 }
+    time: 2
+    in: { HF: 6, Al(OH)3: 1, NaOH: 3 }
+    out: { Na3AlF6: 1, H2O: 6 }
+    note: 천연 빙정석(그린란드)이 바닥난 뒤로 알루미늄 전해조의 빙정석은 모두 합성한다
+  - id: sulfur_hexafluoride_synthesis
+    name: { ko: 육플루오린화 황 합성 }
+    time: 1
+    in: { S: 1, F2: 3 }
+    out: { SF6: 1 }
+    note: 녹인 황에 플루오린을 직접 반응시킨다
+  - id: boron_trifluoride_production
+    name: { ko: 삼플루오린화 붕소 제조 }
+    time: 2
+    in: { B2O3: 1, fluorite: 3, H2SO4: 3 }
+    out: { BF3: 2, CaSO4: 3, H2O: 3 }
+    note: 산화 붕소와 형석을 진한 황산(발연 황산)과 함께 데운다
+
+  # ─── 브로민·아이오딘 ───
+  - id: bromine_blowing_out
+    name: { ko: 브로민 취출 }
+    time: 1
+    in: { NaBr: 2, Cl2: 1 }
+    out: { Br2: 1, NaCl: 2 }
+    note: 산성화한 염수의 브로민화 이온을 염소로 산화하고 수증기·공기로 브로민을 몰아낸다(다우 공정)
+  - id: hydrogen_bromide_synthesis
+    name: { ko: 브로민화 수소 합성 }
+    time: 0.5
+    in: { H2: 1, Br2: 1 }
+    out: { HBr: 2 }
+    note: 백금 촉매 위에서 수소와 브로민 증기를 태운다
+  - id: calcium_bromide_production
+    name: { ko: 브로민화 칼슘 제조 }
+    time: 0.6
+    in: { Ca(OH)2: 1, HBr: 2 }
+    out: { CaBr2: 1, H2O: 2 }
+  - id: zinc_bromide_production
+    name: { ko: 브로민화 아연 제조 }
+    time: 0.6
+    in: { ZnO: 1, HBr: 2 }
+    out: { ZnBr2: 1, H2O: 1 }
+    note: 고비중 완결 유체와 아연-브로민 흐름 전지의 전해질
+  - id: lithium_bromide_production
+    name: { ko: 브로민화 리튬 제조 }
+    time: 0.6
+    in: { Li2CO3: 1, HBr: 2 }
+    out: { LiBr: 2, CO2: 1, H2O: 1 }
+  - id: iodine_blowing_out
+    name: { ko: 아이오딘 취출 }
+    time: 1
+    in: { NaI: 2, Cl2: 1 }
+    out: { I2: 1, NaCl: 2 }
+    note: 천연가스 수반 염수의 아이오딘화 이온을 염소로 산화하고 공기로 불어 낸다(일본 지바·미국 오클라호마)
+  - id: hydrogen_iodide_synthesis
+    name: { ko: 아이오딘화 수소 합성 }
+    time: 0.5
+    in: { H2: 1, I2: 1 }
+    out: { HI: 2 }
+    note: 백금 촉매. 몬산토·카티바 아세트산 공정의 조촉매로 쓴다
+  - id: potassium_iodide_production
+    name: { ko: 아이오딘화 칼륨 제조 }
+    time: 1
+    in: { I2: 3, KOH: 6 }
+    out: { KI: 5, KIO3: 1, H2O: 3 }
+    note: 아이오딘을 뜨거운 수산화 칼륨 용액에 녹이면 아이오딘화물과 아이오딘산염이 5대 1로 생긴다
+  - id: potassium_iodate_reduction
+    name: { ko: 아이오딘산 칼륨 탄소 환원 }
+    time: 0.8
+    in: { KIO3: 1, C: 3 }
+    out: { KI: 1, CO: 3 }
+    note: 증발 건고물을 숯과 함께 구워 아이오딘산염까지 아이오딘화물로 바꾼다
+
+  # ─── 리튬 ───
+  - id: lithium_carbonate_precipitation
+    name: { ko: 탄산 리튬 침전 }
+    time: 1
+    in: { LiCl: 2, Na2CO3: 1 }
+    out: { Li2CO3: 1, NaCl: 2 }
+    note: 염호 증발지에서 농축한 염화 리튬 용액에 소다회를 넣는다(아타카마 염호)
+  - id: lithium_hydroxide_causticization
+    name: { ko: 수산화 리튬 가성화 }
+    time: 1
+    in: { Li2CO3: 1, Ca(OH)2: 1 }
+    out: { LiOH: 2, CaCO3: 1 }
+    note: 탄산 리튬 현탁액을 석회유로 가성화한다. 고니켈 양극재용 수산화 리튬
+  - id: lithium_fluoride_production
+    name: { ko: 플루오린화 리튬 제조 }
+    time: 0.5
+    in: { LiOH: 1, HF: 1 }
+    out: { LiF: 1, H2O: 1 }
+  - id: lithium_chloride_production
+    name: { ko: 염화 리튬 제조 }
+    time: 0.6
+    in: { Li2CO3: 1, HCl: 2 }
+    out: { LiCl: 2, CO2: 1, H2O: 1 }
+    note: 정제한 탄산 리튬을 염산에 녹인다. 금속 리튬 전해의 원료
+
+  # ─── 마그네슘·스트론튬·바륨 ───
+  - id: dow_seawater_magnesia_process
+    name: { ko: 해수 수산화 마그네슘 침전 }
+    time: 1
+    in: { MgCl2: 1, Ca(OH)2: 1 }
+    out: { Mg(OH)2: 1, CaCl2: 1 }
+    note: 1941년 다우. 바닷물에 석회유를 넣어 수산화 마그네슘을 가라앉힌다
+  - id: epsom_salt_production
+    name: { ko: 엡솜염 제조 }
+    time: 1
+    in: { Mg(OH)2: 1, H2SO4: 1, H2O: 5 }
+    out: { MgSO4·7H2O: 1 }
+    note: 수산화 마그네슘을 황산에 녹이고 결정화한다
+  - id: strontium_carbonate_soda_conversion
+    name: { ko: 천청석 소다 전환 }
+    time: 2
+    in: { celestine: 1, Na2CO3: 1 }
+    out: { SrCO3: 1, Na2SO4: 1 }
+    note: 천청석 가루를 뜨거운 소다회 용액과 반응시킨다(직접 전환법)
+  - id: strontium_black_ash
+    name: { ko: 천청석 흑회 환원 }
+    time: 2
+    in: { celestine: 1, C: 2 }
+    out: { SrS: 1, CO2: 2 }
+    note: 흑회법. 천청석을 코크스와 함께 약 1100°C에서 환원한다
+  - id: strontium_sulfide_carbonation
+    name: { ko: 황화 스트론튬 탄산화 }
+    time: 1
+    in: { SrS: 1, CO2: 1, H2O: 1 }
+    out: { SrCO3: 1, H2S: 1 }
+    note: 흑회를 물로 침출하고 CO2를 불어 탄산 스트론튬을 가라앉힌다
+  - id: strontium_chloride_production
+    name: { ko: 염화 스트론튬 제조 }
+    time: 0.6
+    in: { SrCO3: 1, HCl: 2 }
+    out: { SrCl2: 1, CO2: 1, H2O: 1 }
+  - id: barium_black_ash
+    name: { ko: 중정석 흑회 환원 }
+    time: 2
+    in: { barite: 1, C: 4 }
+    out: { BaS: 1, CO: 4 }
+    note: 흑회법. 중정석을 코크스와 함께 회전 가마에서 1000~1200°C로 환원한다. 거의 모든 바륨 화합물의 출발점
+  - id: barium_carbonate_precipitation
+    name: { ko: 탄산 바륨 침전 }
+    time: 1
+    in: { BaS: 1, CO2: 1, H2O: 1 }
+    out: { BaCO3: 1, H2S: 1 }
+    note: 흑회 침출액에 CO2를 불어 넣는다. 황화 수소는 황으로 회수한다
+  - id: barium_chloride_production
+    name: { ko: 염화 바륨 제조 }
+    time: 0.8
+    in: { BaS: 1, HCl: 2 }
+    out: { BaCl2: 1, H2S: 1 }
+  - id: barium_carbonate_calcination
+    name: { ko: 탄산 바륨 소성 }
+    time: 1.5
+    in: { BaCO3: 1 }
+    out: { BaO: 1, CO2: 1 }
+    note: 1300°C 이상에서 분해한다
+  - id: barium_oxide_slaking
+    name: { ko: 산화 바륨 소화 }
+    time: 0.4
+    in: { BaO: 1, H2O: 1 }
+    out: { Ba(OH)2: 1 }
+  - id: lithopone_precipitation
+    name: { ko: 리토폰 침전 }
+    time: 1
+    in: { BaS: 1, ZnSO4·H2O: 1 }
+    out: { lithopone: 1, H2O: 1 }
+    note: 황화 바륨과 황산 아연 용액을 섞으면 BaSO4와 ZnS가 함께 가라앉는다. 이산화 타이타늄 이전의 대표 흰색 안료
+
+  # ─── 알루미늄·철 ───
+  - id: aluminium_sulfate_production
+    name: { ko: 황산 알루미늄 제조 }
+    time: 1
+    in: { Al(OH)3: 2, H2SO4: 3 }
+    out: { Al2(SO4)3: 1, H2O: 6 }
+    note: 정수장 응집제(황산반토)
+  - id: aluminium_chloride_synthesis
+    name: { ko: 염화 알루미늄 합성 }
+    time: 0.8
+    in: { Al: 2, Cl2: 3 }
+    out: { AlCl3: 2 }
+    note: 녹인 알루미늄에 염소를 통해 무수 염화 알루미늄을 승화시킨다. 프리델-크래프츠 촉매
+  - id: ferric_chloride_synthesis
+    name: { ko: 염화 철(III) 합성 }
+    time: 0.8
+    in: { Fe: 2, Cl2: 3 }
+    out: { FeCl3: 2 }
+    note: 고철을 염소로 직접 염소화한다
+  - id: ferrous_sulfate_pickling
+    name: { ko: 강판 산세 }
+    time: 1
+    in: { Fe: 1, H2SO4: 1, H2O: 7 }
+    out: { FeSO4·7H2O: 1, H2: 1 }
+    note: 강판의 녹을 황산으로 씻어 낸 폐산에서 녹반을 결정화한다
+  - id: copperas_calcination
+    name: { ko: 녹반 소성 }
+    time: 2
+    in: { FeSO4·7H2O: 2 }
+    out: { Fe2O3: 1, SO2: 1, SO3: 1, H2O: 14 }
+    note: 녹반을 구워 산화철 적색 안료(코퍼러스 레드)를 얻는다. 옛날 발연 황산은 이 기체로 만들었다
+  - id: ferric_sulfate_oxidation
+    name: { ko: 황산 철(III) 제조 }
+    time: 1
+    in: { FeSO4·7H2O: 2, H2SO4: 1, H2O2: 1 }
+    out: { Fe2(SO4)3: 1, H2O: 16 }
+    note: 녹반을 황산 용액에서 과산화 수소로 산화한다. 정수·폐수 응집제
+
+  # ─── 구리·아연 ───
+  - id: copper_sulfate_production
+    name: { ko: 황산 구리 제조 }
+    time: 1.5
+    in: { Cu: 2, O2: 1, H2SO4: 2, H2O: 8 }
+    out: { CuSO4·5H2O: 2 }
+    note: 구리 부스러기를 공기를 불어 넣은 뜨거운 묽은 황산에 녹이고 결정화한다
+  - id: copper_chloride_synthesis
+    name: { ko: 염화 구리(II) 합성 }
+    time: 0.6
+    in: { Cu: 1, Cl2: 1 }
+    out: { CuCl2: 1 }
+    note: 염화 비닐 단량체(옥시염소화)와 와커 공정의 촉매
+  - id: cuprous_oxide_production
+    name: { ko: 산화 구리(I) 제조 }
+    time: 1
+    in: { Cu: 4, O2: 1 }
+    out: { Cu2O: 2 }
+    note: 구리 가루를 산소가 모자란 상태에서 1000°C 가까이 데워 산화한다
+  - id: copper_hydroxide_precipitation
+    name: { ko: 수산화 구리(II) 침전 }
+    time: 0.6
+    in: { CuSO4·5H2O: 1, NaOH: 2 }
+    out: { Cu(OH)2: 1, Na2SO4: 1, H2O: 5 }
+  - id: basic_copper_carbonate_precipitation
+    name: { ko: 염기성 탄산 구리 침전 }
+    time: 1
+    in: { CuSO4·5H2O: 2, Na2CO3: 2 }
+    out: { Cu2(OH)2CO3: 1, Na2SO4: 2, CO2: 1, H2O: 9 }
+  - id: zinc_sulfate_production
+    name: { ko: 황산 아연 제조 }
+    time: 0.8
+    in: { ZnO: 1, H2SO4: 1 }
+    out: { ZnSO4·H2O: 1 }
+    note: 산화 아연을 황산에 녹이고 일수화물로 결정화한다
+  - id: zinc_chloride_production
+    name: { ko: 염화 아연 제조 }
+    time: 0.6
+    in: { ZnO: 1, HCl: 2 }
+    out: { ZnCl2: 1, H2O: 1 }
+
+  # ─── 망가니즈 ───
+  - id: manganese_reduction_roast
+    name: { ko: 연망간석 환원 배소 }
+    time: 1.5
+    in: { pyrolusite: 2, C: 1 }
+    out: { MnO: 2, CO2: 1 }
+    note: 이산화 망가니즈는 산에 잘 녹지 않아 먼저 약 800°C에서 환원해 산화 망가니즈(II)로 바꾼다
+  - id: manganese_sulfate_leaching
+    name: { ko: 황산 망가니즈 침출 }
+    time: 1
+    in: { MnO: 1, H2SO4: 1 }
+    out: { MnSO4: 1, H2O: 1 }
+  - id: electrolytic_manganese_dioxide
+    name: { ko: 전해 이산화 망가니즈 }
+    time: 3
+    in: { MnSO4: 1, H2O: 2 }
+    out: { MnO2: 1, H2SO4: 1, H2: 1 }
+    note: 뜨거운 황산 망가니즈 용액을 전기분해해 타이타늄 양극에 감마형 MnO2를 석출한다(EMD)
+  - id: potassium_manganate_fusion
+    name: { ko: 망가니즈산 칼륨 용융 산화 }
+    time: 2
+    in: { pyrolusite: 2, KOH: 4, O2: 1 }
+    out: { K2MnO4: 2, H2O: 2 }
+    note: 연망간석을 수산화 칼륨과 함께 공기 속에서 녹여 산화한다
+  - id: potassium_permanganate_electrolysis
+    name: { ko: 과망가니즈산 칼륨 전해 산화 }
+    time: 2
+    in: { K2MnO4: 2, H2O: 2 }
+    out: { KMnO4: 2, KOH: 2, H2: 1 }
+    note: 망가니즈산 칼륨 용액을 니켈 양극에서 전해 산화한다. 수산화 칼륨은 용융 단계로 돌아간다
+  - id: manganese_carbonate_precipitation
+    name: { ko: 탄산 망가니즈 침전 }
+    time: 0.8
+    in: { MnSO4: 1, Na2CO3: 1 }
+    out: { MnCO3: 1, Na2SO4: 1 }
+    note: 망가니즈 아연 페라이트와 비료의 원료
+
+  # ─── 니켈·코발트 ───
+  - id: laterite_pressure_acid_leaching
+    name: { ko: 라테라이트 고압 산 침출 }
+    time: 10
+    in: { nickel_laterite: 100, H2SO4: 30 }
+    out: { NiSO4: 1.5, CoSO4: 0.12, Fe2O3: 20 }
+    approximate: true
+    note: HPAL. 오토클레이브에서 250°C, 약 40기압으로 황산 침출한다. 니켈·코발트는 녹아 나오고 철은 적철석으로 다시 가라앉는다. 광석 조성이 일정하지 않아 근사 비율이다
+  - id: nickel_sulfate_crystallization
+    name: { ko: 황산 니켈 결정화 }
+    time: 1
+    in: { NiSO4: 1, H2O: 6 }
+    out: { NiSO4·6H2O: 1 }
+    note: 용매 추출로 정제한 용액을 증발 결정화한다. 배터리 등급
+  - id: cobalt_sulfate_crystallization
+    name: { ko: 황산 코발트 결정화 }
+    time: 1
+    in: { CoSO4: 1, H2O: 7 }
+    out: { CoSO4·7H2O: 1 }
+  - id: nickel_hydroxide_precipitation
+    name: { ko: 수산화 니켈 침전 }
+    time: 0.8
+    in: { NiSO4: 1, NaOH: 2 }
+    out: { Ni(OH)2: 1, Na2SO4: 1 }
+  - id: nickel_hydroxide_calcination
+    name: { ko: 수산화 니켈 소성 }
+    time: 1
+    in: { Ni(OH)2: 1 }
+    out: { NiO: 1, H2O: 1 }
+    note: 녹색 산화 니켈. 세라믹 착색제와 촉매 원료
+  - id: cobalt_hydroxide_precipitation
+    name: { ko: 수산화 코발트 침전 }
+    time: 0.8
+    in: { CoSO4: 1, NaOH: 2 }
+    out: { Co(OH)2: 1, Na2SO4: 1 }
+  - id: cobalt_oxide_calcination
+    name: { ko: 사산화 삼코발트 소성 }
+    time: 1.5
+    in: { Co(OH)2: 6, O2: 1 }
+    out: { Co3O4: 2, H2O: 6 }
+    note: 공기 중에서 구워 스피넬형 산화물을 얻는다. 리튬 코발트 산화물과 안료의 원료
+
+  # ─── 타이타늄 ───
+  - id: ilmenite_chlorination
+    name: { ko: 티탄철석 염소화 }
+    time: 3
+    in: { ilmenite: 2, Cl2: 7, C: 6 }
+    out: { TiCl4: 2, FeCl3: 2, CO: 6 }
+    note: 염소법 이산화 타이타늄 공정. 유동층에서 코크스와 함께 약 1000°C로 염소화하고 사염화 타이타늄을 증류한다
+  - id: titanium_tetrachloride_oxidation
+    name: { ko: 사염화 타이타늄 산화 }
+    time: 1
+    in: { TiCl4: 1, O2: 1 }
+    out: { TiO2: 1, Cl2: 2 }
+    note: 1500°C 플라스마·산소 불꽃에서 산화해 루타일형 안료를 얻는다(듀폰 염소법). 염소는 염소화 단계로 돌아간다
+  - id: ilmenite_sulfate_digestion
+    name: { ko: 티탄철석 황산 분해 }
+    time: 2
+    in: { ilmenite: 1, H2SO4: 2, H2O: 5 }
+    out: { TiOSO4: 1, FeSO4·7H2O: 1 }
+    note: 황산법. 티탄철석을 진한 황산으로 분해하고 식혀 녹반을 먼저 결정으로 뺀다
+  - id: titanyl_sulfate_hydrolysis
+    name: { ko: 황산 타이타닐 가수분해 }
+    time: 2
+    in: { TiOSO4: 1, H2O: 1 }
+    out: { TiO2: 1, H2SO4: 1 }
+    note: 끓여서 수화 산화 타이타늄을 가라앉힌 뒤 회전 가마에서 소성한다(아나타제형)
+
+  # ─── 규소 염화물 ───
+  - id: silicon_tetrachloride_synthesis
+    name: { ko: 사염화 규소 합성 }
+    time: 0.8
+    in: { Si: 1, Cl2: 2 }
+    out: { SiCl4: 1 }
+  - id: silica_carbochlorination
+    name: { ko: 규사 탄소 염소화 }
+    time: 2
+    in: { SiO2: 1, C: 2, Cl2: 2 }
+    out: { SiCl4: 1, CO: 2 }
+    note: 규사와 탄소를 염소 기류에서 1000°C 이상으로 가열한다
+  - id: trichlorosilane_synthesis
+    name: { ko: 트라이클로로실레인 합성 }
+    time: 1
+    in: { Si: 1, HCl: 3 }
+    out: { SiHCl3: 1, H2: 1 }
+    note: 금속 규소 가루를 유동층에서 약 300°C 염화 수소와 반응시킨다. 지멘스 공정의 원료
+  - id: silicon_tetrachloride_hydrogenation
+    name: { ko: 사염화 규소 수소화 }
+    time: 1
+    in: { SiCl4: 1, H2: 1 }
+    out: { SiHCl3: 1, HCl: 1 }
+    note: 지멘스 반응기에서 부산물로 나온 사염화 규소를 트라이클로로실레인으로 되돌린다

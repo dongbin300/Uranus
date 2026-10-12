@@ -1,0 +1,31 @@
+# 무기 화학 원료 생성기. 보유한 대수만큼 produces(초당)를 생산한다.
+generators:
+  - id: fluorspar_mine
+    name: { ko: 형석 광산, en: Fluorspar mine }
+    build: { time: 90, in: { Fe: 500, Cu: 200, H2SO4: 100 } }
+    produces: { fluorite: 0.05, barite: 0.02, celestine: 0.005 }
+    note: 미시시피 밸리형(MVT) 열수 광상. 형석 맥에 중정석과 천청석이 함께 나온다
+  - id: brine_well
+    name: { ko: 유전 염수정, en: Oilfield brine well }
+    build: { time: 100, in: { Fe: 600, Cu: 150, Cl2: 100 } }
+    produces: { NaCl: 0.1, CaCl2: 0.03, NaBr: 0.003, LiCl: 0.002, NaI: 0.0002 }
+    note: "깊은 퇴적층 염수. 미국 스맥오버 염수는 브로민(약 5000ppm)과 리튬(약 300ppm), 오클라호마 염수는 아이오딘(약 300ppm)을 담고 있다"
+  - id: pyrolusite_mine
+    name: { ko: 연망간석 광산, en: Pyrolusite mine }
+    build: { time: 90, in: { Fe: 500, Cu: 200, CaO: 100 } }
+    produces: { pyrolusite: 0.04 }
+  - id: laterite_mine
+    name: { ko: 라테라이트 광산, en: Laterite mine }
+    build: { time: 110, in: { Fe: 700, Cu: 250, H2SO4: 200 } }
+    produces: { nickel_laterite: 0.06 }
+    note: 열대 지방의 노천 광산(인도네시아·뉴칼레도니아·필리핀)
+  - id: mineral_sands_dredge
+    name: { ko: 중광물 모래 채취선, en: Mineral sands dredge }
+    build: { time: 100, in: { Fe: 600, Cu: 200, SiO2: 100 } }
+    produces: { ilmenite: 0.04 }
+    note: 해안 사구의 중광물 모래를 퍼 올려 비중·자력 선별로 티탄철석을 고른다
+  - id: rare_gas_unit
+    name: { ko: 희유 기체 정제 설비, en: Rare gas recovery unit }
+    build: { time: 150, in: { Fe: 800, Cu: 400, N2: 200, electrolyte: 100 } }
+    produces: { Ne: 0.0018, Kr: 0.000114, Xe: 0.0000087 }
+    note: "대형 공기 분리 장치에 붙는 정제탑. 공기 100분자에 해당하는 양을 뽑는다(네온 18.2ppm, 크립톤 1.14ppm, 제논 0.087ppm)"

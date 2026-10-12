@@ -1,0 +1,157 @@
+# 무기 화학 공업. 단순 무기 화합물은 화학식을 ID로 쓰고, 광물은 영문 snake_case를 쓴다.
+# 이름은 대한화학회 표기를 따른다(나트륨·칼륨은 기존 데이터와 맞춘다).
+category: chemistry
+unit: particle
+items:
+  # 공기에서 얻는 희유 기체
+  - { id: Ne, name: { ko: 네온, en: Neon }, formula: Ne, category: element }
+  - { id: Kr, name: { ko: 크립톤, en: Krypton }, formula: Kr, category: element }
+  - { id: Xe, name: { ko: 제논, en: Xenon }, formula: Xe, category: element }
+
+  # 광물
+  - { id: fluorite, name: { ko: 형석, en: Fluorite }, formula: CaF2, category: mineral, note: 플루오린화 수소와 플루오린 화학의 원료 }
+  - { id: barite, name: { ko: 중정석, en: Baryte }, formula: BaSO4, category: mineral, note: 바륨 화합물의 원료. 시추 이수의 비중 조절제로도 쓴다 }
+  - { id: celestine, name: { ko: 천청석, en: Celestine }, formula: SrSO4, category: mineral, note: 스트론튬 화합물의 원료 }
+  - { id: pyrolusite, name: { ko: 연망간석, en: Pyrolusite }, formula: MnO2, category: mineral, note: 망가니즈 화합물의 원료 }
+  - { id: ilmenite, name: { ko: 티탄철석, en: Ilmenite }, formula: FeTiO3, category: mineral, note: 이산화 타이타늄 안료의 주원료. 해안 중광물 모래에서 캔다 }
+  - { id: nickel_laterite, name: { ko: 니켈 라테라이트 광석, en: Nickel laterite ore }, category: mineral, note: "열대 풍화로 생긴 침철석질 광석. 니켈 약 1.3%, 코발트 약 0.1%, 철 40% 이상" }
+
+  # 공업용 기체·산
+  - { id: O3, name: { ko: 오존, en: Ozone }, formula: O3 }
+  - { id: NO, name: { ko: 일산화 질소, en: Nitric oxide }, formula: NO }
+  - { id: NO2, name: { ko: 이산화 질소, en: Nitrogen dioxide }, formula: NO2 }
+  - { id: HNO3, name: { ko: 질산, en: Nitric acid }, formula: HNO3 }
+  - { id: H2O2, name: { ko: 과산화 수소, en: Hydrogen peroxide }, formula: H2O2 }
+  - { id: H2S, name: { ko: 황화 수소, en: Hydrogen sulfide }, formula: H2S }
+  - { id: CS2, name: { ko: 이황화 탄소, en: Carbon disulfide }, formula: CS2, note: 비스코스 레이온과 셀로판의 원료 }
+  - { id: H2S2O7, name: { ko: 발연 황산, en: Oleum }, formula: H2S2O7, note: "이황산(피로황산). 황산에 SO3를 녹인 것" }
+  - { id: H3NSO3, name: { ko: 설팜산, en: Sulfamic acid }, formula: H3NSO3, note: 스케일 제거제 }
+  - { id: HOCl, name: { ko: 하이포아염소산, en: Hypochlorous acid }, formula: HOCl, note: 염소 소독에서 실제로 살균하는 성분 }
+  - { id: ClO2, name: { ko: 이산화 염소, en: Chlorine dioxide }, formula: ClO2, note: 펄프 표백(ECF)과 정수 소독 }
+  - { id: HF, name: { ko: 플루오린화 수소, en: Hydrogen fluoride }, formula: HF }
+  - { id: F2, name: { ko: 플루오린 분자, en: Difluorine }, formula: F2 }
+  - { id: Br2, name: { ko: 브로민 분자, en: Dibromine }, formula: Br2 }
+  - { id: HBr, name: { ko: 브로민화 수소, en: Hydrogen bromide }, formula: HBr }
+  - { id: I2, name: { ko: 아이오딘 분자, en: Diiodine }, formula: I2 }
+  - { id: HI, name: { ko: 아이오딘화 수소, en: Hydrogen iodide }, formula: HI }
+  - { id: SF6, name: { ko: 육플루오린화 황, en: Sulfur hexafluoride }, formula: SF6, note: 고압 차단기의 절연 기체 }
+  - { id: BF3, name: { ko: 삼플루오린화 붕소, en: Boron trifluoride }, formula: BF3, note: 루이스 산 촉매 }
+  - { id: H2SiF6, name: { ko: 헥사플루오로규산, en: Hexafluorosilicic acid }, formula: H2SiF6, note: 인산 공장 배기에서 회수한다. 수돗물 불소화에 쓴다 }
+
+  # 나트륨 화합물
+  - { id: NaOH, name: { ko: 수산화 나트륨, en: Sodium hydroxide }, formula: NaOH }
+  - { id: NaClO, name: { ko: 하이포아염소산 나트륨, en: Sodium hypochlorite }, formula: NaClO, note: 표백제·소독제(락스) }
+  - { id: NaClO2, name: { ko: 아염소산 나트륨, en: Sodium chlorite }, formula: NaClO2, note: 현장에서 이산화 염소를 만드는 원료 }
+  - { id: NaClO3, name: { ko: 염소산 나트륨, en: Sodium chlorate }, formula: NaClO3, note: 대부분 펄프 표백용 이산화 염소로 바뀐다 }
+  - { id: Na2CO3, name: { ko: 탄산 나트륨, en: Sodium carbonate }, formula: Na2CO3, note: 소다회. 유리의 원료 }
+  - { id: NaHCO3, name: { ko: 탄산수소 나트륨, en: Sodium bicarbonate }, formula: NaHCO3, note: 베이킹 소다 }
+  - { id: NaHSO4, name: { ko: 황산수소 나트륨, en: Sodium bisulfate }, formula: NaHSO4 }
+  - { id: Na2SO4, name: { ko: 황산 나트륨, en: Sodium sulfate }, formula: Na2SO4, note: 망초. 세제 충전제와 크라프트 펄프 }
+  - { id: Na2SO3, name: { ko: 아황산 나트륨, en: Sodium sulfite }, formula: Na2SO3 }
+  - { id: NaHSO3, name: { ko: 아황산수소 나트륨, en: Sodium bisulfite }, formula: NaHSO3 }
+  - { id: Na2S2O5, name: { ko: 이아황산 나트륨, en: Sodium metabisulfite }, formula: Na2S2O5, note: 메타중아황산나트륨(식품첨가물명). 산화 방지제·보존료 }
+  - { id: Na2S2O3, name: { ko: 싸이오황산 나트륨, en: Sodium thiosulfate }, formula: Na2S2O3, note: "사진 정착액, 잔류 염소 제거" }
+  - { id: Na2S, name: { ko: 황화 나트륨, en: Sodium sulfide }, formula: Na2S, note: "가죽 탈모, 크라프트 펄프 증해액" }
+  - { id: NaHS, name: { ko: 황화수소 나트륨, en: Sodium hydrosulfide }, formula: NaHS, note: 광석 부유 선광제 }
+  - { id: Na2SiO3, name: { ko: 규산 나트륨, en: Sodium silicate }, formula: Na2SiO3, note: 물유리 }
+  - { id: NaAl(OH)4, name: { ko: 알루민산 나트륨, en: Sodium aluminate }, formula: NaAl(OH)4, note: 바이어 공정의 용액 성분 }
+  - { id: zeolite_a, name: { ko: 제올라이트 A, en: Zeolite A }, formula: Na12Al12Si12O48·27H2O, note: "Na12[(AlO2)12(SiO2)12]·27H2O. 무인 세제의 연수화 빌더" }
+  - { id: Na3PO4, name: { ko: 인산 나트륨, en: Trisodium phosphate }, formula: Na3PO4 }
+  - { id: NaH2PO4, name: { ko: 인산 이수소 나트륨, en: Monosodium phosphate }, formula: NaH2PO4 }
+  - { id: Na2HPO4, name: { ko: 인산 수소 이나트륨, en: Disodium phosphate }, formula: Na2HPO4 }
+  - { id: Na5P3O10, name: { ko: 트라이폴리인산 나트륨, en: Sodium tripolyphosphate }, formula: Na5P3O10, note: 세제 빌더·식품 보습제(STPP) }
+  - { id: NaNO3, name: { ko: 질산 나트륨, en: Sodium nitrate }, formula: NaNO3, note: 칠레 초석. 질소 비료 }
+  - { id: NaNO2, name: { ko: 아질산 나트륨, en: Sodium nitrite }, formula: NaNO2, note: "육가공 발색제, 아조 염료 원료" }
+  - { id: NaF, name: { ko: 플루오린화 나트륨, en: Sodium fluoride }, formula: NaF, note: 치약의 불소 성분 }
+  - { id: Na2SiF6, name: { ko: 헥사플루오로규산 나트륨, en: Sodium fluorosilicate }, formula: Na2SiF6 }
+  - { id: Na3AlF6, name: { ko: 헥사플루오로알루민산 나트륨, en: Sodium hexafluoroaluminate }, formula: Na3AlF6, note: 합성 빙정석. 알루미늄 전해의 용매 }
+  - { id: NaBr, name: { ko: 브로민화 나트륨, en: Sodium bromide }, formula: NaBr }
+  - { id: NaI, name: { ko: 아이오딘화 나트륨, en: Sodium iodide }, formula: NaI }
+  - { id: NaBO3·4H2O, name: { ko: 과붕산 나트륨 사수화물, en: Sodium perborate tetrahydrate }, formula: NaBO3·4H2O, note: 산소계 표백제 }
+  - { id: sodium_percarbonate, name: { ko: 과탄산 나트륨, en: Sodium percarbonate }, formula: 2Na2CO3·3H2O2, note: 산소계 표백제. 물에 녹으면 탄산 나트륨과 과산화 수소가 된다 }
+
+  # 칼륨 화합물
+  - { id: KNO3, name: { ko: 질산 칼륨, en: Potassium nitrate }, formula: KNO3, note: 원예·관수용 칼륨 질소 비료 }
+  - { id: KH2PO4, name: { ko: 인산 이수소 칼륨, en: Monopotassium phosphate }, formula: KH2PO4, note: 수용성 인·칼륨 비료(MKP) }
+  - { id: KI, name: { ko: 아이오딘화 칼륨, en: Potassium iodide }, formula: KI }
+  - { id: KIO3, name: { ko: 아이오딘산 칼륨, en: Potassium iodate }, formula: KIO3, note: 요오드 첨가 소금에 넣는다 }
+  - { id: K2MnO4, name: { ko: 망가니즈산 칼륨, en: Potassium manganate }, formula: K2MnO4 }
+  - { id: KMnO4, name: { ko: 과망가니즈산 칼륨, en: Potassium permanganate }, formula: KMnO4, note: 정수 처리 산화제 }
+
+  # 암모늄·질소 화합물
+  - { id: NH4Cl, name: { ko: 염화 암모늄, en: Ammonium chloride }, formula: NH4Cl }
+  - { id: (NH4)2SO4, name: { ko: 황산 암모늄, en: Ammonium sulfate }, formula: (NH4)2SO4, note: 질소·황 비료(유안) }
+  - { id: NH4H2PO4, name: { ko: 인산 이수소 암모늄, en: Monoammonium phosphate }, formula: NH4H2PO4, note: 인산 비료(MAP) }
+  - { id: (NH4)2HPO4, name: { ko: 인산 수소 이암모늄, en: Diammonium phosphate }, formula: (NH4)2HPO4, note: 세계에서 가장 많이 쓰는 인산 비료(DAP) }
+  - { id: NH4HCO3, name: { ko: 탄산수소 암모늄, en: Ammonium bicarbonate }, formula: NH4HCO3, note: "제과용 팽창제, 질소 비료" }
+  - { id: CaCN2, name: { ko: 칼슘 사이안아마이드, en: Calcium cyanamide }, formula: CaCN2, note: 석회질소 비료 }
+
+  # 칼슘·마그네슘·스트론튬·바륨 화합물
+  - { id: Ca(ClO)2, name: { ko: 하이포아염소산 칼슘, en: Calcium hypochlorite }, formula: Ca(ClO)2, note: 수영장 소독제 }
+  - { id: CaS, name: { ko: 황화 칼슘, en: Calcium sulfide }, formula: CaS }
+  - { id: Ca(NO3)2, name: { ko: 질산 칼슘, en: Calcium nitrate }, formula: Ca(NO3)2, note: 칼슘 질소 비료 }
+  - { id: Ca(H2PO4)2, name: { ko: 인산 이수소 칼슘, en: Monocalcium phosphate }, formula: Ca(H2PO4)2, note: 과인산 석회의 유효 성분 }
+  - { id: CaHPO4, name: { ko: 인산 수소 칼슘, en: Dicalcium phosphate }, formula: CaHPO4, note: 사료용 인산 칼슘 }
+  - { id: CaBr2, name: { ko: 브로민화 칼슘, en: Calcium bromide }, formula: CaBr2, note: 유정 완결 유체(고비중 염수) }
+  - { id: Mg(OH)2, name: { ko: 수산화 마그네슘, en: Magnesium hydroxide }, formula: Mg(OH)2 }
+  - { id: MgSO4·7H2O, name: { ko: 황산 마그네슘 칠수화물, en: Magnesium sulfate heptahydrate }, formula: MgSO4·7H2O, note: 엡솜염 }
+  - { id: SrS, name: { ko: 황화 스트론튬, en: Strontium sulfide }, formula: SrS }
+  - { id: SrCO3, name: { ko: 탄산 스트론튬, en: Strontium carbonate }, formula: SrCO3, note: 페라이트 자석의 원료 }
+  - { id: SrCl2, name: { ko: 염화 스트론튬, en: Strontium chloride }, formula: SrCl2 }
+  - { id: BaS, name: { ko: 황화 바륨, en: Barium sulfide }, formula: BaS }
+  - { id: BaCO3, name: { ko: 탄산 바륨, en: Barium carbonate }, formula: BaCO3, note: 특수 유리와 세라믹 원료 }
+  - { id: BaCl2, name: { ko: 염화 바륨, en: Barium chloride }, formula: BaCl2 }
+  - { id: BaO, name: { ko: 산화 바륨, en: Barium oxide }, formula: BaO }
+  - { id: Ba(OH)2, name: { ko: 수산화 바륨, en: Barium hydroxide }, formula: Ba(OH)2 }
+  - { id: lithopone, name: { ko: 리토폰, en: Lithopone }, formula: BaSO4·ZnS, note: 황산 바륨과 황화 아연이 함께 가라앉은 흰색 안료 }
+
+  # 리튬 화합물
+  - { id: LiCl, name: { ko: 염화 리튬, en: Lithium chloride }, formula: LiCl }
+  - { id: Li2CO3, name: { ko: 탄산 리튬, en: Lithium carbonate }, formula: Li2CO3 }
+  - { id: LiOH, name: { ko: 수산화 리튬, en: Lithium hydroxide }, formula: LiOH }
+  - { id: LiF, name: { ko: 플루오린화 리튬, en: Lithium fluoride }, formula: LiF }
+  - { id: LiBr, name: { ko: 브로민화 리튬, en: Lithium bromide }, formula: LiBr, note: 흡수식 냉동기의 흡수제 }
+
+  # 알루미늄·철·구리·아연 화합물
+  - { id: Al(OH)3, name: { ko: 수산화 알루미늄, en: Aluminium hydroxide }, formula: Al(OH)3 }
+  - { id: Al2(SO4)3, name: { ko: 황산 알루미늄, en: Aluminium sulfate }, formula: Al2(SO4)3, note: 정수 처리 응집제 }
+  - { id: AlCl3, name: { ko: 염화 알루미늄, en: Aluminium chloride }, formula: AlCl3 }
+  - { id: AlF3, name: { ko: 플루오린화 알루미늄, en: Aluminium fluoride }, formula: AlF3 }
+  - { id: FeCl3, name: { ko: 염화 철(III), en: Iron(III) chloride }, formula: FeCl3, note: "정수 처리 응집제, 인쇄 회로 기판 식각액" }
+  - { id: FeSO4·7H2O, name: { ko: 황산 철(II) 칠수화물, en: Iron(II) sulfate heptahydrate }, formula: FeSO4·7H2O, note: 녹반 }
+  - { id: Fe2(SO4)3, name: { ko: 황산 철(III), en: Iron(III) sulfate }, formula: Fe2(SO4)3, note: 정수 처리 응집제 }
+  - { id: Fe2O3, name: { ko: 산화 철(III), en: Iron(III) oxide }, formula: Fe2O3, note: 산화철 적색 안료 }
+  - { id: CuSO4·5H2O, name: { ko: 황산 구리(II) 오수화물, en: Copper(II) sulfate pentahydrate }, formula: CuSO4·5H2O, note: 담반 }
+  - { id: CuCl2, name: { ko: 염화 구리(II), en: Copper(II) chloride }, formula: CuCl2 }
+  - { id: Cu2O, name: { ko: 산화 구리(I), en: Copper(I) oxide }, formula: Cu2O, note: 선박 방오 도료 }
+  - { id: Cu(OH)2, name: { ko: 수산화 구리(II), en: Copper(II) hydroxide }, formula: Cu(OH)2, note: 농업용 살균제 }
+  - { id: Cu2(OH)2CO3, name: { ko: 염기성 탄산 구리(II), en: Basic copper carbonate }, formula: Cu2(OH)2CO3, note: 공작석과 같은 조성. 안료·목재 방부제 }
+  - { id: ZnSO4·H2O, name: { ko: 황산 아연 일수화물, en: Zinc sulfate monohydrate }, formula: ZnSO4·H2O, note: 아연 비료·사료 첨가제 }
+  - { id: ZnCl2, name: { ko: 염화 아연, en: Zinc chloride }, formula: ZnCl2, note: 용융 아연 도금 용제 }
+  - { id: ZnBr2, name: { ko: 브로민화 아연, en: Zinc bromide }, formula: ZnBr2 }
+
+  # 망가니즈·니켈·코발트 화합물
+  - { id: MnO, name: { ko: 산화 망가니즈(II), en: Manganese(II) oxide }, formula: MnO }
+  - { id: MnSO4, name: { ko: 황산 망가니즈(II), en: Manganese(II) sulfate }, formula: MnSO4 }
+  - { id: MnO2, name: { ko: 이산화 망가니즈, en: Manganese dioxide }, formula: MnO2, note: 전해 이산화 망가니즈(EMD). 알칼리 건전지 양극재 }
+  - { id: MnCO3, name: { ko: 탄산 망가니즈(II), en: Manganese(II) carbonate }, formula: MnCO3 }
+  - { id: NiSO4, name: { ko: 황산 니켈(II), en: Nickel(II) sulfate }, formula: NiSO4 }
+  - { id: NiSO4·6H2O, name: { ko: 황산 니켈(II) 육수화물, en: Nickel(II) sulfate hexahydrate }, formula: NiSO4·6H2O, note: 전기 도금과 배터리 양극재 전구체 }
+  - { id: Ni(OH)2, name: { ko: 수산화 니켈(II), en: Nickel(II) hydroxide }, formula: Ni(OH)2 }
+  - { id: NiO, name: { ko: 산화 니켈(II), en: Nickel(II) oxide }, formula: NiO }
+  - { id: CoSO4, name: { ko: 황산 코발트(II), en: Cobalt(II) sulfate }, formula: CoSO4 }
+  - { id: CoSO4·7H2O, name: { ko: 황산 코발트(II) 칠수화물, en: Cobalt(II) sulfate heptahydrate }, formula: CoSO4·7H2O }
+  - { id: Co(OH)2, name: { ko: 수산화 코발트(II), en: Cobalt(II) hydroxide }, formula: Co(OH)2 }
+  - { id: Co3O4, name: { ko: 사산화 삼코발트, en: "Cobalt(II,III) oxide" }, formula: Co3O4 }
+
+  # 타이타늄·규소·인·붕소 화합물
+  - { id: TiCl4, name: { ko: 사염화 타이타늄, en: Titanium tetrachloride }, formula: TiCl4 }
+  - { id: TiOSO4, name: { ko: 황산 타이타닐, en: Titanyl sulfate }, formula: TiOSO4 }
+  - { id: TiO2, name: { ko: 이산화 타이타늄, en: Titanium dioxide }, formula: TiO2, note: 흰색 안료(티타늄 화이트) }
+  - { id: SiCl4, name: { ko: 사염화 규소, en: Silicon tetrachloride }, formula: SiCl4 }
+  - { id: SiHCl3, name: { ko: 트라이클로로실레인, en: Trichlorosilane }, formula: SiHCl3, note: 고순도 다결정 실리콘(지멘스 공정)의 원료 }
+  - { id: P4O10, name: { ko: 십산화 사인, en: Phosphorus pentoxide }, formula: P4O10, note: 강력한 탈수제 }
+  - { id: PCl3, name: { ko: 삼염화 인, en: Phosphorus trichloride }, formula: PCl3 }
+  - { id: PCl5, name: { ko: 오염화 인, en: Phosphorus pentachloride }, formula: PCl5 }
+  - { id: POCl3, name: { ko: 염화 포스포릴, en: Phosphoryl chloride }, formula: POCl3, note: 옥시염화 인. 인산 에스터 난연제·가소제의 원료 }
+  - { id: H3PO3, name: { ko: 아인산, en: Phosphorous acid }, formula: H3PO3 }
