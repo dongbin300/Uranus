@@ -1,0 +1,27 @@
+# 생체 분자와 세포. goal: true는 아직 레시피가 없는 장기 목표.
+category: biology
+unit: particle
+items:
+  - { id: ribose, name: { ko: 리보스, en: Ribose }, formula: C5H10O5 }
+  - { id: adenine, name: { ko: 아데닌, en: Adenine }, formula: C5H5N5 }
+  - { id: cytosine, name: { ko: 시토신, en: Cytosine }, formula: C4H5N3O }
+  - { id: guanine, name: { ko: 구아닌, en: Guanine }, formula: C5H5N5O }
+  - { id: uracil, name: { ko: 우라실, en: Uracil }, formula: C4H4N2O2 }
+  - { id: protein, name: { ko: 단백질, en: Protein } }
+  - { id: ribosomal_protein, name: { ko: 리보솜 단백질, en: Ribosomal protein } }
+  - { id: mrna, name: { ko: 메신저 RNA, en: Messenger RNA } }
+  - { id: trna, name: { ko: 전이 RNA, en: Transfer RNA } }
+  - { id: rrna_5s, name: { ko: 5S 리보솜 RNA, en: 5S ribosomal RNA }, note: 대장균 5S rRNA 약 120 nt }
+  - { id: rrna_5_8s, name: { ko: 5.8S 리보솜 RNA, en: 5.8S ribosomal RNA } }
+  - { id: rrna_16s, name: { ko: 16S 리보솜 RNA, en: 16S ribosomal RNA }, note: "대장균 16S rRNA 1,542 nt" }
+  - { id: rrna_18s, name: { ko: 18S 리보솜 RNA, en: 18S ribosomal RNA } }
+  - { id: rrna_23s, name: { ko: 23S 리보솜 RNA, en: 23S ribosomal RNA }, note: "대장균 23S rRNA 2,904 nt" }
+  - { id: rrna_28s, name: { ko: 28S 리보솜 RNA, en: 28S ribosomal RNA } }
+  - { id: ribosome_30s, name: { ko: 30S 리보솜 소단위체, en: 30S ribosomal subunit } }
+  - { id: ribosome_50s, name: { ko: 50S 리보솜 대단위체, en: 50S ribosomal subunit } }
+  - { id: ribosome_40s, name: { ko: 40S 리보솜 소단위체, en: 40S ribosomal subunit } }
+  - { id: ribosome_60s, name: { ko: 60S 리보솜 대단위체, en: 60S ribosomal subunit } }
+  - { id: dna, name: { ko: DNA, en: DNA }, goal: true }
+  - { id: nucleoid, name: { ko: 핵양체, en: Nucleoid }, goal: true }
+  - { id: prokaryotic_cell, name: { ko: 원핵세포, en: Prokaryotic cell }, goal: true }
+  - { id: eukaryotic_cell, name: { ko: 진핵세포, en: Eukaryotic cell }, goal: true }

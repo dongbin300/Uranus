@@ -1,0 +1,44 @@
+# 분자·이온·화합물. ID는 화학식을 쓴다.
+category: chemistry
+unit: particle
+items:
+  - { id: H2, name: { ko: 수소 분자, en: Dihydrogen }, formula: H2 }
+  - { id: O2, name: { ko: 산소 분자, en: Dioxygen }, formula: O2 }
+  - { id: Cl2, name: { ko: 염소 분자, en: Dichlorine }, formula: Cl2 }
+  - { id: As2, name: { ko: 비소 분자, en: Diarsenic }, formula: As2 }
+  - { id: H2O, name: { ko: 물, en: Water }, formula: H2O }
+  - { id: OH-, name: { ko: 수산화 이온, en: Hydroxide ion }, formula: OH- }
+  - { id: CO, name: { ko: 일산화 탄소, en: Carbon monoxide }, formula: CO }
+  - { id: CO2, name: { ko: 이산화 탄소, en: Carbon dioxide }, formula: CO2 }
+  - { id: H2CO3, name: { ko: 탄산, en: Carbonic acid }, formula: H2CO3 }
+  - { id: CH4, name: { ko: 메탄, en: Methane }, formula: CH4 }
+  - { id: CH3, name: { ko: 메틸기, en: Methyl group }, formula: CH3 }
+  - { id: C2H6, name: { ko: 에탄, en: Ethane }, formula: C2H6 }
+  - { id: C2H4, name: { ko: 에틸렌, en: Ethylene }, formula: C2H4 }
+  - { id: C2H2, name: { ko: 아세틸렌, en: Acetylene }, formula: C2H2 }
+  - { id: C6H6, name: { ko: 벤젠, en: Benzene }, formula: C6H6 }
+  - { id: CH3OH, name: { ko: 메탄올, en: Methanol }, formula: CH3OH }
+  - { id: CH3COO, name: { ko: 아세테이트, en: Acetate }, formula: CH3COO }
+  - { id: CH3COOH, name: { ko: 아세트산, en: Acetic acid }, formula: CH3COOH }
+  - { id: HCl, name: { ko: 염산, en: Hydrogen chloride }, formula: HCl }
+  - { id: SO2, name: { ko: 이산화 황, en: Sulfur dioxide }, formula: SO2 }
+  - { id: SO3, name: { ko: 삼산화 황, en: Sulfur trioxide }, formula: SO3 }
+  - { id: H2SO4, name: { ko: 황산, en: Sulfuric acid }, formula: H2SO4 }
+  - { id: H3PO4, name: { ko: 인산, en: Phosphoric acid }, formula: H3PO4 }
+  - { id: NaCl, name: { ko: 염화 나트륨, en: Sodium chloride }, formula: NaCl }
+  - { id: KCl, name: { ko: 염화 칼륨, en: Potassium chloride }, formula: KCl }
+  - { id: KOH, name: { ko: 수산화 칼륨, en: Potassium hydroxide }, formula: KOH }
+  - { id: K2O, name: { ko: 산화 칼륨, en: Potassium oxide }, formula: K2O }
+  - { id: K3PO4, name: { ko: 제3인산칼륨, en: Tripotassium phosphate }, formula: K3PO4 }
+  - { id: CaO, name: { ko: 산화 칼슘, en: Calcium oxide }, formula: CaO }
+  - { id: Ca(OH)2, name: { ko: 수산화 칼슘, en: Calcium hydroxide }, formula: Ca(OH)2 }
+  - { id: CaCO3, name: { ko: 탄산 칼슘, en: Calcium carbonate }, formula: CaCO3 }
+  - { id: CaCl2, name: { ko: 염화 칼슘, en: Calcium chloride }, formula: CaCl2 }
+  - { id: CaC2, name: { ko: 탄화 칼슘, en: Calcium carbide }, formula: CaC2 }
+  - { id: CaSO4, name: { ko: 황산 칼슘, en: Calcium sulfate }, formula: CaSO4 }
+  - { id: Ca3(PO4)2, name: { ko: 인산칼슘, en: Calcium phosphate }, formula: Ca3(PO4)2 }
+  - { id: SiO2, name: { ko: 이산화규소, en: Silicon dioxide }, formula: SiO2 }
+  - { id: Al2O3, name: { ko: 알루미나, en: Alumina }, formula: Al2O3 }
+  - { id: CuO, name: { ko: 산화구리, en: Copper(II) oxide }, formula: CuO }
+  - { id: GaAs, name: { ko: 갈륨비소, en: Gallium arsenide }, formula: GaAs }
+  - { id: InGaAs, name: { ko: 인듐갈륨비소, en: Indium gallium arsenide }, formula: InGaAs }

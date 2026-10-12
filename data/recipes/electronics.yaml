@@ -1,0 +1,183 @@
+# 전자 부품.
+category: electronics
+recipes:
+  - id: ccd
+    time: 0
+    in: { wafer_8in: 1, photodiode: 2073600, transfer_gate: 3000, shift_register: 3000, output_amplifier: 1, clock_generator: 1, clock_distributor: 1, sequencer: 1, multiplexer: 1, trigger_sync_circuit: 1, signal_conditioning_circuit: 4, control_register: 4, bias_voltage_generator: 1, analog_signal_processor: 1, control_circuit: 1, temperature_control_system: 1, communication_interface: 1 }
+    out: { ccd: 1 }
+  - id: wafer_8in
+    time: 0
+    in: { Si: 1.133e24, SiO2: 1.81e16 }
+    out: { wafer_8in: 1 }
+  - id: photodiode
+    time: 0
+    in: { diode: 1, InGaAs: 1e18, optical_window: 1, ar_coating: 1, pn_junction: 1, metal_contact: 1 }
+    out: { photodiode: 1 }
+  - id: diode
+    time: 0
+    in: { Si: 1e17, GaAs: 1e17 }
+    out: { diode: 1 }
+  - id: optical_window
+    time: 0
+    in: { glass: 1, ar_coating: 1, window_holder: 1 }
+    out: { optical_window: 1 }
+  - id: ar_coating
+    time: 0
+    in: { SiO2: 2.2e14 }
+    out: { ar_coating: 1 }
+  - id: window_holder
+    time: 0
+    in: { Al: 2.7e16 }
+    out: { window_holder: 1 }
+  - id: glass
+    time: 0
+    in: { SiO2: 3.06e20 }
+    out: { glass: 1 }
+  - id: pn_junction
+    time: 0
+    in: { p_type_semiconductor: 1, n_type_semiconductor: 1 }
+    out: { pn_junction: 1 }
+  - id: p_type_semiconductor
+    time: 0
+    in: { Si: 1e17, B: 1e17 }
+    out: { p_type_semiconductor: 1 }
+  - id: n_type_semiconductor
+    time: 0
+    in: { Si: 1e17, P: 1e17 }
+    out: { n_type_semiconductor: 1 }
+  - id: metal_contact
+    time: 0
+    in: { Al: 1e17 }
+    out: { metal_contact: 1 }
+  - id: transfer_gate
+    time: 0
+    in: { Si: 1e16, insulating_layer: 1, metal_electrode: 1, gate_oxide: 1 }
+    out: { transfer_gate: 1 }
+  - id: insulating_layer
+    time: 0
+    in: { SiO2: 3.01e22 }
+    out: { insulating_layer: 1 }
+  - id: metal_electrode
+    time: 0
+    in: { Al: 6.022e22 }
+    out: { metal_electrode: 1 }
+  - id: gate_oxide
+    time: 0
+    in: { SiO2: 2.19e22 }
+    out: { gate_oxide: 1 }
+  - id: shift_register
+    time: 5
+    in: { flip_flop: 8, clock_circuit: 1, control_circuit: 1 }
+    out: { shift_register: 1 }
+  - id: output_amplifier
+    time: 4
+    in: { transistor: 4, resistor: 2, capacitor: 2, power_supply_circuit: 1 }
+    out: { output_amplifier: 1 }
+  - id: clock_generator
+    time: 5
+    in: { oscillator: 1, amplifier: 2, filter: 1, resistor: 4, capacitor: 4 }
+    out: { clock_generator: 1 }
+  - id: clock_distributor
+    time: 6
+    in: { clock_buffer: 2, amplifier: 2, buffer_driver: 2, resistor: 4, capacitor: 4 }
+    out: { clock_distributor: 1 }
+  - id: sequencer
+    time: 7
+    in: { counter: 4, flip_flop: 8, clock_circuit: 1, logic_gate: 6, control_circuit: 1 }
+    out: { sequencer: 1 }
+  - id: multiplexer
+    time: 5
+    in: { logic_gate: 8, diode: 4, switch: 2, control_circuit: 1 }
+    out: { multiplexer: 1 }
+  - id: trigger_sync_circuit
+    time: 6
+    in: { flip_flop: 4, logic_gate: 6, clock_circuit: 1, control_circuit: 1 }
+    out: { trigger_sync_circuit: 1 }
+  - id: signal_conditioning_circuit
+    time: 5
+    in: { amplifier: 2, filter: 3, resistor: 4, capacitor: 4 }
+    out: { signal_conditioning_circuit: 1 }
+  - id: control_register
+    time: 4
+    in: { flip_flop: 4, logic_gate: 6, resistor: 2 }
+    out: { control_register: 1 }
+  - id: bias_voltage_generator
+    time: 6
+    in: { voltage_regulator: 2, transistor: 4, resistor: 4, capacitor: 2 }
+    out: { bias_voltage_generator: 1 }
+  - id: analog_signal_processor
+    time: 7
+    in: { op_amp: 4, filter: 3, resistor: 4, capacitor: 4 }
+    out: { analog_signal_processor: 1 }
+  - id: control_circuit
+    time: 5
+    in: { microcontroller: 1, logic_gate: 6, resistor: 4 }
+    out: { control_circuit: 1 }
+  - id: temperature_control_system
+    time: 8
+    in: { temperature_sensor: 2, heater: 2, fan: 2, thermostat: 1, transistor: 2, resistor: 3 }
+    out: { temperature_control_system: 1 }
+  - id: communication_interface
+    time: 6
+    in: { transceiver: 2, microcontroller: 1, logic_gate: 4, resistor: 4 }
+    out: { communication_interface: 1 }
+  - id: flip_flop
+    time: 4
+    in: { transistor: 4, resistor: 4, capacitor: 2 }
+    out: { flip_flop: 1 }
+  - id: clock_circuit
+    time: 5
+    in: { oscillator: 1, transistor: 2, resistor: 4, capacitor: 3 }
+    out: { clock_circuit: 1 }
+  - id: power_supply_circuit
+    time: 6
+    in: { voltage_regulator: 2, transistor: 4, resistor: 4, capacitor: 3 }
+    out: { power_supply_circuit: 1 }
+  - id: oscillator
+    time: 20
+    in: { crystal: 1, transistor: 2, resistor: 4, capacitor: 3 }
+    out: { oscillator: 1 }
+  - id: amplifier
+    time: 5
+    in: { transistor: 4, resistor: 4, capacitor: 3 }
+    out: { amplifier: 1 }
+  - id: filter
+    time: 4
+    in: { resistor: 4, capacitor: 4, inductor: 2 }
+    out: { filter: 1 }
+  - id: crystal
+    time: 86
+    in: { SiO2: 3e24 }
+    out: { crystal: 1 }
+  - id: resistor
+    time: 6
+    in: { C: 2.5e21, Cu: 1.2e21, ceramic: 6e20 }
+    out: { resistor: 1 }
+  - id: capacitor
+    time: 10
+    in: { Al: 6.3e21, Cu: 2.5e21, ceramic: 1.8e21, electrolyte: 4.5e21 }
+    out: { capacitor: 1 }
+  - id: clock_buffer
+    time: 12
+    in: { transistor: 5, resistor: 8, capacitor: 6, Si: 3.8e22, Cu: 1.5e22 }
+    out: { clock_buffer: 1 }
+  - id: counter
+    time: 15
+    in: { flip_flop: 9, logic_gate: 12, resistor: 8, Si: 6.5e22, Cu: 3.2e22 }
+    out: { counter: 1 }
+  - id: buffer_driver
+    time: 10
+    in: { transistor: 8, resistor: 6, capacitor: 5, Si: 5e22, Cu: 2.3e22 }
+    out: { buffer_driver: 1 }
+  - id: logic_gate
+    time: 8
+    in: { transistor: 6, resistor: 7, diode: 4, Si: 3e22, Cu: 1.4e22 }
+    out: { logic_gate: 1 }
+  - id: diode_discrete
+    time: 5
+    in: { Si: 2e22, Cu: 9e21 }
+    out: { diode: 1 }
+  - id: switch
+    time: 8
+    in: { Fe: 7e22, plastic: 5e22, Cu: 3e22 }
+    out: { switch: 1 }

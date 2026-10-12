@@ -1,0 +1,214 @@
+# 화학 반응. 화학식이 있는 아이템끼리의 반응은 원자 수가 맞아야 한다.
+category: chemistry
+recipes:
+  - id: water_from_atoms
+    name: { ko: 물 합성 }
+    time: 0.1
+    in: { H: 2, O: 1 }
+    out: { H2O: 1 }
+  - id: methane_combustion
+    name: { ko: 메탄 연소 }
+    time: 0.4
+    in: { CH4: 1, O2: 2 }
+    out: { CO2: 1, H2O: 2 }
+  - id: water_electrolysis
+    name: { ko: 물 전기분해 }
+    time: 0.4
+    in: { H2O: 6 }
+    out: { H2: 2, O2: 1, OH-: 4, H: 4 }
+  - id: hydroxide_oxidation
+    name: { ko: 수산화 이온 산화 }
+    time: 0.2
+    in: { OH-: 4 }
+    out: { H2O: 2, O2: 1 }
+  - id: calcium_carbonate_acid
+    name: { ko: 탄산 칼슘 산 처리 }
+    time: 0.6
+    in: { CaCO3: 1, HCl: 2 }
+    out: { CaCl2: 1, H2O: 1, CO2: 1 }
+  - id: limestone_calcination
+    name: { ko: 석회석 소성 }
+    time: 0.3
+    in: { CaCO3: 1 }
+    out: { CaO: 1, CO2: 1 }
+  - id: lime_slaking
+    name: { ko: 생석회 소화 }
+    time: 0.2
+    in: { CaO: 1, H2O: 1 }
+    out: { Ca(OH)2: 1 }
+  - id: calcium_chloride_electrolysis
+    name: { ko: 염화 칼슘 전기분해 }
+    time: 0.3
+    in: { CaCl2: 1 }
+    out: { Ca: 1, Cl2: 1 }
+  - id: calcium_phosphate_precipitation
+    name: { ko: 인산칼슘 침전 }
+    time: 0.4
+    in: { CaCl2: 3, K3PO4: 2 }
+    out: { Ca3(PO4)2: 1, KCl: 6 }
+  - id: sodium_chloride_synthesis
+    name: { ko: 염화 나트륨 합성 }
+    time: 0.1
+    in: { NaCl: 2 }
+    out: { Na: 2, Cl2: 1 }
+  - id: chlorine_dissociation
+    name: { ko: 염소 분자 해리 }
+    time: 0.1
+    in: { Cl2: 1 }
+    out: { Cl: 2 }
+  - id: potassium_displacement
+    name: { ko: 칼륨 치환 }
+    time: 0.2
+    in: { KCl: 1, Na: 1 }
+    out: { NaCl: 1, K: 1 }
+  - id: sodium_displacement
+    name: { ko: 나트륨 치환 }
+    time: 0.4
+    in: { NaCl: 1, K: 1 }
+    out: { KCl: 1, Na: 1 }
+  - id: carbide_hydrolysis
+    name: { ko: 탄화 칼슘 가수분해 }
+    time: 0.3
+    in: { CaC2: 1, H2O: 2 }
+    out: { C2H2: 1, Ca(OH)2: 1 }
+  - id: calcium_carbide_synthesis
+    name: { ko: 탄화 칼슘 합성 }
+    time: 0.3
+    in: { CaO: 1, C: 3 }
+    out: { CaC2: 1, CO: 1 }
+  - id: methane_from_atoms
+    name: { ko: 메탄 합성 }
+    time: 0.2
+    in: { C: 1, H: 4 }
+    out: { CH4: 1 }
+  - id: methyl_coupling
+    name: { ko: 메틸기 결합 }
+    time: 0.2
+    in: { CH3: 2 }
+    out: { C2H6: 1 }
+  - id: acetate_from_methyl
+    name: { ko: 아세테이트 합성 }
+    time: 0.4
+    in: { CH3COO: 1 }
+    out: { CH3: 1, CO2: 1 }
+  - id: methanol_carbonylation
+    name: { ko: 메탄올 카보닐화 }
+    time: 0.3
+    in: { CH3OH: 1, CO: 1 }
+    out: { CH3COOH: 1 }
+  - id: methanol_synthesis
+    name: { ko: 메탄올 합성 }
+    time: 0.3
+    in: { CO2: 1, H2: 3 }
+    out: { CH3OH: 1, H2O: 1 }
+  - id: acetic_acid_from_acetate
+    name: { ko: 아세트산 합성 }
+    time: 0.6
+    in: { CH3COOH: 2 }
+    out: { CH3COO: 2, H2: 1 }
+  - id: carbonic_acid_formation
+    name: { ko: 탄산 생성 }
+    time: 0.3
+    in: { CO2: 1, H2O: 1 }
+    out: { H2CO3: 1 }
+  - id: lime_carbonation
+    name: { ko: 수산화 칼슘 탄산화 }
+    time: 0.2
+    in: { Ca(OH)2: 1, CO2: 1 }
+    out: { CaCO3: 1, H2O: 1 }
+  - id: calcium_carbonate_reduction
+    name: { ko: 탄산 칼슘 환원 }
+    time: 0.4
+    in: { H2CO3: 1, Ca: 1 }
+    out: { CaCO3: 1, H2: 1 }
+  - id: hydrogen_chloride_synthesis
+    name: { ko: 염화 수소 합성 }
+    time: 0.2
+    in: { H2: 1, Cl2: 1 }
+    out: { HCl: 2 }
+  - id: chlorine_recombination
+    name: { ko: 염소 결합 }
+    time: 0.2
+    in: { Cl: 2 }
+    out: { Cl2: 1 }
+  - id: phosphoric_acid_neutralization
+    name: { ko: 인산 중화 }
+    time: 0.3
+    in: { H3PO4: 1, KOH: 3 }
+    out: { K3PO4: 1, H2O: 3 }
+  - id: wet_process_phosphoric_acid
+    name: { ko: 습식 인산 공정 }
+    time: 0.3
+    in: { hydroxyapatite: 1, H2SO4: 5 }
+    out: { H3PO4: 3, CaSO4: 5, H2O: 1 }
+  - id: potassium_hydroxide_formation
+    name: { ko: 수산화 칼륨 생성 }
+    time: 0.1
+    in: { K2O: 1, H2O: 1 }
+    out: { KOH: 2 }
+  - id: potassium_oxidation
+    name: { ko: 칼륨 산화 }
+    time: 0.1
+    in: { K: 4, O2: 1 }
+    out: { K2O: 2 }
+  - id: sulfuric_acid_absorption
+    name: { ko: 황산 흡수 }
+    time: 0.2
+    in: { SO3: 1, H2O: 1 }
+    out: { H2SO4: 1 }
+  - id: sulfur_dioxide_oxidation
+    name: { ko: 이산화 황 산화 }
+    time: 0.1
+    in: { SO2: 2, O2: 1 }
+    out: { SO3: 2 }
+  - id: sulfur_combustion
+    name: { ko: 황 연소 }
+    time: 0.1
+    in: { S: 1, O2: 1 }
+    out: { SO2: 1 }
+  - id: apatite_separation
+    name: { ko: 인회석 분리 }
+    time: 0.03
+    in: { apatite: 1 }
+    out: { hydroxyapatite: 1/3, fluorapatite: 1/3, chlorapatite: 1/3 }
+  - id: silicon_oxidation
+    name: { ko: 규소 산화 }
+    time: 0
+    in: { Si: 1, O2: 1 }
+    out: { SiO2: 1 }
+  - id: gallium_arsenide_synthesis
+    name: { ko: 갈륨비소 합성 }
+    time: 0
+    in: { Ga: 2, As2: 1 }
+    out: { GaAs: 2 }
+  - id: arsenic_dimerization
+    name: { ko: 비소 분자 결합 }
+    time: 0
+    in: { As: 2 }
+    out: { As2: 1 }
+  - id: indium_gallium_arsenide_synthesis
+    name: { ko: 인듐갈륨비소 합성 }
+    time: 0
+    in: { In: 2, Ga: 2, As2: 1 }
+    out: { InGaAs: 2 }
+  - id: alumina_synthesis
+    name: { ko: 알루미나 합성 }
+    time: 20
+    in: { Al: 3200, O: 4800 }
+    out: { Al2O3: 1600 }
+  - id: copper_oxidation
+    name: { ko: 구리 산화 }
+    time: 30
+    in: { Cu: 4500, O: 4500 }
+    out: { CuO: 4500 }
+  - id: ethane_dehydrogenation
+    name: { ko: 에탄 탈수소화 }
+    time: 5
+    in: { C2H6: 150 }
+    out: { C2H4: 150, H2: 150 }
+    note: 원본은 에탄 150 + 수소 300 → 에틸렌 150 (원자 수 불일치)
+  - id: benzene_synthesis
+    name: { ko: 벤젠 합성 }
+    time: 6
+    in: { C: 1080, H: 1080 }
+    out: { C6H6: 180 }

@@ -19,3 +19,6 @@ jobs:
 
       - name: Test
         run: dotnet test Uranus.sln -c Release --no-build
+
+      - name: Validate data
+        run: dotnet run --project tools/Uranus.Tools -c Release --no-build -- validate

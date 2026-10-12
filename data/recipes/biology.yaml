@@ -1,0 +1,55 @@
+# 생체 분자. 생산량이 1보다 작으면 소수로 누적된다(0.2 = 5번에 1개).
+category: biology
+recipes:
+  - id: mrna
+    time: 0
+    in: { ribose: 1433, adenine: 396, cytosine: 317, guanine: 392, uracil: 328 }
+    out: { mrna: 0.2 }
+  - id: trna
+    time: 0
+    in: { ribose: 80, adenine: 26, cytosine: 21, guanine: 22, uracil: 11 }
+    out: { trna: 0.6 }
+  - id: rrna_5s
+    time: 0
+    in: { ribose: 122, adenine: 34, cytosine: 18, guanine: 26, uracil: 44 }
+    out: { rrna_5s: 0.5 }
+  - id: rrna_16s
+    time: 0
+    in: { ribose: 1548, adenine: 312, cytosine: 372, guanine: 450, uracil: 414 }
+    out: { rrna_16s: 0.18 }
+  - id: rrna_23s
+    time: 0
+    in: { ribose: 2904, adenine: 838, cytosine: 404, guanine: 727, uracil: 935 }
+    out: { rrna_23s: 0.1 }
+  - id: ribosome_50s
+    time: 0
+    in: { rrna_5s: 1, rrna_23s: 1, ribosomal_protein: 27 }
+    out: { ribosome_50s: 0.04 }
+  - id: ribosome_30s
+    time: 0
+    in: { rrna_16s: 1, ribosomal_protein: 19 }
+    out: { ribosome_30s: 0.08 }
+  - id: rrna_5_8s
+    time: 0
+    in: { ribose: 150, adenine: 44, cytosine: 29, guanine: 44, uracil: 33 }
+    out: { rrna_5_8s: 0.45 }
+  - id: rrna_28s
+    time: 0
+    in: { ribose: 4808, adenine: 1116, cytosine: 1402, guanine: 1154, uracil: 1136 }
+    out: { rrna_28s: 0.05 }
+  - id: ribosome_60s
+    time: 0
+    in: { rrna_28s: 1, ribosomal_protein: 42 }
+    out: { ribosome_60s: 0.02 }
+  - id: rrna_18s
+    time: 0
+    in: { ribose: 1951, adenine: 519, cytosine: 351, guanine: 434, uracil: 647 }
+    out: { rrna_18s: 0.15 }
+  - id: ribosome_40s
+    time: 0
+    in: { rrna_18s: 1, ribosomal_protein: 33 }
+    out: { ribosome_40s: 0.06 }
+  - id: ribosomal_protein
+    time: 0
+    in: { protein: 40 }
+    out: { ribosomal_protein: 15 }

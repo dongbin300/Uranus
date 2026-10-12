@@ -1,0 +1,38 @@
+# 원료 가공. approximate: true는 게임식 비율이라 원자 보존 검사를 건너뛴다.
+category: material
+recipes:
+  - id: copper_smelting
+    name: { ko: 구리 제련 }
+    time: 10
+    in: { copper_ore: 60, O: 60, C: 60 }
+    out: { Cu: 600 }
+    approximate: true
+  - id: ceramic_firing
+    name: { ko: 세라믹 소성 }
+    time: 60
+    in: { Al2O3: 100, Si: 100, CaO: 100 }
+    out: { ceramic: 250 }
+    approximate: true
+  - id: electrolyte_mixing
+    name: { ko: 전해액 조제 }
+    time: 2
+    in: { H2SO4: 36, H2O: 36 }
+    out: { electrolyte: 36 }
+  - id: iron_smelting
+    name: { ko: 철 제련 }
+    time: 10
+    in: { iron_ore: 120, C: 120, O: 120 }
+    out: { Fe: 300 }
+    approximate: true
+  - id: plastic_synthesis
+    name: { ko: 플라스틱 합성 }
+    time: 100
+    in: { petroleum: 250, C2H4: 250, C6H6: 250 }
+    out: { plastic: 1200 }
+    approximate: true
+  - id: petroleum_refining
+    name: { ko: 석유 정제 }
+    time: 200
+    in: { crude_oil: 10000, natural_gas: 100 }
+    out: { petroleum: 10000 }
+    approximate: true

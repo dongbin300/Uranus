@@ -1,0 +1,42 @@
+# 생성기. 보유한 대수만큼 produces(초당)를 생산한다.
+generators:
+  - id: hydrogen_synthesizer
+    name: { ko: 수소 합성기, en: Hydrogen synthesizer }
+    build: { time: 12, in: { H: 15 } }
+    produces: { H: 0.25 }
+  - id: oxygen_harvester
+    name: { ko: 산소 수확기, en: Oxygen harvester }
+    build: { time: 16, in: { H: 25 } }
+    produces: { O: 0.15 }
+  - id: carbon_harvester
+    name: { ko: 탄소 수확기, en: Carbon harvester }
+    build: { time: 24, in: { H: 55, O: 25 } }
+    produces: { C: 0.12 }
+  - id: sulfur_harvester
+    name: { ko: 황 수확기, en: Sulfur harvester }
+    build: { time: 24, in: { H: 60, O: 15, H2O: 12, CH4: 4 } }
+    produces: { S: 0.12 }
+  - id: salt_collector
+    name: { ko: 소금 수집기, en: Salt collector }
+    build: { time: 30, in: { H2: 20, O2: 10, H2O: 20, H2SO4: 6 } }
+    produces: { NaCl: 0.1 }
+  - id: potassium_extractor
+    name: { ko: 칼륨 추출기, en: Potassium extractor }
+    build: { time: 36, in: { H2: 24, O2: 15, H2O: 20, H2CO3: 12, HCl: 12 } }
+    produces: { K: 0.09 }
+  - id: lime_processor
+    name: { ko: 석회 처리기, en: Lime processor }
+    build: { time: 40, in: { H2O: 35, CO2: 16, CH3OH: 24, SO3: 18 } }
+    produces: { Ca: 0.09 }
+  - id: phosphate_harvester
+    name: { ko: 인산염 수확기, en: Phosphate harvester }
+    build: { time: 48, in: { C2H4: 60, H2SO4: 32, Cl2: 24, C6H6: 50 } }
+    produces: { apatite: 0.08 }
+  - id: copper_miner
+    name: { ko: 구리 채굴기, en: Copper miner }
+    build: { time: 60, in: { Ca3(PO4)2: 64, C6H6: 80, electrolyte: 150 } }
+    produces: { copper_ore: 0.06 }
+  - id: iron_miner
+    name: { ko: 철 채굴기, en: Iron miner }
+    build: { time: 75, in: { Cu: 360, H2SO4: 120, CH3COOH: 100, electrolyte: 200 } }
+    produces: { iron_ore: 0.05 }

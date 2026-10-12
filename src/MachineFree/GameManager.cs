@@ -8,7 +8,7 @@ using System.IO;
 using System.Linq;
 
 using Uranus;
-using Uranus.Dictionary;
+using Uranus.Legacy;
 using Uranus.Extensions;
 
 namespace MachineFree

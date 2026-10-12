@@ -1,0 +1,22 @@
+# 원자. ID는 원소 기호를 쓴다.
+category: element
+unit: particle
+items:
+  - { id: H, name: { ko: 수소, en: Hydrogen }, formula: H }
+  - { id: C, name: { ko: 탄소, en: Carbon }, formula: C }
+  - { id: N, name: { ko: 질소, en: Nitrogen }, formula: N }
+  - { id: O, name: { ko: 산소, en: Oxygen }, formula: O }
+  - { id: Na, name: { ko: 나트륨, en: Sodium }, formula: Na }
+  - { id: Al, name: { ko: 알루미늄, en: Aluminium }, formula: Al }
+  - { id: Si, name: { ko: 규소, en: Silicon }, formula: Si }
+  - { id: P, name: { ko: 인, en: Phosphorus }, formula: P }
+  - { id: S, name: { ko: 황, en: Sulfur }, formula: S }
+  - { id: Cl, name: { ko: 염소, en: Chlorine }, formula: Cl }
+  - { id: K, name: { ko: 칼륨, en: Potassium }, formula: K }
+  - { id: Ca, name: { ko: 칼슘, en: Calcium }, formula: Ca }
+  - { id: Fe, name: { ko: 철, en: Iron }, formula: Fe }
+  - { id: Cu, name: { ko: 구리, en: Copper }, formula: Cu }
+  - { id: Ga, name: { ko: 갈륨, en: Gallium }, formula: Ga }
+  - { id: As, name: { ko: 비소, en: Arsenic }, formula: As }
+  - { id: In, name: { ko: 인듐, en: Indium }, formula: In }
+  - { id: B, name: { ko: 붕소, en: Boron }, formula: B }

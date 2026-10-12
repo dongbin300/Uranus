@@ -2,7 +2,7 @@
 
 using System.Text;
 
-namespace Uranus.Dictionary
+namespace Uranus.Legacy
 {
 	public class UranusDictionaryManager
 	{

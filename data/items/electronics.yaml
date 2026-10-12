@@ -1,0 +1,57 @@
+# 전자 부품. expected_mass는 실제 부품의 질량 범위로, 검증기가 BOM 질량과 비교한다.
+category: electronics
+unit: piece
+items:
+  - { id: ccd, name: { ko: 전하결합소자, en: Charge-coupled device }, expected_mass: [1g, 100g], note: 1920×1080 화소. 실제 CCD 센서 패키지는 수 그램 }
+  - { id: wafer_8in, name: { ko: 8인치 실리콘 웨이퍼, en: 8-inch silicon wafer }, expected_mass: [45g, 60g], note: "직경 200mm, 두께 약 0.72mm 웨이퍼는 약 53g" }
+  - { id: photodiode, name: { ko: 감광성 다이오드, en: Photodiode } }
+  - { id: diode, name: { ko: 다이오드, en: Diode } }
+  - { id: optical_window, name: { ko: 광학 창, en: Optical window } }
+  - { id: ar_coating, name: { ko: 반사 방지 코팅, en: Anti-reflection coating } }
+  - { id: window_holder, name: { ko: 창 홀더, en: Window holder } }
+  - { id: pn_junction, name: { ko: PN접합, en: PN junction } }
+  - { id: p_type_semiconductor, name: { ko: P형 반도체, en: P-type semiconductor } }
+  - { id: n_type_semiconductor, name: { ko: N형 반도체, en: N-type semiconductor } }
+  - { id: metal_contact, name: { ko: 금속 접점, en: Metal contact } }
+  - { id: transfer_gate, name: { ko: 전하 전송 게이트, en: Charge transfer gate } }
+  - { id: insulating_layer, name: { ko: 반도체 절연체, en: Insulating layer } }
+  - { id: metal_electrode, name: { ko: 금속 전극, en: Metal electrode } }
+  - { id: gate_oxide, name: { ko: 게이트 산화물, en: Gate oxide } }
+  - { id: shift_register, name: { ko: 시프트 레지스터, en: Shift register } }
+  - { id: output_amplifier, name: { ko: 출력 증폭기, en: Output amplifier } }
+  - { id: clock_generator, name: { ko: 클록 생성기, en: Clock generator } }
+  - { id: clock_distributor, name: { ko: 클록 분배기, en: Clock distributor } }
+  - { id: sequencer, name: { ko: 시퀀서, en: Sequencer } }
+  - { id: multiplexer, name: { ko: 멀티플렉서, en: Multiplexer } }
+  - { id: trigger_sync_circuit, name: { ko: 트리거링 및 동기화 회로, en: Triggering and synchronization circuit } }
+  - { id: signal_conditioning_circuit, name: { ko: 신호 조절 회로, en: Signal conditioning circuit } }
+  - { id: control_register, name: { ko: 제어 레지스터, en: Control register } }
+  - { id: bias_voltage_generator, name: { ko: 바이어스 전압 생성기, en: Bias voltage generator } }
+  - { id: analog_signal_processor, name: { ko: 아날로그 신호 처리 회로, en: Analog signal processing circuit } }
+  - { id: control_circuit, name: { ko: 제어 회로, en: Control circuit } }
+  - { id: temperature_control_system, name: { ko: 온도 제어 시스템, en: Temperature control system } }
+  - { id: communication_interface, name: { ko: 통신 인터페이스 모듈, en: Communication interface module } }
+  - { id: flip_flop, name: { ko: 플립플롭, en: Flip-flop } }
+  - { id: clock_circuit, name: { ko: 클록 회로, en: Clock circuit } }
+  - { id: power_supply_circuit, name: { ko: 전원 공급 회로, en: Power supply circuit } }
+  - { id: oscillator, name: { ko: 오실레이터, en: Oscillator } }
+  - { id: amplifier, name: { ko: 증폭기, en: Amplifier } }
+  - { id: filter, name: { ko: 필터, en: Filter } }
+  - { id: crystal, name: { ko: 크리스탈, en: Quartz crystal }, expected_mass: [1mg, 1g], note: 수정 진동자 블랭크는 보통 수십 mg }
+  - { id: resistor, name: { ko: 저항, en: Resistor }, expected_mass: [10mg, 2g] }
+  - { id: capacitor, name: { ko: 커패시터, en: Capacitor }, expected_mass: [50mg, 10g] }
+  - { id: clock_buffer, name: { ko: 클록 버퍼, en: Clock buffer } }
+  - { id: counter, name: { ko: 카운터, en: Counter } }
+  - { id: buffer_driver, name: { ko: 버퍼 드라이버, en: Buffer driver } }
+  - { id: logic_gate, name: { ko: 논리 게이트, en: Logic gate } }
+  - { id: switch, name: { ko: 스위치, en: Switch } }
+  - { id: transistor, name: { ko: 트랜지스터, en: Transistor } }
+  - { id: microcontroller, name: { ko: 마이크로컨트롤러, en: Microcontroller } }
+  - { id: inductor, name: { ko: 인덕터, en: Inductor } }
+  - { id: voltage_regulator, name: { ko: 전압 레귤레이터, en: Voltage regulator } }
+  - { id: op_amp, name: { ko: 연산 증폭기, en: Operational amplifier } }
+  - { id: transceiver, name: { ko: 송수신기, en: Transceiver } }
+  - { id: temperature_sensor, name: { ko: 온도 센서, en: Temperature sensor } }
+  - { id: thermostat, name: { ko: 온도 조절기, en: Thermostat } }
+  - { id: fan, name: { ko: 팬, en: Fan } }
+  - { id: heater, name: { ko: 히터, en: Heater } }

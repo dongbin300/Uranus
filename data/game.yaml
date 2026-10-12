@@ -1,0 +1,9 @@
+# MachineFree 게임 설정
+start:
+  inventory: { H: 15 }
+
+# 생성기 n대째의 비용 = 기본 비용 × generator_cost_growth^n
+generator_cost_growth: 1.15
+
+# 자리를 비운 동안 진행시킬 최대 시간
+offline_cap_hours: 24

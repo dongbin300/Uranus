@@ -1,0 +1,9 @@
+# 가공 소재. 혼합물이라 화학식이 없다.
+category: material
+unit: particle
+items:
+  - { id: petroleum, name: { ko: 석유, en: Petroleum } }
+  - { id: plastic, name: { ko: 플라스틱, en: Plastic } }
+  - { id: ceramic, name: { ko: 세라믹, en: Ceramic } }
+  - { id: electrolyte, name: { ko: 전해액, en: Electrolyte }, note: 황산 수용액 }
+  - { id: glass, name: { ko: 유리, en: Glass } }

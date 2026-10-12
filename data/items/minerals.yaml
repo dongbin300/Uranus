@@ -1,0 +1,12 @@
+# 광물과 천연 원료. 조성이 일정하지 않은 것은 화학식을 비워 둔다.
+category: mineral
+unit: particle
+items:
+  - { id: apatite, name: { ko: 인회석, en: Apatite }, note: "불화·염화·수산화 인회석이 섞인 고용체 Ca5(PO4)3(F,Cl,OH)" }
+  - { id: hydroxyapatite, name: { ko: 수산화인회석, en: Hydroxyapatite }, formula: Ca5(PO4)3OH }
+  - { id: fluorapatite, name: { ko: 플루오린화인회석, en: Fluorapatite }, formula: Ca5(PO4)3F }
+  - { id: chlorapatite, name: { ko: 염화인회석, en: Chlorapatite }, formula: Ca5(PO4)3Cl }
+  - { id: copper_ore, name: { ko: 구리광석, en: Copper ore } }
+  - { id: iron_ore, name: { ko: 철광석, en: Iron ore } }
+  - { id: crude_oil, name: { ko: 원유, en: Crude oil } }
+  - { id: natural_gas, name: { ko: 가스, en: Natural gas } }
