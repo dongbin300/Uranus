@@ -188,7 +188,7 @@ namespace MachineFree.ViewModels
 			var auto = simulation.IsAutoRepeat(Recipe.Id) && simulation.IsAutomationUnlocked;
 			AutoRepeatText = auto ? "↻" : "";
 			AutoRepeatHint = toggleAutoRepeat is null || !simulation.CanAutoRepeat(Recipe) || !simulation.IsAutomationUnlocked ? ""
-				: auto ? "↻ 자동 반복 중: 끝날 때마다 재료가 되는 만큼 다시 주문한다 · Ctrl+클릭으로 끈다"
+				: auto ? "↻ 자동 반복 중 · Ctrl+클릭으로 끈다"
 				: "Ctrl+클릭 자동 반복";
 
 			var scale = simulation.GetRecipeScale(Recipe);
