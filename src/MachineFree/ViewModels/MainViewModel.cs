@@ -131,14 +131,13 @@ namespace MachineFree.ViewModels
 		public void ShowOfflineReport(OfflineReport report, IEnumerable<string> warnings)
 		{
 			var lines = new List<string>();
-			if (report.Gained.Count > 0)
+			var gains = report.Gained.Where(x => Quantity.Floor(x.Value) >= 1).OrderByDescending(x => x.Value).ToList();
+			if (gains.Count > 0)
 			{
 				var capped = report.Simulated < report.Elapsed ? $", 최대 {FormatDuration(report.Simulated.TotalSeconds)}만 반영" : "";
-				var gains = report.Gained
-					.OrderByDescending(x => x.Value)
-					.Take(6)
-					.Select(x => $"{db.GetName(x.Key)} +{QuantityFormatter.FormatCount(x.Value, NumberStyle)}");
-				lines.Add($"자리를 비운 동안({FormatDuration(report.Elapsed.TotalSeconds)}{capped}) 얻은 것: {string.Join(", ", gains)}");
+				var shown = gains.Take(6).Select(x => $"{db.GetName(x.Key)} +{QuantityFormatter.FormatCount(x.Value, NumberStyle)}");
+				var more = gains.Count > 6 ? $" 외 {gains.Count - 6}종" : "";
+				lines.Add($"자리를 비운 동안({FormatDuration(report.Elapsed.TotalSeconds)}{capped}) 얻은 것: {string.Join(", ", shown)}{more}");
 			}
 
 			lines.AddRange(warnings);

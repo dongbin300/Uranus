@@ -2,6 +2,20 @@
 
 > 작성 2026-10-12 · 기준 커밋 `81285d7`(GitHub `dongbin300/Uranus` main과 동일) + 로컬 미커밋 변경
 > 코드·데이터·저장소 기록을 분석해 목표를 정리하고, 그 목표대로 만들기 위한 순서를 제안한다.
+> 2장(현재 상태)은 작업 전인 `81285d7` 기준 분석이다. 이후 진행은 바로 아래 "진행 상황"과 4장 체크 표시를 본다.
+
+## 진행 상황 (2026-10-12, 브랜치 `feature/foundation`)
+
+| 단계 | 상태 | 내용 |
+|---|---|---|
+| M0 정리 | 완료 | src/·tests/·tools/ 구조, .NET 10, 공통 빌드 설정, CI, README |
+| M1 모델·데이터·검증기 | 완료 | YAML 데이터(아이템 157·레시피 116·생성기 10), 화학식·질량, 검증기(오류 0, 경고 127), 데이터 도구 |
+| M2 시뮬레이션·세이브 | 완료 | UI 없는 게임 규칙, 결정적 시뮬레이션, 세이브 v2·백업·v1 변환, 오프라인 진행 |
+| M3 MVVM UI | 완료 | 새 화면, 스크롤 목록, 소수 진행도, 툴팁(보유/필요·생산량·화학식·질량·원료) |
+| M4 게임 루프 | 일부 | 생성기 대수 비례·비용 증가, 오프라인 진행, 발견·해금, 검색·필터, 숫자 표시 3종 완료. 규모 사다리·목표·생산 라인 확장은 남음 |
+| M5 콘텐츠 | 시작 전 | 검증기 경고(얻을 수 없는 재료 25, 도달 불가 레시피 66, 시간 0 레시피 33, 질량 범위 2)가 작업 목록이다 |
+
+테스트: Uranus 90개, MachineFree.Core 21개. WPF 화면은 검증 하네스로 제작·취소·필터·바인딩(오류 0)을 확인했다.
 
 ---
 
@@ -224,59 +238,71 @@ public sealed class Simulation(UranusDatabase db, GameState state)
 
 ### M0. 정리 (S~M)
 
-- [ ] 미커밋 변경 커밋(우클릭 5개 제작, 전기분해 시간 조정)
-- [ ] git 소유권 문제 해결: `git config --global --add safe.directory D:/Project/CS/Uranus`
-- [ ] `Directory.Build.props`(TargetFramework·Nullable·LangVersion 공통), `.editorconfig`(지금처럼 탭 들여쓰기)
-- [ ] `TestProject`를 솔루션에서 빼거나 `sandbox/`로 이동
-- [ ] `tests/Uranus.Tests`(xUnit) 생성, GitHub Actions(windows-latest에서 build + test)
-- [ ] README에 목표, 스크린샷, 실행 방법, 이 문서 링크
-- [ ] (선택) 지금 프로토타입으로 플레이 테스트를 계속한다면 핫픽스: 2.4의 #7(세이브가 없으면 새 게임), #1(중복 칸), #3(숫자 표시), #2(int 캐스팅)
+- [x] 미커밋 변경 커밋(우클릭 5개 제작, 전기분해 시간 조정)
+- [x] git 소유권 문제 해결: `git config --global --add safe.directory D:/Project/CS/Uranus`
+- [x] `Directory.Build.props`(Nullable·LangVersion·ImplicitUsings 공통), `.editorconfig`(지금처럼 탭 들여쓰기). .NET 9 지원 종료(2026-11)를 앞두고 .NET 10으로 올림
+- [x] `TestProject` 제거(기록은 `81285d7`에 남아 있다)
+- [x] `tests/Uranus.Tests`(xUnit) 생성, GitHub Actions(windows-latest에서 build + test + 데이터 검증)
+- [x] README에 목표, 스크린샷, 실행 방법, 이 문서 링크
+- [x] ~~(선택) 프로토타입 핫픽스~~: M1~M3에서 해당 코드를 새로 써서 필요 없어짐
 
 **완료 기준**: 새로 클론한 PC에서 빌드·실행·테스트가 된다.
 
 ### M1. 모델 + 데이터 + 현실성 검증기 (L, 가장 중요)
 
-- [ ] 스키마 확정(5장): ID 규칙, 단위(`particle`·`piece`), 수량 표기(정수·소수·지수·분수), 생성기, 원소표
-- [ ] `Uranus.Tools migrate`: 지금의 xlsx·csv를 YAML로 한 번 변환하고 한국어 이름 → ID 매핑표를 만든다(세이브 마이그레이션에도 쓴다)
-- [ ] `Uranus` 모델 재작성: `ItemId`·`ItemDef`·`RecipeDef`·`UranusDatabase`(사전 기반 `TryGet…`)
-- [ ] `Formula`: 화학식 파서(괄호·수화물 포함), 원자 수 집계, 분자 질량
-- [ ] `RecipeGraph`: 생산처·소비처 색인, 시작 상태 기준 도달 가능성, 필요 원료(BOM)와 질량 계산. 레시피가 여러 개인 아이템(물은 8개)은 기본 레시피를 지정한다
-- [ ] `Validator` 규칙
-  - 무결성: 정의되지 않은 참조, 중복 ID, 앞뒤 공백·띄어쓰기만 다른 이름, 시간 0, 재료 없는 레시피(`goal` 표시가 없으면)
-  - 진행: 어디서도 얻을 수 없는 재료, 시작 상태에서 도달할 수 없는 레시피
-  - 현실성: 원자 보존(화학식이 있는 아이템끼리), 질량 범위(`expected_mass`와 BOM 질량 비교), 단위 일관성
-  - 경제: 돌릴수록 이득이 남는 레시피 순환(무한 증식) 탐지
-- [ ] 2.3의 데이터 문제 정리: 이름 3쌍 통일, 시간 0 채우기, 인회석 분리의 0.33×3을 1/3씩으로(지금은 1%가 사라짐), 에틸렌 반응 수정, 크리스탈·광학 창 규모 재검토
-- [ ] 검증을 xUnit 테스트로도 돌려서 CI가 데이터 오류를 막게 한다
-- [ ] (선택) `Uranus.Tools graph <아이템> --format mermaid`: 아이템 하나의 제작 트리를 그림으로 출력
+- [x] 스키마 확정(5장): ID 규칙, 단위(`particle`·`piece`), 수량 표기(정수·소수·지수·분수), 생성기, 원소표(44종)
+- [x] xlsx·csv → YAML 1회 변환. 일회성 스크립트로 처리하고 결과만 커밋했다. 예전 세이브는 데이터의 한국어 이름으로 찾으므로 별도 매핑표는 두지 않는다
+- [x] `Uranus` 모델 재작성: `ItemId`·`ItemDef`·`RecipeDef`·`UranusDatabase`(사전 기반 조회)
+- [x] `Formula`: 화학식 파서(괄호·수화물·전하 표기), 원자 수 집계, 몰 질량
+- [x] `RecipeGraph`: 생산처·소비처 색인, 시작 상태 기준 도달 가능성, 필요 원료(BOM)와 질량. 기본 레시피는 데이터에 처음 나오는 생산 레시피
+- [x] `Validator` 규칙
+  - [x] 무결성: 정의되지 않은 참조, 중복 ID, 띄어쓰기만 다른 이름, 시간 0, 재료 없는 레시피
+  - [x] 진행: 어디서도 얻을 수 없는 재료, 시작 상태에서 도달할 수 없는 레시피
+  - [x] 현실성: 원자 보존, 질량 범위(`expected_mass`), 같은 아이템을 만드는 레시피끼리 질량 차이
+  - [ ] 단위 일관성 검사
+  - [ ] 경제: 일반적인 무한 증식(선형 계획) 탐지. 지금은 "질량이 늘어나는 레시피" 검사(U107)가 대신한다
+- [x] 2.3의 데이터 문제 일부 정리: 이름 3쌍 통일, 인회석 분리 1/3씩, 에틸렌 반응 수정, 재료 없는 레시피를 `goal` 아이템으로, 50S·30S·60S·40S를 리보솜 소단위체로 이름 수정
+- [ ] 시간 0 레시피 33개 채우기, 크리스탈(299g)·CCD(최소 1.21t) 규모 재검토: 콘텐츠 판단이 필요해 검증기 경고로 남김(M5)
+- [x] 검증을 xUnit 테스트로도 돌려서 CI가 데이터 오류를 막게 한다
+- [x] `Uranus.Tools tree <아이템>`(Mermaid), `bom <아이템>`(원료·질량)
 
 **완료 기준**: `validate`가 오류 0으로 통과하고, 런타임에서 EPPlus가 빠지고, 모든 참조가 ID로 바뀐다.
 
 ### M2. 헤드리스 시뮬레이션 + 세이브 v2 (M~L)
 
-- [ ] `MachineFree.Core`: `GameState`(ID → 수량(소수 포함), 생성기 보유 수, 대기열, 통계, 저장 시각)
-- [ ] `Simulation.Tick(dt)`: 보유 수에 비례한 생성기 생산, 대기열 여러 개 완성, 취소·환불. 난수를 쓰지 않으므로 입력이 같으면 결과도 항상 같다
-- [ ] 세이브 v2(System.Text.Json): 버전, 원자적 쓰기, 백업, 파일이 없으면 새 게임, v1(지금의 Save.json) → v2 변환
-- [ ] 오프라인 진행: 불러올 때 `지금 − 저장 시각`(상한 예: 24시간)만큼 Tick하고 "자리를 비운 동안 얻은 것"을 보여 준다
-- [ ] 단위 테스트: 포맷터(999, 1000→"1k", 1e15, 1e24, 1e300), 소수 누적(0.2짜리 5번 = 1개, 0.1짜리 10번 = 1개), 생성기 보유 수 비례, 인벤토리, 큰 dt, 시간 0 레시피, 취소, 세이브 왕복, v1 변환
+- [x] `MachineFree.Core`: `GameState`(ID → 수량(소수 포함), 대기열, 발견한 아이템, 통계, 저장 시각). 생성기 보유 수는 인벤토리의 생성기 아이템 개수다
+- [x] `Simulation.Tick(dt)`: 보유 수에 비례한 생성기 생산, 대기열 여러 개 완성, 취소·환불. 난수를 쓰지 않으므로 입력이 같으면 결과도 항상 같다
+- [x] 세이브 v2(System.Text.Json): 버전, 원자적 쓰기, 백업과 손상 시 백업 복구, 파일이 없으면 새 게임, v1 → v2 변환(`import-save`)
+- [x] 오프라인 진행: 불러올 때 `지금 − 저장 시각`(상한 24시간)만큼 Tick하고 "자리를 비운 동안 얻은 것"을 보여 준다
+- [x] 단위 테스트: 포맷터, 소수 누적, 생성기 보유 수 비례·비용 증가, 큰 dt, 시간 0 레시피, 취소, 세이브 왕복·백업, v1 변환, 결정성
 
 **완료 기준**: UI 없이 콘솔에서 "수소 15개로 시작해 N분 플레이"를 돌려 매번 같은 결과를 얻는다.
 
 ### M3. UI를 MVVM으로 다시 연결 (M)
 
-- [ ] CommunityToolkit.Mvvm 도입, `x:Static GameManager` 바인딩 제거
-- [ ] ViewModel: Inventory / RecipeList(검색, 분야 탭, "만들 수 있는 것만") / Queue / Generators
-- [ ] 게임 루프: `DispatcherTimer` + `Stopwatch`로 실제 dt를 넘기고, 바뀐 칸만 갱신
-- [ ] 고정 `UniformGrid`를 스크롤되는 `WrapPanel`로 교체(필요하면 가상화)
-- [ ] 반짝임 같은 표시 상태는 ViewModel·View로 이동
-- [ ] 칸에 소수 진행도 표시(예: mRNA 0.6개면 "0"과 60% 막대), 생성기 칸에 보유 수 표시
-- [ ] 전역 예외 처리(`DispatcherUnhandledException`)와 크래시 로그
+- [x] CommunityToolkit.Mvvm 도입, `x:Static GameManager` 바인딩 제거
+- [x] ViewModel: Inventory / RecipeList(검색, 분야, "만들 수 있는 것만") / Queue / Generators
+- [x] 게임 루프: `DispatcherTimer` + `Stopwatch`로 실제 dt를 넘기고, 바뀐 칸만 갱신
+- [x] 고정 `UniformGrid`를 스크롤되는 `WrapPanel`로 교체
+- [x] 반짝임 같은 표시 상태는 View(XAML 애니메이션)로 이동
+- [x] 칸에 소수 진행도 표시(예: 수소 0.5개면 "0"과 50% 막대), 생성기 칸에 보유 수 표시
+- [x] 전역 예외 처리(`DispatcherUnhandledException`)와 크래시 로그
 
 **완료 기준**: 지금 프로토타입의 기능이 새 구조에서 똑같이 동작하고, 아이템 148종이 모두 보인다.
 
 ### M4. 게임 루프 강화 (M~L)
 
 6장의 우선순위 1부터: 생성기 수량 반영과 규모 사다리 → 오프라인 진행 → 발견·해금 → 목표.
+
+- [x] 생성기 대수 비례 생산, n대째 비용 ×1.15ⁿ(`generator_cost_growth`)
+- [x] 오프라인 진행과 결과 배너
+- [x] 발견·해금: 재료를 모두 한 번씩 가져 본 레시피만 공개
+- [x] 정보 UX: 검색, 분야, "만들 수 있는 것만", 툴팁(보유/필요, 생산량, 화학식, 질량, 원료 펼치기), 숫자 표시(k·m·b / 만·억·조 / 1e24)
+- [ ] 규모 사다리(몰 단위 제작 해금 등): 콘텐츠가 10²⁰ 단위에 닿는 M5와 함께 설계한다
+- [ ] 목표·마일스톤
+- [ ] 생산 라인 확장(병렬 대기열, 자동 반복)
+- [ ] 통계 그래프
+- [ ] 밸런스 시뮬레이터(`Uranus.Tools simulate`)
 
 ### M5. 콘텐츠 확장 (L, 계속)
 
@@ -294,52 +320,68 @@ Explorer(데이터를 웹 정적 페이지로 내보내 그래프·필요 원료
 
 ---
 
-## 5. 데이터 스키마 제안 (YAML)
+## 5. 데이터 스키마 (YAML, 구현됨)
 
 ```yaml
 # data/elements.yaml: 원자량은 질량 계산과 검증에 쓴다
-- { id: H,  name: { ko: 수소, en: Hydrogen }, mass: 1.008 }
-- { id: O,  name: { ko: 산소, en: Oxygen },   mass: 15.999 }
-- { id: Si, name: { ko: 규소, en: Silicon },  mass: 28.085 }
+elements:
+  - { symbol: H,  name: { ko: 수소, en: Hydrogen }, mass: 1.008 }
+  - { symbol: Si, name: { ko: 규소, en: Silicon },  mass: 28.085 }
 
-# data/items/chemistry.yaml: 화학 물질은 화학식이 곧 ID
-- { id: H2O, name: { ko: 물, en: Water },             formula: H2O }
-- { id: O2,  name: { ko: 산소 분자, en: Oxygen gas }, formula: O2 }
-- { id: CH4, name: { ko: 메탄, en: Methane },          formula: CH4 }
+# data/items/chemistry.yaml: 파일 머리의 category·unit이 기본값. 화학 물질은 화학식이 곧 ID
+category: chemistry
+unit: particle
+items:
+  - { id: H2O, name: { ko: 물, en: Water }, formula: H2O }
+  - { id: OH-, name: { ko: 수산화 이온, en: Hydroxide ion }, formula: OH- }
 
-# data/items/electronics.yaml: 부품은 piece 단위, 질량은 BOM에서 자동 계산
-- id: wafer_8in
-  name: { ko: 8인치 실리콘 웨이퍼, en: 8-inch silicon wafer }
-  unit: piece
-  expected_mass: [40g, 70g]     # 실제 값 범위. BOM 질량(지금 데이터로 약 53g)이 벗어나면 경고
+# data/items/electronics.yaml: 부품은 piece 단위, 질량은 레시피에서 자동 계산
+category: electronics
+unit: piece
+items:
+  - { id: wafer_8in, name: { ko: 8인치 실리콘 웨이퍼 }, expected_mass: [45g, 60g], note: "실제 약 53g" }
 
 # data/recipes/chemistry.yaml
-- id: methane_combustion          # CH4 + 2O2 → CO2 + 2H2O
-  time: 0.4
-  in:  { CH4: 1, O2: 2 }
-  out: { CO2: 1, H2O: 2 }
-
-- id: apatite_separation          # 천연 인회석은 세 성분이 섞인 고용체 → 1/3씩
-  time: 0.03
-  in:  { apatite: 1 }
-  out: { hydroxyapatite: 1/3, fluorapatite: 1/3, chlorapatite: 1/3 }
+category: chemistry
+recipes:
+  - id: methane_combustion          # CH4 + 2O2 → CO2 + 2H2O
+    name: { ko: 메탄 연소 }
+    time: 0.4
+    in: { CH4: 1, O2: 2 }
+    out: { CO2: 1, H2O: 2 }
+  - id: apatite_separation          # 천연 인회석은 세 성분이 섞인 고용체 → 1/3씩
+    time: 0.03
+    in: { apatite: 1 }
+    out: { hydroxyapatite: 1/3, fluorapatite: 1/3, chlorapatite: 1/3 }
 
 # data/recipes/biology.yaml
-- id: mrna_synthesis
-  time: 1                          # 지금 데이터는 0. 값을 정해야 함
-  in:  { ribose: 1433, adenine: 396, cytosine: 317, guanine: 392, uracil: 328 }
-  out: { mrna: 0.2 }               # 1 미만은 소수로 누적: 5번 만들면 1개
+recipes:
+  - id: mrna
+    time: 0                         # 아직 미정 → 검증기 경고
+    in: { ribose: 1433, adenine: 396, cytosine: 317, guanine: 392, uracil: 328 }
+    out: { mrna: 0.2 }              # 1 미만은 소수로 누적: 5번 만들면 1개
 
-# data/generators.yaml
-- id: hydrogen_synthesizer
-  name: { ko: 수소 합성기 }
-  build: { time: 12, in: { H: 15 } }
-  produces: { H: 0.25 }           # 1대당 초당
+# data/generators.yaml: 생성기 아이템과 build_<id> 레시피가 함께 만들어진다
+generators:
+  - id: hydrogen_synthesizer
+    name: { ko: 수소 합성기 }
+    build: { time: 12, in: { H: 15 } }
+    produces: { H: 0.25 }           # 1대당 초당
 
-- id: air_separator               # 실제 공정 기반 생성기 예시 (값은 예시)
-  name: { ko: 공기 분리기 }
-  build: { time: 30, in: { Fe: 100, Cu: 50 } }
-  produces: { N2: 0.78, O2: 0.21, Ar: 0.0093 }   # 공기 조성 비율
+# data/game.yaml
+start:
+  inventory: { H: 15 }
+generator_cost_growth: 1.15
+offline_cap_hours: 24
+```
+
+실제 공정 기반 생성기의 예(아직 데이터에 없음):
+
+```yaml
+  - id: air_separator
+    name: { ko: 공기 분리기 }
+    build: { time: 30, in: { Fe: 100, Cu: 50 } }    # 값은 예시
+    produces: { N2: 0.78, O2: 0.21, Ar: 0.0093 }    # 공기 조성 비율
 ```
 
 - 수량은 정수·소수·지수(`1.133e24`)·분수(`1/3`) 표기를 받는다. 분수는 YAML에서 문자열로 읽히므로 로더가 직접 해석한다.
