@@ -1,0 +1,696 @@
+# 전자 부품. 작은 부품은 100~10,000개씩 한 번에 만든다.
+# 공정에서 쓰고 버리는 포토레지스트·TEOS·실레인 등은 원자 수가 맞는 부산물(CO2, H2O, H2, HF ...)로 내보내 제품 질량에 들어가지 않게 했다.
+category: electronics
+recipes:
+  - id: trichlorosilane_redistribution
+    name: { ko: 트라이클로로실레인 재분배 }
+    time: 2
+    in: { SiHCl3: 4 }
+    out: { SiH4: 1, SiCl4: 3 }
+    note: "4SiHCl3 → SiH4 + 3SiCl4. 음이온 교환 수지 촉매 위에서 재분배를 거듭해 실레인을 얻는다. 사염화 규소는 수소화해 되돌린다"
+  - id: siemens_process
+    name: { ko: 지멘스 공정 }
+    time: 4
+    in: { SiHCl3: 1, H2: 1 }
+    out: { polysilicon: 1, HCl: 3 }
+    note: "SiHCl3 + H2 → Si + 3HCl. 1,100°C로 달군 가는 실리콘 봉 위에 다결정 실리콘을 쌓아 지름 150mm 넘는 봉으로 키운다"
+  - id: silane_fluidized_bed
+    name: { ko: 실레인 유동층 열분해 }
+    time: 3
+    in: { SiH4: 1 }
+    out: { polysilicon: 1, H2: 2 }
+    note: "SiH4 → Si + 2H2. 유동층 반응기에서 실리콘 알갱이 위에 쌓는다(입상 폴리실리콘)"
+  - id: tungsten_hexafluoride_synthesis
+    name: { ko: 육플루오린화 텅스텐 합성 }
+    time: 2
+    in: { W: 1, F2: 3 }
+    out: { WF6: 1 }
+    note: "W + 3F2 → WF6. 텅스텐 분말을 플루오린 기체로 태운다"
+  - id: teos_synthesis
+    name: { ko: TEOS 합성 }
+    time: 2
+    in: { SiCl4: 1, ethanol: 4 }
+    out: { teos: 1, HCl: 4 }
+    note: "SiCl4 + 4C2H5OH → Si(OC2H5)4 + 4HCl"
+  - id: nitrogen_trifluoride_synthesis
+    name: { ko: 삼플루오린화 질소 합성 }
+    time: 2
+    in: { NH3: 4, F2: 3 }
+    out: { NF3: 1, NH4F: 3 }
+    note: "4NH3 + 3F2 → NF3 + 3NH4F. 녹인 산성 플루오린화 암모늄 속에서 반응시킨다"
+  - id: photoresist_formulation
+    name: { ko: 포토레지스트 조제 }
+    time: 4
+    in: { phenolic_resin: 3, butyl_acetate: 7 }
+    out: { photoresist: 10 }
+    note: "노볼락 수지를 용매에 녹여 0.2µm 필터로 거른다"
+  - id: gallium_trichloride_synthesis
+    name: { ko: 염화 갈륨 합성 }
+    time: 2
+    in: { Ga: 2, Cl2: 3 }
+    out: { GaCl3: 2 }
+  - id: indium_trichloride_synthesis
+    name: { ko: 염화 인듐 합성 }
+    time: 2
+    in: { In: 2, Cl2: 3 }
+    out: { InCl3: 2 }
+  - id: triethylgallium_synthesis
+    name: { ko: 트라이에틸갈륨 합성 }
+    time: 3
+    in: { GaCl3: 1, triethylaluminium: 1 }
+    out: { triethylgallium: 1, AlCl3: 1 }
+    note: "GaCl3 + Al(C2H5)3 → Ga(C2H5)3 + AlCl3. 알킬기 교환 뒤 증류해 순도 6N으로 정제한다"
+  - id: triethylindium_synthesis
+    name: { ko: 트라이에틸인듐 합성 }
+    time: 3
+    in: { InCl3: 1, triethylaluminium: 1 }
+    out: { triethylindium: 1, AlCl3: 1 }
+    note: "InCl3 + Al(C2H5)3 → In(C2H5)3 + AlCl3. 실제 MOCVD에는 트라이메틸 화합물을 더 많이 쓴다"
+  - id: gan_mocvd
+    name: { ko: 질화 갈륨 MOCVD }
+    time: 6
+    in: { triethylgallium: 1, NH3: 1 }
+    out: { GaN: 1, C2H6: 3 }
+    note: "Ga(C2H5)3 + NH3 → GaN + 3C2H6. 약 1,050°C 수소 분위기 반응기에서 기판 위에 기른다"
+  - id: ingan_mocvd
+    name: { ko: 질화 인듐 갈륨 MOCVD }
+    time: 6
+    in: { triethylindium: 1, triethylgallium: 4, NH3: 5 }
+    out: { InGaN: 5, C2H6: 15 }
+    note: "인듐이 날아가지 않게 약 750°C에서 기른다"
+  - id: yttrium_oxide_calcination
+    name: { ko: 산화 이트륨 소성 }
+    time: 3
+    in: { Y2(SO4)3: 1 }
+    out: { Y2O3: 1, SO3: 3 }
+    note: "Y2(SO4)3 → Y2O3 + 3SO3. 약 1,000°C에서 분해한다"
+  - id: cerium_dioxide_precipitation
+    name: { ko: 산화 세륨 제조 }
+    time: 3
+    in: { CeCl3: 4, H2O: 6, O2: 1 }
+    out: { CeO2: 4, HCl: 12 }
+    note: "4CeCl3 + 6H2O + O2 → 4CeO2 + 12HCl"
+  - id: yag_phosphor_firing
+    name: { ko: "YAG:Ce 형광체 소성" }
+    time: 8
+    in: { Y2O3: 58, Al2O3: 100, CeO2: 4 }
+    out: { yag_phosphor: 40, O2: 1 }
+    note: "1,500°C 약환원 분위기에서 고상 반응. Ce4+가 Ce3+로 바뀌며 산소가 빠진다"
+  - id: sapphire_wafer_growth
+    name: { ko: 사파이어 웨이퍼 제작 }
+    time: 300
+    in: { Al2O3: 1.217e23 }
+    out: { sapphire_wafer_4in: 1 }
+    note: "키로풀로스법으로 기른 사파이어 잉곳을 코어링·절단·연마한다. 깎인 부분은 다시 녹인다"
+  - id: indium_oxide_synthesis
+    name: { ko: 산화 인듐 제조 }
+    time: 2
+    in: { In: 4, O2: 3 }
+    out: { In2O3: 2 }
+  - id: tin_dioxide_synthesis
+    name: { ko: 산화 주석 제조 }
+    time: 2
+    in: { Sn: 1, O2: 1 }
+    out: { SnO2: 1 }
+  - id: ito_mixing
+    name: { ko: ITO 분말 혼합 }
+    time: 4
+    in: { In2O3: 5, SnO2: 1 }
+    out: { ito: 6 }
+    note: "섞어 눌러 1,500°C로 소결해 스퍼터링 타깃으로 쓴다"
+  - id: barium_titanate_synthesis
+    name: { ko: 타이타늄산 바륨 합성 }
+    time: 3
+    in: { BaCO3: 1, TiO2: 1 }
+    out: { BaTiO3: 1, CO2: 1 }
+    note: "BaCO3 + TiO2 → BaTiO3 + CO2. 약 1,100°C 고상 반응"
+  - id: mnzn_ferrite_calcination
+    name: { ko: MnZn 페라이트 하소 }
+    time: 4
+    in: { MnO: 7, ZnO: 3, Fe2O3: 10 }
+    out: { mnzn_ferrite: 10 }
+    note: "7MnO + 3ZnO + 10Fe2O3 → 10Mn0.7Zn0.3Fe2O4. 질소 분위기에서 하소한다"
+  - id: nickel_manganite_synthesis
+    name: { ko: 니켈 망가나이트 합성 }
+    time: 3
+    in: { NiO: 2, MnO: 4, O2: 1 }
+    out: { NiMn2O4: 2 }
+  - id: cadmium_recovery
+    name: { ko: 카드뮴 회수 }
+    time: 20
+    in: { sphalerite: 300, O2: 450, H2SO4: 1, Zn: 1 }
+    out: { Cd: 1, ZnO: 299, SO2: 300, ZnSO4: 1 }
+    approximate: true
+    note: "섬아연석에는 카드뮴이 0.1~0.5% 들어 있다. 배소한 정광의 침출액에서 아연 가루로 카드뮴을 석출한다"
+  - id: cadmium_sulfide_synthesis
+    name: { ko: 황화 카드뮴 합성 }
+    time: 2
+    in: { Cd: 1, S: 1 }
+    out: { CdS: 1 }
+  - id: durene_synthesis
+    name: { ko: 듀렌 합성 }
+    time: 3
+    in: { mixed_xylenes: 1, CH3OH: 2 }
+    out: { durene: 1, H2O: 2 }
+    note: "제올라이트 촉매로 자일렌에 메틸기를 붙이고 결정화해 분리한다"
+  - id: pmda_synthesis
+    name: { ko: PMDA 합성 }
+    time: 3
+    in: { durene: 1, O2: 6 }
+    out: { pmda: 1, H2O: 6 }
+    note: "바나듐 촉매 기상 산화"
+  - id: oda_synthesis
+    name: { ko: ODA 합성 }
+    time: 4
+    in: { phenol: 1, aniline: 1, NH3: 1, O2: 1 }
+    out: { oda: 1, H2O: 2 }
+    note: "개요 반응. 실제로는 4-나이트로클로로벤젠과 4-나이트로페놀을 축합한 다이나이트로다이페닐 에터를 수소화한다"
+  - id: polyimide_synthesis
+    name: { ko: 폴리이미드 합성 }
+    time: 4
+    in: { pmda: 1, oda: 1 }
+    out: { polyimide: 1, H2O: 2 }
+    note: "폴리아믹산 용액을 필름으로 펴고 350°C로 가열해 고리를 닫는다"
+  - id: biphenyl_synthesis
+    name: { ko: 바이페닐 회수 }
+    time: 2
+    in: { toluene: 2, H2: 1 }
+    out: { biphenyl: 1, CH4: 2 }
+    note: "2C7H8 + H2 → C12H10 + 2CH4. 톨루엔 수소 탈알킬화(HDA) 공정에서 부산물로 나오는 바이페닐을 증류해 거둔다"
+  - id: liquid_crystal_5cb_synthesis
+    name: { ko: 5CB 액정 합성 }
+    time: 8
+    in: { biphenyl: 1, pentane: 1, HCN: 1, O2: 1 }
+    out: { liquid_crystal_5cb: 1, H2O: 2 }
+    note: "개요 반응. 실제로는 펜타노일화·환원·브로민화 뒤 사이안화 구리로 사이아노기를 붙인다"
+  - id: hydroxyquinoline_synthesis
+    name: { ko: 8-하이드록시퀴놀린 합성 }
+    time: 4
+    in: { phenol: 1, NH3: 1, glycerol: 1, O2: 1 }
+    out: { hydroxyquinoline: 1, H2O: 5 }
+    note: "개요 반응. 실제로는 2-아미노페놀과 글리세롤의 스크라우프 반응이다"
+  - id: alq3_synthesis
+    name: { ko: Alq3 합성 }
+    time: 3
+    in: { AlCl3: 1, hydroxyquinoline: 3 }
+    out: { alq3: 1, HCl: 3 }
+    note: "합성한 뒤 진공 승화로 정제한다"
+  - id: led_epi_growth
+    name: { ko: LED 에피 성장 }
+    time: 600
+    in: { sapphire_wafer_4in: 1, GaN: 1.798e21, InGaN: 1.623e19, SiH4: 1.6e17, Mg: 5e16 }
+    out: { led_epi_wafer: 1 }
+    note: "MOCVD로 저온 버퍼·n-GaN(실레인으로 규소 도핑)·InGaN/GaN 양자 우물·p-GaN(마그네슘 도핑)을 차례로 기른다"
+  - id: led_chip_fabrication
+    name: { ko: LED 칩 공정 }
+    time: 300
+    in: { led_epi_wafer: 1, ito: 1.409e19, Au: 3.669e19, Ni: 2.052e19, SiO2: 1.002e20, photoresist: 5.322e21, O2: 1.277e22 }
+    out: { led_chip: 25000, sapphire_sludge: 1.041e23, butyl_acetate: 3.726e21, CO2: 1.118e22, H2O: 4.79e21 }
+    note: "메사 식각·ITO 전류 확산층·금 전극·보호막. 사파이어를 120µm까지 갈아 내고 스텔스 다이싱으로 약 25,000개로 자른다"
+  - id: led_smd_2835_packaging
+    name: { ko: 2835 LED 패키징 }
+    time: 120
+    in: { led_chip: 1000, Cu: 1.023e23, Ag: 1.675e21, Sn: 1.522e21, epoxy_resin: 2.123e21, SiO2: 6.415e22, pdms: 2.436e22, yag_phosphor: 5.029e20, Au: 6.115e19 }
+    out: { led_smd_2835: 1000 }
+    note: "은 도금 구리 리드 프레임과 EMC 하우징에 칩을 붙이고 금선으로 잇는다. YAG:Ce 형광체를 섞은 실리콘으로 덮어 백색광을 낸다"
+  - id: led_5mm_packaging
+    name: { ko: 5mm LED 패키징 }
+    time: 60
+    in: { led_chip: 100, steel: 1.152e23, Ag: 5.583e20, yag_phosphor: 5.029e19, Au: 6.115e18, epoxy_resin: 3.007e22 }
+    out: { led_5mm: 100 }
+    note: "은 도금 강철 리드의 반사 컵에 칩을 붙이고 에폭시 렌즈를 부어 굳힌다"
+  - id: mlcc_0603_production
+    name: { ko: MLCC(0603) 제조 }
+    time: 120
+    in: { BaTiO3: 8.522e21, Ni: 1.026e22, Cu: 3.791e21, Sn: 7.609e20, SiO2: 5.012e20 }
+    out: { mlcc_0603: 1000 }
+    note: "유전체 시트에 니켈 페이스트를 인쇄해 수백 층 쌓고 1,250°C 환원 분위기에서 동시 소성한다. 구리 외부 전극에 니켈·주석을 도금한다"
+  - id: mlcc_0201_production
+    name: { ko: MLCC(0201) 제조 }
+    time: 120
+    in: { BaTiO3: 5.165e21, Ni: 6.156e21, Cu: 2.369e21, Sn: 6.088e20 }
+    out: { mlcc_0201: 10000 }
+    note: "두께 1µm 미만 유전체 시트를 쓴다"
+  - id: chip_resistor_0603_production
+    name: { ko: 후막 칩 저항 제조 }
+    time: 120
+    in: { Al2O3: 1.329e22, Pd: 1.132e20, Ag: 5.583e20, PbO: 8.094e19, B2O3: 8.65e19, SiO2: 2.005e20, Ni: 5.13e20, Sn: 5.073e20, epoxy_resin: 1.415e20 }
+    out: { chip_resistor_0603: 1000 }
+    note: "알루미나 기판에 Pd-Ag 저항 페이스트와 납 붕규산 유리를 인쇄해 850°C로 굽고 레이저로 값을 맞춘다. 요즘은 대부분 RuO2 페이스트를 쓰지만 루테늄 공급원이 없어 초기 방식으로 대신했다"
+  - id: carbon_film_resistor_production
+    name: { ko: 탄소 피막 저항 제조 }
+    time: 60
+    in: { Al2O3: 2.953e22, CH4: 4.2e20, steel: 1.381e23, Cu: 9.477e21, Sn: 2.536e21, epoxy_resin: 5.307e21 }
+    out: { carbon_film_resistor: 100, H2: 8.4e20 }
+    note: "세라믹 봉 위에 메테인을 1,000°C에서 열분해해 탄소막을 입히고 나선 홈을 깎아 값을 맞춘다. 리드는 구리 피복 강선"
+  - id: electrolytic_capacitor_production
+    name: { ko: 알루미늄 전해 커패시터 제조 }
+    time: 120
+    in: { Al: 2.946e24, cotton_fiber: 6.314e22, ethylene_glycol: 2.426e23, H3BO3: 5.844e22, NH3: 7.072e22, H2O: 6.686e22, nbr: 5.602e22, steel: 8.697e22, Cu: 1.422e22, Sn: 2.536e21, pvc: 4.818e22 }
+    out: { electrolytic_capacitor: 100 }
+    note: "에칭으로 표면적을 넓힌 양극박에 양극 산화로 Al2O3 유전체를 만들고 음극박·마닐라지(면 섬유로 대신)와 감아 붕산 암모늄 전해액을 먹인다"
+  - id: bulk_capacitor_production
+    name: { ko: 스냅인 전해 커패시터 제조 }
+    time: 120
+    in: { Al: 5.803e24, cotton_fiber: 1.486e23, ethylene_glycol: 6.792e23, H3BO3: 1.461e23, NH3: 1.768e23, H2O: 3.343e23, phenolic_resin: 1.702e23, nbr: 3.735e22, Cu: 1.422e23, Sn: 5.073e21, pvc: 9.636e22 }
+    out: { bulk_capacitor: 10 }
+    note: "고압용 양극박을 감아 알루미늄 캔에 넣고 페놀 수지 마개로 봉한다"
+  - id: tantalum_capacitor_production
+    name: { ko: 탄탈럼 커패시터 제조 }
+    time: 180
+    in: { Ta: 9.518e22, O2: 3.764e21, MnO2: 2.771e22, anode_graphite: 2.507e22, Ag: 8.374e21, epoxy_resin: 6.192e21, SiO2: 1.704e23, Fe: 6.47e22, Ni: 4.104e22, Sn: 2.536e21 }
+    out: { tantalum_capacitor: 1000 }
+    note: "탄탈럼 분말 펠릿을 진공 소결하고 양극 산화로 Ta2O5 유전체를 만든다. 질산 망가니즈를 열분해해 MnO2 음극을 입히고 흑연·은 페이스트를 바른 뒤 42 합금 리드 프레임에 몰딩한다"
+  - id: film_capacitor_production
+    name: { ko: 필름 커패시터 제조 }
+    time: 120
+    in: { polypropylene: 2.218e24, Zn: 1.842e23, Al: 2.232e21, Cu: 2.085e23, Sn: 5.073e21, pet: 2.82e23, epoxy_resin: 1.061e23, SiO2: 7.016e23 }
+    out: { film_capacitor: 100 }
+    note: "두께 약 6µm 폴리프로필렌 필름에 아연·알루미늄을 진공 증착해 감고, 양 끝에 아연을 용사해 리드를 붙인 뒤 PBT(PET로 대신) 상자에 에폭시로 채운다"
+  - id: ferrite_toroid_sintering
+    name: { ko: 페라이트 코어 소결 }
+    time: 120
+    in: { mnzn_ferrite: 3.89e23, epoxy_resin: 3.538e21 }
+    out: { ferrite_toroid: 10 }
+    note: "PVA 결합제를 섞어 과립으로 만들고 눌러 1,300°C 산소 분압을 맞춘 분위기에서 소결한다. 결합제는 타서 없어진다"
+  - id: smd_power_inductor_production
+    name: { ko: SMD 파워 인덕터 제조 }
+    time: 120
+    in: { mnzn_ferrite: 1.005e23, Cu: 5.686e22, pet: 9.401e20, Ag: 1.117e21, Sn: 2.536e21, epoxy_resin: 1.769e21 }
+    out: { smd_power_inductor: 100 }
+    note: "페라이트 드럼 코어에 에나멜선을 감고 링 코어로 차폐한다"
+  - id: smps_transformer_winding
+    name: { ko: 스위칭 변압기 권선 }
+    time: 120
+    in: { mnzn_ferrite: 4.122e23, Cu: 7.866e23, pet: 1.567e22, phenolic_resin: 1.702e23, epoxy_resin: 8.845e21, Sn: 1.522e22 }
+    out: { smps_transformer: 10 }
+    note: "페놀 수지 보빈에 1차·2차 권선을 감고 절연 테이프를 둘러 EE 코어를 끼운 뒤 바니시에 담근다"
+  - id: quartz_crystal_unit_assembly
+    name: { ko: 수정 진동자 조립 }
+    time: 120
+    in: { crystal: 100, Ag: 5.583e19, nickel_silver: 1.818e23, steel: 1.25e23, glass: 100, Sn: 2.536e21 }
+    out: { quartz_crystal_unit: 100 }
+    note: "수정 블랭크 양면에 은 전극을 증착해 주파수를 맞추고, 유리 밀봉 리드 받침에 세워 질소 속에서 캔을 씌운다"
+  - id: photoresistor_production
+    name: { ko: 광저항 제조 }
+    time: 60
+    in: { Al2O3: 4.725e22, CdS: 4.168e20, Ag: 1.117e20, Cu: 9.477e22, Sn: 1.522e21, epoxy_resin: 5.307e21 }
+    out: { photoresistor: 100 }
+    note: "세라믹 판에 CdS 막을 입히고 빗살 전극을 증착한다. 카드뮴 때문에 유럽에서는 쓰임이 제한된다"
+  - id: ntc_thermistor_production
+    name: { ko: NTC 서미스터 제조 }
+    time: 60
+    in: { NiMn2O4: 9.063e21, Co3O4: 7.503e20, Ag: 1.117e21, steel: 6.522e22, Cu: 1.895e22, Sn: 1.522e21, epoxy_resin: 8.845e21 }
+    out: { ntc_thermistor: 100 }
+    note: "니켈 망가나이트에 코발트를 넣은 원판을 소결하고 은 전극·리드를 붙여 에폭시로 감싼다"
+  - id: relay_assembly
+    name: { ko: 릴레이 조립 }
+    time: 120
+    in: { Cu: 1.895e23, steel: 4.892e23, Ag: 4.913e21, SnO2: 4.795e20, phosphor_bronze: 5.567e22, brass: 7.519e22, Sn: 1.015e21, nylon_66: 2.129e22, pet: 5.171e22, epoxy_resin: 3.538e21 }
+    out: { relay: 10 }
+    note: "연철 코어에 코일을 감고 AgSnO2 접점을 인청동 스프링에 붙여 PBT(PET로 대신) 케이스에 넣고 에폭시로 봉한다"
+  - id: glass_fuse_assembly
+    name: { ko: 유리관 퓨즈 조립 }
+    time: 60
+    in: { glass: 1000, brass: 2.819e23, Ni: 5.13e21, Cu: 1.137e21, Ag: 2.233e20, solder_sac305: 1.022e22 }
+    out: { glass_fuse: 100 }
+    note: "은 도금 구리 퓨즈선을 유리관에 넣고 니켈 도금 황동 캡을 땜납으로 붙인다"
+  - id: usb_c_receptacle_assembly
+    name: { ko: USB-C 리셉터클 조립 }
+    time: 60
+    in: { stainless_steel: 5.475e23, phosphor_bronze: 9.278e22, Ni: 5.13e21, Au: 6.115e19, Sn: 1.015e21, pet: 3.761e22 }
+    out: { usb_c_receptacle: 100 }
+    note: "금 도금 인청동 접점 24개를 LCP(PET로 대신)에 인서트 사출하고 스테인리스 셸을 씌운다"
+  - id: usb_cable_assembly
+    name: { ko: USB-C 케이블 제조 }
+    time: 300
+    in: { copper_wire_1kg: 1, Al: 1.786e24, polyethylene_ld: 6.869e24, flexible_pvc: 1.521e24, stainless_steel: 2.102e24, phosphor_bronze: 2.969e23, Au: 9.172e20, pet: 3.008e23, epoxy_resin: 5.661e22, SiO2: 3.207e23, solder_sac305: 8.175e22 }
+    out: { usb_cable: 160 }
+    note: "구리선을 다시 가늘게 뽑아 꼰 도체 160m분을 알루미늄 박·편조로 차폐하고 피복한 뒤 양 끝에 플러그를 붙인다"
+  - id: power_cord_assembly
+    name: { ko: 전원 코드 제조 }
+    time: 300
+    in: { copper_wire_1kg: 1, flexible_pvc: 1.497e24, brass: 2.03e24, phosphor_bronze: 5.01e23 }
+    out: { power_cord: 27 }
+    note: "구리선 1kg을 0.2mm로 뽑아 꼰 연선으로 코드 27개를 만든다. 플러그와 커넥터는 PVC로 사출한다"
+  - id: cpu_socket_assembly
+    name: { ko: CPU 소켓 조립 }
+    time: 120
+    in: { steel: 2.718e24, pet: 1.567e23, phosphor_bronze: 2.412e23, Ni: 5.13e20, Au: 3.057e19, solder_sac305: 1.328e22 }
+    out: { cpu_socket: 10 }
+    note: "LCP(PET로 대신) 몸체에 금 도금 접점 1,700개를 꽂고 땜납 볼을 단다. 강철 고정 판과 레버"
+  - id: fr4_lamination
+    name: { ko: FR-4 적층판 제조 }
+    time: 300
+    in: { glass_fiber_mat: 3, epoxy_resin: 2.123e24, phenolic_resin: 1.135e24, Al(OH)3: 1.158e24, copper_foil: 2 }
+    out: { fr4_laminate: 1 }
+    note: "유리 섬유에 에폭시를 먹인 프리프레그를 겹치고 양면에 동박을 대어 175°C로 압착한다. 실제로는 7628 유리 섬유포를 쓴다"
+  - id: pcb_double_sided_fabrication
+    name: { ko: 양면 PCB 제조 }
+    time: 600
+    in: { fr4_laminate: 1, FeCl3: 6.539e24, epoxy_resin: 8.491e22, barite: 3.871e22, solder_sac305: 5.11e22, CuSO4: 3.791e23, photoresist: 1.245e24, O2: 2.799e24 }
+    out: { pcb_double_sided: 90, FeCl2: 6.539e24, CuCl2: 3.27e24, H2SO4: 3.791e23, butyl_acetate: 8.718e23, CO2: 2.615e24, H2O: 7.418e23 }
+    note: "구멍을 뚫어 구리로 도금하고 감광막으로 회로를 그린 뒤 염화 철(III)으로 식각한다(Cu + 2FeCl3 → CuCl2 + 2FeCl2). 솔더 마스크를 바르고 무연 땜납을 입힌다"
+  - id: multilayer_pcb_fabrication
+    name: { ko: 8층 PCB 제조 }
+    time: 900
+    in: { glass_fiber_mat: 3, epoxy_resin: 2.385e24, phenolic_resin: 1.135e24, Al(OH)3: 1.158e24, copper_foil: 4, CuCl2: 5.942e24, barite: 3.871e22, Ni: 9.234e22, Au: 6.115e20, CuSO4: 5.686e23, photoresist: 2.821e24, O2: 6.486e24 }
+    out: { multilayer_pcb_panel: 1, CuCl: 1.188e25, H2SO4: 5.686e23, butyl_acetate: 1.975e24, CO2: 5.924e24, H2O: 1.97e24 }
+    note: "내층 회로를 염화 구리(II)로 식각하고(Cu + CuCl2 → 2CuCl) 프리프레그와 함께 압착한다. 드릴·도금·외층 식각·솔더 마스크 뒤 무전해 니켈·금(ENIG)으로 마감한다"
+  - id: hdi_pcb_fabrication
+    name: { ko: HDI PCB 제조 }
+    time: 1200
+    in: { glass_fiber_mat: 1, epoxy_resin: 1.398e24, SiO2: 1.002e24, copper_foil: 3, CuCl2: 4.454e24, barite: 3.096e22, Ni: 8.208e22, Au: 6.115e20, CuSO4: 1.422e24, photoresist: 3.726e24, O2: 8.231e24 }
+    out: { hdi_pcb_panel: 1, CuCl: 8.908e24, H2SO4: 1.422e24, butyl_acetate: 2.608e24, CO2: 7.824e24, H2O: 1.932e24 }
+    note: "얇은 층을 하나씩 쌓으며 레이저로 마이크로 비아를 뚫고 구리로 메운다(빌드업)"
+  - id: motherboard_pcb_cutting
+    name: { ko: 메인보드 기판 재단 }
+    time: 60
+    in: { multilayer_pcb_panel: 1 }
+    out: { motherboard_pcb: 12 }
+    note: "1m² 패널에서 ATX 기판 12장을 잘라 낸다"
+  - id: laptop_mainboard_pcb_cutting
+    name: { ko: 노트북 기판 재단 }
+    time: 60
+    in: { multilayer_pcb_panel: 1 }
+    out: { laptop_mainboard_pcb: 32 }
+  - id: dimm_pcb_cutting
+    name: { ko: 메모리 모듈 기판 재단 }
+    time: 60
+    in: { multilayer_pcb_panel: 1 }
+    out: { dimm_pcb: 200 }
+  - id: smartphone_pcb_cutting
+    name: { ko: 스마트폰 기판 재단 }
+    time: 60
+    in: { hdi_pcb_panel: 1 }
+    out: { smartphone_pcb: 260 }
+  - id: m2_pcb_cutting
+    name: { ko: M.2 기판 재단 }
+    time: 60
+    in: { hdi_pcb_panel: 1 }
+    out: { m2_pcb: 450 }
+  - id: module_pcb_cutting
+    name: { ko: 모듈 기판 재단 }
+    time: 60
+    in: { hdi_pcb_panel: 1 }
+    out: { module_pcb: 1200 }
+  - id: flexible_pcb_fabrication
+    name: { ko: 연성 회로 기판 제조 }
+    time: 600
+    in: { polyimide: 8.348e22, copper_foil: 1, CuCl2: 1.782e24, epoxy_resin: 1.769e22, Ni: 1.026e22, Au: 1.529e20, photoresist: 3.726e23, O2: 8.941e23 }
+    out: { flexible_pcb: 1500, CuCl: 3.563e24, butyl_acetate: 2.608e23, CO2: 7.824e23, H2O: 3.353e23 }
+    note: "폴리이미드 필름에 동박을 붙여 회로를 식각하고 커버레이를 덮는다. 1m²에서 FPC 1,500장"
+  - id: display_glass_fusion
+    name: { ko: 디스플레이 유리 퓨전 성형 }
+    time: 300
+    in: { SiO2: 7.277e24, Al2O3: 1.193e24, B2O3: 1.029e24, CaCO3: 1.02e24, MgO: 3.586e23, SrCO3: 1.395e23 }
+    out: { display_glass_sheet: 1, CO2: 1.16e24 }
+    note: "SiO2 61 · Al2O3 17 · B2O3 10 · CaO 8 · MgO 2 · SrO 2 wt%. 1,600°C로 녹여 홈통 양쪽으로 흘러넘친 유리를 아래에서 만나게 해 0.5mm 판으로 뽑는다(퓨전 다운드로)"
+  - id: cover_glass_production
+    name: { ko: 커버 유리 제조 }
+    time: 600
+    in: { SiO2: 9.321e24, Al2O3: 1.418e24, Na2CO3: 2.04e24, MgO: 8.965e23, B2O3: 3.893e23, KNO3: 1.918e23 }
+    out: { cover_glass: 100, CO2: 2.04e24, NaNO3: 1.918e23 }
+    note: "알루미노실리케이트 유리를 0.6mm로 뽑아 자르고, 410°C 질산 칼륨 욕조에 담가 표면의 나트륨을 칼륨으로 바꿔 압축 응력층을 만든다(화학 강화)"
+  - id: polarizer_film_lamination
+    name: { ko: 편광 필름 제조 }
+    time: 300
+    in: { pva: 4.374e23, I2: 1.424e21, KI: 1.088e21, H3BO3: 9.74e21, cellulose_triacetate: 4.346e23, butyl_acrylate: 1.222e23, pet: 1.63e23 }
+    out: { polarizer_film: 1 }
+    note: "PVA 필름을 요오드 용액에 물들여 5배로 늘리고 붕산으로 고정한 뒤 양면에 TAC 보호 필름을 붙인다. 아크릴 점착층과 PET 이형 필름 포함"
+  - id: tft_array_process
+    name: { ko: TFT 어레이 공정 }
+    time: 900
+    in: { display_glass_sheet: 1, Al: 5.357e21, Mo: 9.414e20, ito: 4.931e20, SiH4: 2.583e22, NH3: 2.129e22, photoresist: 3.726e23, O2: 8.941e23 }
+    out: { tft_backplane_sheet: 1, H2: 8.36e22, butyl_acetate: 2.608e23, CO2: 7.824e23, H2O: 3.353e23 }
+    note: "몰리브데넘/알루미늄 게이트선, 질화 규소 절연막, 비정질 실리콘 채널, 데이터선, ITO 화소 전극을 마스크 5장으로 만든다"
+  - id: color_filter_process
+    name: { ko: 컬러 필터 공정 }
+    time: 600
+    in: { display_glass_sheet: 1, carbon_black: 5.014e21, pmma: 2.707e22, ito: 1.667e21, photoresist: 9.58e22, O2: 2.299e23 }
+    out: { color_filter_sheet: 1, butyl_acetate: 6.706e22, CO2: 2.012e23, H2O: 8.622e22 }
+    note: "블랙 매트릭스와 RGB 컬러 레지스트·보호막·포토 스페이서를 아크릴 수지로 만들고 ITO 공통 전극을 입힌다. 안료는 생략했다"
+  - id: lcd_cell_assembly
+    name: { ko: LCD 셀 합착 }
+    time: 600
+    in: { tft_backplane_sheet: 1, color_filter_sheet: 1, polyimide: 4.41e20, liquid_crystal_5cb: 8.694e21, epoxy_resin: 1.769e21, SiO2: 5.012e20 }
+    out: { lcd_cell_sheet: 1 }
+    note: "폴리이미드 배향막을 문지르고 실런트를 그린 뒤 액정을 떨어뜨리고(ODF) 진공에서 두 기판을 붙인다. 셀 간격 약 3.5µm"
+  - id: lcd_cell_cutting
+    name: { ko: LCD 셀 절단 }
+    time: 120
+    in: { lcd_cell_sheet: 1 }
+    out: { lcd_cell_14in: 15 }
+    note: "1m² 원판에서 14인치 셀 15장"
+  - id: led_backlight_assembly
+    name: { ko: LED 백라이트 조립 }
+    time: 120
+    in: { pmma: 1.925e23, pet: 9.401e22, led_smd_2835: 40, flexible_pcb: 2, polycarbonate: 1.895e22 }
+    out: { led_backlight_unit: 1 }
+    note: "도광판 옆에 LED 바를 붙이고 반사·확산·프리즘 필름을 겹친다"
+  - id: lcd_panel_assembly
+    name: { ko: LCD 패널 조립 }
+    time: 600
+    in: { lcd_cell_14in: 15, polarizer_film: 2, led_backlight_unit: 15, mixed_signal_ic: 45, flexible_pcb: 30, epoxy_resin: 2.654e21, Ni: 3.078e21, steel: 3.261e24, pet: 4.701e22 }
+    out: { lcd_panel_14in: 15 }
+    note: "셀 양면에 편광 필름을 붙이고 구동 IC와 FPC를 이방성 도전 필름으로 붙인 뒤 백라이트와 강철 프레임에 끼운다"
+  - id: oled_panel_fabrication
+    name: { ko: OLED 패널 제조 }
+    time: 900
+    in: { polyimide: 4.253e20, SiO2: 3.007e20, Si: 4.289e19, Mo: 3.138e19, Ti: 2.516e19, Al: 6.696e19, ito: 7.044e17, alq3: 1.311e18, Ag: 1.117e18, Mg: 1.239e18, pmma: 5.414e20, cellulose_triacetate: 1.045e21, pva: 4.101e21, I2: 1.186e19, pet: 3.134e21, Cu: 4.075e22, anode_graphite: 2.507e22, polyethylene_ld: 1.073e22, butyl_acrylate: 1.41e21, mixed_signal_ic: 1, flexible_pcb: 2 }
+    out: { oled_panel_phone: 1 }
+    note: "유리 위에 폴리이미드를 바르고 LTPS TFT·유기 발광층·마그네슘-은 음극·박막 봉지를 올린 뒤 레이저로 떼어 낸다. 실제 발광층은 이리듐 인광 도펀트 등을 쓰지만 Alq3로 대표했다. 뒷면에 구리·흑연 방열 시트"
+  - id: touch_screen_assembly
+    name: { ko: 터치스크린 조립 }
+    time: 300
+    in: { cover_glass: 1, pet: 2.068e21, ito: 9.392e18, butyl_acrylate: 4.699e21, ptfe: 6.021e18, mixed_signal_ic: 1, flexible_pcb: 1 }
+    out: { touch_screen_phone: 1 }
+    note: "ITO 전극 PET 필름을 광학 투명 접착제(OCA)로 커버 유리에 붙이고 지문 방지 코팅을 한다"
+  - id: czochralski_growth
+    name: { ko: 초크랄스키 단결정 성장 }
+    time: 900
+    in: { polysilicon: 3.645e27, B: 1e20 }
+    out: { cz_ingot_300mm: 1 }
+    note: "석영 도가니에 다결정 실리콘과 붕소를 녹이고 씨앗 결정을 돌리며 시간당 약 1mm로 끌어올린다. 석영 도가니·흑연 히터·아르곤은 생략"
+  - id: wafer_12in_slicing
+    name: { ko: 12인치 웨이퍼 가공 }
+    time: 900
+    in: { cz_ingot_300mm: 1 }
+    out: { wafer_12in: 1000, silicon_sludge: 9.07e26 }
+    note: "잉곳을 다이아몬드 와이어로 잘라 래핑·식각·양면 연마한다. 머리·꼬리와 절단·연마 손실 약 42kg은 슬러지로 나온다"
+  - id: logic_front_end
+    name: { ko: 로직 전공정 }
+    time: 1200
+    in: { wafer_12in: 1, B: 5e18, P: 5e18, As: 5e18, Ti: 2.516e19, Zr: 3.301e18, teos: 5.012e20, O2: 3.892e23, SiH4: 1.288e20, NH3: 1.717e20, WF6: 3.276e19, photoresist: 1.597e23 }
+    out: { logic_wafer_feol: 1, CO2: 3.393e23, H2O: 1.487e23, H2: 4.169e20, HF: 1.965e20, butyl_acetate: 1.118e23 }
+    note: "얕은 트렌치 소자 분리·웰·하이케이 메탈 게이트(HfO2를 ZrO2로 대신)·소스/드레인·텅스텐 콘택까지. 마스크 약 25장, EUV 노광 포함"
+  - id: logic_back_end
+    name: { ko: 로직 후공정 배선 }
+    time: 1200
+    in: { logic_wafer_feol: 1, Ta: 3.328e19, Al: 1.116e21, CuSO4: 2.843e21, teos: 3.709e21, O2: 2.986e23, SiH4: 2.833e21, NH3: 3.778e21, photoresist: 1.064e23 }
+    out: { logic_wafer_12in: 1, H2SO4: 2.843e21, CO2: 2.532e23, H2O: 1.3e23, H2: 1.133e22, butyl_acetate: 7.451e22 }
+    note: "구리 다마신 배선 13층·저유전율 절연막·질화막 패시베이션·알루미늄 패드. 5nm급 공정은 전체 마스크가 약 80장"
+  - id: cpu_die_dicing
+    name: { ko: CPU 웨이퍼 절단 }
+    time: 120
+    in: { logic_wafer_12in: 1 }
+    out: { cpu_die: 500, silicon_sludge: 2.246e24 }
+    note: "테스트 뒤 뒷면을 약 200µm까지 갈아 내고 자른다. 300mm 웨이퍼에서 양품 약 500개. 갈아 낸 실리콘과 불량 다이는 슬러지로 나온다"
+  - id: dram_fabrication
+    name: { ko: D램 웨이퍼 공정 }
+    time: 1800
+    in: { wafer_12in: 1, Ti: 2.516e20, Zr: 6.601e19, Al: 6.696e20, B: 1e19, P: 1e19, As: 1e19, teos: 3.007e21, O2: 6.74e23, SiH4: 1.932e21, NH3: 2.576e21, WF6: 1.638e20, CuSO4: 1.422e21, photoresist: 2.661e23 }
+    out: { dram_wafer_12in: 1, CO2: 5.829e23, H2O: 2.682e23, H2: 7.236e21, HF: 9.827e20, H2SO4: 1.422e21, butyl_acetate: 1.863e23 }
+    note: "1b nm급 DDR5. 매립 워드 라인·비트 라인·TiN/ZrO2/TiN 실린더 커패시터·구리 배선. 마스크 약 60장"
+  - id: dram_die_dicing
+    name: { ko: D램 웨이퍼 절단 }
+    time: 120
+    in: { dram_wafer_12in: 1 }
+    out: { dram_die: 850, silicon_sludge: 2.458e24 }
+    note: "뒷면을 100µm까지 갈아 내고 자른다. 양품 약 850개"
+  - id: nand_fabrication
+    name: { ko: 3D 낸드 웨이퍼 공정 }
+    time: 1800
+    in: { wafer_12in: 1, Al2O3: 1.181e20, Al: 6.696e20, B: 1e19, P: 1e19, teos: 1.002e22, O2: 6.307e23, SiH4: 2.36e21, NH3: 1.717e21, WF6: 1.31e22, H2: 3.201e22, CuSO4: 9.477e20, photoresist: 2.129e23 }
+    out: { nand_wafer_12in: 1, CO2: 5.273e23, H2O: 2.909e23, HF: 7.862e22, H2SO4: 9.477e20, butyl_acetate: 1.49e23 }
+    note: "산화막·질화막을 236쌍 쌓고 채널 구멍을 뚫어 전하 저장 질화막과 폴리실리콘 채널을 채운다. 질화막 자리는 텅스텐 워드 라인으로 바꾼다"
+  - id: nand_die_dicing
+    name: { ko: 낸드 웨이퍼 절단 }
+    time: 120
+    in: { nand_wafer_12in: 1 }
+    out: { nand_die: 800, silicon_sludge: 2.577e24 }
+    note: "뒷면을 60µm까지 갈아 내고 자른다. 양품 약 800개"
+  - id: image_sensor_fabrication
+    name: { ko: 이미지 센서 웨이퍼 공정 }
+    time: 1500
+    in: { wafer_12in: 2, pmma: 3.008e21, Al: 4.464e20, B: 1e19, P: 1e19, teos: 3.007e21, O2: 5.463e23, CuSO4: 1.422e21, WF6: 6.552e19, SiH4: 6.439e20, NH3: 8.586e20, photoresist: 2.129e23 }
+    out: { image_sensor_wafer: 1, CO2: 4.711e23, H2O: 2.203e23, H2SO4: 1.422e21, HF: 3.931e20, H2: 2.379e21, butyl_acetate: 1.49e23 }
+    note: "포토다이오드와 배선을 만든 소자 웨이퍼를 받침 웨이퍼에 붙이고 뒷면을 약 3µm까지 갈아 낸 뒤 컬러 필터와 마이크로 렌즈를 올린다(후면 조사)"
+  - id: image_sensor_die_dicing
+    name: { ko: 이미지 센서 웨이퍼 절단 }
+    time: 120
+    in: { image_sensor_wafer: 1 }
+    out: { image_sensor_die: 1100, silicon_sludge: 5.204e24 }
+    note: "받침 웨이퍼를 100µm까지 갈아 내고 자른다. 양품 약 1,100개"
+  - id: power_mosfet_fabrication
+    name: { ko: 전력 MOSFET 웨이퍼 공정 }
+    time: 900
+    in: { wafer_8in: 1, B: 1e19, P: 1e19, Al: 7.588e21, Ti: 6.29e19, Ni: 2.052e20, Ag: 1.675e20, SiH4: 9.006e21, photoresist: 7.983e22, O2: 1.916e23 }
+    out: { power_mosfet_wafer: 1, H2: 1.801e22, butyl_acetate: 5.588e22, CO2: 1.677e23, H2O: 7.185e22 }
+    note: "에피층 5µm·트렌치 게이트·두께 4µm 알루미늄 소스 전극·뒷면 Ti/Ni/Ag 드레인 전극"
+  - id: power_mosfet_die_dicing
+    name: { ko: 전력 MOSFET 웨이퍼 절단 }
+    time: 120
+    in: { power_mosfet_wafer: 1 }
+    out: { power_mosfet_die: 3000, silicon_sludge: 8.675e23 }
+    note: "뒷면을 200µm까지 갈아 내고 자른다. 8인치 웨이퍼에서 양품 약 3,000개"
+  - id: mixed_signal_fabrication
+    name: { ko: 혼성 신호 웨이퍼 공정 }
+    time: 1200
+    in: { wafer_8in: 1, Al: 6.696e21, Ti: 1.258e20, B: 1e19, P: 1e19, As: 1e19, teos: 2.005e21, O2: 3.434e23, SiH4: 6.439e20, NH3: 8.586e20, WF6: 6.552e19, photoresist: 1.331e23 }
+    out: { mixed_signal_wafer: 1, CO2: 2.955e23, H2O: 1.398e23, H2: 2.379e21, HF: 3.931e20, butyl_acetate: 9.314e22 }
+    note: "180nm BCD(바이폴라·CMOS·DMOS) 공정. 알루미늄 배선 4층. 마스크 약 30장"
+  - id: mixed_signal_die_dicing
+    name: { ko: 혼성 신호 웨이퍼 절단 }
+    time: 120
+    in: { mixed_signal_wafer: 1 }
+    out: { mixed_signal_die: 2600, silicon_sludge: 8.779e23 }
+    note: "뒷면을 200µm까지 갈아 내고 자른다. 양품 약 2,600개"
+  - id: mems_fabrication
+    name: { ko: MEMS 웨이퍼 공정 }
+    time: 900
+    in: { wafer_8in: 1, Au: 3.057e19, SiH4: 4.418e21, NH3: 1.717e21, teos: 3.007e21, O2: 1.638e23, HF: 1.804e22, photoresist: 5.322e22 }
+    out: { mems_wafer: 1, H2: 1.141e22, CO2: 1.358e23, H2O: 8.398e22, H2SiF6: 3.007e21, butyl_acetate: 3.726e22 }
+    note: "폴리실리콘 진동판과 백플레이트 사이 희생 산화막을 HF로 녹여 띄우고, 뒷면을 깊게 식각해 음향 구멍을 낸다"
+  - id: mems_die_dicing
+    name: { ko: MEMS 웨이퍼 절단 }
+    time: 120
+    in: { mems_wafer: 1 }
+    out: { mems_die: 22000, silicon_sludge: 7.706e23 }
+    note: "양품 약 22,000개. 뒷면 공동을 판 만큼 가볍다"
+  - id: cpu_packaging
+    name: { ko: 데스크톱 CPU 패키징 }
+    time: 300
+    in: { cpu_die: 20, epoxy_resin: 2.654e22, SiO2: 1.503e23, Cu: 2.464e24, Ni: 2.052e22, In: 1.573e22, Au: 1.529e20, pdms: 1.624e22, mlcc_0603: 200, solder_sac305: 5.11e21 }
+    out: { cpu: 10 }
+    note: "칩렛 2개를 빌드업 기판에 플립칩으로 붙이고 인듐 땜납으로 니켈 도금 구리 히트 스프레더를 덮는다"
+  - id: laptop_cpu_packaging
+    name: { ko: 노트북 CPU 패키징 }
+    time: 300
+    in: { cpu_die: 10, epoxy_resin: 1.769e22, SiO2: 1.002e23, Cu: 5.686e22, solder_sac305: 1.022e22, mlcc_0201: 100 }
+    out: { laptop_cpu: 10 }
+    note: "다이를 BGA 기판에 플립칩으로 붙이고 언더필을 채운다"
+  - id: mobile_soc_packaging
+    name: { ko: 모바일 AP 패키징 }
+    time: 300
+    in: { cpu_die: 10, dram_die: 40, epoxy_resin: 5.307e21, SiO2: 5.513e22, Cu: 1.895e22, Au: 6.115e19, solder_sac305: 5.11e21 }
+    out: { mobile_soc: 10 }
+    note: "AP 다이 위에 LPDDR5 다이 4개를 담은 메모리 패키지를 얹어 붙인다(PoP)"
+  - id: dram_chip_packaging
+    name: { ko: D램 패키징 }
+    time: 120
+    in: { dram_die: 100, epoxy_resin: 8.845e21, SiO2: 1.303e23, Cu: 1.895e22, Au: 1.529e20, solder_sac305: 1.022e22 }
+    out: { dram_chip: 100 }
+    note: "BT 기판에 다이를 붙여 금선으로 잇고 EMC로 몰딩한 뒤 땜납 볼을 단다"
+  - id: nand_chip_packaging
+    name: { ko: 낸드 패키징 }
+    time: 120
+    in: { nand_die: 400, epoxy_resin: 1.415e22, SiO2: 2.506e23, Cu: 2.843e22, Au: 6.115e20, solder_sac305: 2.044e22 }
+    out: { nand_flash_chip: 100 }
+    note: "다이 4개를 계단식으로 쌓아 금선으로 잇는다"
+  - id: mixed_signal_ic_packaging
+    name: { ko: QFN 패키징 }
+    time: 120
+    in: { mixed_signal_die: 100, Cu: 5.023e22, SiO2: 6.014e22, epoxy_resin: 1.822e21, Au: 2.14e20, Ag: 5.583e20, Sn: 5.073e20 }
+    out: { mixed_signal_ic: 100 }
+    note: "구리 리드 프레임에 은 에폭시로 다이를 붙이고 금선으로 이어 실리카를 채운 에폭시(EMC)로 몰딩한다"
+  - id: power_mosfet_packaging
+    name: { ko: 전력 MOSFET 패키징 }
+    time: 120
+    in: { power_mosfet_die: 100, Cu: 1.895e23, SiO2: 1.002e23, epoxy_resin: 3.538e21, Al: 2.678e21, Pb: 1.381e21, Sn: 1.141e21, Ni: 1.026e21 }
+    out: { power_mosfet: 100 }
+    note: "고연 땜납(Pb95Sn5, RoHS 예외)으로 다이를 구리 탭에 붙이고 굵은 알루미늄 선으로 잇는다"
+  - id: mems_microphone_packaging
+    name: { ko: MEMS 마이크 패키징 }
+    time: 120
+    in: { mems_die: 1000, mixed_signal_die: 1000, epoxy_resin: 3.538e21, SiO2: 3.308e22, Cu: 9.477e21, nickel_silver: 1.627e23, Au: 1.529e20, solder_sac305: 2.555e21 }
+    out: { mems_microphone: 1000 }
+    note: "MEMS 칩과 증폭 칩을 기판에 붙여 금선으로 잇고 금속 뚜껑을 씌운다"
+  - id: wifi_module_assembly
+    name: { ko: Wi-Fi 모듈 조립 }
+    time: 300
+    in: { module_pcb: 10, mixed_signal_ic: 20, crystal: 10, mlcc_0201: 400, chip_resistor_0603: 100, nickel_silver: 5.741e22, brass: 9.398e21, pet: 1.88e21, solder_sac305: 5.11e21 }
+    out: { wifi_module: 10 }
+    note: "무선 칩과 RF 프런트엔드를 표면 실장하고 차폐 캔과 안테나 커넥터를 단다"
+  - id: ssd_assembly
+    name: { ko: SSD 조립 }
+    time: 300
+    in: { m2_pcb: 10, nand_flash_chip: 20, mixed_signal_ic: 20, dram_chip: 10, mlcc_0603: 600, chip_resistor_0603: 200, smd_power_inductor: 10, pet: 9.401e21, Cu: 9.477e21, solder_sac305: 1.533e22 }
+    out: { ssd: 10 }
+    note: "낸드 2개·컨트롤러·전원 IC·D램 캐시를 실장한다. 실제 컨트롤러는 FCBGA 로직 칩"
+  - id: ram_module_assembly
+    name: { ko: 메모리 모듈 조립 }
+    time: 300
+    in: { dimm_pcb: 10, dram_chip: 80, mixed_signal_ic: 20, mlcc_0603: 600, chip_resistor_0603: 300, smd_power_inductor: 30, Au: 3.057e20, Ni: 5.13e21, pet: 6.268e21, solder_sac305: 1.533e22 }
+    out: { ram_module: 10 }
+    note: "D램 칩 8개와 전원 관리 IC·SPD 허브를 실장한다"
+  - id: cooling_fan_assembly
+    name: { ko: 냉각 팬 조립 }
+    time: 120
+    in: { pet: 1.88e24, SiO2: 1.503e24, non_oriented_steel: 1.095e24, Cu: 5.686e23, ndfeb_alloy: 2.754e23, nylon_66: 2.661e22, steel: 1.739e24, mixed_signal_ic: 10, module_pcb: 10, flexible_pvc: 1.584e22 }
+    out: { cooling_fan_120mm: 10 }
+    note: "유리 섬유 강화 PBT(PET로 대신) 프레임과 날개, 본드 자석 회전자, 구동 IC"
+  - id: micro_speaker_assembly
+    name: { ko: 마이크로 스피커 조립 }
+    time: 120
+    in: { ndfeb_alloy: 2.295e23, Cu: 4.738e22, stainless_steel: 5.475e23, pet: 6.268e21, polycarbonate: 2.842e23, Au: 3.057e19, pdms: 4.061e22 }
+    out: { micro_speaker: 100 }
+    note: "네오디뮴 자석 회로에 보이스 코일과 진동판을 붙여 공명 상자에 넣는다"
+  - id: camera_module_assembly
+    name: { ko: 카메라 모듈 조립 }
+    time: 300
+    in: { image_sensor_die: 10, polycarbonate: 1.895e22, pmma: 1.805e22, glass: 20, ndfeb_alloy: 1.377e22, Cu: 4.738e21, stainless_steel: 3.285e22, flexible_pcb: 10, Au: 3.057e19, epoxy_resin: 8.845e20, mlcc_0201: 100 }
+    out: { camera_module: 10 }
+    note: "비구면 플라스틱 렌즈 6장, 적외선 차단 필터, 자동 초점용 보이스 코일 모터"
+  - id: smartphone_mainboard_assembly
+    name: { ko: 스마트폰 메인보드 조립 }
+    time: 600
+    in: { smartphone_pcb: 1, mobile_soc: 1, nand_flash_chip: 1, mixed_signal_ic: 6, mlcc_0201: 1000, chip_resistor_0603: 50, smd_power_inductor: 2, crystal: 2, nickel_silver: 2.871e22, usb_c_receptacle: 1, phosphor_bronze: 9.278e20, pet: 3.134e20, mems_microphone: 3, solder_sac305: 7.664e21, epoxy_resin: 3.538e20 }
+    out: { smartphone_mainboard: 1 }
+    note: "AP·저장 장치·전원 관리·RF 칩을 실장하고 언더필로 굳힌 뒤 차폐 캔을 씌운다"
+  - id: smartphone_assembly
+    name: { ko: 스마트폰 조립 }
+    time: 900
+    in: { oled_panel_phone: 1, touch_screen_phone: 1, smartphone_mainboard: 1, phone_battery: 1, camera_module: 3, micro_speaker: 2, aluminium_7075: 6.428e23, aluminium_6061: 1.783e23, cover_glass: 1, ndfeb_alloy: 2.754e21, Cu: 1.611e22, stainless_steel: 6.022e22, flexible_pcb: 6, butyl_acrylate: 4.699e21, anode_graphite: 2.507e22, polycarbonate: 2.368e21, mnzn_ferrite: 5.152e21, Al2O3: 1.181e21 }
+    out: { smartphone: 1 }
+    note: "7000계 알루미늄 프레임에 디스플레이·메인보드·배터리·카메라 3개·스피커·진동 모터·무선 충전 코일을 넣고 뒷면 유리를 붙인다. 카메라 덮개는 사파이어"
+  - id: laptop_mainboard_assembly
+    name: { ko: 노트북 메인보드 조립 }
+    time: 600
+    in: { laptop_mainboard_pcb: 1, laptop_cpu: 1, dram_chip: 8, mixed_signal_ic: 12, power_mosfet: 16, smd_power_inductor: 10, tantalum_capacitor: 20, mlcc_0201: 800, mlcc_0603: 200, chip_resistor_0603: 400, usb_c_receptacle: 2, crystal: 2, nickel_silver: 7.655e22, pet: 9.401e21, phosphor_bronze: 1.856e22, solder_sac305: 2.044e22 }
+    out: { laptop_mainboard: 1 }
+    note: "CPU·온보드 LPDDR·전원부·USB-C 포트를 실장한다"
+  - id: laptop_assembly
+    name: { ko: 노트북 조립 }
+    time: 1200
+    in: { lcd_panel_14in: 1, laptop_mainboard: 1, laptop_battery: 1, ssd: 1, wifi_module: 1, camera_module: 1, mems_microphone: 2, micro_speaker: 2, cover_glass: 1, module_pcb: 1, mixed_signal_ic: 2, led_smd_2835: 20, flexible_pcb: 6, aluminium_6061: 1.137e25, polycarbonate: 5.921e22, steel: 1.468e24, abs: 5.145e22, nylon_66: 2.129e22, pet: 5.014e22, Ag: 1.675e21, pmma: 9.023e22, Cu: 4.359e23, ndfeb_alloy: 9.18e21, nbr: 1.12e22, pdms: 8.121e21, polyimide: 1.575e21, ptfe: 1.204e22, flexible_pvc: 1.056e21 }
+    out: { laptop: 1 }
+    note: "알루미늄 상판·하판·팜레스트에 LCD·키보드(ABS 키캡·멤브레인·강철 판)·유리 터치패드·구리 히트파이프와 송풍 팬을 넣는다"
+  - id: motherboard_assembly
+    name: { ko: 메인보드 조립 }
+    time: 900
+    in: { motherboard_pcb: 1, mixed_signal_ic: 12, power_mosfet: 24, smd_power_inductor: 12, electrolytic_capacitor: 20, tantalum_capacitor: 10, mlcc_0603: 600, chip_resistor_0603: 400, cpu_socket: 1, quartz_crystal_unit: 3, coin_cell_cr2032: 1, usb_c_receptacle: 2, wifi_module: 1, nylon_66: 2.395e23, phosphor_bronze: 1.206e23, brass: 9.398e22, steel: 3.261e23, aluminium_6061: 5.572e24, pdms: 2.436e22, solder_sac305: 7.664e22 }
+    out: { motherboard: 1 }
+    note: "땜납 페이스트를 인쇄하고 부품을 올려 리플로로 붙인다. CPU 전원부, 칩셋, 메모리·PCIe 슬롯, 후면 단자, 알루미늄 방열판"
+  - id: power_supply_assembly
+    name: { ko: 전원 공급 장치 조립 }
+    time: 900
+    in: { steel: 8.914e24, Zn: 9.211e22, pcb_double_sided: 3, bulk_capacitor: 1, electrolytic_capacitor: 15, film_capacitor: 4, smps_transformer: 2, ferrite_toroid: 4, Cu: 7.581e23, power_mosfet: 10, diode: 6, aluminium_6061: 5.572e24, mixed_signal_ic: 4, cooling_fan_120mm: 1, pvc_insulated_wire: 2, nylon_66: 1.597e23, brass: 4.229e23, relay: 1, glass_fuse: 1, ntc_thermistor: 1, mlcc_0603: 100, chip_resistor_0603: 150, pdms: 8.121e22 }
+    out: { power_supply_unit: 1 }
+    note: "역률 보정단과 LLC 공진 변환기. 아연 도금 강판 케이스, 알루미늄 방열판, 출력 케이블 묶음"
+  - id: desktop_pc_assembly
+    name: { ko: 데스크톱 컴퓨터 조립 }
+    time: 900
+    in: { steel: 6.011e25, Zn: 4.605e23, motherboard: 1, cpu: 1, ram_module: 2, ssd: 1, power_supply_unit: 1, cooling_fan_120mm: 4, aluminium_6061: 6.686e24, Cu: 1.422e24, pdms: 8.121e21, abs: 3.43e23, power_cord: 1, flexible_pvc: 2.64e22 }
+    out: { desktop_pc: 1 }
+    note: "강철 케이스에 부품을 넣고 구리 히트파이프·알루미늄 방열핀 CPU 쿨러를 단다"

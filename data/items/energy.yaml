@@ -1,0 +1,72 @@
+# 에너지: 전지 재료·셀·배터리, 태양광·풍력, 전기 기기, 연료 전지·수소·축전.
+# 부품의 expected_mass는 실제 제품의 질량 범위로, 검증기가 레시피로 계산한 질량과 비교한다.
+category: energy
+unit: piece
+items:
+  - { id: nmc811_precursor, name: { ko: NCM811 전구체, en: NCM811 precursor }, unit: particle, formula: Ni0.8Mn0.1Co0.1(OH)2, note: "니켈·망가니즈·코발트 복합 수산화물. 공침으로 지름 약 10µm 구형 입자로 키운다" }
+  - { id: nmc811, name: { ko: NCM811 양극재, en: NCM811 cathode material }, unit: particle, formula: LiNi0.8Mn0.1Co0.1O2, note: "하이니켈 삼원계 양극재. 약 200mAh/g" }
+  - { id: LiCoO2, name: { ko: 코발트산 리튬, en: Lithium cobalt oxide }, unit: particle, formula: LiCoO2, note: "스마트폰·노트북 배터리의 양극재(LCO)" }
+  - { id: LiFePO4, name: { ko: 인산 철 리튬, en: Lithium iron phosphate }, unit: particle, formula: LiFePO4, note: "LFP 양극재. 코발트·니켈이 없고 수명이 길다. 약 155mAh/g" }
+  - { id: anode_graphite, name: { ko: 음극재용 인조 흑연, en: Synthetic graphite (anode) }, unit: particle, formula: C, note: "약 3,000°C에서 흑연화한 탄소. 약 350mAh/g" }
+  - { id: PF5, name: { ko: 오플루오린화 인, en: Phosphorus pentafluoride }, category: chemistry, unit: particle, formula: PF5 }
+  - { id: LiPF6, name: { ko: 헥사플루오로인산 리튬, en: Lithium hexafluorophosphate }, category: chemistry, unit: particle, formula: LiPF6, note: "리튬 이온 전지 전해액의 리튬염. 물과 만나면 HF가 생긴다" }
+  - { id: li_ion_electrolyte, name: { ko: 리튬 이온 전지 전해액, en: Lithium-ion electrolyte }, unit: particle, note: "1M LiPF6 / EC:DMC(1:1 질량비). LiPF6 2 : EC 13 : DMC 13 분자를 평균 분자 1개씩 센다" }
+  - { id: hfc_152a, name: { ko: "1,1-다이플루오로에테인", en: "1,1-Difluoroethane" }, category: organic, unit: particle, formula: C2H4F2, note: "HFC-152a" }
+  - { id: hcfc_142b, name: { ko: "1-클로로-1,1-다이플루오로에테인", en: "1-Chloro-1,1-difluoroethane" }, category: organic, unit: particle, formula: C2H3ClF2, note: "HCFC-142b" }
+  - { id: vinylidene_fluoride, name: { ko: 플루오린화 바이닐리덴, en: Vinylidene fluoride }, category: organic, unit: particle, formula: C2H2F2, note: "1,1-다이플루오로에틸렌. PVDF의 단량체" }
+  - { id: pvdf, name: { ko: 폴리플루오린화 바이닐리덴, en: Polyvinylidene fluoride }, category: polymer, unit: particle, formula: C2H2F2, note: "PVDF. 전극 결합제·백시트 표면층. 반복 단위 1개를 1로 센다" }
+  - { id: battery_copper_foil, name: { ko: 이차전지용 동박(1m²), en: Battery copper foil (1 m²) }, expected_mass: [65g, 78g], note: "두께 8µm 음극 집전체" }
+  - { id: battery_separator, name: { ko: 리튬 이온 전지 분리막(1m²), en: Lithium-ion separator (1 m²) }, expected_mass: [8g, 15g], note: "습식 PE 16µm(기공률 약 40%)와 알루미나 코팅" }
+  - { id: nmc811_cathode_sheet, name: { ko: NCM811 양극판(1m²), en: NCM811 cathode sheet (1 m²) }, expected_mass: [400g, 500g], note: "알루미늄박 양면 코팅, 한 면 4.0mAh/cm²" }
+  - { id: lco_cathode_sheet, name: { ko: LCO 양극판(1m²), en: LCO cathode sheet (1 m²) }, expected_mass: [480g, 600g], note: "알루미늄박 양면 코팅, 한 면 4.2mAh/cm²" }
+  - { id: lfp_cathode_sheet, name: { ko: LFP 양극판(1m²), en: LFP cathode sheet (1 m²) }, expected_mass: [400g, 500g], note: "알루미늄박 양면 코팅, 한 면 3.0mAh/cm²" }
+  - { id: graphite_anode_sheet, name: { ko: 흑연 음극판(1m²), en: Graphite anode sheet (1 m²) }, expected_mass: [300g, 390g], note: "동박 양면 코팅, 한 면 4.6mAh/cm²" }
+  - { id: pouch_film, name: { ko: 파우치 필름(1m²), en: Pouch film (1 m²) }, expected_mass: [190g, 240g], note: "나일론 25µm / 알루미늄 40µm / CPP 80µm 적층 필름" }
+  - { id: cell_18650, name: { ko: 18650 리튬 이온 셀, en: 18650 lithium-ion cell }, expected_mass: [43g, 50g], note: "지름 18mm × 길이 65mm 원통형, NCM811/흑연 3.0Ah(약 11Wh)" }
+  - { id: pouch_cell_small, name: { ko: 소형 파우치 셀, en: Small pouch cell }, expected_mass: [42g, 60g], note: "LCO/흑연 4,000mAh(15.4Wh)" }
+  - { id: phone_battery, name: { ko: 스마트폰 배터리, en: Smartphone battery }, expected_mass: [42g, 62g], note: "파우치 셀과 보호 회로" }
+  - { id: laptop_battery, name: { ko: 노트북 배터리, en: Laptop battery }, expected_mass: [200g, 320g], note: "파우치 셀 4개 직렬(4S1P), 61.6Wh" }
+  - { id: pouch_cell_ev, name: { ko: 전기차용 파우치 셀, en: EV pouch cell }, expected_mass: [0.65kg, 0.9kg], note: "NCM811/흑연 60Ah(약 219Wh)" }
+  - { id: ev_battery_module, name: { ko: 전기차 배터리 모듈, en: EV battery module }, expected_mass: [9.5kg, 14kg], note: "파우치 셀 12개, 약 2.6kWh" }
+  - { id: ev_battery_pack, name: { ko: 전기차 배터리 팩, en: EV battery pack }, expected_mass: [380kg, 520kg], note: "모듈 28개, 약 74kWh" }
+  - { id: lfp_prismatic_cell, name: { ko: LFP 각형 셀, en: LFP prismatic cell }, expected_mass: [4.8kg, 5.8kg], note: "LFP/흑연 280Ah, 3.2V(약 0.9kWh) 알루미늄 캔" }
+  - { id: home_battery, name: { ko: 가정용 에너지 저장 장치, en: Home battery storage }, expected_mass: [90kg, 130kg], note: "LFP 셀 16개 직렬, 51.2V 280Ah(약 14.3kWh)" }
+  - { id: lead_calcium_alloy, name: { ko: 납-칼슘 합금, en: Lead-calcium alloy }, category: metallurgy, unit: particle, note: "납축전지 격자 합금. Sn 1.2 · Ca 0.08 wt%. 원자 비 Pb 975 : Sn 21 : Ca 4" }
+  - { id: lead_acid_positive_plate, name: { ko: 납축전지 양극판, en: Lead-acid positive plate }, expected_mass: [100g, 150g], note: "화성을 마친 양극판. 활물질은 이산화 납(PbO2)" }
+  - { id: lead_acid_negative_plate, name: { ko: 납축전지 음극판, en: Lead-acid negative plate }, expected_mass: [80g, 120g], note: "화성을 마친 음극판. 활물질은 해면상 납" }
+  - { id: lead_acid_battery, name: { ko: 납축전지, en: Lead-acid battery }, expected_mass: [14kg, 19kg], note: "12V 60Ah 자동차 시동용. 셀 6개" }
+  - { id: alkaline_aa, name: { ko: 알칼리 건전지(AA), en: Alkaline battery (AA) }, expected_mass: [21g, 25g], note: "LR6, 1.5V 약 2,800mAh" }
+  - { id: ab5_alloy, name: { ko: AB5 수소 저장 합금, en: AB5 hydrogen storage alloy }, category: metallurgy, unit: particle, note: "MmNi3.55Co0.75Mn0.4Al0.3. 원자 비 Mm 20 : Ni 71 : Co 15 : Mn 8 : Al 6" }
+  - { id: nimh_aa, name: { ko: 니켈 수소 전지(AA), en: NiMH battery (AA) }, expected_mass: [24g, 30g], note: "HR6, 1.2V 약 2,000mAh" }
+  - { id: coin_cell_cr2032, name: { ko: CR2032 리튬 동전형 전지, en: CR2032 lithium coin cell }, expected_mass: [2.7g, 3.4g], note: "3V 약 225mAh 리튬-이산화 망가니즈 전지" }
+  - { id: pv_cz_ingot, name: { ko: 태양전지용 단결정 잉곳, en: PV monocrystalline ingot }, expected_mass: [75kg, 90kg], note: "지름 약 210mm, 길이 약 1m의 p형 단결정" }
+  - { id: solar_wafer, name: { ko: 태양전지 웨이퍼, en: Solar wafer }, expected_mass: [9g, 11.5g], note: "156.75mm 유사 정사각형(M2), 두께 180µm" }
+  - { id: solar_cell, name: { ko: 실리콘 태양전지, en: Silicon solar cell }, expected_mass: [10g, 12.5g], note: "PERC 단결정 셀, 약 5W" }
+  - { id: solar_glass, name: { ko: 태양광 모듈 유리, en: PV module glass }, expected_mass: [12kg, 14kg], note: "저철분 강화 유리 1,640×985×3.2mm, 반사 방지 코팅" }
+  - { id: pv_backsheet, name: { ko: 태양광 모듈 백시트, en: PV backsheet }, expected_mass: [0.6kg, 0.85kg], note: "PVDF/PET/EVA 적층 1.63m²" }
+  - { id: pv_junction_box, name: { ko: 태양광 정션 박스, en: PV junction box }, expected_mass: [0.22kg, 0.4kg], note: "바이패스 다이오드 3개, 4mm² 케이블 1m 2가닥과 MC4 커넥터" }
+  - { id: solar_panel_60cell, name: { ko: 태양광 모듈(60셀), en: Solar panel (60-cell) }, expected_mass: [16.5kg, 21kg], note: "1,650×992×35mm, 약 300W" }
+  - { id: wind_turbine_blade, name: { ko: 풍력 발전기 날개, en: Wind turbine blade }, expected_mass: [8t, 12t], note: "2MW급, 길이 약 45m" }
+  - { id: grain_oriented_steel, name: { ko: 방향성 전기 강판 소재, en: Grain-oriented electrical steel }, category: metallurgy, unit: particle, note: "Fe-3.2% Si. 원자 비 Fe 94 : Si 6. 변압기 철심용" }
+  - { id: non_oriented_steel, name: { ko: 무방향성 전기 강판 소재, en: Non-oriented electrical steel }, category: metallurgy, unit: particle, note: "Si 약 1.5 · Al 약 0.5 wt%. 원자 비 Fe 95 : Si 3 : Al 1 : Mn 1. 전동기·발전기 철심용" }
+  - { id: dry_type_transformer, name: { ko: 몰드 변압기(100kVA), en: Cast-resin transformer (100 kVA) }, expected_mass: [450kg, 750kg], note: "22.9kV/380V 3상 건식 배전 변압기" }
+  - { id: electric_motor_small, name: { ko: 소형 BLDC 모터, en: Small BLDC motor }, expected_mass: [0.4kg, 0.65kg], note: "약 200W 3상 브러시리스 직류 모터" }
+  - { id: electric_motor_industrial, name: { ko: 산업용 유도 전동기(7.5kW), en: Industrial induction motor (7.5 kW) }, expected_mass: [40kg, 65kg], note: "4극 농형, IEC 132M 프레임, IE3" }
+  - { id: car_alternator, name: { ko: 자동차 교류 발전기, en: Car alternator }, expected_mass: [4.5kg, 8kg], note: "14V 120A 클로 폴 발전기" }
+  - { id: synchronous_generator, name: { ko: 동기 발전기(100kVA), en: Synchronous generator (100 kVA) }, expected_mass: [350kg, 550kg], note: "브러시리스 자려식, 디젤 발전기용 발전부" }
+  - { id: solar_inverter, name: { ko: 태양광 인버터(5kW), en: Solar inverter (5 kW) }, expected_mass: [12kg, 25kg], note: "단상 계통 연계형 스트링 인버터" }
+  - { id: variable_frequency_drive, name: { ko: 가변 주파수 드라이브(7.5kW), en: Variable-frequency drive (7.5 kW) }, expected_mass: [3kg, 7kg], note: "3상 유도 전동기 속도 제어용 인버터" }
+  - { id: usb_c_charger, name: { ko: USB-C 충전기(65W), en: USB-C charger (65 W) }, expected_mass: [90g, 160g], note: "USB PD 3.0 벽면 충전기" }
+  - { id: ev_wallbox, name: { ko: 전기차 완속 충전기, en: EV wallbox charger }, expected_mass: [3kg, 7kg], note: "7.4kW 단상 교류, 5m 타입 2 케이블 포함" }
+  - { id: led_bulb, name: { ko: LED 전구, en: LED bulb }, expected_mass: [35g, 80g], note: "A60 9W(약 806lm), E26/E27 소켓" }
+  - { id: power_cable_1m, name: { ko: 전력 케이블(1m), en: Power cable (1 m) }, expected_mass: [120g, 180g], note: "3×2.5mm² PVC 시스 케이블(NYM-J)" }
+  - { id: pt_c_catalyst, name: { ko: 백금 담지 탄소 촉매, en: Platinum on carbon catalyst }, unit: particle, note: "Pt 40 wt% / 카본 블랙. Pt 원자 1 : C 원자 24를 평균 원자 1개씩 센다" }
+  - { id: pfsa_membrane, name: { ko: 과플루오로설폰산 전해질막(1m²), en: PFSA membrane (1 m²) }, expected_mass: [40g, 60g], note: "두께 25µm 양이온 교환막(당량 약 1,100)" }
+  - { id: gas_diffusion_layer, name: { ko: 기체 확산층(1m²), en: Gas diffusion layer (1 m²) }, expected_mass: [80g, 140g], note: "PTFE 발수 처리한 탄소 종이와 미세 다공층" }
+  - { id: membrane_electrode_assembly, name: { ko: 막-전극 접합체, en: Membrane electrode assembly }, expected_mass: [4g, 10g], note: "활성 면적 100cm², 백금 0.4mg/cm²" }
+  - { id: pem_fuel_cell_stack, name: { ko: 고분자 전해질 연료 전지 스택(1kW), en: PEM fuel cell stack (1 kW) }, expected_mass: [2.5kg, 5kg], note: "셀 40장, 활성 면적 100cm²" }
+  - { id: hydrogen_tank, name: { ko: 수소 저장 용기(700bar), en: Hydrogen tank (700 bar) }, expected_mass: [35kg, 55kg], note: "4형 복합 용기 60L, 수소 약 2.4kg" }
+  - { id: HBF4, name: { ko: 테트라플루오로붕산, en: Tetrafluoroboric acid }, category: chemistry, unit: particle, formula: HBF4 }
+  - { id: teabf4, name: { ko: 테트라에틸암모늄 테트라플루오로보레이트, en: Tetraethylammonium tetrafluoroborate }, category: chemistry, unit: particle, formula: C8H20BF4N, note: "TEABF4. 슈퍼커패시터 전해질 염" }
+  - { id: electrode_activated_carbon, name: { ko: 전극용 활성탄, en: Electrode-grade activated carbon }, unit: particle, formula: C, note: "비표면적 약 1,700m²/g" }
+  - { id: supercapacitor, name: { ko: 슈퍼커패시터(3000F), en: Supercapacitor (3000 F) }, expected_mass: [450g, 560g], note: "2.7V 3,000F 원통형 전기 이중층 커패시터" }
