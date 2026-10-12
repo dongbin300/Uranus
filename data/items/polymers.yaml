@@ -1,0 +1,213 @@
+# 고분자: 플라스틱·고무·섬유·도료·접착제와 그 단량체, 플라스틱·고무·섬유 제품.
+# 고분자는 반복 단위 1개를 1로 센다(화학식 = 반복 단위). 그래서 첨가 중합은 1 → 1로 원자 수가 맞는다.
+# 제품의 질량은 실제 제품 기준이고, 레시피로 계산한 질량과 expected_mass를 검증기가 비교한다.
+category: polymer
+unit: particle
+items:
+
+  # 올레핀과 방향족 원료. 유기 화학 쪽과 같은 ID를 쓴다
+  - { id: propylene, name: { ko: 프로필렌, en: Propylene }, formula: C3H6 }
+  - { id: butadiene, name: { ko: "1,3-뷰타다이엔", en: "1,3-Butadiene" }, formula: C4H6 }
+  - { id: butene_1, name: { ko: 1-뷰텐, en: 1-Butene }, formula: C4H8 }
+  - { id: ethanol, name: { ko: 에탄올, en: Ethanol }, formula: C2H6O }
+  - { id: ethylbenzene, name: { ko: 에틸벤젠, en: Ethylbenzene }, formula: C8H10 }
+  - { id: styrene, name: { ko: 스타이렌, en: Styrene }, formula: C8H8 }
+  - { id: ethylene_dichloride, name: { ko: "1,2-다이클로로에테인", en: Ethylene dichloride }, formula: C2H4Cl2 }
+  - { id: vinyl_chloride, name: { ko: 염화 바이닐, en: Vinyl chloride }, formula: C2H3Cl }
+  - { id: toluene, name: { ko: 톨루엔, en: Toluene }, formula: C7H8 }
+  - { id: mixed_xylenes, name: { ko: 혼합 자일렌, en: Mixed xylenes }, formula: C8H10, note: "o-·m-·p-자일렌과 에틸벤젠이 섞인 C8 방향족" }
+  - { id: p_xylene, name: { ko: p-자일렌, en: p-Xylene }, formula: C8H10 }
+  - { id: o_xylene, name: { ko: o-자일렌, en: o-Xylene }, formula: C8H10 }
+  - { id: pentane, name: { ko: 펜테인, en: Pentane }, formula: C5H12 }
+
+  # 폴리에스터·나일론 단량체
+  - { id: terephthalic_acid, name: { ko: 테레프탈산, en: Terephthalic acid }, formula: C8H6O4 }
+  - { id: dimethyl_terephthalate, name: { ko: 테레프탈산 다이메틸, en: Dimethyl terephthalate }, formula: C10H10O4 }
+  - { id: ethylene_oxide, name: { ko: 산화 에틸렌, en: Ethylene oxide }, formula: C2H4O }
+  - { id: ethylene_glycol, name: { ko: 에틸렌 글라이콜, en: Ethylene glycol }, formula: C2H6O2 }
+  - { id: cyclohexane, name: { ko: 사이클로헥세인, en: Cyclohexane }, formula: C6H12 }
+  - { id: cyclohexanol, name: { ko: 사이클로헥산올, en: Cyclohexanol }, formula: C6H12O }
+  - { id: cyclohexanone, name: { ko: 사이클로헥산온, en: Cyclohexanone }, formula: C6H10O }
+  - { id: cyclohexanone_oxime, name: { ko: 사이클로헥산온 옥심, en: Cyclohexanone oxime }, formula: C6H11NO }
+  - { id: caprolactam, name: { ko: 카프로락탐, en: Caprolactam }, formula: C6H11NO }
+  - { id: adipic_acid, name: { ko: 아디프산, en: Adipic acid }, formula: C6H10O4 }
+  - { id: adiponitrile, name: { ko: 아디포나이트릴, en: Adiponitrile }, formula: C6H8N2 }
+  - { id: hexamethylenediamine, name: { ko: 헥사메틸렌다이아민, en: Hexamethylenediamine }, formula: C6H16N2 }
+  - { id: nylon_salt, name: { ko: 나일론 66 염, en: Nylon salt }, formula: C12H26N2O4, note: "아디프산과 헥사메틸렌다이아민을 1:1로 맞춘 AH 염" }
+
+  # 질소·플루오린·나트륨 무기 시약
+  - { id: H2O2, name: { ko: 과산화 수소, en: Hydrogen peroxide }, formula: H2O2 }
+  - { id: "NO", name: { ko: 일산화 질소, en: Nitric oxide }, formula: NO }
+  - { id: NO2, name: { ko: 이산화 질소, en: Nitrogen dioxide }, formula: NO2 }
+  - { id: HNO3, name: { ko: 질산, en: Nitric acid }, formula: HNO3 }
+  - { id: N2O, name: { ko: 아산화 질소, en: Nitrous oxide }, formula: N2O }
+  - { id: HF, name: { ko: 플루오린화 수소, en: Hydrogen fluoride }, formula: HF }
+  - { id: NaOH, name: { ko: 수산화 나트륨, en: Sodium hydroxide }, formula: NaOH }
+  - { id: Na2SO4, name: { ko: 황산 나트륨, en: Sodium sulfate }, formula: Na2SO4 }
+  - { id: NH4HSO4, name: { ko: 황산수소 암모늄, en: Ammonium bisulfate }, formula: NH4HSO4 }
+  - { id: CS2, name: { ko: 이황화 탄소, en: Carbon disulfide }, formula: CS2 }
+  - { id: H2S, name: { ko: 황화 수소, en: Hydrogen sulfide }, formula: H2S }
+
+  # 페놀·카보네이트·아크릴 단량체
+  - { id: cumene, name: { ko: 큐멘, en: Cumene }, formula: C9H12 }
+  - { id: phenol, name: { ko: 페놀, en: Phenol }, formula: C6H6O }
+  - { id: acetone, name: { ko: 아세톤, en: Acetone }, formula: C3H6O }
+  - { id: bisphenol_a, name: { ko: 비스페놀 A, en: Bisphenol A }, formula: C15H16O2 }
+  - { id: ethylene_carbonate, name: { ko: 탄산 에틸렌, en: Ethylene carbonate }, formula: C3H4O3 }
+  - { id: dimethyl_carbonate, name: { ko: 탄산 다이메틸, en: Dimethyl carbonate }, formula: C3H6O3 }
+  - { id: diphenyl_carbonate, name: { ko: 탄산 다이페닐, en: Diphenyl carbonate }, formula: C13H10O3 }
+  - { id: acetone_cyanohydrin, name: { ko: 아세톤 사이아노하이드린, en: Acetone cyanohydrin }, formula: C4H7NO }
+  - { id: methyl_propionate, name: { ko: 프로피온산 메틸, en: Methyl propionate }, formula: C4H8O2 }
+  - { id: methyl_methacrylate, name: { ko: 메타크릴산 메틸, en: Methyl methacrylate }, formula: C5H8O2 }
+  - { id: acrylonitrile, name: { ko: 아크릴로나이트릴, en: Acrylonitrile }, formula: C3H3N }
+
+  # 할로젠·에폭시·아민·실리콘 단량체
+  - { id: CHCl3, name: { ko: 클로로폼, en: Chloroform }, formula: CHCl3 }
+  - { id: chlorodifluoromethane, name: { ko: 클로로다이플루오로메테인, en: Chlorodifluoromethane }, formula: CHClF2, note: "HCFC-22. 냉매이자 TFE 원료" }
+  - { id: tetrafluoroethylene, name: { ko: 테트라플루오로에틸렌, en: Tetrafluoroethylene }, formula: C2F4 }
+  - { id: allyl_chloride, name: { ko: 염화 알릴, en: Allyl chloride }, formula: C3H5Cl }
+  - { id: glycerol, name: { ko: 글리세롤, en: Glycerol }, formula: C3H8O3 }
+  - { id: dichloropropanol, name: { ko: 다이클로로프로판올, en: Dichloropropanol }, formula: C3H6Cl2O }
+  - { id: epichlorohydrin, name: { ko: 에피클로로하이드린, en: Epichlorohydrin }, formula: C3H5ClO }
+  - { id: diethylenetriamine, name: { ko: 다이에틸렌트라이아민, en: Diethylenetriamine }, formula: C4H13N3, note: "에폭시 경화제. 활성 수소 5개" }
+  - { id: hexamethylenetetramine, name: { ko: 헥사메틸렌테트라민, en: Hexamethylenetetramine }, formula: C6H12N4, note: "노볼락 페놀 수지 경화제(헥사민)" }
+  - { id: melamine, name: { ko: 멜라민, en: Melamine }, formula: C3H6N6 }
+  - { id: CH3Cl, name: { ko: 클로로메테인, en: Chloromethane }, formula: CH3Cl }
+  - { id: dimethyldichlorosilane, name: { ko: 다이메틸다이클로로실레인, en: Dimethyldichlorosilane }, formula: C2H6Cl2Si }
+
+  # 우레탄 원료. MDI·TDI는 개요 레시피로 만드는 구매 중간재로 다룬다
+  - { id: nitrobenzene, name: { ko: 나이트로벤젠, en: Nitrobenzene }, formula: C6H5NO2 }
+  - { id: aniline, name: { ko: 아닐린, en: Aniline }, formula: C6H7N }
+  - { id: methylenedianiline, name: { ko: 메틸렌다이아닐린, en: Methylenedianiline }, formula: C13H14N2, note: "4,4'-MDA" }
+  - { id: mdi, name: { ko: MDI, en: Methylene diphenyl diisocyanate }, formula: C15H10N2O2, note: "메틸렌 다이페닐 다이아이소사이아네이트" }
+  - { id: tdi, name: { ko: TDI, en: Toluene diisocyanate }, formula: C9H6N2O2, note: "톨루엔 다이아이소사이아네이트(2,4-/2,6- 80:20)" }
+  - { id: propylene_oxide, name: { ko: 산화 프로필렌, en: Propylene oxide }, formula: C3H6O }
+  - { id: polyether_polyol, name: { ko: 폴리에테르 폴리올, en: Polyether polyol }, formula: C156H314O54, note: "글리세롤 1분자에 산화 프로필렌 51개가 붙은 분자량 약 3,000의 트라이올. 1분자를 1로 센다" }
+
+  # 바이닐·아세틸 단량체와 가소제
+  - { id: vinyl_acetate, name: { ko: 아세트산 바이닐, en: Vinyl acetate }, formula: C4H6O2 }
+  - { id: methyl_acetate, name: { ko: 아세트산 메틸, en: Methyl acetate }, formula: C3H6O2 }
+  - { id: acetic_anhydride, name: { ko: 아세트산 무수물, en: Acetic anhydride }, formula: C4H6O3 }
+  - { id: butyraldehyde, name: { ko: 뷰티르알데하이드, en: Butyraldehyde }, formula: C4H8O }
+  - { id: ethylhexanol, name: { ko: 2-에틸헥산올, en: 2-Ethylhexanol }, formula: C8H18O }
+  - { id: phthalic_anhydride, name: { ko: 프탈산 무수물, en: Phthalic anhydride }, formula: C8H4O3 }
+  - { id: dehp, name: { ko: 프탈산 비스(2-에틸헥실), en: Bis(2-ethylhexyl) phthalate }, formula: C24H38O4, note: "DEHP(DOP). 프탈레이트계 가소제. 유럽에서는 사용이 제한된다" }
+  - { id: dotp, name: { ko: 테레프탈산 비스(2-에틸헥실), en: Bis(2-ethylhexyl) terephthalate }, formula: C24H38O4, note: "DOTP. 비프탈레이트계 가소제" }
+  - { id: diethyl_phthalate, name: { ko: 프탈산 다이에틸, en: Diethyl phthalate }, formula: C12H14O4, note: "셀룰로스 아세테이트 가소제" }
+
+  # 합성 고무 단량체
+  - { id: dichlorobutene, name: { ko: "3,4-다이클로로-1-뷰텐", en: "3,4-Dichloro-1-butene" }, formula: C4H6Cl2 }
+  - { id: vinylacetylene, name: { ko: 바이닐아세틸렌, en: Vinylacetylene }, formula: C4H4 }
+  - { id: chloroprene, name: { ko: 클로로프렌, en: Chloroprene }, formula: C4H5Cl }
+
+  # 고분자. 반복 단위 1개를 1로 센다(공중합체는 적힌 조성 단위 1개)
+  - { id: polyethylene_ld, name: { ko: 저밀도 폴리에틸렌, en: Low-density polyethylene }, formula: C2H4, note: "LDPE. 가지가 많아 밀도 0.91~0.93g/cm³" }
+  - { id: polyethylene_hd, name: { ko: 고밀도 폴리에틸렌, en: High-density polyethylene }, formula: C2H4, note: "HDPE. 곧은 사슬, 밀도 0.94~0.97g/cm³" }
+  - { id: polyethylene_lld, name: { ko: 선형 저밀도 폴리에틸렌, en: Linear low-density polyethylene }, formula: C2H4, note: "LLDPE. CH2-CH2 단위 1개를 1로 센다(1-뷰텐 공단량체는 2단위)" }
+  - { id: polypropylene, name: { ko: 폴리프로필렌, en: Polypropylene }, formula: C3H6, note: "PP. 아이소택틱, 밀도 약 0.90g/cm³" }
+  - { id: pvc, name: { ko: 폴리염화바이닐, en: Polyvinyl chloride }, formula: C2H3Cl, note: "PVC. 밀도 약 1.4g/cm³" }
+  - { id: flexible_pvc, name: { ko: 연질 PVC 컴파운드, en: Flexible PVC compound }, formula: 12C2H3Cl·C24H38O4, note: "PVC 반복 단위 12개 + 가소제 1분자(PVC 100phr당 가소제 약 52phr)" }
+  - { id: polystyrene, name: { ko: 폴리스타이렌, en: Polystyrene }, formula: C8H8, note: "GPPS. 투명, 밀도 약 1.05g/cm³" }
+  - { id: hips, name: { ko: 내충격성 폴리스타이렌, en: High-impact polystyrene }, formula: C60H62, note: "HIPS. 스타이렌 7 + 뷰타다이엔 1 단위(고무 약 7 wt%)" }
+  - { id: eps_beads, name: { ko: 발포성 폴리스타이렌 비드, en: Expandable polystyrene beads }, formula: 12C8H8·C5H12, note: "EPS. 스타이렌 단위 12개 + 펜테인 1분자(펜테인 약 5.5 wt%)" }
+  - { id: pet, name: { ko: 폴리에틸렌 테레프탈레이트, en: Polyethylene terephthalate }, formula: C10H8O4, note: "PET. 반복 단위 192.17g/mol" }
+  - { id: nylon_6, name: { ko: 나일론 6, en: Nylon 6 }, formula: C6H11NO }
+  - { id: nylon_66, name: { ko: 나일론 66, en: "Nylon 6,6" }, formula: C12H22N2O2 }
+  - { id: pmma, name: { ko: 폴리메타크릴산 메틸, en: Poly(methyl methacrylate) }, formula: C5H8O2, note: "PMMA(아크릴). 밀도 약 1.19g/cm³" }
+  - { id: polycarbonate, name: { ko: 폴리카보네이트, en: Polycarbonate }, formula: C16H14O3, note: "비스페놀 A 폴리카보네이트. 밀도 약 1.20g/cm³" }
+  - { id: ptfe, name: { ko: 폴리테트라플루오로에틸렌, en: Polytetrafluoroethylene }, formula: C2F4, note: "PTFE. 밀도 약 2.2g/cm³" }
+  - { id: san, name: { ko: SAN 수지, en: Styrene-acrylonitrile resin }, formula: C30H30N2, note: "아크릴로나이트릴 2 + 스타이렌 3 단위(AN 약 25 wt%)" }
+  - { id: abs, name: { ko: ABS 수지, en: ABS resin }, formula: C38H42N2, note: "아크릴로나이트릴 2 + 뷰타다이엔 2 + 스타이렌 3 단위(AN 20 · BD 21 · ST 59 wt%)" }
+  - { id: epoxy_resin, name: { ko: 에폭시 수지, en: Epoxy resin }, formula: C21H24O4, note: "비스페놀 A 다이글리시딜 에테르(BADGE, n≈0). 1분자를 1로 센다" }
+  - { id: phenolic_resin, name: { ko: 페놀 수지, en: Phenolic resin }, formula: C7H6O, note: "노볼락. 페놀-메틸렌 단위" }
+  - { id: uf_resin, name: { ko: 요소 수지, en: Urea-formaldehyde resin }, formula: C2H4N2O }
+  - { id: mf_resin, name: { ko: 멜라민 수지, en: Melamine-formaldehyde resin }, formula: C4H6N6 }
+  - { id: pdms, name: { ko: 실리콘(PDMS), en: Silicone (PDMS) }, formula: C2H6OSi, note: "폴리다이메틸실록세인. (CH3)2SiO 단위" }
+  - { id: glyptal_resin, name: { ko: 알키드 수지, en: Alkyd resin }, formula: C30H22O12, note: "글리세롤 2 + 프탈산 무수물 3 단위(글립탈). 지방산 변성은 생략" }
+  - { id: pvac, name: { ko: 폴리아세트산 바이닐, en: Polyvinyl acetate }, formula: C4H6O2, note: "PVAc. 목공용 접착제와 수성 페인트의 바인더" }
+  - { id: pva, name: { ko: 폴리바이닐 알코올, en: Polyvinyl alcohol }, formula: C2H4O, note: "PVA. 물에 녹는 고분자" }
+  - { id: pvb, name: { ko: 폴리바이닐 뷰티랄, en: Polyvinyl butyral }, formula: C8H14O2, note: "PVB. 접합 유리 중간막" }
+  - { id: eva, name: { ko: 에틸렌-아세트산 바이닐 공중합체, en: Ethylene-vinyl acetate }, formula: C20H38O2, note: "EVA. 에틸렌 8 + 아세트산 바이닐 1 단위(VA 약 28 wt%)" }
+  - { id: polyacrylonitrile, name: { ko: 폴리아크릴로나이트릴, en: Polyacrylonitrile }, formula: C3H3N, note: "PAN" }
+
+  # 고무. 반복 단위 1개를 1로 센다
+  - { id: natural_latex, name: { ko: 천연 라텍스, en: Natural rubber latex }, formula: C5H8·7H2O, note: "고무나무 수액. 이소프렌 단위 1개와 물 7분자(고형분 약 35%)" }
+  - { id: natural_rubber, name: { ko: 천연고무, en: Natural rubber }, formula: C5H8, note: "cis-1,4-폴리아이소프렌" }
+  - { id: sbr, name: { ko: 스타이렌-뷰타다이엔 고무, en: Styrene-butadiene rubber }, formula: C32H44, note: "SBR. 뷰타다이엔 6 + 스타이렌 1 단위(스타이렌 약 24 wt%)" }
+  - { id: polybutadiene, name: { ko: 폴리뷰타다이엔 고무, en: Polybutadiene rubber }, formula: C4H6, note: "BR. 고-cis" }
+  - { id: neoprene, name: { ko: 클로로프렌 고무, en: Polychloroprene (neoprene) }, formula: C4H5Cl }
+  - { id: nbr, name: { ko: 나이트릴 고무, en: Nitrile rubber }, formula: C11H15N, note: "NBR. 뷰타다이엔 2 + 아크릴로나이트릴 1 단위(AN 약 33 wt%)" }
+  - { id: carbon_black, name: { ko: 카본 블랙, en: Carbon black }, formula: C, note: "고무 보강재·검정 안료. 탄소 원자 1개를 1로 센다" }
+
+  # 섬유. 반복 단위 1개를 1로 센다
+  - { id: cotton_fiber, name: { ko: 면 섬유, en: Cotton fiber }, formula: C6H10O5, note: "목화솜. 셀룰로스(무수 포도당 단위)가 약 95%" }
+  - { id: cellulose_xanthate, name: { ko: 셀룰로스 잔테이트, en: Cellulose xanthate }, formula: C7H9NaO5S2, note: "비스코스 원액. 치환도 1로 단순화" }
+  - { id: rayon_fiber, name: { ko: 레이온 섬유, en: Rayon fiber }, formula: C6H10O5, note: "비스코스 레이온. 재생 셀룰로스" }
+  - { id: cellulose_triacetate, name: { ko: 셀룰로스 트라이아세테이트, en: Cellulose triacetate }, formula: C12H16O8 }
+  - { id: cellulose_acetate, name: { ko: 셀룰로스 아세테이트, en: Cellulose acetate }, formula: C10H14O7, note: "다이아세테이트(치환도 2로 단순화, 실제 약 2.5)" }
+  - { id: polyester_fiber, name: { ko: 폴리에스터 섬유, en: Polyester fiber }, formula: C10H8O4, note: "PET 용융 방사 필라멘트" }
+  - { id: nylon_6_fiber, name: { ko: 나일론 6 섬유, en: Nylon 6 fiber }, formula: C6H11NO }
+  - { id: nylon_66_fiber, name: { ko: 나일론 66 섬유, en: "Nylon 6,6 fiber" }, formula: C12H22N2O2 }
+  - { id: pan_fiber, name: { ko: PAN 섬유, en: PAN fiber }, formula: C3H3N, note: "탄소 섬유 전구체" }
+  - { id: oxidized_pan_fiber, name: { ko: 산화 안정화 PAN 섬유, en: Oxidized PAN fiber }, formula: C6H4N2O, note: "사다리 구조로 고리가 닫힌 섬유. 실측 조성 C 약 60 · N 22 · O 12 wt%에 가깝다" }
+  - { id: carbon_fiber, name: { ko: 탄소 섬유, en: Carbon fiber }, formula: C, note: "탄소 원자 1개를 1로 센다" }
+
+  # 제품. 질량은 실제 제품 기준
+  - { id: pet_preform, name: { ko: PET 프리폼, en: PET preform }, unit: piece, expected_mass: [18g, 30g], note: "사출 성형한 시험관 모양 반제품. 500mL 병용 약 23g" }
+  - { id: bottle_cap, name: { ko: 병뚜껑, en: Bottle cap }, unit: piece, expected_mass: [1.5g, 4g], note: "HDPE 28mm 뚜껑 약 2.5g" }
+  - { id: pet_bottle, name: { ko: PET 병(500mL), en: PET bottle (500 mL) }, unit: piece, expected_mass: [15g, 35g], note: "탄산음료 500mL 병. 몸체 약 23g + 뚜껑 약 2.5g" }
+  - { id: plastic_bag, name: { ko: 비닐봉지, en: Plastic bag }, unit: piece, expected_mass: [3g, 8g], note: "HDPE 손잡이 봉투, 약 5g" }
+  - { id: cling_film_roll, name: { ko: 식품 포장 랩(30cm × 50m), en: Cling film roll (30 cm × 50 m) }, unit: piece, expected_mass: [100g, 180g], note: "LDPE 두께 10µm. 0.3×50×10⁻⁵m³ × 920kg/m³ ≈ 138g" }
+  - { id: pe_film_roll, name: { ko: 스트레치 필름 롤, en: Stretch film roll }, unit: piece, expected_mass: [2kg, 2.8kg], note: "LLDPE 폭 50cm × 300m × 17µm ≈ 2.35kg" }
+  - { id: hdpe_bottle, name: { ko: HDPE 병(1L), en: HDPE bottle (1 L) }, unit: piece, expected_mass: [30g, 55g], note: "세제·우유병 같은 1L 블로 성형 병, 약 40g" }
+  - { id: pvc_pipe, name: { ko: "PVC 파이프(DN50, 1m)", en: "PVC pipe (DN50, 1 m)" }, unit: piece, expected_mass: [400g, 600g], note: "외경 50mm, 두께 2.4mm. 단면 359mm² × 1m × 1.4g/cm³ ≈ 0.5kg" }
+  - { id: pp_container, name: { ko: PP 밀폐 용기(1L), en: PP food container (1 L) }, unit: piece, expected_mass: [25g, 60g], note: "뚜껑 포함 약 40g" }
+  - { id: ps_cup, name: { ko: PS 투명 컵(200mL), en: Clear PS cup (200 mL) }, unit: piece, expected_mass: [3g, 7g], note: "열성형 GPPS 컵 약 4.5g" }
+  - { id: yogurt_bottle, name: { ko: 요구르트 병(65mL), en: Yogurt bottle (65 mL) }, unit: piece, expected_mass: [2g, 5g], note: "HIPS 사출 병 약 3.2g" }
+  - { id: eps_board, name: { ko: EPS 단열판, en: EPS insulation board }, unit: piece, expected_mass: [300g, 450g], note: "100×50×5cm, 밀도 15kg/m³ ≈ 375g" }
+  - { id: abs_enclosure, name: { ko: ABS 케이스, en: ABS enclosure }, unit: piece, expected_mass: [80g, 160g], note: "전자기기 외함 15×10×5cm, 두께 2mm, 약 120g" }
+  - { id: acrylic_sheet, name: { ko: 아크릴판(30×30cm), en: Acrylic sheet (30×30 cm) }, unit: piece, expected_mass: [280g, 360g], note: "두께 3mm. 270cm³ × 1.19g/cm³ ≈ 321g" }
+  - { id: safety_glasses, name: { ko: 보안경, en: Safety glasses }, unit: piece, expected_mass: [20g, 45g], note: "폴리카보네이트 렌즈와 테, 약 30g" }
+  - { id: ptfe_tape, name: { ko: PTFE 테이프, en: PTFE thread seal tape }, unit: piece, expected_mass: [2g, 8g], note: "나사산 밀봉용 12mm × 10m, 약 4g" }
+  - { id: nylon_rope, name: { ko: 나일론 로프, en: Nylon rope }, unit: piece, expected_mass: [550g, 750g], note: "지름 10mm × 10m. 나일론 로프는 약 64g/m" }
+  - { id: cable_tie, name: { ko: 케이블 타이, en: Cable tie }, unit: piece, expected_mass: [1g, 2.5g], note: "나일론 66, 길이 200mm × 폭 4.8mm, 약 1.5g" }
+  - { id: polyester_fabric, name: { ko: 폴리에스터 원단(1m²), en: Polyester fabric (1 m²) }, unit: piece, expected_mass: [100g, 250g], note: "평직 150g/m²" }
+  - { id: nylon_fabric, name: { ko: 나일론 원단(1m²), en: Nylon fabric (1 m²) }, unit: piece, expected_mass: [40g, 120g], note: "립스톱 70g/m²" }
+  - { id: cotton_fabric, name: { ko: 면 원단(1m²), en: Cotton fabric (1 m²) }, unit: piece, expected_mass: [100g, 250g], note: "평직 150g/m²" }
+  - { id: rayon_fabric, name: { ko: 레이온 원단(1m²), en: Rayon fabric (1 m²) }, unit: piece, expected_mass: [80g, 180g], note: "120g/m²" }
+  - { id: pp_nonwoven, name: { ko: PP 부직포(1m²), en: PP nonwoven fabric (1 m²) }, unit: piece, expected_mass: [10g, 50g], note: "스펀본드 25g/m². 마스크·위생용품 소재" }
+  - { id: tire_tread, name: { ko: 타이어 트레드, en: Tire tread }, unit: piece, expected_mass: [3kg, 4.5kg], note: "SBR·BR에 카본 블랙과 실리카를 섞은 접지면 고무" }
+  - { id: tire_sidewall, name: { ko: 타이어 사이드월, en: Tire sidewall }, unit: piece, expected_mass: [0.7kg, 1.3kg], note: "천연고무·BR 옆면 고무" }
+  - { id: tire_carcass, name: { ko: 타이어 카커스, en: Tire carcass }, unit: piece, expected_mass: [1.1kg, 1.8kg], note: "폴리에스터 코드 보디 플라이와 이너 라이너" }
+  - { id: steel_belt, name: { ko: 스틸 벨트, en: Steel belt }, unit: piece, expected_mass: [0.4kg, 0.7kg], note: "황동 도금 스틸 코드를 고무로 감싼 벨트 1장" }
+  - { id: tire_bead, name: { ko: 타이어 비드, en: Tire bead }, unit: piece, expected_mass: [0.15kg, 0.3kg], note: "림에 걸리는 강선 묶음" }
+  - { id: green_tire, name: { ko: 그린 타이어, en: Green tire }, unit: piece, expected_mass: [7.5kg, 10.5kg], note: "가황 전 성형 타이어" }
+  - { id: car_tire, name: { ko: 승용차 타이어, en: Passenger car tire }, unit: piece, expected_mass: [7.5kg, 10.5kg], note: "205/55R16 약 8.8kg. 천연고무 17 · 합성고무 30 · 카본 블랙 25 · 실리카 6 · 강철 12 · 섬유 6 wt%. 공정유·노화 방지제는 생략" }
+  - { id: bicycle_tire, name: { ko: 자전거 타이어, en: Bicycle tire }, unit: piece, expected_mass: [0.4kg, 0.8kg], note: "26×1.95 강선 비드 타이어 약 0.6kg" }
+  - { id: bicycle_inner_tube, name: { ko: 자전거 튜브, en: Bicycle inner tube }, unit: piece, expected_mass: [80g, 200g], note: "약 130g. 실제로는 부틸 고무를 많이 쓴다" }
+  - { id: latex_glove, name: { ko: 라텍스 장갑, en: Latex glove }, unit: piece, expected_mass: [4g, 9g], note: "의료용 검사 장갑 한 짝 약 6g" }
+  - { id: nitrile_glove, name: { ko: 나이트릴 장갑, en: Nitrile glove }, unit: piece, expected_mass: [2.5g, 5g], note: "검사 장갑 한 짝 약 3.5g" }
+  - { id: vinyl_glove, name: { ko: PVC 장갑, en: Vinyl glove }, unit: piece, expected_mass: [3g, 7g], note: "연질 PVC 장갑 한 짝 약 4.5g" }
+  - { id: o_ring, name: { ko: NBR O-링, en: NBR O-ring }, unit: piece, expected_mass: [0.3g, 0.7g], note: "내경 20mm × 굵기 2.5mm. 약 347mm³ × 1.3g/cm³ ≈ 0.45g" }
+  - { id: pu_foam_block, name: { ko: 폴리우레탄 폼 블록, en: Polyurethane foam block }, unit: piece, expected_mass: [1.2kg, 1.8kg], note: "연질 슬랩스톡 폼 100×50×10cm, 밀도 30kg/m³ ≈ 1.5kg" }
+  - { id: pu_insulation_board, name: { ko: 폴리우레탄 단열판, en: PU insulation board }, unit: piece, expected_mass: [0.9kg, 1.4kg], note: "경질 폼 120×60×5cm, 밀도 32kg/m³ ≈ 1.15kg" }
+  - { id: glass_fiber_mat, name: { ko: 유리 섬유 매트(1m²), en: Glass fiber mat (1 m²) }, unit: piece, expected_mass: [400g, 520g], note: "E-유리 촙 스트랜드 매트 450g/m²" }
+  - { id: gfrp_panel, name: { ko: 유리 섬유 강화 플라스틱 판, en: GFRP panel }, unit: piece, expected_mass: [3kg, 4.2kg], note: "1m × 1m × 2mm, 밀도 약 1.8g/cm³. 유리 섬유 약 52 wt%" }
+  - { id: carbon_fiber_fabric, name: { ko: 탄소 섬유 직물(1m²), en: Carbon fiber fabric (1 m²) }, unit: piece, expected_mass: [180g, 230g], note: "3K 능직 200g/m²" }
+  - { id: cfrp_plate, name: { ko: 탄소 섬유 강화 플라스틱 판, en: CFRP plate }, unit: piece, expected_mass: [240g, 330g], note: "30×30cm, 두께 약 2mm. 섬유 부피 분율 약 60%" }
+  - { id: bakelite_handle, name: { ko: 베이클라이트 손잡이, en: Bakelite handle }, unit: piece, expected_mass: [40g, 80g], note: "냄비 손잡이. 페놀 수지에 면 플록 충전재" }
+  - { id: uf_switch_plate, name: { ko: 요소 수지 스위치 덮개, en: UF switch plate }, unit: piece, expected_mass: [15g, 35g], note: "알파 셀룰로스 충전 요소 수지 성형품" }
+  - { id: melamine_plate, name: { ko: 멜라민 접시, en: Melamine plate }, unit: piece, expected_mass: [100g, 220g], note: "지름 20cm 식기" }
+  - { id: silicone_sealant, name: { ko: 실리콘 실란트, en: Silicone sealant }, unit: piece, expected_mass: [280g, 420g], note: "300mL 카트리지. 실란트 약 275g + HDPE 통 약 45g" }
+  - { id: silicone_tube, name: { ko: 실리콘 튜브(1m), en: Silicone tubing (1 m) }, unit: piece, expected_mass: [30g, 55g], note: "내경 6mm × 외경 9mm. 35cm³ × 1.15g/cm³ ≈ 41g" }
+  - { id: wall_paint, name: { ko: 수성 페인트(1L), en: Latex wall paint (1 L) }, unit: piece, expected_mass: [1.2kg, 1.6kg], note: "비중 약 1.4. 실제 흰색 안료는 대개 이산화 타이타늄이다" }
+  - { id: alkyd_enamel, name: { ko: 알키드 에나멜(1L), en: Alkyd enamel (1 L) }, unit: piece, expected_mass: [0.85kg, 1.3kg], note: "검정 유성 에나멜" }
+  - { id: varnish, name: { ko: 바니시(1L), en: Varnish (1 L) }, unit: piece, expected_mass: [0.8kg, 1.1kg], note: "알키드 투명 도료" }
+  - { id: epoxy_adhesive, name: { ko: 에폭시 접착제, en: Epoxy adhesive }, unit: piece, expected_mass: [25g, 50g], note: "2액형 28g과 PP 주사기" }
+  - { id: wood_glue, name: { ko: 목공용 접착제, en: Wood glue }, unit: piece, expected_mass: [230g, 320g], note: "PVAc 에멀션 250g과 HDPE 통" }
+  - { id: rubber_cement, name: { ko: 고무 접착제, en: Rubber cement }, unit: piece, expected_mass: [90g, 130g], note: "천연고무 20%를 톨루엔에 녹인 100g과 알루미늄 튜브" }
+  - { id: hot_melt_stick, name: { ko: 핫멜트 글루 스틱, en: Hot-melt glue stick }, unit: piece, expected_mass: [12g, 30g], note: "지름 11mm × 20cm, 약 20g" }
+  - { id: pvb_interlayer, name: { ko: PVB 중간막(1m²), en: PVB interlayer (1 m²) }, unit: piece, expected_mass: [700g, 950g], note: "접합 유리용 0.76mm. 1.07g/cm³ ≈ 813g" }
+  - { id: pvc_insulated_wire, name: { ko: PVC 절연 전선(10m), en: PVC insulated wire (10 m) }, unit: piece, expected_mass: [160g, 240g], note: "1.5mm² 단선, 절연 두께 0.7mm. 구리 134g + 연질 PVC 64g" }
+  - { id: neoprene_sheet, name: { ko: 네오프렌 원단(1m²), en: Neoprene sheet (1 m²) }, unit: piece, expected_mass: [450g, 750g], note: "잠수복용 3mm 발포 네오프렌 양면에 나일론 원단" }
+  - { id: eyeglass_frame, name: { ko: 아세테이트 안경테, en: Acetate eyeglass frame }, unit: piece, expected_mass: [18g, 35g], note: "셀룰로스 아세테이트 판을 깎은 테와 경첩" }
