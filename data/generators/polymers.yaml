@@ -1,0 +1,12 @@
+# 고분자 원료를 거두는 농장. 보유한 대수만큼 produces(초당)를 생산한다.
+generators:
+  - id: rubber_plantation
+    name: { ko: 고무나무 농장, en: Rubber plantation }
+    build: { time: 150, in: { Fe: 300, NH3: 200, K3PO4: 60, plastic: 100 } }
+    produces: { natural_latex: 0.1 }
+    note: 파라고무나무 껍질을 비스듬히 그어 받은 수액. 고무나무 1그루는 하루 수액 약 200mL를 낸다
+  - id: cotton_farm
+    name: { ko: 목화 농장, en: Cotton farm }
+    build: { time: 150, in: { Fe: 400, NH3: 300, K3PO4: 80, H2O: 1000 } }
+    produces: { cotton_fiber: 0.08 }
+    note: "씨앗에서 솜을 떼어 낸(조면) 면 섬유. 셀룰로스가 약 95%"

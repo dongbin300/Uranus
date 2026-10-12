@@ -1,0 +1,1181 @@
+# 고분자 공정. 단량체 합성 → 중합 → 방사·성형 → 제품.
+# 화학식이 있는 것끼리의 반응은 원자 수가 맞는다. 축합 중합은 물·메탄올·염화 수소를 따로 내놓는다.
+# 제품 레시피의 입자 수는 실제 질량(g) ÷ 몰 질량 × 아보가드로 수로 계산했다.
+category: polymer
+recipes:
+
+  # 올레핀과 방향족
+  - id: propylene_mtp
+    name: { ko: 메탄올-프로필렌 공정 }
+    time: 1
+    in: { CH3OH: 3 }
+    out: { propylene: 1, H2O: 3 }
+    note: "MTP 공정. 제올라이트 촉매, 약 450°C"
+  - id: naphtha_steam_cracking
+    name: { ko: 나프타 열분해 }
+    time: 30
+    in: { petroleum: 100 }
+    out: { propylene: 36, C2H4: 107, butadiene: 9, C6H6: 9, CH4: 94, H2: 50 }
+    approximate: true
+    note: "약 850°C 수증기 열분해. 질량 기준 에틸렌 약 30%, 프로필렌 15%, 뷰타다이엔 5%, 메탄 15%. 나머지는 연료유"
+  - id: catalytic_reforming
+    name: { ko: 나프타 접촉 개질 }
+    time: 30
+    in: { petroleum: 100 }
+    out: { toluene: 20, mixed_xylenes: 15, C6H6: 8, H2: 60 }
+    approximate: true
+    note: 백금 촉매로 나프타를 방향족(BTX)과 수소로 바꾼다
+  - id: ethylene_dimerization
+    name: { ko: 에틸렌 이량화 }
+    time: 0.5
+    in: { C2H4: 2 }
+    out: { butene_1: 1 }
+    note: 알파뷰톨 공정. 타이타늄 촉매로 1-뷰텐을 얻는다
+  - id: ethylene_hydration
+    name: { ko: 에틸렌 수화 }
+    time: 0.5
+    in: { C2H4: 1, H2O: 1 }
+    out: { ethanol: 1 }
+    note: "인산 촉매, 약 300°C · 70기압"
+  - id: lebedev_process
+    name: { ko: 레베데프 공정 }
+    time: 1
+    in: { ethanol: 2 }
+    out: { butadiene: 1, H2O: 2, H2: 1 }
+    note: 에탄올에서 뷰타다이엔을 얻는다. 2차 세계대전 때 합성 고무 원료였다
+  - id: ethylbenzene_alkylation
+    name: { ko: 에틸벤젠 합성 }
+    time: 0.5
+    in: { C6H6: 1, C2H4: 1 }
+    out: { ethylbenzene: 1 }
+    note: 제올라이트 촉매 액상 알킬화
+  - id: ethylbenzene_dehydrogenation
+    name: { ko: 에틸벤젠 탈수소화 }
+    time: 0.8
+    in: { ethylbenzene: 1 }
+    out: { styrene: 1, H2: 1 }
+    note: "산화 철 촉매, 약 600°C 수증기 희석"
+  - id: ethylene_chlorination
+    name: { ko: 에틸렌 직접 염소화 }
+    time: 0.4
+    in: { C2H4: 1, Cl2: 1 }
+    out: { ethylene_dichloride: 1 }
+    note: 염화 철(III) 촉매
+  - id: ethylene_oxychlorination
+    name: { ko: 에틸렌 옥시염소화 }
+    time: 1
+    in: { C2H4: 2, HCl: 4, O2: 1 }
+    out: { ethylene_dichloride: 2, H2O: 2 }
+    note: 염화 구리 촉매. 열분해에서 나온 염화 수소를 다시 쓴다
+  - id: edc_cracking
+    name: { ko: EDC 열분해 }
+    time: 0.5
+    in: { ethylene_dichloride: 1 }
+    out: { vinyl_chloride: 1, HCl: 1 }
+    note: 약 500°C
+  - id: acetylene_hydrochlorination
+    name: { ko: 아세틸렌 염화 수소 첨가 }
+    time: 0.5
+    in: { C2H2: 1, HCl: 1 }
+    out: { vinyl_chloride: 1 }
+    note: 카바이드 아세틸렌을 쓰는 옛 공정. 석탄이 많은 곳에서 아직 쓴다
+  - id: benzene_methylation
+    name: { ko: 벤젠 메틸화 }
+    time: 0.5
+    in: { C6H6: 1, CH3OH: 1 }
+    out: { toluene: 1, H2O: 1 }
+    note: 제올라이트 촉매
+  - id: toluene_disproportionation
+    name: { ko: 톨루엔 불균등화 }
+    time: 0.8
+    in: { toluene: 2 }
+    out: { mixed_xylenes: 1, C6H6: 1 }
+    note: TDP 공정. 메틸기를 옮겨 벤젠과 자일렌을 만든다
+  - id: toluene_methylation
+    name: { ko: 톨루엔 선택 메틸화 }
+    time: 0.6
+    in: { toluene: 1, CH3OH: 1 }
+    out: { p_xylene: 1, H2O: 1 }
+    note: 형상 선택성 제올라이트(ZSM-5)로 p-자일렌을 주로 얻는다
+  - id: xylene_separation
+    name: { ko: 자일렌 분리·이성질화 }
+    time: 1
+    in: { mixed_xylenes: 4 }
+    out: { p_xylene: 3, o_xylene: 1 }
+    note: "흡착 분리와 이성질화로 p-자일렌을, 증류로 o-자일렌을 얻는다"
+  - id: ngl_fractionation
+    name: { ko: 천연가스 응축액 분별 }
+    time: 10
+    in: { natural_gas: 100 }
+    out: { pentane: 2 }
+    approximate: true
+    note: 천연가스에 섞인 액체 탄화수소에서 펜테인을 분리한다
+
+  # 폴리올레핀
+  - id: ldpe_polymerization
+    name: { ko: 저밀도 폴리에틸렌 중합 }
+    time: 1
+    in: { C2H4: 1 }
+    out: { polyethylene_ld: 1 }
+    note: "고압 라디칼 중합, 약 2,000기압 · 250°C"
+  - id: hdpe_polymerization
+    name: { ko: 고밀도 폴리에틸렌 중합 }
+    time: 1
+    in: { C2H4: 1 }
+    out: { polyethylene_hd: 1 }
+    note: "지글러-나타 촉매, 저압 슬러리 공정"
+  - id: lldpe_polymerization
+    name: { ko: 선형 저밀도 폴리에틸렌 중합 }
+    time: 3
+    in: { C2H4: 23, butene_1: 1 }
+    out: { polyethylene_lld: 25 }
+    note: "기상 공중합. 1-뷰텐 약 8 wt%"
+  - id: pp_polymerization
+    name: { ko: 폴리프로필렌 중합 }
+    time: 1
+    in: { propylene: 1 }
+    out: { polypropylene: 1 }
+    note: "지글러-나타 촉매, 아이소택틱"
+
+  # PVC·폴리스타이렌
+  - id: pvc_polymerization
+    name: { ko: PVC 현탁 중합 }
+    time: 1
+    in: { vinyl_chloride: 1 }
+    out: { pvc: 1 }
+    note: 물에 분산시켜 중합한 뒤 말린다
+  - id: ps_polymerization
+    name: { ko: 폴리스타이렌 괴상 중합 }
+    time: 1
+    in: { styrene: 1 }
+    out: { polystyrene: 1 }
+  - id: hips_polymerization
+    name: { ko: 내충격성 폴리스타이렌 중합 }
+    time: 3
+    in: { polybutadiene: 1, styrene: 7 }
+    out: { hips: 1 }
+    note: 폴리뷰타다이엔을 스타이렌에 녹여 중합한다
+  - id: eps_polymerization
+    name: { ko: 발포성 폴리스타이렌 중합 }
+    time: 4
+    in: { styrene: 12, pentane: 1 }
+    out: { eps_beads: 1 }
+    note: 현탁 중합하면서 발포제 펜테인을 녹여 넣는다
+
+  # PET
+  - id: p_xylene_oxidation
+    name: { ko: p-자일렌 산화 }
+    time: 1
+    in: { p_xylene: 1, O2: 3 }
+    out: { terephthalic_acid: 1, H2O: 2 }
+    note: 아모코 공정. 코발트·망가니즈·브로민 촉매로 공기 산화
+  - id: dmt_esterification
+    name: { ko: 테레프탈산 다이메틸 합성 }
+    time: 0.8
+    in: { terephthalic_acid: 1, CH3OH: 2 }
+    out: { dimethyl_terephthalate: 1, H2O: 2 }
+  - id: ethylene_oxidation
+    name: { ko: 에틸렌 산화 }
+    time: 0.5
+    in: { C2H4: 2, O2: 1 }
+    out: { ethylene_oxide: 2 }
+    note: 은 촉매 직접 산화. 일부가 CO2로 타는 것은 생략
+  - id: ethylene_oxide_hydration
+    name: { ko: 산화 에틸렌 수화 }
+    time: 0.5
+    in: { ethylene_oxide: 1, H2O: 1 }
+    out: { ethylene_glycol: 1 }
+    note: 열 가수분해
+  - id: pet_polycondensation
+    name: { ko: PET 중축합 }
+    time: 1.5
+    in: { terephthalic_acid: 1, ethylene_glycol: 1 }
+    out: { pet: 1, H2O: 2 }
+    note: 직접 에스터화 후 용융 중축합. 안티모니 촉매
+  - id: pet_transesterification
+    name: { ko: PET 에스터 교환 중축합 }
+    time: 1.5
+    in: { dimethyl_terephthalate: 1, ethylene_glycol: 1 }
+    out: { pet: 1, CH3OH: 2 }
+    note: DMT를 쓰는 옛 공정
+
+  # 나일론
+  - id: benzene_hydrogenation
+    name: { ko: 벤젠 수소화 }
+    time: 0.6
+    in: { C6H6: 1, H2: 3 }
+    out: { cyclohexane: 1 }
+    note: 니켈 촉매
+  - id: cyclohexane_oxidation
+    name: { ko: 사이클로헥세인 공기 산화 }
+    time: 1
+    in: { cyclohexane: 2, O2: 1 }
+    out: { cyclohexanol: 2 }
+    note: "KA 오일 공정. 전환율을 약 4%로 낮게 유지한다"
+  - id: cyclohexanol_dehydrogenation
+    name: { ko: 사이클로헥산올 탈수소화 }
+    time: 0.5
+    in: { cyclohexanol: 1 }
+    out: { cyclohexanone: 1, H2: 1 }
+    note: "구리·아연 촉매, 약 250°C"
+  - id: phenol_hydrogenation
+    name: { ko: 페놀 수소화 }
+    time: 0.5
+    in: { phenol: 1, H2: 2 }
+    out: { cyclohexanone: 1 }
+    note: 팔라듐 촉매
+  - id: anthraquinone_process
+    name: { ko: 안트라퀴논 공정 }
+    time: 0.5
+    in: { H2: 1, O2: 1 }
+    out: { H2O2: 1 }
+    note: 안트라퀴논을 수소화했다가 공기로 산화하며 과산화 수소를 얻는다
+  - id: cyclohexanone_ammoximation
+    name: { ko: 사이클로헥산온 암모옥심화 }
+    time: 0.8
+    in: { cyclohexanone: 1, NH3: 1, H2O2: 1 }
+    out: { cyclohexanone_oxime: 1, H2O: 2 }
+    note: 타이타늄 실리칼라이트(TS-1) 촉매
+  - id: beckmann_rearrangement
+    name: { ko: 베크만 자리옮김 }
+    time: 0.5
+    in: { cyclohexanone_oxime: 1 }
+    out: { caprolactam: 1 }
+    note: 발연 황산 속에서 고리가 넓어진다. 실제로는 중화하며 황산 암모늄이 나온다
+  - id: nylon_6_polymerization
+    name: { ko: 나일론 6 개환 중합 }
+    time: 1
+    in: { caprolactam: 1 }
+    out: { nylon_6: 1 }
+    note: 물을 개시제로 약 260°C
+  - id: ammonia_oxidation
+    name: { ko: 암모니아 산화 }
+    time: 0.8
+    in: { NH3: 4, O2: 5 }
+    out: { "NO": 4, H2O: 6 }
+    note: "오스트발트 공정. 백금-로듐 거즈 촉매, 약 900°C"
+  - id: nitric_oxide_oxidation
+    name: { ko: 일산화 질소 산화 }
+    time: 0.3
+    in: { "NO": 2, O2: 1 }
+    out: { NO2: 2 }
+  - id: nitric_acid_absorption
+    name: { ko: 질산 흡수 }
+    time: 0.5
+    in: { NO2: 3, H2O: 1 }
+    out: { HNO3: 2, "NO": 1 }
+    note: 흡수탑에서 물에 녹인다. 나온 일산화 질소는 다시 산화한다
+  - id: adipic_acid_oxidation
+    name: { ko: 아디프산 질산 산화 }
+    time: 1
+    in: { cyclohexanol: 1, HNO3: 2 }
+    out: { adipic_acid: 1, N2O: 1, H2O: 2 }
+    note: 아산화 질소는 강한 온실가스라 요즘은 분해 설비를 단다
+  - id: butadiene_hydrocyanation
+    name: { ko: 뷰타다이엔 하이드로사이안화 }
+    time: 1
+    in: { butadiene: 1, HCN: 2 }
+    out: { adiponitrile: 1 }
+    note: 듀폰 공정. 니켈 촉매
+  - id: adipic_acid_ammonolysis
+    name: { ko: 아디프산 암모니아 탈수 }
+    time: 1
+    in: { adipic_acid: 1, NH3: 2 }
+    out: { adiponitrile: 1, H2O: 4 }
+    note: 옛 공정
+  - id: adiponitrile_hydrogenation
+    name: { ko: 아디포나이트릴 수소화 }
+    time: 0.8
+    in: { adiponitrile: 1, H2: 4 }
+    out: { hexamethylenediamine: 1 }
+    note: 라니 니켈 촉매
+  - id: nylon_salt_formation
+    name: { ko: 나일론 66 염 생성 }
+    time: 0.3
+    in: { adipic_acid: 1, hexamethylenediamine: 1 }
+    out: { nylon_salt: 1 }
+    note: "물속에서 산과 아민의 비를 정확히 1:1로 맞춘다"
+  - id: nylon_66_polycondensation
+    name: { ko: 나일론 66 중축합 }
+    time: 1.5
+    in: { nylon_salt: 1 }
+    out: { nylon_66: 1, H2O: 2 }
+    note: 약 280°C 용융 중축합
+
+  # 페놀·폴리카보네이트
+  - id: cumene_alkylation
+    name: { ko: 큐멘 합성 }
+    time: 0.5
+    in: { C6H6: 1, propylene: 1 }
+    out: { cumene: 1 }
+    note: 제올라이트 촉매
+  - id: cumene_process
+    name: { ko: 큐멘 공정 }
+    time: 1
+    in: { cumene: 1, O2: 1 }
+    out: { phenol: 1, acetone: 1 }
+    note: "호크 공정. 큐멘을 공기로 산화한 뒤 산으로 쪼갠다. 세계 페놀의 약 90%"
+  - id: bisphenol_a_condensation
+    name: { ko: 비스페놀 A 합성 }
+    time: 0.8
+    in: { phenol: 2, acetone: 1 }
+    out: { bisphenol_a: 1, H2O: 1 }
+    note: 산 촉매 축합. 페놀을 과잉으로 쓴다
+  - id: ethylene_carbonate_synthesis
+    name: { ko: 탄산 에틸렌 합성 }
+    time: 0.5
+    in: { ethylene_oxide: 1, CO2: 1 }
+    out: { ethylene_carbonate: 1 }
+    note: 이산화 탄소를 원료로 쓴다
+  - id: dmc_transesterification
+    name: { ko: 탄산 다이메틸 에스터 교환 }
+    time: 0.8
+    in: { ethylene_carbonate: 1, CH3OH: 2 }
+    out: { dimethyl_carbonate: 1, ethylene_glycol: 1 }
+    note: 아사히카세이 공정. 에틸렌 글라이콜이 함께 나온다
+  - id: methanol_oxidative_carbonylation
+    name: { ko: 메탄올 산화 카보닐화 }
+    time: 1
+    in: { CH3OH: 4, CO: 2, O2: 1 }
+    out: { dimethyl_carbonate: 2, H2O: 2 }
+    note: 에니켐 공정. 염화 구리 촉매
+  - id: diphenyl_carbonate_synthesis
+    name: { ko: 탄산 다이페닐 합성 }
+    time: 1
+    in: { dimethyl_carbonate: 1, phenol: 2 }
+    out: { diphenyl_carbonate: 1, CH3OH: 2 }
+    note: 에스터 교환. 메탄올을 빼내며 평형을 민다
+  - id: polycarbonate_melt_polymerization
+    name: { ko: 폴리카보네이트 용융 중합 }
+    time: 2
+    in: { bisphenol_a: 1, diphenyl_carbonate: 1 }
+    out: { polycarbonate: 1, phenol: 2 }
+    note: 용융 에스터 교환. 나온 페놀을 진공으로 뽑아 다시 쓴다
+
+  # 아크릴
+  - id: acetone_cyanohydrin_synthesis
+    name: { ko: 아세톤 사이아노하이드린 합성 }
+    time: 0.5
+    in: { acetone: 1, HCN: 1 }
+    out: { acetone_cyanohydrin: 1 }
+    note: 염기 촉매
+  - id: mma_ach_process
+    name: { ko: ACH 공정 }
+    time: 1
+    in: { acetone_cyanohydrin: 1, CH3OH: 1, H2SO4: 1 }
+    out: { methyl_methacrylate: 1, NH4HSO4: 1 }
+    note: 황산이 황산수소 암모늄으로 나온다
+  - id: methyl_propionate_synthesis
+    name: { ko: 프로피온산 메틸 합성 }
+    time: 0.6
+    in: { C2H4: 1, CO: 1, CH3OH: 1 }
+    out: { methyl_propionate: 1 }
+    note: 알파 공정 1단계. 팔라듐 촉매
+  - id: mma_alpha_process
+    name: { ko: 알파 공정 }
+    time: 0.8
+    in: { methyl_propionate: 1, CH2O: 1 }
+    out: { methyl_methacrylate: 1, H2O: 1 }
+    note: 알파 공정 2단계. 폼알데하이드와 축합
+  - id: pmma_polymerization
+    name: { ko: PMMA 중합 }
+    time: 1
+    in: { methyl_methacrylate: 1 }
+    out: { pmma: 1 }
+    note: 판재는 틀에 부어 굳히는 캐스팅 중합
+  - id: sohio_process
+    name: { ko: SOHIO 공정 }
+    time: 1
+    in: { propylene: 2, NH3: 2, O2: 3 }
+    out: { acrylonitrile: 2, H2O: 6 }
+    note: "프로필렌 암모산화. 비스무트 몰리브데이트 촉매, 약 450°C"
+  - id: acetylene_hydrocyanation
+    name: { ko: 아세틸렌 하이드로사이안화 }
+    time: 0.5
+    in: { C2H2: 1, HCN: 1 }
+    out: { acrylonitrile: 1 }
+    note: 1960년대 이전 공정
+  - id: pan_polymerization
+    name: { ko: 폴리아크릴로나이트릴 중합 }
+    time: 1
+    in: { acrylonitrile: 1 }
+    out: { polyacrylonitrile: 1 }
+    note: 용액 중합
+
+  # PTFE
+  - id: methane_chlorination
+    name: { ko: 메테인 염소화 }
+    time: 0.8
+    in: { CH4: 1, Cl2: 3 }
+    out: { CHCl3: 1, HCl: 3 }
+    note: 염화 메틸 · 다이클로로메테인도 함께 나오지만 생략
+  - id: hf_from_fluorapatite
+    name: { ko: 인광석 플루오린 회수 }
+    time: 1
+    in: { fluorapatite: 1, H2SO4: 5 }
+    out: { HF: 1, H3PO4: 3, CaSO4: 5 }
+    note: 습식 인산 공정에서 나오는 플루오린을 회수한다. 대부분의 플루오린화 수소는 형석에 황산을 써서 만든다
+  - id: hcfc22_synthesis
+    name: { ko: HCFC-22 합성 }
+    time: 0.6
+    in: { CHCl3: 1, HF: 2 }
+    out: { chlorodifluoromethane: 1, HCl: 2 }
+    note: 안티모니 촉매 플루오린화
+  - id: tfe_pyrolysis
+    name: { ko: TFE 열분해 }
+    time: 0.8
+    in: { chlorodifluoromethane: 2 }
+    out: { tetrafluoroethylene: 1, HCl: 2 }
+    note: 약 700°C
+  - id: ptfe_polymerization
+    name: { ko: PTFE 중합 }
+    time: 1
+    in: { tetrafluoroethylene: 1 }
+    out: { ptfe: 1 }
+    note: 물속 현탁 중합
+
+  # 에폭시·아민
+  - id: chlor_alkali_process
+    name: { ko: 염소-알칼리 공정 }
+    time: 0.5
+    in: { NaCl: 2, H2O: 2 }
+    out: { NaOH: 2, Cl2: 1, H2: 1 }
+    note: 소금물 이온 교환막 전해
+  - id: propylene_chlorination
+    name: { ko: 프로필렌 고온 염소화 }
+    time: 0.5
+    in: { propylene: 1, Cl2: 1 }
+    out: { allyl_chloride: 1, HCl: 1 }
+    note: 약 500°C
+  - id: allyl_chloride_hypochlorination
+    name: { ko: 염화 알릴 하이포염소화 }
+    time: 0.6
+    in: { allyl_chloride: 1, Cl2: 1, H2O: 1 }
+    out: { dichloropropanol: 1, HCl: 1 }
+    note: 염소 물(차아염소산)을 붙인다
+  - id: glycerol_hydrochlorination
+    name: { ko: 글리세롤 염화 수소화 }
+    time: 0.8
+    in: { glycerol: 1, HCl: 2 }
+    out: { dichloropropanol: 1, H2O: 2 }
+    note: 에피세롤 공정. 바이오디젤 부산물 글리세롤을 쓴다
+  - id: dichloropropanol_cyclization
+    name: { ko: 에피클로로하이드린 고리화 }
+    time: 0.8
+    in: { dichloropropanol: 2, Ca(OH)2: 1 }
+    out: { epichlorohydrin: 2, CaCl2: 1, H2O: 2 }
+    note: 소석회로 염화 수소를 떼어 고리를 닫는다
+  - id: epichlorohydrin_hydrolysis
+    name: { ko: 합성 글리세롤 }
+    time: 0.8
+    in: { epichlorohydrin: 1, NaOH: 1, H2O: 1 }
+    out: { glycerol: 1, NaCl: 1 }
+    note: 셸 합성 글리세롤 공정(1948)
+  - id: epoxy_resin_synthesis
+    name: { ko: 에폭시 수지 합성 }
+    time: 1.5
+    in: { bisphenol_a: 1, epichlorohydrin: 2, NaOH: 2 }
+    out: { epoxy_resin: 1, NaCl: 2, H2O: 2 }
+    note: 비스페놀 A에 에피클로로하이드린 두 분자를 붙여 BADGE를 만든다
+  - id: ethyleneamine_synthesis
+    name: { ko: 에틸렌아민 합성 }
+    time: 1
+    in: { ethylene_dichloride: 2, NH3: 3, NaOH: 4 }
+    out: { diethylenetriamine: 1, NaCl: 4, H2O: 4 }
+    note: EDC 공정. 남는 염화 수소는 수산화 나트륨으로 중화한다
+
+  # 열경화성 수지
+  - id: hexamine_synthesis
+    name: { ko: 헥사민 합성 }
+    time: 0.6
+    in: { CH2O: 6, NH3: 4 }
+    out: { hexamethylenetetramine: 1, H2O: 6 }
+  - id: novolac_condensation
+    name: { ko: 노볼락 축합 }
+    time: 0.8
+    in: { phenol: 1, CH2O: 1 }
+    out: { phenolic_resin: 1, H2O: 1 }
+    note: "산 촉매, 페놀 과잉. 베이클랜드(1907)"
+  - id: uf_condensation
+    name: { ko: 요소 수지 축합 }
+    time: 0.6
+    in: { urea: 1, CH2O: 1 }
+    out: { uf_resin: 1, H2O: 1 }
+    note: 메틸올화 후 축합
+  - id: melamine_synthesis
+    name: { ko: 멜라민 합성 }
+    time: 1.5
+    in: { urea: 6 }
+    out: { melamine: 1, NH3: 6, CO2: 3 }
+    note: 약 400°C 기상 촉매 공정
+  - id: mf_condensation
+    name: { ko: 멜라민 수지 축합 }
+    time: 0.6
+    in: { melamine: 1, CH2O: 1 }
+    out: { mf_resin: 1, H2O: 1 }
+  - id: glyptal_condensation
+    name: { ko: 알키드 수지 축합 }
+    time: 2
+    in: { glycerol: 2, phthalic_anhydride: 3 }
+    out: { glyptal_resin: 1, H2O: 3 }
+    note: 글리세롤과 프탈산 무수물의 에스터화
+
+  # 실리콘
+  - id: methanol_hydrochlorination
+    name: { ko: 염화 메틸 합성 }
+    time: 0.5
+    in: { CH3OH: 1, HCl: 1 }
+    out: { CH3Cl: 1, H2O: 1 }
+  - id: rochow_process
+    name: { ko: 로코 공정 }
+    time: 1
+    in: { Si: 1, CH3Cl: 2 }
+    out: { dimethyldichlorosilane: 1 }
+    note: "직접 공정. 구리 촉매 유동층, 약 300°C"
+  - id: silane_hydrolysis
+    name: { ko: 실레인 가수분해 }
+    time: 0.8
+    in: { dimethyldichlorosilane: 1, H2O: 1 }
+    out: { pdms: 1, HCl: 2 }
+    note: 가수분해 후 축합. 나온 염화 수소로 다시 염화 메틸을 만든다
+
+  # 우레탄
+  - id: benzene_nitration
+    name: { ko: 벤젠 나이트로화 }
+    time: 0.6
+    in: { C6H6: 1, HNO3: 1 }
+    out: { nitrobenzene: 1, H2O: 1 }
+    note: 황산 촉매
+  - id: nitrobenzene_hydrogenation
+    name: { ko: 나이트로벤젠 수소화 }
+    time: 0.6
+    in: { nitrobenzene: 1, H2: 3 }
+    out: { aniline: 1, H2O: 2 }
+    note: 구리 촉매 기상 수소화
+  - id: mda_condensation
+    name: { ko: MDA 축합 }
+    time: 0.8
+    in: { aniline: 2, CH2O: 1 }
+    out: { methylenedianiline: 1, H2O: 1 }
+    note: 산 촉매
+  - id: mdi_overview
+    name: { ko: MDI 제조(개요) }
+    time: 2
+    in: { methylenedianiline: 1, CO: 2, O2: 1 }
+    out: { mdi: 1, H2O: 2 }
+    note: 개요 레시피. 실제 공업 공정과 달리 아민의 산화 카보닐화로 단순화했다
+  - id: tdi_overview
+    name: { ko: TDI 제조(개요) }
+    time: 3
+    in: { toluene: 1, NH3: 2, CO: 2, O2: 2 }
+    out: { tdi: 1, H2O: 4 }
+    note: 개요 레시피. 톨루엔에서 TDI까지 여러 단계를 하나로 묶었다
+  - id: hppo_process
+    name: { ko: HPPO 공정 }
+    time: 0.6
+    in: { propylene: 1, H2O2: 1 }
+    out: { propylene_oxide: 1, H2O: 1 }
+    note: 과산화 수소로 프로필렌을 산화한다. 타이타늄 실리칼라이트 촉매
+  - id: polyol_alkoxylation
+    name: { ko: 폴리에테르 폴리올 합성 }
+    time: 10
+    in: { glycerol: 1, propylene_oxide: 51 }
+    out: { polyether_polyol: 1 }
+    note: 수산화 칼륨 촉매로 산화 프로필렌을 차례로 붙인다
+
+  # 바이닐·아세틸
+  - id: vinyl_acetate_synthesis
+    name: { ko: 아세트산 바이닐 합성 }
+    time: 1
+    in: { C2H4: 2, CH3COOH: 2, O2: 1 }
+    out: { vinyl_acetate: 2, H2O: 2 }
+    note: 팔라듐 촉매 기상 아세톡시화
+  - id: acetylene_acetoxylation
+    name: { ko: 아세틸렌 아세톡시화 }
+    time: 0.6
+    in: { C2H2: 1, CH3COOH: 1 }
+    out: { vinyl_acetate: 1 }
+    note: 아세트산 아연 촉매. 옛 공정
+  - id: pvac_polymerization
+    name: { ko: PVAc 중합 }
+    time: 1
+    in: { vinyl_acetate: 1 }
+    out: { pvac: 1 }
+    note: 메탄올 용액 중합
+  - id: pvac_methanolysis
+    name: { ko: PVAc 메탄올 분해 }
+    time: 1
+    in: { pvac: 1, CH3OH: 1 }
+    out: { pva: 1, methyl_acetate: 1 }
+    note: 알칼리 촉매. PVA는 바이닐 알코올 단량체가 없어 이렇게만 만든다
+  - id: methyl_acetate_carbonylation
+    name: { ko: 아세트산 메틸 카보닐화 }
+    time: 0.8
+    in: { methyl_acetate: 1, CO: 1 }
+    out: { acetic_anhydride: 1 }
+    note: 이스트먼 공정. 로듐 촉매
+  - id: ketene_process
+    name: { ko: 케텐 공정 }
+    time: 1
+    in: { CH3COOH: 2 }
+    out: { acetic_anhydride: 1, H2O: 1 }
+    note: 아세트산을 탈수해 케텐을 만든 뒤 다시 아세트산과 반응시킨다
+  - id: eva_copolymerization
+    name: { ko: EVA 공중합 }
+    time: 2
+    in: { C2H4: 8, vinyl_acetate: 1 }
+    out: { eva: 1 }
+    note: 고압 라디칼 공중합
+  - id: propylene_hydroformylation
+    name: { ko: 옥소 공정 }
+    time: 0.8
+    in: { propylene: 1, CO: 1, H2: 1 }
+    out: { butyraldehyde: 1 }
+    note: 로듐 촉매 하이드로폼일화
+  - id: pvb_acetalization
+    name: { ko: PVB 아세탈화 }
+    time: 1
+    in: { pva: 2, butyraldehyde: 1 }
+    out: { pvb: 1, H2O: 1 }
+    note: 산 촉매
+  - id: ethylhexanol_synthesis
+    name: { ko: 2-에틸헥산올 합성 }
+    time: 1
+    in: { butyraldehyde: 2, H2: 2 }
+    out: { ethylhexanol: 1, H2O: 1 }
+    note: 알돌 축합 후 수소화
+  - id: o_xylene_oxidation
+    name: { ko: o-자일렌 산화 }
+    time: 1
+    in: { o_xylene: 1, O2: 3 }
+    out: { phthalic_anhydride: 1, H2O: 3 }
+    note: 오산화 바나듐 촉매 공기 산화
+  - id: dehp_esterification
+    name: { ko: DEHP 에스터화 }
+    time: 1
+    in: { phthalic_anhydride: 1, ethylhexanol: 2 }
+    out: { dehp: 1, H2O: 1 }
+  - id: dotp_esterification
+    name: { ko: DOTP 에스터화 }
+    time: 1
+    in: { terephthalic_acid: 1, ethylhexanol: 2 }
+    out: { dotp: 1, H2O: 2 }
+  - id: diethyl_phthalate_esterification
+    name: { ko: 프탈산 다이에틸 에스터화 }
+    time: 0.8
+    in: { phthalic_anhydride: 1, ethanol: 2 }
+    out: { diethyl_phthalate: 1, H2O: 1 }
+  - id: flexible_pvc_compounding
+    name: { ko: 연질 PVC 배합 }
+    time: 2
+    in: { pvc: 12, dotp: 1 }
+    out: { flexible_pvc: 1 }
+    note: PVC 가루에 가소제를 흡수시켜 섞는다
+  - id: flexible_pvc_compounding_dehp
+    name: { ko: 연질 PVC 배합(DEHP) }
+    time: 2
+    in: { pvc: 12, dehp: 1 }
+    out: { flexible_pvc: 1 }
+    note: 예전에 가장 많이 쓴 프탈레이트 가소제
+
+  # 고무
+  - id: latex_coagulation
+    name: { ko: 라텍스 응고 }
+    time: 1
+    in: { natural_latex: 1 }
+    out: { natural_rubber: 1, H2O: 7 }
+    note: 아세트산이나 폼산으로 응고시켜 시트로 말린다
+  - id: sbr_emulsion_polymerization
+    name: { ko: SBR 에멀션 중합 }
+    time: 3
+    in: { butadiene: 6, styrene: 1 }
+    out: { sbr: 1 }
+    note: 약 5°C에서 중합하는 저온 고무
+  - id: butadiene_polymerization
+    name: { ko: 폴리뷰타다이엔 중합 }
+    time: 1
+    in: { butadiene: 1 }
+    out: { polybutadiene: 1 }
+    note: 네오디뮴 촉매 고-cis 중합
+  - id: butadiene_chlorination
+    name: { ko: 뷰타다이엔 염소화 }
+    time: 0.5
+    in: { butadiene: 1, Cl2: 1 }
+    out: { dichlorobutene: 1 }
+    note: 기상 염소화 후 이성질화
+  - id: dichlorobutene_dehydrochlorination
+    name: { ko: 다이클로로뷰텐 탈염화 수소 }
+    time: 0.6
+    in: { dichlorobutene: 1, NaOH: 1 }
+    out: { chloroprene: 1, NaCl: 1, H2O: 1 }
+  - id: acetylene_dimerization
+    name: { ko: 아세틸렌 이량화 }
+    time: 0.6
+    in: { C2H2: 2 }
+    out: { vinylacetylene: 1 }
+    note: 염화 구리(뉴랜드) 촉매
+  - id: vinylacetylene_hydrochlorination
+    name: { ko: 바이닐아세틸렌 염화 수소 첨가 }
+    time: 0.5
+    in: { vinylacetylene: 1, HCl: 1 }
+    out: { chloroprene: 1 }
+    note: 1931년 듀폰의 첫 네오프렌 공정
+  - id: neoprene_polymerization
+    name: { ko: 클로로프렌 중합 }
+    time: 1
+    in: { chloroprene: 1 }
+    out: { neoprene: 1 }
+    note: 에멀션 중합
+  - id: nbr_polymerization
+    name: { ko: NBR 에멀션 중합 }
+    time: 2
+    in: { butadiene: 2, acrylonitrile: 1 }
+    out: { nbr: 1 }
+  - id: san_polymerization
+    name: { ko: SAN 중합 }
+    time: 2
+    in: { acrylonitrile: 2, styrene: 3 }
+    out: { san: 1 }
+  - id: abs_mass_polymerization
+    name: { ko: ABS 괴상 중합 }
+    time: 3
+    in: { acrylonitrile: 2, butadiene: 2, styrene: 3 }
+    out: { abs: 1 }
+  - id: abs_blending
+    name: { ko: ABS 블렌딩 }
+    time: 2
+    in: { san: 1, polybutadiene: 2 }
+    out: { abs: 1 }
+    note: 폴리뷰타다이엔에 SAN을 그라프트해 섞는다
+  - id: thermal_black
+    name: { ko: 서멀 블랙 }
+    time: 0.8
+    in: { CH4: 1 }
+    out: { carbon_black: 1, H2: 2 }
+    note: 산소 없이 메테인을 열분해한다
+  - id: acetylene_black
+    name: { ko: 아세틸렌 블랙 }
+    time: 0.5
+    in: { C2H2: 1 }
+    out: { carbon_black: 2, H2: 1 }
+    note: 전도성이 높아 전지 전극에 쓴다
+  - id: oil_furnace_black
+    name: { ko: 오일 퍼니스 블랙 }
+    time: 20
+    in: { petroleum: 100 }
+    out: { carbon_black: 400 }
+    approximate: true
+    note: "중질유를 불완전 연소시킨다. 수율 약 50%, 나머지는 태워 열을 낸다"
+
+  # 셀룰로스
+  - id: carbon_disulfide_synthesis
+    name: { ko: 이황화 탄소 합성 }
+    time: 0.8
+    in: { CH4: 1, S: 4 }
+    out: { CS2: 1, H2S: 2 }
+    note: 약 600°C
+  - id: cellulose_xanthation
+    name: { ko: 셀룰로스 잔테이트화 }
+    time: 1
+    in: { cotton_fiber: 1, NaOH: 1, CS2: 1 }
+    out: { cellulose_xanthate: 1, H2O: 1 }
+    note: 알칼리 셀룰로스에 이황화 탄소를 붙여 녹인다
+  - id: viscose_spinning
+    name: { ko: 비스코스 방사 }
+    time: 1.5
+    in: { cellulose_xanthate: 2, H2SO4: 1 }
+    out: { rayon_fiber: 2, CS2: 2, Na2SO4: 1 }
+    note: 황산 응고욕으로 뽑아낸다. 이황화 탄소는 회수한다
+  - id: cellulose_acetylation
+    name: { ko: 셀룰로스 아세틸화 }
+    time: 1.5
+    in: { cotton_fiber: 1, acetic_anhydride: 3 }
+    out: { cellulose_triacetate: 1, CH3COOH: 3 }
+    note: 황산 촉매. 면 린터를 쓴다
+  - id: cellulose_triacetate_hydrolysis
+    name: { ko: 셀룰로스 아세테이트 부분 가수분해 }
+    time: 0.8
+    in: { cellulose_triacetate: 1, H2O: 1 }
+    out: { cellulose_acetate: 1, CH3COOH: 1 }
+    note: 아세톤에 녹는 다이아세테이트로 만든다
+
+  # 방사
+  - id: polyester_melt_spinning
+    name: { ko: 폴리에스터 용융 방사 }
+    time: 0.5
+    in: { pet: 1 }
+    out: { polyester_fiber: 1 }
+    note: 약 290°C로 녹여 노즐로 뽑고 연신한다
+  - id: nylon_6_melt_spinning
+    name: { ko: 나일론 6 용융 방사 }
+    time: 0.5
+    in: { nylon_6: 1 }
+    out: { nylon_6_fiber: 1 }
+  - id: nylon_66_melt_spinning
+    name: { ko: 나일론 66 용융 방사 }
+    time: 0.5
+    in: { nylon_66: 1 }
+    out: { nylon_66_fiber: 1 }
+  - id: pan_wet_spinning
+    name: { ko: PAN 습식 방사 }
+    time: 0.5
+    in: { polyacrylonitrile: 1 }
+    out: { pan_fiber: 1 }
+    note: 용액을 응고욕으로 뽑는다
+  - id: pan_oxidative_stabilization
+    name: { ko: PAN 산화 안정화 }
+    time: 1
+    in: { pan_fiber: 2, O2: 1 }
+    out: { oxidized_pan_fiber: 1, H2O: 1 }
+    note: 공기 중 200~300°C에서 1~2시간
+  - id: pan_carbonization
+    name: { ko: PAN 탄화 }
+    time: 1.5
+    in: { oxidized_pan_fiber: 2 }
+    out: { carbon_fiber: 9, HCN: 2, CO: 1, N2: 1, H2O: 1, H2: 2 }
+    note: "불활성 기체 속 1,000~1,500°C. 탄소 수율은 PAN 질량의 약 50%"
+
+  # 포장재
+  - id: pet_preform_molding
+    name: { ko: PET 프리폼 사출 }
+    time: 15
+    in: { pet: 7.208e22 }
+    out: { pet_preform: 1 }
+    note: 사출 성형
+  - id: bottle_cap_molding
+    name: { ko: 병뚜껑 사출 }
+    time: 5
+    in: { polyethylene_hd: 5.367e22 }
+    out: { bottle_cap: 1 }
+  - id: pet_bottle_blow_molding
+    name: { ko: PET 병 연신 블로 성형 }
+    time: 5
+    in: { pet_preform: 1, bottle_cap: 1 }
+    out: { pet_bottle: 1 }
+    note: 프리폼을 데워 늘리면서 공기로 부풀린다
+  - id: plastic_bag
+    name: { ko: 비닐봉지 제작 }
+    time: 3
+    in: { polyethylene_hd: 1.073e23 }
+    out: { plastic_bag: 1 }
+    note: 인플레이션 필름을 잘라 붙인다
+  - id: cling_film_roll
+    name: { ko: 식품 포장 랩 제작 }
+    time: 60
+    in: { polyethylene_ld: 2.962e24 }
+    out: { cling_film_roll: 1 }
+    note: 인플레이션 필름 성형
+  - id: pe_film_roll
+    name: { ko: 스트레치 필름 제작 }
+    time: 120
+    in: { polyethylene_lld: 5.045e25 }
+    out: { pe_film_roll: 1 }
+    note: 캐스트 필름 압출
+  - id: hdpe_bottle_blow_molding
+    name: { ko: HDPE 병 블로 성형 }
+    time: 10
+    in: { polyethylene_hd: 8.586e23 }
+    out: { hdpe_bottle: 1 }
+    note: 압출 블로 성형
+  - id: pp_container_molding
+    name: { ko: PP 용기 사출 }
+    time: 20
+    in: { polypropylene: 5.724e23 }
+    out: { pp_container: 1 }
+  - id: ps_cup_thermoforming
+    name: { ko: PS 컵 열성형 }
+    time: 3
+    in: { polystyrene: 2.602e22 }
+    out: { ps_cup: 1 }
+  - id: yogurt_bottle_molding
+    name: { ko: 요구르트 병 사출 }
+    time: 5
+    in: { hips: 2.461e21 }
+    out: { yogurt_bottle: 1 }
+  - id: eps_board_molding
+    name: { ko: EPS 단열판 성형 }
+    time: 60
+    in: { eps_beads: 1.807e23 }
+    out: { eps_board: 1, pentane: 1.807e23 }
+    note: 증기로 비드를 50배쯤 부풀린 뒤 틀에서 붙인다. 펜테인은 빠져나간다
+
+  # 성형품
+  - id: pvc_pipe_extrusion
+    name: { ko: PVC 파이프 압출 }
+    time: 30
+    in: { pvc: 4.529e24, CaCO3: 1.504e23 }
+    out: { pvc_pipe: 1 }
+    note: 경질 PVC에 탄산 칼슘 충전재. 안정제는 생략
+  - id: abs_enclosure_molding
+    name: { ko: ABS 케이스 사출 }
+    time: 30
+    in: { abs: 1.372e23 }
+    out: { abs_enclosure: 1 }
+  - id: acrylic_sheet_casting
+    name: { ko: 아크릴판 캐스팅 }
+    time: 120
+    in: { pmma: 1.931e24 }
+    out: { acrylic_sheet: 1 }
+  - id: safety_glasses_molding
+    name: { ko: 보안경 사출 }
+    time: 40
+    in: { polycarbonate: 7.105e22 }
+    out: { safety_glasses: 1 }
+  - id: ptfe_tape_calendering
+    name: { ko: PTFE 테이프 압연 }
+    time: 30
+    in: { ptfe: 2.409e22 }
+    out: { ptfe_tape: 1 }
+    note: 페이스트 압출 후 얇게 압연하고 늘린다
+  - id: cable_tie_molding
+    name: { ko: 케이블 타이 사출 }
+    time: 4
+    in: { nylon_66: 3.991e21 }
+    out: { cable_tie: 1 }
+  - id: bakelite_handle_molding
+    name: { ko: 베이클라이트 손잡이 압축 성형 }
+    time: 90
+    in: { phenolic_resin: 1.702e23, hexamethylenetetramine: 1.503e22, cotton_fiber: 8.171e22, CaCO3: 2.708e22 }
+    out: { bakelite_handle: 1, NH3: 6.014e22 }
+    note: 약 170°C 금형에서 경화. 헥사민이 메틸렌 다리가 되며 암모니아가 나온다
+  - id: uf_switch_plate_molding
+    name: { ko: 요소 수지 스위치 덮개 성형 }
+    time: 60
+    in: { uf_resin: 1.253e23, cotton_fiber: 3.343e22 }
+    out: { uf_switch_plate: 1 }
+    note: 알파 셀룰로스 충전 압축 성형
+  - id: melamine_plate_molding
+    name: { ko: 멜라민 접시 성형 }
+    time: 90
+    in: { mf_resin: 4.578e23, cotton_fiber: 1.671e23 }
+    out: { melamine_plate: 1 }
+    note: 알파 셀룰로스 충전 압축 성형
+  - id: silicone_tube_extrusion
+    name: { ko: 실리콘 튜브 압출 }
+    time: 30
+    in: { pdms: 2.68e23, SiO2: 8.018e22 }
+    out: { silicone_tube: 1 }
+    note: 흄드 실리카 보강 후 압출 가황
+
+  # 섬유 제품
+  - id: nylon_rope
+    name: { ko: 나일론 로프 제작 }
+    time: 300
+    in: { nylon_66_fiber: 1.703e24 }
+    out: { nylon_rope: 1 }
+    note: 3꼬임 로프
+  - id: polyester_weaving
+    name: { ko: 폴리에스터 제직 }
+    time: 120
+    in: { polyester_fiber: 4.701e23 }
+    out: { polyester_fabric: 1 }
+  - id: nylon_weaving
+    name: { ko: 나일론 제직 }
+    time: 90
+    in: { nylon_6_fiber: 3.725e23 }
+    out: { nylon_fabric: 1 }
+  - id: cotton_weaving
+    name: { ko: 면 제직 }
+    time: 120
+    in: { cotton_fiber: 5.571e23 }
+    out: { cotton_fabric: 1 }
+    note: 방적 후 제직
+  - id: rayon_weaving
+    name: { ko: 레이온 제직 }
+    time: 100
+    in: { rayon_fiber: 4.457e23 }
+    out: { rayon_fabric: 1 }
+  - id: pp_spunbond
+    name: { ko: PP 스펀본드 }
+    time: 10
+    in: { polypropylene: 3.578e23 }
+    out: { pp_nonwoven: 1 }
+    note: 녹인 PP를 실로 뽑아 바로 펼쳐 열로 붙인다
+  - id: neoprene_sheet_lamination
+    name: { ko: 네오프렌 원단 합지 }
+    time: 120
+    in: { neoprene: 2.585e24, carbon_black: 3.008e24, MgO: 1.793e23, ZnO: 1.11e23, nylon_fabric: 2 }
+    out: { neoprene_sheet: 1 }
+    note: 산화 마그네슘·산화 아연으로 가교한 발포 네오프렌 양면에 나일론 원단을 붙인다. 발포제는 생략
+  - id: eyeglass_frame_making
+    name: { ko: 아세테이트 안경테 가공 }
+    time: 600
+    in: { cellulose_acetate: 4.403e22, diethyl_phthalate: 1.626e22, Cu: 1.137e22, Zn: 5.527e21 }
+    out: { eyeglass_frame: 1 }
+    note: 판재를 깎아 다듬고 황동 경첩을 단다
+
+  # 타이어와 고무 제품
+  - id: tire_tread_compounding
+    name: { ko: 트레드 배합·압출 }
+    time: 60
+    in: { sbr: 2.248e24, polybutadiene: 5.567e24, carbon_black: 5.265e25, SiO2: 5.513e24, S: 6.574e23, ZnO: 4.44e23 }
+    out: { tire_tread: 1 }
+    note: 고무 100phr당 카본 블랙 50 · 실리카 26 · 황 1.7 · 산화 아연 2.9
+  - id: tire_sidewall_compounding
+    name: { ko: 사이드월 배합·압출 }
+    time: 40
+    in: { natural_rubber: 2.652e24, polybutadiene: 3.117e24, carbon_black: 1.755e25, S: 2.254e23, ZnO: 1.48e23 }
+    out: { tire_sidewall: 1 }
+  - id: tire_carcass_calendering
+    name: { ko: 카커스 압연 }
+    time: 60
+    in: { polyester_fiber: 1.254e24, natural_rubber: 5.746e24, carbon_black: 1.755e25, S: 3.193e23, ZnO: 2.22e23 }
+    out: { tire_carcass: 1 }
+    note: 폴리에스터 타이어 코드에 고무를 입힌다. 이너 라이너는 실제로 할로부틸 고무다
+  - id: steel_belt_calendering
+    name: { ko: 스틸 벨트 압연 }
+    time: 40
+    in: { Fe: 4.098e24, C: 1.504e23, Cu: 6.634e21, Zn: 3.684e21, natural_rubber: 8.841e23, carbon_black: 2.758e24 }
+    out: { steel_belt: 1 }
+    note: "탄소 0.8%의 고탄소강 코드를 황동 도금해 고무에 붙인다"
+  - id: tire_bead_forming
+    name: { ko: 비드 성형 }
+    time: 20
+    in: { Fe: 1.725e24, C: 6.017e22, Cu: 2.843e21, Zn: 1.842e21, natural_rubber: 2.652e23, carbon_black: 5.014e23 }
+    out: { tire_bead: 1 }
+  - id: green_tire_building
+    name: { ko: 타이어 성형 }
+    time: 300
+    in: { tire_tread: 1, tire_sidewall: 2, tire_carcass: 1, steel_belt: 2, tire_bead: 2, nylon_66_fiber: 3.991e23 }
+    out: { green_tire: 1 }
+    note: 성형 드럼에 부품을 겹쳐 붙인다. 나일론은 캡 플라이
+  - id: tire_vulcanization
+    name: { ko: 타이어 가황 }
+    time: 720
+    in: { green_tire: 1 }
+    out: { car_tire: 1 }
+    note: 약 170°C 금형에서 12분. 황이 고무 사슬을 잇는다
+  - id: bicycle_tire_making
+    name: { ko: 자전거 타이어 제작 }
+    time: 300
+    in: { natural_rubber: 1.945e24, sbr: 1.124e23, carbon_black: 7.521e24, SiO2: 3.007e23, S: 1.127e23, ZnO: 7.4e22, nylon_66_fiber: 1.33e23, Fe: 5.392e23 }
+    out: { bicycle_tire: 1 }
+    note: 나일론 카커스와 강선 비드
+  - id: bicycle_inner_tube_making
+    name: { ko: 자전거 튜브 제작 }
+    time: 120
+    in: { natural_rubber: 7.957e23, carbon_black: 1.504e24, S: 3.757e22, ZnO: 2.22e22, Cu: 2.843e22, Zn: 1.842e22 }
+    out: { bicycle_inner_tube: 1 }
+    note: 압출 후 가황. 황동 밸브
+  - id: latex_glove_dipping
+    name: { ko: 라텍스 장갑 침지 }
+    time: 60
+    in: { natural_latex: 4.951e22, S: 1.503e21, ZnO: 7.4e20 }
+    out: { latex_glove: 1, H2O: 3.466e23 }
+    note: 손 모양 틀을 배합 라텍스에 담갔다 꺼내 말리고 가황한다
+  - id: nitrile_glove_dipping
+    name: { ko: 나이트릴 장갑 침지 }
+    time: 60
+    in: { nbr: 1.27e22, S: 9.392e20, ZnO: 7.4e20 }
+    out: { nitrile_glove: 1 }
+    note: 카복실화 NBR 라텍스를 쓴다
+  - id: vinyl_glove_dipping
+    name: { ko: PVC 장갑 침지 }
+    time: 45
+    in: { flexible_pvc: 2.376e21 }
+    out: { vinyl_glove: 1 }
+    note: PVC 페이스트에 담갔다 꺼내 굳힌다
+  - id: o_ring_molding
+    name: { ko: O-링 성형 }
+    time: 30
+    in: { nbr: 1.12e21, carbon_black: 7.521e21, S: 9.392e19, ZnO: 7.4e19 }
+    out: { o_ring: 1 }
+    note: 압축 성형 가황
+  - id: rubber_cement_making
+    name: { ko: 고무 접착제 제조 }
+    time: 30
+    in: { natural_rubber: 1.768e23, toluene: 5.229e23, Al: 1.339e23 }
+    out: { rubber_cement: 1 }
+    note: 실제로는 헵테인 같은 지방족 용제를 많이 쓴다
+
+  # 폼
+  - id: pu_foam_slabstock
+    name: { ko: 연질 폴리우레탄 폼 발포 }
+    time: 120
+    in: { polyether_polyol: 1.991e23, tdi: 1.923e24, H2O: 1.521e24, pdms: 8.121e22 }
+    out: { pu_foam_block: 1, CO2: 1.521e24 }
+    note: 폴리올 100 · TDI 55 · 물 4.5부. 물과 TDI가 만든 이산화 탄소로 부푼다. 실리콘은 기포 안정제
+  - id: pu_rigid_board
+    name: { ko: 경질 폴리우레탄 단열판 발포 }
+    time: 120
+    in: { mdi: 1.516e24, polyether_polyol: 7.098e22, glycerol: 6.539e23, pentane: 5.008e23, pdms: 8.121e22 }
+    out: { pu_insulation_board: 1 }
+    note: 펜테인 발포. 셀 안에 남은 기체가 열을 막는다
+
+  # 복합재
+  - id: glass_fiber_mat_making
+    name: { ko: 유리 섬유 매트 제작 }
+    time: 60
+    in: { SiO2: 2.481e24, CaO: 1.063e24, Al2O3: 3.987e23, B2O3: 3.114e23, pva: 1.845e23 }
+    out: { glass_fiber_mat: 1 }
+    note: "E-유리(SiO2 55 · CaO 22 · Al2O3 15 · B2O3 8 wt%)를 녹여 뽑은 섬유를 잘라 PVA 바인더로 묶는다"
+  - id: gfrp_hand_layup
+    name: { ko: GFRP 핸드 레이업 }
+    time: 600
+    in: { glass_fiber_mat: 4, epoxy_resin: 2.654e24, diethylenetriamine: 1.051e24 }
+    out: { gfrp_panel: 1 }
+    note: "매트 4장에 에폭시를 먹여 겹친다. 에폭시 100 : 경화제 12"
+  - id: carbon_fiber_weaving
+    name: { ko: 탄소 섬유 제직 }
+    time: 120
+    in: { carbon_fiber: 1.003e25 }
+    out: { carbon_fiber_fabric: 1 }
+  - id: cfrp_layup
+    name: { ko: CFRP 적층 경화 }
+    time: 900
+    in: { carbon_fiber_fabric: 1, epoxy_resin: 1.344e23, diethylenetriamine: 5.253e22 }
+    out: { cfrp_plate: 1 }
+    note: 직물을 30cm 각으로 잘라 11장 겹치고 에폭시로 굳힌다
+
+  # 도료·접착제
+  - id: wall_paint_mixing
+    name: { ko: 수성 페인트 조색 }
+    time: 30
+    in: { pvac: 1.469e24, CaCO3: 2.106e24, ZnO: 1.036e24, H2O: 2.34e25 }
+    out: { wall_paint: 1 }
+    note: "PVAc 에멀션 바인더, 산화 아연 백색 안료, 탄산 칼슘 체질 안료"
+  - id: alkyd_enamel_mixing
+    name: { ko: 알키드 에나멜 조색 }
+    time: 30
+    in: { glyptal_resin: 4.717e23, toluene: 2.745e24, carbon_black: 1.504e24, CaCO3: 6.017e23 }
+    out: { alkyd_enamel: 1 }
+  - id: varnish_mixing
+    name: { ko: 바니시 조제 }
+    time: 20
+    in: { glyptal_resin: 4.193e23, toluene: 3.268e24 }
+    out: { varnish: 1 }
+  - id: epoxy_adhesive_packing
+    name: { ko: 에폭시 접착제 충전 }
+    time: 20
+    in: { epoxy_resin: 4.423e22, diethylenetriamine: 1.751e22, polypropylene: 1.145e23 }
+    out: { epoxy_adhesive: 1 }
+  - id: wood_glue_making
+    name: { ko: 목공용 접착제 제조 }
+    time: 20
+    in: { pvac: 8.044e23, H2O: 4.513e24, polyethylene_hd: 3.864e23 }
+    out: { wood_glue: 1 }
+    note: "PVAc 고형분 약 46% 에멀션"
+  - id: hot_melt_stick_extrusion
+    name: { ko: 핫멜트 스틱 압출 }
+    time: 5
+    in: { eva: 3.879e22 }
+    out: { hot_melt_stick: 1 }
+    note: 점착 부여 수지와 왁스는 생략
+  - id: silicone_sealant_filling
+    name: { ko: 실리콘 실란트 충전 }
+    time: 30
+    in: { pdms: 1.746e24, SiO2: 3.007e23, CaCO3: 1.805e23, polyethylene_hd: 9.66e23 }
+    out: { silicone_sealant: 1 }
+    note: 흄드 실리카 증점. 아세톡시 가교제는 생략
+  - id: pvb_interlayer_extrusion
+    name: { ko: PVB 중간막 압출 }
+    time: 60
+    in: { pvb: 2.541e24, dotp: 3.284e23 }
+    out: { pvb_interlayer: 1 }
+    note: "가소제 약 26%. 실제로는 트라이에틸렌 글라이콜 에스터(3GO)를 쓴다"
+  - id: pvc_wire_insulation
+    name: { ko: PVC 전선 피복 }
+    time: 30
+    in: { Cu: 1.27e24, flexible_pvc: 3.379e22 }
+    out: { pvc_insulated_wire: 1 }
+    note: 구리선 위에 연질 PVC를 압출 피복한다
