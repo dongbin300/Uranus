@@ -1,0 +1,340 @@
+# 건설 재료 공정. 화학식이 있는 물질끼리의 반응은 원자 수를 맞췄다.
+# 부품 레시피의 입자 수는 실제 질량(note)에서 계산했다. 반제품을 잘라 쓰고 남는 자투리는 셈에서 뺐다.
+category: construction
+recipes:
+  # ───────────── 시멘트 클링커 ─────────────
+  - id: cement_raw_meal_blending
+    name: { ko: 시멘트 원료 조합 }
+    time: 2
+    in: { CaCO3: 119, kaolinite: 5, SiO2: 28, hematite: 2 }
+    out: { cement_raw_meal: 154 }
+    note: "석회석 78 · 고령석 9 · 규사 11 · 적철석 2wt%. 클링커 광물이 정확히 나오도록 몰 비를 맞춰 롤러 밀로 간다"
+  - id: rotary_kiln_clinkering
+    name: { ko: 회전 가마 소성 }
+    time: 8
+    in: { cement_raw_meal: 154 }
+    out: { portland_clinker: 43, CO2: 119, H2O: 10 }
+    note: "예열탑에서 석회석이 분해(CaCO3 → CaO + CO2)되고 점토가 탈수한 뒤 1,450°C 회전 가마에서 C3S 26 · C2S 12 · C3A 3 · C4AF 2 몰의 클링커가 된다. 시멘트 1t에 CO2가 약 0.5t 나오는 까닭"
+  - id: kaolinite_dehydroxylation
+    name: { ko: 고령석 탈수 }
+    time: 1
+    in: { kaolinite: 1 }
+    out: { metakaolin: 1, H2O: 2 }
+    note: Al2Si2O5(OH)4 → Al2Si2O7 + 2H2O. 450~700°C에서 수산기가 물로 빠진다
+  - id: belite_formation
+    name: { ko: 벨라이트 생성 }
+    time: 2
+    in: { CaO: 2, SiO2: 1 }
+    out: { Ca2SiO4: 1 }
+    note: "2CaO + SiO2 → Ca2SiO4. 규산 이칼슘(C2S, 벨라이트)은 1,200°C 부근에서 고체끼리 반응해 생긴다"
+  - id: tricalcium_aluminate_formation
+    name: { ko: 알루민산 삼칼슘 생성 }
+    time: 3
+    in: { metakaolin: 1, CaO: 7 }
+    out: { Ca3Al2O6: 1, Ca2SiO4: 2 }
+    note: Al2Si2O7 + 7CaO → Ca3Al2O6 + 2Ca2SiO4. 점토의 알루미나와 실리카가 석회와 결합한다
+  - id: ferrite_phase_formation
+    name: { ko: 페라이트 상 생성 }
+    time: 3
+    in: { metakaolin: 1, CaO: 8, hematite: 1 }
+    out: { Ca4Al2Fe2O10: 1, Ca2SiO4: 2 }
+    note: Al2Si2O7 + 8CaO + Fe2O3 → Ca4Al2Fe2O10 + 2Ca2SiO4. 산화철은 녹는점을 낮춰 소성을 돕는다
+  - id: alite_formation
+    name: { ko: 알라이트 생성 }
+    time: 3
+    in: { Ca2SiO4: 1, CaO: 1 }
+    out: { Ca3SiO5: 1 }
+    note: "Ca2SiO4 + CaO → Ca3SiO5. 1,450°C 소성대에서 녹은 액상 속으로 벨라이트가 석회를 받아들인다"
+  - id: clinker_quenching
+    name: { ko: 클링커 급랭 }
+    time: 6
+    in: { Ca3SiO5: 26, Ca2SiO4: 12, Ca3Al2O6: 3, Ca4Al2Fe2O10: 2 }
+    out: { portland_clinker: 43 }
+    note: 소성된 광물을 그레이트 냉각기에서 공기로 급랭한다. 천천히 식으면 알라이트가 벨라이트와 석회로 되돌아간다
+
+  # ───────────── 석고와 시멘트 ─────────────
+  - id: flue_gas_desulfurization
+    name: { ko: 배연 탈황 }
+    time: 3
+    in: { CaCO3: 2, SO2: 2, O2: 1, H2O: 4 }
+    out: { gypsum: 2, CO2: 2 }
+    note: 2CaCO3 + 2SO2 + O2 + 4H2O → 2CaSO4·2H2O + 2CO2. 발전소 배기의 SO2를 석회석 슬러리로 흡수·산화하면 순도 높은 석고가 나온다
+  - id: anhydrite_hydration
+    name: { ko: 경석고 수화 }
+    time: 2
+    in: { CaSO4: 1, H2O: 2 }
+    out: { gypsum: 1 }
+    note: CaSO4 + 2H2O → CaSO4·2H2O. 인산·플루오린화 수소 공장의 부산 석고를 물에 재워 이수 석고로 만든다
+  - id: gypsum_calcination
+    name: { ko: 석고 소성 }
+    time: 2
+    in: { gypsum: 2 }
+    out: { CaSO4·0.5H2O: 2, H2O: 3 }
+    note: 2CaSO4·2H2O → 2CaSO4·½H2O + 3H2O. 약 150°C 솥에서 결정수의 3/4을 날린다
+  - id: cement_grinding
+    name: { ko: 시멘트 분쇄 }
+    time: 4
+    in: { portland_clinker: 43, gypsum: 3 }
+    out: { portland_cement: 46 }
+    note: "클링커에 석고 약 5wt%를 넣어 볼 밀로 비표면적 약 3,500cm²/g까지 간다"
+  - id: alite_hydration
+    name: { ko: 알라이트 수화 }
+    time: 4
+    in: { Ca3SiO5: 2, H2O: 7 }
+    out: { csh_gel: 1, Ca(OH)2: 3 }
+    note: 2Ca3SiO5 + 7H2O → 3CaO·2SiO2·4H2O + 3Ca(OH)2. 며칠 안에 강도의 대부분을 낸다
+  - id: belite_hydration
+    name: { ko: 벨라이트 수화 }
+    time: 8
+    in: { Ca2SiO4: 2, H2O: 5 }
+    out: { csh_gel: 1, Ca(OH)2: 1 }
+    note: 2Ca2SiO4 + 5H2O → 3CaO·2SiO2·4H2O + Ca(OH)2. 몇 주에서 몇 달에 걸쳐 장기 강도를 낸다
+  - id: ettringite_formation
+    name: { ko: 에트링가이트 생성 }
+    time: 3
+    in: { Ca3Al2O6: 1, gypsum: 3, H2O: 26 }
+    out: { ettringite: 1 }
+    note: Ca3Al2O6 + 3CaSO4·2H2O + 26H2O → Ca6Al2(SO4)3(OH)12·26H2O. 알루민산 삼칼슘 표면을 덮어 급결을 막는다
+  - id: tobermorite_autoclaving
+    name: { ko: 토버모라이트 오토클레이브 합성 }
+    time: 6
+    in: { Ca(OH)2: 5, SiO2: 6 }
+    out: { tobermorite: 1 }
+    note: 5Ca(OH)2 + 6SiO2 → Ca5Si6O16(OH)2·4H2O. 180°C·10기압 포화 증기에서 석회와 규사가 반응한다
+
+  # ───────────── 콘크리트와 모르타르 ─────────────
+  - id: cement_mortar_mixing
+    name: { ko: 시멘트 모르타르 비빔 }
+    time: 2
+    in: { portland_cement: 1, SiO2: 11, H2O: 6 }
+    out: { cement_mortar: 18 }
+  - id: concrete_batching
+    name: { ko: 콘크리트 배합 }
+    time: 3
+    in: { portland_cement: 2, H2O: 12, SiO2: 16, gravel: 23 }
+    out: { ready_mix_concrete: 53 }
+    note: 배치 플랜트에서 시멘트·물·모래·자갈을 계량해 비빈다(물-시멘트 비 0.48)
+  - id: lime_plaster_mixing
+    name: { ko: 석회 플라스터 비빔 }
+    time: 2
+    in: { Ca(OH)2: 1, SiO2: 3, H2O: 3 }
+    out: { lime_plaster: 7 }
+  - id: concrete_block_casting
+    name: { ko: 콘크리트 블록 성형 }
+    time: 30
+    in: { ready_mix_concrete: 1.677e26 }
+    out: { concrete_block: 1, H2O: 1.337e25 }
+    note: 된비빔 콘크리트를 틀에 넣고 진동·가압해 바로 빼낸 뒤 증기 양생한다. 남는 물 일부가 마른다
+  - id: precast_beam_casting
+    name: { ko: 프리캐스트 보 타설 }
+    time: 600
+    in: { ready_mix_concrete: 4.458e27, steel_rebar_d13: 26 }
+    out: { precast_rc_beam: 1, H2O: 1.337e26 }
+    note: 주근 4가닥과 늑근 15개로 엮은 철근망을 강철 거푸집에 넣고 콘크리트를 부어 증기 양생한다
+  - id: alc_block_making
+    name: { ko: ALC 블록 제조 }
+    time: 120
+    in: { tobermorite: 4.284e24, portland_cement: 1.613e24, gypsum: 5.247e23, Al: 1.004e23, Ca(OH)2: 1.504e23, H2O: 2.006e25 }
+    out: { alc_block: 1, H2: 1.506e23 }
+    note: 알루미늄 분말이 석회수와 반응해 낸 수소 거품(2Al + 3Ca(OH)2 + 6H2O → Ca3Al2(OH)12 + 3H2)으로 부풀린 반죽을 잘라 오토클레이브에서 굳힌다
+  - id: cement_bagging
+    name: { ko: 시멘트 포장 }
+    time: 10
+    in: { portland_cement: 1.076e26, kraft_paper_1m2: 2 }
+    out: { cement_bag_40kg: 1 }
+
+  # ───────────── 점토 제품 ─────────────
+  - id: green_brick_forming
+    name: { ko: 벽돌 압출 성형 }
+    time: 10
+    in: { kaolinite: 2.099e24, SiO2: 9.522e24, hematite: 4.525e23, potassium_feldspar: 3.246e23, H2O: 1.17e25 }
+    out: { green_brick: 1 }
+    note: "점토에 물을 섞어 진공 압출기로 뽑고 철선으로 자른다. 산화철 약 6%가 구우면 붉은색을 낸다"
+  - id: brick_firing
+    name: { ko: 벽돌 소성 }
+    time: 60
+    in: { green_brick: 1 }
+    out: { clay_brick: 1, H2O: 1.59e25 }
+    note: "건조한 뒤 터널 가마에서 약 1,000°C로 굽는다. 남은 물과 고령석의 결정수가 빠진다"
+  - id: clay_roof_tile_making
+    name: { ko: 기와 성형·소성 }
+    time: 90
+    in: { kaolinite: 3.499e24, SiO2: 1.203e25, hematite: 5.657e23, potassium_feldspar: 5.409e23, ceramic_glaze: 4.934e23, H2O: 1.671e25 }
+    out: { clay_roof_tile: 1, H2O: 2.375e25, CO2: 9.015e22 }
+    note: "점토판을 틀로 찍어 말리고 유약을 입혀 1,150°C에서 굽는다. 흡수율 3% 이하"
+  - id: brick_wall_laying
+    name: { ko: 벽돌 쌓기 }
+    time: 600
+    in: { clay_brick: 75, cement_mortar: 4.367e26, lime_plaster: 3.417e26 }
+    out: { brick_wall_1m2: 1, H2O: 1.003e26 }
+    note: KS 벽돌을 줄눈 10mm로 1m²에 75장 쌓고 한쪽 면에 석회 플라스터를 바른다. 비빔 물 일부가 마른다
+  - id: porcelain_slip_mixing
+    name: { ko: 도자기 이장 조합 }
+    time: 3
+    in: { kaolinite: 79, potassium_feldspar: 37, SiO2: 170, H2O: 1220, Na2SiO3: 1 }
+    out: { porcelain_slip: 1507 }
+    note: 원료를 물과 함께 볼 밀로 갈고 물유리를 해교제로 넣어 묽게 흐르게 한다
+  - id: ceramic_glaze_mixing
+    name: { ko: 유약 조합 }
+    time: 3
+    in: { potassium_feldspar: 144, SiO2: 416, CaCO3: 150, kaolinite: 31, zircon: 55, ZnO: 25 }
+    out: { ceramic_glaze: 821 }
+    note: 지르콘이 녹지 않고 흩어져 유약을 불투명한 흰색으로 만든다
+  - id: porcelain_tile_making
+    name: { ko: 자기질 타일 제조 }
+    time: 60
+    in: { porcelain_slip: 4.465e25, ceramic_glaze: 1.974e23 }
+    out: { porcelain_tile: 1, H2O: 4.084e25, CO2: 3.606e22 }
+    note: "이장을 분무 건조한 가루를 프레스로 찍고 시유해 1,200°C 롤러 가마에서 한 번 굽는다. 흡수율 0.5% 이하"
+  - id: toilet_casting
+    name: { ko: 양변기 주입 성형·소성 }
+    time: 1800
+    in: { porcelain_slip: 7.562e26, ceramic_glaze: 3.947e24, polypropylene: 2.29e25, abs: 4.001e23, polyethylene_hd: 5.367e24, brass: 1.41e24, o_ring: 2, nbr: 1.867e23 }
+    out: { toilet: 1, H2O: 6.918e26, CO2: 7.212e23 }
+    note: "석고 틀에 이장을 부어 틀이 물을 빨아들이게 해 굳히고, 말려 시유한 뒤 1,200°C 터널 가마에서 굽는다. PP 시트와 급수·배수 밸브를 단다"
+  - id: washbasin_casting
+    name: { ko: 세면기 주입 성형·소성 }
+    time: 1200
+    in: { porcelain_slip: 2.881e26, ceramic_glaze: 1.727e24 }
+    out: { washbasin: 1, H2O: 2.635e26, CO2: 3.155e23 }
+    note: "석고 틀 주입 성형 뒤 1,200°C에서 굽는 위생 도기"
+  - id: basin_faucet_making
+    name: { ko: 세면기 수전 제작 }
+    time: 90
+    in: { brass: 1.034e25, Ni: 2.052e22, Cr: 2.316e21, Al2O3: 8.859e22, abs: 2.858e22, o_ring: 4, stainless_steel: 1.095e24, nbr: 1.494e23 }
+    out: { basin_faucet: 1 }
+    note: 황동을 중력 주조해 가공하고 니켈·크로뮴을 도금한다. 알루미나 디스크 두 장이 미끄러지며 물을 여닫는다. 스테인리스 편조 호스 포함
+
+  # ───────────── 유리 ─────────────
+  - id: soda_lime_glass_melting
+    name: { ko: 소다석회 유리 용해 }
+    time: 4
+    in: { Na2CO3: 1, CaCO3: 1, SiO2: 6 }
+    out: { soda_lime_glass: 1, CO2: 2 }
+    note: "Na2CO3 + CaCO3 + 6SiO2 → Na2CaSi6O14 + 2CO2. 1,500°C 용해로. 실제 판유리는 MgO·Al2O3를 조금 더 넣는다"
+  - id: float_glass_forming
+    name: { ko: 플로트 판유리 성형 }
+    time: 60
+    in: { soda_lime_glass: 1.573e25 }
+    out: { float_glass_pane: 1 }
+    note: "녹은 유리를 1,100°C 주석 욕조 위에 띄워 평평하게 편 뒤 서랭한다(필킹턴 공정). 주석은 소모되지 않는다"
+  - id: glass_tempering
+    name: { ko: 유리 강화 }
+    time: 30
+    in: { float_glass_pane: 1 }
+    out: { tempered_glass_pane: 1 }
+    note: "620°C로 달군 뒤 공기를 뿜어 겉을 급랭한다. 겉은 압축, 속은 인장 응력이 남는다"
+  - id: laminated_glass_making
+    name: { ko: 접합 유리 제조 }
+    time: 60
+    in: { float_glass_pane: 2, pvb_interlayer: 1 }
+    out: { laminated_glass_pane: 1 }
+    note: "유리 사이에 PVB 막을 끼워 롤러로 공기를 빼고 오토클레이브(140°C, 13기압)에서 붙인다"
+  - id: insulating_glass_assembly
+    name: { ko: 복층 유리 조립 }
+    time: 60
+    in: { float_glass_pane: 2, aluminium_6061: 6.686e24, zeolite_a: 2.749e22, pdms: 2.03e24, Ar: 2.864e23 }
+    out: { insulating_glass_unit: 1 }
+    note: 제올라이트를 채운 알루미늄 간봉으로 유리 두 장을 띄우고 아르곤을 채워 실리콘으로 테두리를 막는다
+  - id: glass_wool_making
+    name: { ko: 유리솜 제조 }
+    time: 60
+    in: { soda_lime_glass: 1.963e24, B2O3: 6.92e23, phenolic_resin: 5.107e23 }
+    out: { glass_wool_batt: 1 }
+    note: 녹인 유리를 구멍 뚫린 회전 접시로 원심 방사해 섬유로 만들고 페놀 수지를 뿌려 굳힌다. 붕소는 녹는점을 낮춘다
+  - id: gypsum_board_making
+    name: { ko: 석고보드 제조 }
+    time: 120
+    in: { CaSO4·0.5H2O: 3.427e25, H2O: 2.206e26, wood_pulp: 2.414e24 }
+    out: { gypsum_board: 1, H2O: 1.691e26 }
+    note: 소석고 반죽을 원지 두 장 사이에 펴 이수 석고로 굳힌다(CaSO4·½H2O + 1½H2O → CaSO4·2H2O). 남는 물은 건조기에서 날린다
+
+  # ───────────── 아스팔트 포장 ─────────────
+  - id: asphalt_concrete_mixing
+    name: { ko: 아스팔트 콘크리트 혼합 }
+    time: 3
+    in: { asphalt: 6, gravel: 1000, SiO2: 600, CaCO3: 71 }
+    out: { asphalt_concrete: 1677 }
+    note: "골재를 160°C로 말려 데우고 녹인 아스팔트와 석회석 가루를 섞는다(아스팔트 한 단위는 평균 분자량 약 1,000)"
+  - id: asphalt_paving
+    name: { ko: 아스팔트 포장 }
+    time: 120
+    in: { asphalt_concrete: 1.086e27 }
+    out: { asphalt_pavement_1m2: 1 }
+    note: 피니셔로 깔고 롤러로 다진다. 혼합물 약 117kg
+
+  # ───────────── 목재와 종이 ─────────────
+  - id: kiln_drying
+    name: { ko: 목재 건조 }
+    time: 4
+    in: { roundwood: 1 }
+    out: { kiln_dried_wood: 1, H2O: 3 }
+    note: "C6H9O4·4H2O → C6H9O4·H2O + 3H2O. 건조실에서 60~80°C 증기·열풍으로 함수율을 12%까지 낮춘다"
+  - id: lumber_sawing
+    name: { ko: 제재 }
+    time: 40
+    in: { roundwood: 2.621e25 }
+    out: { lumber_2x4: 1, kiln_dried_wood: 1.31e25, H2O: 7.862e25 }
+    note: 원목을 켜고 말려 대패질한다. 원목의 약 절반이 제재목이 되고 톱밥·조각은 말려 건조 목재로 쓴다
+  - id: veneer_peeling
+    name: { ko: 단판 절삭 }
+    time: 40
+    in: { roundwood: 2.196e25 }
+    out: { wood_veneer: 1, kiln_dried_wood: 8.785e24, H2O: 6.589e25 }
+    note: 삶은 원목을 돌리며 칼로 얇게 벗겨 내(로터리 절삭) 말린다. 심재와 자투리는 건조 목재로 돌린다
+  - id: plywood_pressing
+    name: { ko: 합판 열압 }
+    time: 300
+    in: { wood_veneer: 5, phenolic_resin: 5.391e24, CH2O: 2.407e24 }
+    out: { plywood: 1, H2O: 2.34e24 }
+    note: 단판의 결을 엇갈려 쌓고 페놀-폼알데하이드 접착제로 140°C에서 열압한다(내수 합판)
+  - id: mdf_pressing
+    name: { ko: MDF 열압 }
+    time: 300
+    in: { kiln_dried_wood: 8.859e25, uf_resin: 2.173e25, NH4Cl: 3.378e23 }
+    out: { mdf_board: 1, H2O: 1.504e25 }
+    note: 목재 칩을 증기로 풀어 섬유로 만들고 요소 수지를 뿌려 매트로 쌓아 열압한다. 염화 암모늄은 경화 촉진제
+  - id: kraft_pulping
+    name: { ko: 크라프트 펄프 제조 }
+    time: 6
+    in: { kiln_dried_wood: 4, O2: 13 }
+    out: { wood_pulp: 2, CO2: 12, H2O: 12 }
+    note: "NaOH·Na2S 증해액이 리그닌과 헤미셀룰로스를 녹여 셀룰로스만 남긴다(수율 약 50%). 흑액은 회수 보일러에서 태워 증기를 얻고 약품을 되살린다. 순환하는 약품은 적지 않았다"
+  - id: kraft_paper_making
+    name: { ko: 크라프트지 초지 }
+    time: 5
+    in: { wood_pulp: 2.897e23, Al2(SO4)3: 8.801e20, H2O: 2.006e23 }
+    out: { kraft_paper_1m2: 1 }
+    note: "펄프를 물에 풀어 철망 위로 떠서 짜고 말린다. 황산 알루미늄은 사이즈제를 섬유에 붙인다. 수분 약 7%"
+
+  # ───────────── 철골·창호·철물 ─────────────
+  - id: steel_frame_erection
+    name: { ko: 철골 세우기 }
+    time: 900
+    in: { steel_h_beam: 28, steel: 2.174e26, hs_bolt_set_m20: 16, glyptal_resin: 1.048e24, Fe2O3: 1.886e24 }
+    out: { steel_frame_bay: 1 }
+    note: 베이스 플레이트·거싯 판(강판 약 20kg)을 용접한 H형강을 고장력 볼트로 접합하고 산화철 녹막이 도료를 칠한다
+  - id: door_hinge_making
+    name: { ko: 경첩 제작 }
+    time: 10
+    in: { stainless_steel: 2.08e24 }
+    out: { door_hinge: 1 }
+    note: 스테인리스 판을 찍어 말고 핀을 끼운다
+  - id: door_lever_handle_making
+    name: { ko: 도어 손잡이 제작 }
+    time: 30
+    in: { zamak_3: 3.703e24, steel: 1.848e24, Ni: 2.052e22, Cr: 3.475e21 }
+    out: { door_lever_handle: 1 }
+    note: "아연 다이캐스트 레버에 니켈·크로뮴 도금, 강판 래치와 스프링"
+  - id: interior_door_making
+    name: { ko: 실내문 제작 }
+    time: 600
+    in: { mdf_board: 1, lumber_2x4: 2, kraft_paper_1m2: 4, door_hinge: 3, door_lever_handle: 1, wood_screw: 24, wood_glue: 1, glyptal_resin: 3.145e23 }
+    out: { interior_door: 1 }
+    note: 제재목 울거미에 벌집 종이 심을 넣고 MDF를 붙여 도장한다. 경첩 3개와 손잡이
+  - id: aluminium_window_making
+    name: { ko: 알루미늄 창호 제작 }
+    time: 600
+    in: { aluminium_extrusion: 10, insulating_glass_unit: 1, nylon_66: 7.983e23, neoprene: 2.721e24, zamak_3: 1.462e24, stainless_steel: 2.19e24, blind_rivet: 20, silicone_sealant: 1 }
+    out: { aluminium_window: 1 }
+    note: 알루미늄 틀 사이에 나일론 단열재를 끼워 열이 새는 길을 끊고(열교 차단) 복층 유리를 고무 개스킷으로 물린다

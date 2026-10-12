@@ -1,0 +1,75 @@
+# 건설 재료: 시멘트·콘크리트, 석고, 점토 제품과 도자기, 판유리, 아스팔트, 목재와 종이, 창호·철물.
+# 광물은 순수 광물의 화학식을 단다(고령석 Al2Si2O5(OH)4). 시멘트·콘크리트 같은 혼합물은 화학식 없이
+# 레시피에 적힌 구성 입자 하나를 1로 센다. 부품(개수 단위)은 실제 제품 질량을 expected_mass로 적는다.
+category: construction
+unit: particle
+items:
+  # 광물과 원료
+  - { id: kaolinite, name: { ko: 고령석, en: Kaolinite }, category: mineral, formula: Al2Si2O5(OH)4, note: 카올리나이트. 장석이 풍화해 생긴 점토 광물로 도자기·벽돌·종이 충전재의 원료 }
+  - { id: potassium_feldspar, name: { ko: 칼리 장석, en: Potassium feldspar }, category: mineral, formula: KAlSi3O8, note: 정장석·미사장석. 도자기 소지와 유약에서 녹아 유리질을 만드는 융제 }
+  - { id: gypsum, name: { ko: 석고, en: Gypsum }, category: mineral, formula: CaSO4·2H2O, note: 이수 석고. 시멘트 응결 조절제와 석고보드의 원료 }
+  - { id: gravel, name: { ko: 자갈, en: Gravel }, category: mineral, formula: SiO2, note: 콘크리트용 굵은 골재(5~25mm). 석영질 강자갈이라 화학식은 SiO2로 근사한다 }
+  - { id: roundwood, name: { ko: 원목, en: Roundwood }, formula: C6H9O4·4H2O, note: "갓 벤 침엽수 원목. 건조 목재 조성(C 49.7 · H 6.2 · O 44.1wt%)을 C6H9O4로 근사하고 함수율(건량 기준) 약 50%를 물 4분자로 나타냈다" }
+
+  # 시멘트
+  - { id: metakaolin, name: { ko: 메타카올린, en: Metakaolin }, formula: Al2Si2O7, note: 고령석을 600~800°C로 구워 수산기를 날린 비정질 알루미노규산염. 반응성이 큰 포졸란 }
+  - { id: Ca3SiO5, name: { ko: 규산 삼칼슘, en: Tricalcium silicate }, formula: Ca3SiO5, note: "C3S, 알라이트. 클링커의 50~70%를 차지하며 초기 강도를 낸다" }
+  - { id: Ca3Al2O6, name: { ko: 알루민산 삼칼슘, en: Tricalcium aluminate }, formula: Ca3Al2O6, note: C3A. 물과 가장 빨리 반응해 석고로 응결을 늦춘다 }
+  - { id: Ca4Al2Fe2O10, name: { ko: 철알루민산 사칼슘, en: Tetracalcium aluminoferrite }, formula: Ca4Al2Fe2O10, note: "C4AF, 페라이트 상. 시멘트의 회색을 낸다" }
+  - { id: cement_raw_meal, name: { ko: 시멘트 원료 분말, en: Cement raw meal }, note: 석회석·점토·규사·철광석을 곱게 갈아 섞은 소성 전 원료. 혼합 비율은 레시피 참고 }
+  - { id: portland_clinker, name: { ko: 포틀랜드 클링커, en: Portland clinker }, note: "C3S 61 · C2S 21 · C3A 8 · C4AF 10wt%. 클링커 광물 단위 하나를 1로 센다(평균 약 228g/mol)" }
+  - { id: CaSO4·0.5H2O, name: { ko: 반수 석고, en: Calcium sulfate hemihydrate }, formula: CaSO4·0.5H2O, note: 소석고(바사나이트). 물을 만나면 이수 석고로 되돌아가며 굳는다 }
+  - { id: portland_cement, name: { ko: 포틀랜드 시멘트, en: Portland cement }, note: "클링커 95 · 석고 5wt%. KS L 5201 1종(보통 포틀랜드 시멘트)" }
+  - { id: csh_gel, name: { ko: 규산 칼슘 수화물, en: Calcium silicate hydrate }, formula: Ca3Si2O7·4H2O, note: C-S-H 겔(토버모라이트형 3CaO·2SiO2·4H2O). 굳은 시멘트 강도의 대부분을 낸다 }
+  - { id: ettringite, name: { ko: 에트링가이트, en: Ettringite }, formula: Ca6Al2(SO4)3(OH)12·26H2O, note: 알루민산 삼칼슘이 석고와 만나 생기는 바늘 모양 결정. 시멘트의 급결을 막는다 }
+  - { id: tobermorite, name: { ko: 토버모라이트, en: Tobermorite }, formula: Ca5Si6O16(OH)2·4H2O, note: 11Å 토버모라이트. 오토클레이브 양생한 ALC·규산 칼슘판의 결합재 }
+
+  # 콘크리트·모르타르
+  - { id: cement_mortar, name: { ko: 시멘트 모르타르, en: Cement mortar }, note: "시멘트 1 : 모래 3(질량비), 물-시멘트 비 0.48. 굳지 않은 상태" }
+  - { id: ready_mix_concrete, name: { ko: 레디믹스트 콘크리트, en: Ready-mixed concrete }, note: "1m³당 시멘트 354 · 물 171 · 모래 759 · 자갈 1,091kg, 약 2.38t/m³. 설계 강도 약 24MPa" }
+  - { id: lime_plaster, name: { ko: 석회 플라스터, en: Lime plaster }, note: "소석회 1 : 모래 2.4(질량비)와 물. 공기 중 CO2를 받아 탄산 칼슘으로 굳는다" }
+  - { id: concrete_block, name: { ko: 콘크리트 블록, en: Concrete masonry block }, unit: piece, expected_mass: [13kg, 18kg], note: "KS F 4002 기본형 390×190×190mm 속빈 블록, 약 15kg" }
+  - { id: precast_rc_beam, name: { ko: 프리캐스트 철근 콘크리트 보, en: Precast reinforced concrete beam }, unit: piece, expected_mass: [400kg, 490kg], note: 200×300mm × 3m. 콘크리트 약 0.177m³와 D13 철근 약 26m }
+  - { id: alc_block, name: { ko: ALC 블록, en: Autoclaved aerated concrete block }, unit: piece, expected_mass: [5.5kg, 7.5kg], note: "경량 기포 콘크리트 600×200×100mm. 기공이 부피의 약 80%" }
+  - { id: cement_bag_40kg, name: { ko: 시멘트(40kg 포대), en: Cement (40 kg bag) }, unit: piece, expected_mass: [40kg, 40.5kg], note: 포틀랜드 시멘트 40kg과 3겹 크라프트지 포대 }
+
+  # 점토 제품과 도자기
+  - { id: green_brick, name: { ko: 성형 벽돌, en: Green brick }, unit: piece, expected_mass: [2.2kg, 2.8kg], note: "압출해 자른 소성 전 벽돌. 물 약 14%" }
+  - { id: clay_brick, name: { ko: 점토 벽돌, en: Fired clay brick }, unit: piece, expected_mass: [1.8kg, 2.6kg], note: "KS L 4201 190×90×57mm 붉은 벽돌, 약 2.0kg" }
+  - { id: clay_roof_tile, name: { ko: 점토 기와, en: Clay roof tile }, unit: piece, expected_mass: [2.5kg, 3.5kg], note: "S형 시유 기와 한 장, 약 2.9kg" }
+  - { id: brick_wall_1m2, name: { ko: 벽돌 벽(1m²), en: Brick wall (1 m²) }, unit: piece, expected_mass: [185kg, 240kg], note: 0.5B(두께 90mm) 벽돌 쌓기 1m²와 한쪽 면 석회 플라스터 15mm }
+  - { id: porcelain_slip, name: { ko: 도자기 이장, en: Porcelain slip }, note: "고령석 50 · 장석 25 · 석영 25wt%(건조 기준)에 물 35%를 섞은 진흙물" }
+  - { id: ceramic_glaze, name: { ko: 유약, en: Ceramic glaze }, note: "장석 40 · 석영 25 · 석회석 15 · 지르콘 10 · 고령석 8 · 산화 아연 2wt%의 흰색 불투명 유약 원료" }
+  - { id: porcelain_tile, name: { ko: 자기질 타일(300×300mm), en: Porcelain tile (300×300 mm) }, unit: piece, expected_mass: [1.7kg, 2.1kg], note: "두께 9mm 시유 바닥 타일, 약 1.9kg" }
+  - { id: toilet, name: { ko: 양변기, en: Toilet }, unit: piece, expected_mass: [28kg, 42kg], note: "투피스 위생 도기 양변기와 물탱크, 시트, 급수·배수 부속. 약 35kg" }
+  - { id: washbasin, name: { ko: 세면기, en: Washbasin }, unit: piece, expected_mass: [9kg, 16kg], note: "벽걸이 위생 도기 세면기 560×450mm, 약 12kg" }
+  - { id: basin_faucet, name: { ko: 세면기 수전, en: Basin faucet }, unit: piece, expected_mass: [1.0kg, 1.6kg], note: "원홀 싱글 레버 혼합 수전과 급수 호스 2개, 약 1.3kg" }
+
+  # 유리
+  - { id: soda_lime_glass, name: { ko: 소다석회 유리, en: Soda-lime glass }, formula: Na2CaSi6O14, note: "Na2O·CaO·6SiO2(SiO2 75 · Na2O 13 · CaO 12wt%). 판유리·병유리의 기본 조성" }
+  - { id: float_glass_pane, name: { ko: 판유리(1m²·5mm), en: Float glass pane (1 m² × 5 mm) }, unit: piece, expected_mass: [12kg, 13kg], note: "플로트 판유리, 밀도 2.5g/cm³로 12.5kg" }
+  - { id: tempered_glass_pane, name: { ko: 강화 유리(1m²·5mm), en: Tempered glass pane (1 m² × 5 mm) }, unit: piece, expected_mass: [12kg, 13kg], note: 보통 판유리보다 4~5배 강하고 깨지면 작은 알갱이가 된다 }
+  - { id: laminated_glass_pane, name: { ko: 접합 유리(1m²), en: Laminated glass (1 m²) }, unit: piece, expected_mass: [24kg, 27.5kg], note: 5mm 유리 두 장과 PVB 0.76mm }
+  - { id: insulating_glass_unit, name: { ko: 복층 유리(1m²), en: Insulating glass unit (1 m²) }, unit: piece, expected_mass: [24kg, 27kg], note: 5mm + 아르곤 12mm + 5mm. 열관류율 약 1.3W/m²K }
+  - { id: glass_wool_batt, name: { ko: 유리솜 단열재, en: Glass wool batt }, unit: piece, expected_mass: [1.5kg, 2kg], note: "1,200×600×100mm, 밀도 24kg/m³" }
+  - { id: gypsum_board, name: { ko: 석고보드(9.5mm), en: Gypsum board (9.5 mm) }, unit: piece, expected_mass: [9.5kg, 12kg], note: "KS F 3504 일반 석고보드 9.5×900×1,800mm, 약 10.5kg" }
+
+  # 아스팔트
+  - { id: asphalt_concrete, name: { ko: 아스팔트 콘크리트, en: Asphalt concrete }, note: "아스팔트 5.5 · 굵은 골재 55 · 잔골재 33 · 석회석 채움재 6.5wt%의 가열 혼합물" }
+  - { id: asphalt_pavement_1m2, name: { ko: 아스팔트 포장(1m²), en: Asphalt pavement (1 m²) }, unit: piece, expected_mass: [100kg, 130kg], note: "두께 50mm 표층, 다짐 밀도 약 2.35t/m³" }
+
+  # 목재와 종이
+  - { id: kiln_dried_wood, name: { ko: 건조 목재, en: Kiln-dried wood }, formula: C6H9O4·H2O, note: "함수율(건량 기준) 약 12%로 말린 목재. 자루·가구·MDF·펄프의 원료" }
+  - { id: lumber_2x4, name: { ko: 구조용 제재목(2×4), en: Dimension lumber (2×4) }, unit: piece, expected_mass: [3kg, 4.2kg], note: "38×89mm × 2.44m SPF 구조재, 기건 밀도 약 430kg/m³로 3.55kg" }
+  - { id: wood_veneer, name: { ko: 단판, en: Wood veneer }, unit: piece, expected_mass: [3.2kg, 4kg], note: "1,220×2,440×2.5mm 침엽수 로터리 단판" }
+  - { id: plywood, name: { ko: 합판(12mm), en: Plywood (12 mm) }, unit: piece, expected_mass: [17kg, 22kg], note: "1,220×2,440×12mm 5겹 내수 구조용 합판" }
+  - { id: mdf_board, name: { ko: 중밀도 섬유판(12mm), en: MDF board (12 mm) }, unit: piece, expected_mass: [24kg, 29kg], note: "1,220×2,440×12mm MDF, 밀도 약 740kg/m³" }
+  - { id: wood_pulp, name: { ko: 크라프트 펄프, en: Kraft pulp }, formula: C6H10O5, note: 미표백 화학 펄프. 셀룰로스(무수 포도당 단위)로 근사한다 }
+  - { id: kraft_paper_1m2, name: { ko: 크라프트지(1m²), en: Kraft paper (1 m²) }, unit: piece, expected_mass: [75g, 95g], note: 평량 80g/m² 미표백 크라프트지 }
+
+  # 철골·창호·철물
+  - { id: steel_frame_bay, name: { ko: 철골 골조(1칸), en: Steel frame bay }, unit: piece, expected_mass: [460kg, 560kg], note: H형강 기둥 4개(3m)와 보 4개(4m)의 소형 철골 한 칸 }
+  - { id: door_hinge, name: { ko: 경첩, en: Door hinge }, unit: piece, expected_mass: [0.15kg, 0.28kg], note: 102×76×3mm 스테인리스 경첩 한 짝 }
+  - { id: door_lever_handle, name: { ko: 레버 도어 손잡이, en: Lever door handle set }, unit: piece, expected_mass: [0.4kg, 0.8kg], note: 레버 한 쌍과 원통형 래치 }
+  - { id: interior_door, name: { ko: 목재 실내문, en: Interior wooden door }, unit: piece, expected_mass: [28kg, 42kg], note: "900×2,100×40mm MDF 문짝과 경첩·손잡이" }
+  - { id: aluminium_window, name: { ko: 알루미늄 창호, en: Aluminium window }, unit: piece, expected_mass: [35kg, 50kg], note: "1.2×1.2m 단열 여닫이 창과 복층 유리, 약 42kg" }
