@@ -48,8 +48,6 @@ items:
   - { id: gear_reducer, name: { ko: 기어 감속기, en: Gear reducer }, expected_mass: [50kg, 75kg], note: "평행축 2단, 7.5kW, 감속비 약 20" }
 
   # 전동기
-  - { id: electric_motor_small, name: { ko: 소형 BLDC 모터, en: Small BLDC motor }, expected_mass: [0.4kg, 0.65kg], note: "외경 57mm 3상 BLDC, 약 100W·0.5kg. 구동 회로는 포함하지 않는다" }
-  - { id: electric_motor_industrial, name: { ko: 산업용 유도 전동기, en: Industrial induction motor }, expected_mass: [45kg, 70kg], note: "7.5kW 4극 농형 삼상 유도 전동기(IE3, 프레임 132M), 약 60kg" }
 
   # 엔진
   - { id: engine_block, name: { ko: 실린더 블록, en: Cylinder block }, expected_mass: [35kg, 48kg], note: "직렬 4기통 1.6L 회주철 블록, 약 42kg" }

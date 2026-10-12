@@ -203,18 +203,6 @@ recipes:
     note: 주철 하우징에 기어 4개와 축 3개를 베어링으로 받치고 기어유 약 3L를 채운다
 
   # ───────────── 전동기 ─────────────
-  - id: electric_motor_small_assembly
-    name: { ko: 소형 BLDC 모터 조립 }
-    time: 60
-    in: { steel: 3.044e24, Cu: 7.581e23, ndfeb_magnet: 6, aluminium_6061: 2.006e24, deep_groove_bearing_608: 2, pet: 9.401e21, epoxy_resin: 8.845e21, flexible_pvc: 1.584e21 }
-    out: { electric_motor_small: 1 }
-    note: "규소 강판 고정자 철심에 구리 권선, 회전자에 네오디뮴 자석 6개, 알루미늄 하우징과 608 베어링 2개"
-  - id: electric_motor_industrial_assembly
-    name: { ko: 유도 전동기 조립 }
-    time: 600
-    in: { cast_iron: 2.85e26, steel: 2.587e26, copper_wire_1kg: 6, pet: 9.401e23, epoxy_resin: 7.076e23, Al: 4.91e25, transmission_shaft: 1, deep_groove_bearing_6208: 2, polypropylene: 3.578e24, aluminium_6061: 1.337e25, hex_bolt_m8x30: 8 }
-    out: { electric_motor_industrial: 1 }
-    note: "주철 프레임에 규소 강판 고정자 철심과 구리 권선(PET 절연지·에폭시 함침), 알루미늄 다이캐스트 농형 회전자, 냉각 팬"
 
   # ───────────── 엔진 ─────────────
   - id: engine_block_casting
