@@ -6,93 +6,32 @@ unit: particle
 items:
 
   # 올레핀과 방향족 원료. 유기 화학 쪽과 같은 ID를 쓴다
-  - { id: propylene, name: { ko: 프로필렌, en: Propylene }, formula: C3H6 }
-  - { id: butadiene, name: { ko: "1,3-뷰타다이엔", en: "1,3-Butadiene" }, formula: C4H6 }
-  - { id: butene_1, name: { ko: 1-뷰텐, en: 1-Butene }, formula: C4H8 }
-  - { id: ethanol, name: { ko: 에탄올, en: Ethanol }, formula: C2H6O }
-  - { id: ethylbenzene, name: { ko: 에틸벤젠, en: Ethylbenzene }, formula: C8H10 }
-  - { id: styrene, name: { ko: 스타이렌, en: Styrene }, formula: C8H8 }
-  - { id: ethylene_dichloride, name: { ko: "1,2-다이클로로에테인", en: Ethylene dichloride }, formula: C2H4Cl2 }
-  - { id: vinyl_chloride, name: { ko: 염화 바이닐, en: Vinyl chloride }, formula: C2H3Cl }
-  - { id: toluene, name: { ko: 톨루엔, en: Toluene }, formula: C7H8 }
-  - { id: mixed_xylenes, name: { ko: 혼합 자일렌, en: Mixed xylenes }, formula: C8H10, note: "o-·m-·p-자일렌과 에틸벤젠이 섞인 C8 방향족" }
-  - { id: p_xylene, name: { ko: p-자일렌, en: p-Xylene }, formula: C8H10 }
-  - { id: o_xylene, name: { ko: o-자일렌, en: o-Xylene }, formula: C8H10 }
-  - { id: pentane, name: { ko: 펜테인, en: Pentane }, formula: C5H12 }
 
   # 폴리에스터·나일론 단량체
-  - { id: terephthalic_acid, name: { ko: 테레프탈산, en: Terephthalic acid }, formula: C8H6O4 }
   - { id: dimethyl_terephthalate, name: { ko: 테레프탈산 다이메틸, en: Dimethyl terephthalate }, formula: C10H10O4 }
-  - { id: ethylene_oxide, name: { ko: 산화 에틸렌, en: Ethylene oxide }, formula: C2H4O }
-  - { id: ethylene_glycol, name: { ko: 에틸렌 글라이콜, en: Ethylene glycol }, formula: C2H6O2 }
-  - { id: cyclohexane, name: { ko: 사이클로헥세인, en: Cyclohexane }, formula: C6H12 }
-  - { id: cyclohexanol, name: { ko: 사이클로헥산올, en: Cyclohexanol }, formula: C6H12O }
-  - { id: cyclohexanone, name: { ko: 사이클로헥산온, en: Cyclohexanone }, formula: C6H10O }
-  - { id: cyclohexanone_oxime, name: { ko: 사이클로헥산온 옥심, en: Cyclohexanone oxime }, formula: C6H11NO }
-  - { id: caprolactam, name: { ko: 카프로락탐, en: Caprolactam }, formula: C6H11NO }
-  - { id: adipic_acid, name: { ko: 아디프산, en: Adipic acid }, formula: C6H10O4 }
-  - { id: adiponitrile, name: { ko: 아디포나이트릴, en: Adiponitrile }, formula: C6H8N2 }
-  - { id: hexamethylenediamine, name: { ko: 헥사메틸렌다이아민, en: Hexamethylenediamine }, formula: C6H16N2 }
   - { id: nylon_salt, name: { ko: 나일론 66 염, en: Nylon salt }, formula: C12H26N2O4, note: "아디프산과 헥사메틸렌다이아민을 1:1로 맞춘 AH 염" }
 
   # 질소·플루오린·나트륨 무기 시약
-  - { id: H2O2, name: { ko: 과산화 수소, en: Hydrogen peroxide }, formula: H2O2 }
-  - { id: "NO", name: { ko: 일산화 질소, en: Nitric oxide }, formula: NO }
-  - { id: NO2, name: { ko: 이산화 질소, en: Nitrogen dioxide }, formula: NO2 }
-  - { id: HNO3, name: { ko: 질산, en: Nitric acid }, formula: HNO3 }
-  - { id: N2O, name: { ko: 아산화 질소, en: Nitrous oxide }, formula: N2O }
-  - { id: HF, name: { ko: 플루오린화 수소, en: Hydrogen fluoride }, formula: HF }
-  - { id: NaOH, name: { ko: 수산화 나트륨, en: Sodium hydroxide }, formula: NaOH }
-  - { id: Na2SO4, name: { ko: 황산 나트륨, en: Sodium sulfate }, formula: Na2SO4 }
   - { id: NH4HSO4, name: { ko: 황산수소 암모늄, en: Ammonium bisulfate }, formula: NH4HSO4 }
-  - { id: CS2, name: { ko: 이황화 탄소, en: Carbon disulfide }, formula: CS2 }
-  - { id: H2S, name: { ko: 황화 수소, en: Hydrogen sulfide }, formula: H2S }
 
   # 페놀·카보네이트·아크릴 단량체
-  - { id: cumene, name: { ko: 큐멘, en: Cumene }, formula: C9H12 }
-  - { id: phenol, name: { ko: 페놀, en: Phenol }, formula: C6H6O }
-  - { id: acetone, name: { ko: 아세톤, en: Acetone }, formula: C3H6O }
-  - { id: bisphenol_a, name: { ko: 비스페놀 A, en: Bisphenol A }, formula: C15H16O2 }
-  - { id: ethylene_carbonate, name: { ko: 탄산 에틸렌, en: Ethylene carbonate }, formula: C3H4O3 }
-  - { id: dimethyl_carbonate, name: { ko: 탄산 다이메틸, en: Dimethyl carbonate }, formula: C3H6O3 }
   - { id: diphenyl_carbonate, name: { ko: 탄산 다이페닐, en: Diphenyl carbonate }, formula: C13H10O3 }
   - { id: acetone_cyanohydrin, name: { ko: 아세톤 사이아노하이드린, en: Acetone cyanohydrin }, formula: C4H7NO }
-  - { id: methyl_propionate, name: { ko: 프로피온산 메틸, en: Methyl propionate }, formula: C4H8O2 }
-  - { id: methyl_methacrylate, name: { ko: 메타크릴산 메틸, en: Methyl methacrylate }, formula: C5H8O2 }
-  - { id: acrylonitrile, name: { ko: 아크릴로나이트릴, en: Acrylonitrile }, formula: C3H3N }
 
   # 할로젠·에폭시·아민·실리콘 단량체
-  - { id: CHCl3, name: { ko: 클로로폼, en: Chloroform }, formula: CHCl3 }
   - { id: chlorodifluoromethane, name: { ko: 클로로다이플루오로메테인, en: Chlorodifluoromethane }, formula: CHClF2, note: "HCFC-22. 냉매이자 TFE 원료" }
   - { id: tetrafluoroethylene, name: { ko: 테트라플루오로에틸렌, en: Tetrafluoroethylene }, formula: C2F4 }
-  - { id: allyl_chloride, name: { ko: 염화 알릴, en: Allyl chloride }, formula: C3H5Cl }
-  - { id: glycerol, name: { ko: 글리세롤, en: Glycerol }, formula: C3H8O3 }
-  - { id: dichloropropanol, name: { ko: 다이클로로프로판올, en: Dichloropropanol }, formula: C3H6Cl2O }
-  - { id: epichlorohydrin, name: { ko: 에피클로로하이드린, en: Epichlorohydrin }, formula: C3H5ClO }
   - { id: diethylenetriamine, name: { ko: 다이에틸렌트라이아민, en: Diethylenetriamine }, formula: C4H13N3, note: "에폭시 경화제. 활성 수소 5개" }
   - { id: hexamethylenetetramine, name: { ko: 헥사메틸렌테트라민, en: Hexamethylenetetramine }, formula: C6H12N4, note: "노볼락 페놀 수지 경화제(헥사민)" }
-  - { id: melamine, name: { ko: 멜라민, en: Melamine }, formula: C3H6N6 }
-  - { id: CH3Cl, name: { ko: 클로로메테인, en: Chloromethane }, formula: CH3Cl }
   - { id: dimethyldichlorosilane, name: { ko: 다이메틸다이클로로실레인, en: Dimethyldichlorosilane }, formula: C2H6Cl2Si }
 
   # 우레탄 원료. MDI·TDI는 개요 레시피로 만드는 구매 중간재로 다룬다
-  - { id: nitrobenzene, name: { ko: 나이트로벤젠, en: Nitrobenzene }, formula: C6H5NO2 }
-  - { id: aniline, name: { ko: 아닐린, en: Aniline }, formula: C6H7N }
   - { id: methylenedianiline, name: { ko: 메틸렌다이아닐린, en: Methylenedianiline }, formula: C13H14N2, note: "4,4'-MDA" }
   - { id: mdi, name: { ko: MDI, en: Methylene diphenyl diisocyanate }, formula: C15H10N2O2, note: "메틸렌 다이페닐 다이아이소사이아네이트" }
   - { id: tdi, name: { ko: TDI, en: Toluene diisocyanate }, formula: C9H6N2O2, note: "톨루엔 다이아이소사이아네이트(2,4-/2,6- 80:20)" }
-  - { id: propylene_oxide, name: { ko: 산화 프로필렌, en: Propylene oxide }, formula: C3H6O }
   - { id: polyether_polyol, name: { ko: 폴리에테르 폴리올, en: Polyether polyol }, formula: C156H314O54, note: "글리세롤 1분자에 산화 프로필렌 51개가 붙은 분자량 약 3,000의 트라이올. 1분자를 1로 센다" }
 
   # 바이닐·아세틸 단량체와 가소제
-  - { id: vinyl_acetate, name: { ko: 아세트산 바이닐, en: Vinyl acetate }, formula: C4H6O2 }
-  - { id: methyl_acetate, name: { ko: 아세트산 메틸, en: Methyl acetate }, formula: C3H6O2 }
-  - { id: acetic_anhydride, name: { ko: 아세트산 무수물, en: Acetic anhydride }, formula: C4H6O3 }
-  - { id: butyraldehyde, name: { ko: 뷰티르알데하이드, en: Butyraldehyde }, formula: C4H8O }
-  - { id: ethylhexanol, name: { ko: 2-에틸헥산올, en: 2-Ethylhexanol }, formula: C8H18O }
-  - { id: phthalic_anhydride, name: { ko: 프탈산 무수물, en: Phthalic anhydride }, formula: C8H4O3 }
-  - { id: dehp, name: { ko: 프탈산 비스(2-에틸헥실), en: Bis(2-ethylhexyl) phthalate }, formula: C24H38O4, note: "DEHP(DOP). 프탈레이트계 가소제. 유럽에서는 사용이 제한된다" }
-  - { id: dotp, name: { ko: 테레프탈산 비스(2-에틸헥실), en: Bis(2-ethylhexyl) terephthalate }, formula: C24H38O4, note: "DOTP. 비프탈레이트계 가소제" }
   - { id: diethyl_phthalate, name: { ko: 프탈산 다이에틸, en: Diethyl phthalate }, formula: C12H14O4, note: "셀룰로스 아세테이트 가소제" }
 
   # 합성 고무 단량체
