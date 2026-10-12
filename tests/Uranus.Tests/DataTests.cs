@@ -58,6 +58,19 @@ namespace Uranus.Tests
 		}
 
 		[Fact]
+		public void Loads_UpgradesAndGoals()
+		{
+			var config = Db.Config;
+
+			var mole = Assert.Single(config.Upgrades, x => x.Id == "scale_mole");
+			Assert.Equal(UpgradeKind.Scale, mole.Kind);
+			Assert.Equal(6.02214076e23, mole.Factor);
+			Assert.Equal(["scale_milli"], mole.Requires);
+			Assert.Contains(config.Upgrades, x => x.Kind == UpgradeKind.Line);
+			Assert.Contains(config.Goals, x => x.Id == "ccd" && x.Requirements.Single().Item == new ItemId("ccd"));
+		}
+
+		[Fact]
 		public void FindItemByName_IgnoresSpaces()
 		{
 			Assert.Equal(new ItemId("NaCl"), Db.FindItemByName("염화나트륨")?.Id);
@@ -254,6 +267,28 @@ namespace Uranus.Tests
 			var db = new UranusDatabase(TestData.Elements, Chemistry, [], [], new GameConfig([], growth, offlineCap));
 
 			Assert.Contains(UranusValidator.Validate(db), x => x.Code == UranusValidator.Codes.InvalidGenerator && x.Severity == IssueSeverity.Error);
+		}
+
+		[Fact]
+		public void UpgradeAndGoalProblems_AreErrors()
+		{
+			var config = new GameConfig([], 1.15, 24)
+			{
+				Upgrades =
+				[
+					new UpgradeDef("a", new("a"), UpgradeKind.Scale, 10, [new ItemAmount(new ItemId("H"), 1)], ["b"]),
+					new UpgradeDef("b", new("b"), UpgradeKind.Scale, 100, [new ItemAmount(new ItemId("H"), 1)], ["a"]),
+					new UpgradeDef("c", new("c"), UpgradeKind.Scale, 0.5, [new ItemAmount(new ItemId("unknown"), 1)], ["missing"]),
+				],
+				Goals = [new GoalDef("g", new("g"), [new ItemAmount(new ItemId("nothing"), 1)])],
+			};
+			var issues = UranusValidator.Validate(new UranusDatabase(TestData.Elements, Chemistry, [], [], config));
+
+			Assert.Contains(issues, x => x.Code == UranusValidator.Codes.InvalidUpgrade && x.Message.Contains("순환"));
+			Assert.Contains(issues, x => x.Code == UranusValidator.Codes.InvalidUpgrade && x.Message.Contains("factor"));
+			Assert.Contains(issues, x => x.Code == UranusValidator.Codes.InvalidUpgrade && x.Message.Contains("missing"));
+			Assert.Contains(issues, x => x.Code == UranusValidator.Codes.UndefinedItem && x.Message.Contains("unknown"));
+			Assert.Contains(issues, x => x.Code == UranusValidator.Codes.UndefinedItem && x.Message.Contains("nothing"));
 		}
 
 		[Fact]

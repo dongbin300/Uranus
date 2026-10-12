@@ -37,10 +37,13 @@ namespace MachineFree.Core
 				TotalCrafts = state.TotalCrafts,
 				Inventory = state.Inventory.Where(x => double.IsFinite(x.Value)).ToDictionary(x => x.Key.Value, x => x.Value),
 				Discovered = [.. state.Discovered.Select(x => x.Value).Order(StringComparer.Ordinal)],
+				Upgrades = [.. state.Upgrades.Order(StringComparer.Ordinal)],
+				CompletedGoals = new Dictionary<string, double>(state.CompletedGoals),
 				Queue = [.. state.Queue.Select(x => new QueueDto
 				{
 					Recipe = x.Recipe.Value,
 					Remaining = x.Remaining,
+					Scale = x.Scale,
 					Progress = double.IsFinite(x.Progress) ? x.Progress : 0,
 					Paid = x.Paid.Where(p => double.IsFinite(p.Value)).ToDictionary(p => p.Key.Value, p => p.Value),
 				})],
@@ -83,10 +86,16 @@ namespace MachineFree.Core
 			}
 
 			state.Discovered.UnionWith((dto.Discovered ?? []).OfType<string>().Select(x => new ItemId(x)));
+			state.Upgrades.UnionWith((dto.Upgrades ?? []).OfType<string>());
+			foreach (var (id, time) in dto.CompletedGoals ?? [])
+			{
+				state.CompletedGoals[id] = double.IsFinite(time) ? time : 0;
+			}
 			foreach (var x in (dto.Queue ?? []).OfType<QueueDto>().Where(x => x.Remaining > 0 && !string.IsNullOrEmpty(x.Recipe)))
 			{
 				var progress = double.IsFinite(x.Progress) ? Math.Max(0, x.Progress) : 0;
-				var entry = new QueueEntry { Recipe = new RecipeId(x.Recipe), Remaining = x.Remaining, Progress = progress };
+				var scale = double.IsFinite(x.Scale) && x.Scale >= 1 ? x.Scale : 1;
+				var entry = new QueueEntry { Recipe = new RecipeId(x.Recipe), Remaining = x.Remaining, Scale = scale, Progress = progress };
 				foreach (var (id, amount) in x.Paid ?? [])
 				{
 					if (amount > 0 && double.IsFinite(amount))
@@ -184,6 +193,8 @@ namespace MachineFree.Core
 			public long TotalCrafts { get; set; }
 			public Dictionary<string, double>? Inventory { get; set; } = [];
 			public List<string?>? Discovered { get; set; } = [];
+			public List<string?>? Upgrades { get; set; } = [];
+			public Dictionary<string, double>? CompletedGoals { get; set; } = [];
 			public List<QueueDto?>? Queue { get; set; } = [];
 		}
 
@@ -191,6 +202,7 @@ namespace MachineFree.Core
 		{
 			public string Recipe { get; set; } = "";
 			public long Remaining { get; set; }
+			public double Scale { get; set; } = 1;
 			public double Progress { get; set; }
 			public Dictionary<string, double>? Paid { get; set; } = [];
 		}

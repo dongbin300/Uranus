@@ -41,5 +41,38 @@ namespace Uranus
 	public sealed record GameConfig(IReadOnlyList<ItemAmount> StartInventory, double GeneratorCostGrowth, double OfflineCapHours)
 	{
 		public static GameConfig Default { get; } = new([], 1.0, 24.0);
+
+		public IReadOnlyList<UpgradeDef> Upgrades { get; init; } = [];
+
+		public IReadOnlyList<GoalDef> Goals { get; init; } = [];
+	}
+
+	public enum UpgradeKind
+	{
+		/// <summary>
+		/// 생산 라인을 하나 늘린다 (대기열 앞쪽을 동시에 만든다)
+		/// </summary>
+		Line,
+
+		/// <summary>
+		/// 입자 단위 레시피·생성기의 규모를 Factor배로 키운다 (예: 몰 = 6.022e23)
+		/// </summary>
+		Scale,
+	}
+
+	/// <summary>
+	/// 아이템을 내고 사는 업그레이드
+	/// </summary>
+	public sealed record UpgradeDef(string Id, LocalizedText Name, UpgradeKind Kind, double Factor, IReadOnlyList<ItemAmount> Cost, IReadOnlyList<string> Requires)
+	{
+		public string? Note { get; init; }
+	}
+
+	/// <summary>
+	/// 목표: Requirements를 한꺼번에 보유하면 달성
+	/// </summary>
+	public sealed record GoalDef(string Id, LocalizedText Name, IReadOnlyList<ItemAmount> Requirements)
+	{
+		public string? Note { get; init; }
 	}
 }

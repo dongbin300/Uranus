@@ -238,10 +238,46 @@ namespace Uranus.Data
 				generators.Add(new GeneratorDef(item, build, ToAmounts(dto.Produces, $"생성기 '{dto.Id}'", source)));
 			}
 
-			public GameConfig ToConfig(GameFileDto dto) => new(
-				ToAmounts(dto.Start?.Inventory, "시작 인벤토리", Display("game.yaml")),
-				dto.GeneratorCostGrowth ?? 1.0,
-				dto.OfflineCapHours ?? 24.0);
+			public GameConfig ToConfig(GameFileDto dto)
+			{
+				const string path = "game.yaml";
+				var source = Display(path);
+				var upgrades = new List<UpgradeDef>();
+				foreach (var x in Entries(dto.Upgrades, path))
+				{
+					if (string.IsNullOrWhiteSpace(x.Id) || !Enum.TryParse<UpgradeKind>(x.Kind, ignoreCase: true, out var kind))
+					{
+						Invalid($"업그레이드 '{x.Id}'의 id나 kind(line, scale)가 잘못됐다", source);
+						continue;
+					}
+
+					upgrades.Add(new UpgradeDef(x.Id, ToText(x.Name, x.Id), kind, x.Factor ?? 1, ToAmounts(x.Cost, $"업그레이드 '{x.Id}'", source), x.Requires ?? [])
+					{
+						Note = x.Note,
+					});
+				}
+
+				var goals = new List<GoalDef>();
+				foreach (var x in Entries(dto.Goals, path))
+				{
+					if (string.IsNullOrWhiteSpace(x.Id))
+					{
+						Invalid("id가 없는 목표가 있다", source);
+						continue;
+					}
+
+					goals.Add(new GoalDef(x.Id, ToText(x.Name, x.Id), ToAmounts(x.Require, $"목표 '{x.Id}'", source)) { Note = x.Note });
+				}
+
+				CheckDuplicates(upgrades.Select(x => (x.Id, (string?)source)), "업그레이드");
+				CheckDuplicates(goals.Select(x => (x.Id, (string?)source)), "목표");
+
+				return new GameConfig(ToAmounts(dto.Start?.Inventory, "시작 인벤토리", source), dto.GeneratorCostGrowth ?? 1.0, dto.OfflineCapHours ?? 24.0)
+				{
+					Upgrades = upgrades,
+					Goals = goals,
+				};
+			}
 
 			public void CheckDuplicates(IEnumerable<(string Id, string? Source)> entries, string kind)
 			{
@@ -360,6 +396,27 @@ namespace Uranus.Data
 			public StartDto? Start { get; set; }
 			public double? GeneratorCostGrowth { get; set; }
 			public double? OfflineCapHours { get; set; }
+			public List<UpgradeDto?>? Upgrades { get; set; } = [];
+			public List<GoalDto?>? Goals { get; set; } = [];
+		}
+
+		private sealed class UpgradeDto
+		{
+			public string? Id { get; set; }
+			public NameDto? Name { get; set; }
+			public string? Kind { get; set; }
+			public double? Factor { get; set; }
+			public Dictionary<string, string>? Cost { get; set; }
+			public List<string>? Requires { get; set; }
+			public string? Note { get; set; }
+		}
+
+		private sealed class GoalDto
+		{
+			public string? Id { get; set; }
+			public NameDto? Name { get; set; }
+			public Dictionary<string, string>? Require { get; set; }
+			public string? Note { get; set; }
 		}
 
 		private sealed class StartDto

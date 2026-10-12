@@ -11,7 +11,9 @@ namespace MachineFree.Core
 	/// <summary>
 	/// MachineFree 게임 규칙. UI 없이 돌아가며, 난수를 쓰지 않아 같은 입력이면 항상 같은 결과가 나온다.
 	/// - 제작: 재료를 먼저 내고 대기열에 넣으면 시간이 지나 결과물이 나온다(팩토리오식).
+	///   생산 라인 수만큼 대기열 앞쪽을 동시에 만든다.
 	/// - 생성기: 보유한 대수 × 초당 생산량. n대째 비용은 기본 비용 × 성장률^n.
+	/// - 규모: 결과물이 모두 입자인 레시피와 입자를 내는 생성기는 현재 규모 배율만큼 크게 돈다.
 	/// - 1보다 작은 결과물은 소수로 쌓인다.
 	/// </summary>
 	public sealed class Simulation(UranusDatabase database, GameState state)
@@ -35,12 +37,44 @@ namespace MachineFree.Core
 		/// </summary>
 		public bool QueueChanged { get; set; }
 
+		/// <summary>
+		/// 마지막으로 내린 뒤 업그레이드를 샀는가. UI가 읽고 내린다.
+		/// </summary>
+		public bool UpgradesChanged { get; set; }
+
+		/// <summary>
+		/// 새로 달성한 목표. UI가 읽고 비운다.
+		/// </summary>
+		public List<GoalDef> NewGoals { get; } = [];
+
 		public double GetAmount(ItemId item) => State.GetAmount(item);
 
 		/// <summary>
 		/// 보유한 생성기(또는 아이템)의 정수 개수
 		/// </summary>
 		public long GetOwnedCount(ItemId item) => (long)Math.Min(Quantity.Floor(State.GetAmount(item)), long.MaxValue);
+
+		/// <summary>
+		/// 생산 라인 수 = 동시에 만드는 대기열 칸 수
+		/// </summary>
+		public int LineCount => 1 + Database.Config.Upgrades.Count(x => x.Kind == UpgradeKind.Line && State.Upgrades.Contains(x.Id));
+
+		/// <summary>
+		/// 보유한 규모 업그레이드 중 가장 큰 것 (없으면 null = 분자 단위)
+		/// </summary>
+		public UpgradeDef? CurrentScale => Database.Config.Upgrades
+			.Where(x => x.Kind == UpgradeKind.Scale && State.Upgrades.Contains(x.Id))
+			.MaxBy(x => x.Factor);
+
+		public double ScaleFactor => CurrentScale?.Factor ?? 1;
+
+		/// <summary>
+		/// 이 레시피 1회의 규모 배율. 결과물이 모두 입자이고 생성기를 만드는 레시피가 아니면 현재 규모, 아니면 1.
+		/// </summary>
+		public double GetRecipeScale(RecipeDef recipe) =>
+			Database.FindGeneratorBuiltBy(recipe.Id) is null && recipe.Outputs.Count > 0 && recipe.Outputs.All(x => IsParticle(x.Item))
+				? ScaleFactor
+				: 1;
 
 		/// <summary>
 		/// 대기열에서 만들고 있는 이 아이템의 개수
@@ -52,7 +86,7 @@ namespace MachineFree.Core
 			{
 				if (Database.FindRecipe(entry.Recipe) is { } recipe)
 				{
-					total += entry.Remaining * recipe.Outputs.Where(x => x.Item == item).Sum(x => x.Amount);
+					total += entry.Remaining * entry.Scale * recipe.Outputs.Where(x => x.Item == item).Sum(x => x.Amount);
 				}
 			}
 
@@ -74,15 +108,24 @@ namespace MachineFree.Core
 				}
 			}
 
-			return rate;
+			return rate * GetOutputScale(item);
 		}
 
 		/// <summary>
-		/// count회 제작에 드는 재료. 생성기 레시피는 보유·대기 중인 대수만큼 비싸진다.
+		/// 레시피 1회의 결과물 (규모 반영)
+		/// </summary>
+		public IReadOnlyList<ItemAmount> GetOutputs(RecipeDef recipe)
+		{
+			var scale = GetRecipeScale(recipe);
+			return [.. recipe.Outputs.Select(x => x with { Amount = x.Amount * scale })];
+		}
+
+		/// <summary>
+		/// count회 제작에 드는 재료. 생성기 레시피는 보유·대기 중인 대수만큼 비싸지고, 입자 레시피는 규모만큼 커진다.
 		/// </summary>
 		public IReadOnlyList<ItemAmount> GetCost(RecipeDef recipe, long count)
 		{
-			var multiplier = GetCostMultiplier(recipe, count);
+			var multiplier = GetCostMultiplier(recipe, count) * GetRecipeScale(recipe);
 			return [.. recipe.Inputs.Select(x => x with { Amount = x.Amount * multiplier })];
 		}
 
@@ -98,10 +141,11 @@ namespace MachineFree.Core
 
 			var growth = GetGrowth(recipe);
 			var built = growth > 1 ? GetBuiltCount(recipe) : 0;
+			var scale = GetRecipeScale(recipe);
 			var best = limit;
 			foreach (var input in recipe.Inputs)
 			{
-				var budget = State.GetAmount(input.Item) / input.Amount;
+				var budget = State.GetAmount(input.Item) / (input.Amount * scale);
 				double count;
 				if (growth > 1)
 				{
@@ -113,7 +157,7 @@ namespace MachineFree.Core
 					count = Quantity.Floor(budget);
 				}
 
-				best = Math.Min(best, (long)Math.Clamp(count, 0, limit));
+				best = Math.Min(best, (long)Math.Clamp(double.IsNaN(count) ? 0 : count, 0, limit));
 			}
 
 			// 경계에서 부동소수점 오차로 하나 더 세는 일이 없도록 실제 비용으로 확인한다
@@ -158,10 +202,13 @@ namespace MachineFree.Core
 				ChangedItems.Add(x.Item);
 			}
 
-			var entry = State.Queue.Count > 0 && State.Queue[^1].Recipe == recipeId ? State.Queue[^1] : null;
+			// 주문할 때의 규모를 기억한다. 규모를 올린 뒤 예전 값으로 낸 칸이 큰 결과물을 내면 안 된다
+			var scale = GetRecipeScale(recipe);
+			var last = State.Queue.Count > 0 ? State.Queue[^1] : null;
+			var entry = last is not null && last.Recipe == recipeId && last.Scale == scale ? last : null;
 			if (entry is null)
 			{
-				entry = new QueueEntry { Recipe = recipeId };
+				entry = new QueueEntry { Recipe = recipeId, Scale = scale };
 				State.Queue.Add(entry);
 			}
 
@@ -196,10 +243,59 @@ namespace MachineFree.Core
 			}
 
 			QueueChanged = true;
+			UpdateGoals();
+		}
+
+		public bool IsUpgradeOwned(UpgradeDef upgrade) => State.Upgrades.Contains(upgrade.Id);
+
+		/// <summary>
+		/// 아직 없고 선행 업그레이드를 모두 가졌는가
+		/// </summary>
+		public bool IsUpgradeAvailable(UpgradeDef upgrade) => !IsUpgradeOwned(upgrade) && upgrade.Requires.All(State.Upgrades.Contains);
+
+		public bool CanBuyUpgrade(UpgradeDef upgrade) => IsUpgradeAvailable(upgrade) && CanAfford(upgrade.Cost);
+
+		public bool TryBuyUpgrade(string id)
+		{
+			if (Database.Config.Upgrades.FirstOrDefault(x => x.Id == id) is not { } upgrade || !CanBuyUpgrade(upgrade))
+			{
+				return false;
+			}
+
+			foreach (var x in upgrade.Cost)
+			{
+				State.Remove(x.Item, x.Amount);
+				ChangedItems.Add(x.Item);
+			}
+
+			State.Upgrades.Add(upgrade.Id);
+			UpgradesChanged = true;
+			return true;
+		}
+
+		public bool IsGoalMet(GoalDef goal) => goal.Requirements.All(x => Quantity.IsAtLeast(State.GetAmount(x.Item), x.Amount));
+
+		/// <summary>
+		/// 지금 보유량으로 달성한 목표를 기록한다. notify가 true면 NewGoals에도 넣는다.
+		/// </summary>
+		public void UpdateGoals(bool notify = true)
+		{
+			foreach (var goal in Database.Config.Goals)
+			{
+				if (!State.CompletedGoals.ContainsKey(goal.Id) && IsGoalMet(goal))
+				{
+					State.CompletedGoals[goal.Id] = State.PlayTime;
+					if (notify)
+					{
+						NewGoals.Add(goal);
+					}
+				}
+			}
 		}
 
 		/// <summary>
 		/// 게임 시간을 seconds초 진행한다. 큰 값(오프라인 진행)도 정확하게 처리한다.
+		/// 라인마다 대기열 앞쪽 칸을 동시에 만들고, 어느 칸이 끝나거나 생성기가 완성되는 순간마다 끊어서 계산한다.
 		/// </summary>
 		public void Tick(double seconds)
 		{
@@ -212,55 +308,44 @@ namespace MachineFree.Core
 			var remaining = seconds;
 			while (remaining > 0)
 			{
-				if (State.Queue.Count == 0)
+				var active = PrepareActiveEntries();
+				if (active.Count == 0)
 				{
 					Produce(remaining);
-					return;
+					break;
 				}
 
-				var entry = State.Queue[0];
-				if (entry.Remaining <= 0)
+				// 다음 사건: 생성기 1대 완성, 또는 다른 칸이 통째로 끝남
+				var step = remaining;
+				foreach (var (entry, recipe) in active)
 				{
-					State.Queue.RemoveAt(0);
-					QueueChanged = true;
-					continue;
+					var untilNext = Math.Max(0, recipe.Time - entry.Progress);
+					var eventTime = Database.FindGeneratorBuiltBy(recipe.Id) is not null
+						? untilNext
+						: untilNext + (entry.Remaining - 1) * recipe.Time;
+					step = Math.Min(step, eventTime);
 				}
 
-				if (Database.FindRecipe(entry.Recipe) is not { } recipe)
+				Produce(step);
+				remaining -= step;
+
+				foreach (var (entry, recipe) in active)
 				{
-					// 데이터에서 사라진 레시피는 재료를 돌려주고 뺀다
-					Refund(entry, 1);
-					State.Queue.RemoveAt(0);
-					QueueChanged = true;
-					continue;
+					var total = entry.Progress + step;
+					var crafts = (long)Math.Min(entry.Remaining, Math.Floor(total / recipe.Time + 1e-9));
+					if (crafts > 0)
+					{
+						entry.Progress = Math.Max(0, total - crafts * recipe.Time);
+						Complete(entry, recipe, crafts);
+					}
+					else
+					{
+						entry.Progress = total;
+					}
 				}
-
-				if (recipe.Time <= 0)
-				{
-					Complete(entry, recipe, entry.Remaining);
-					continue;
-				}
-
-				// 데이터에서 제작 시간이 줄었으면 진행도가 시간을 넘을 수 있다
-				var untilNext = Math.Max(0, recipe.Time - entry.Progress);
-				if (remaining < untilNext)
-				{
-					Produce(remaining);
-					entry.Progress += remaining;
-					return;
-				}
-
-				// 생성기는 완성될 때마다 생산량이 바뀌므로 한 대씩, 나머지는 한꺼번에 완성한다
-				var crafts = Database.FindGeneratorBuiltBy(recipe.Id) is not null
-					? 1
-					: Math.Min(entry.Remaining, 1 + (long)Math.Floor((remaining - untilNext) / recipe.Time));
-				var span = untilNext + (crafts - 1) * recipe.Time;
-
-				Produce(span);
-				remaining -= span;
-				entry.Progress = 0;
-				Complete(entry, recipe, crafts);
 			}
+
+			UpdateGoals();
 		}
 
 		/// <summary>
@@ -286,6 +371,55 @@ namespace MachineFree.Core
 				.ToDictionary(x => x.Key, x => x.Delta);
 			return new OfflineReport(elapsed, simulated, gained);
 		}
+
+		/// <summary>
+		/// 라인 수만큼 대기열 앞쪽 칸을 고른다. 빈 칸, 데이터에서 사라진 레시피(환불), 시간 0 레시피(즉시 완성)는 먼저 정리한다.
+		/// </summary>
+		private List<(QueueEntry Entry, RecipeDef Recipe)> PrepareActiveEntries()
+		{
+			var lines = LineCount;
+			while (true)
+			{
+				var active = new List<(QueueEntry, RecipeDef)>();
+				var changed = false;
+				for (var i = 0; i < State.Queue.Count && active.Count < lines; i++)
+				{
+					var entry = State.Queue[i];
+					if (entry.Remaining <= 0)
+					{
+						State.Queue.RemoveAt(i);
+						QueueChanged = changed = true;
+						break;
+					}
+
+					if (Database.FindRecipe(entry.Recipe) is not { } recipe)
+					{
+						Refund(entry, 1);
+						State.Queue.RemoveAt(i);
+						QueueChanged = changed = true;
+						break;
+					}
+
+					if (recipe.Time <= 0)
+					{
+						Complete(entry, recipe, entry.Remaining);
+						changed = true;
+						break;
+					}
+
+					active.Add((entry, recipe));
+				}
+
+				if (!changed)
+				{
+					return active;
+				}
+			}
+		}
+
+		private bool IsParticle(ItemId item) => Database.FindItem(item)?.Unit == ItemUnit.Particle;
+
+		private double GetOutputScale(ItemId item) => IsParticle(item) ? ScaleFactor : 1;
 
 		private bool CanAfford(IReadOnlyList<ItemAmount> cost) => cost.All(x => Quantity.IsAtLeast(State.GetAmount(x.Item), x.Amount));
 
@@ -336,6 +470,11 @@ namespace MachineFree.Core
 
 		private void Produce(double seconds)
 		{
+			if (!(seconds > 0))
+			{
+				return;
+			}
+
 			foreach (var generator in Database.GeneratorList)
 			{
 				var owned = GetOwnedCount(generator.Item);
@@ -346,7 +485,7 @@ namespace MachineFree.Core
 
 				foreach (var output in generator.OutputPerSecond)
 				{
-					State.Add(output.Item, output.Amount * owned * seconds);
+					State.Add(output.Item, output.Amount * owned * seconds * GetOutputScale(output.Item));
 					ChangedItems.Add(output.Item);
 				}
 			}
@@ -356,7 +495,7 @@ namespace MachineFree.Core
 		{
 			foreach (var output in recipe.Outputs)
 			{
-				State.Add(output.Item, output.Amount * crafts);
+				State.Add(output.Item, output.Amount * crafts * entry.Scale);
 				ChangedItems.Add(output.Item);
 			}
 

@@ -40,7 +40,16 @@ namespace MachineFree.Core.Tests
 					Recipe("build_synth", 12, [("H", 15)], [("synth", 1)]),
 				],
 				[new GeneratorDef(Id("synth"), new RecipeId("build_synth"), [new ItemAmount(Id("H"), 0.25)])],
-				new GameConfig([new ItemAmount(Id("H"), 15)], growth, 24));
+				new GameConfig([new ItemAmount(Id("H"), 15)], growth, 24)
+				{
+					Upgrades =
+					[
+						new UpgradeDef("line_2", new LocalizedText("라인 2"), UpgradeKind.Line, 1, [new ItemAmount(Id("H"), 5)], []),
+						new UpgradeDef("scale_10", new LocalizedText("10배"), UpgradeKind.Scale, 10, [new ItemAmount(Id("O"), 1)], []),
+						new UpgradeDef("scale_100", new LocalizedText("100배"), UpgradeKind.Scale, 100, [new ItemAmount(Id("O"), 1)], ["scale_10"]),
+					],
+					Goals = [new GoalDef("water", new LocalizedText("물"), [new ItemAmount(Id("H2O"), 1)])],
+				});
 		}
 
 		public static Simulation Start(UranusDatabase db) => new(db, GameState.CreateNew(db));
@@ -251,6 +260,127 @@ namespace MachineFree.Core.Tests
 		}
 
 		[Fact]
+		public void SecondLine_CraftsTwoEntriesAtOnce()
+		{
+			var sim = Fixtures.Start(Fixtures.Small());
+			sim.State.Add(H, 100);
+			sim.State.Add(O, 10);
+			Assert.True(sim.TryBuyUpgrade("line_2"));
+			Assert.Equal(2, sim.LineCount);
+
+			sim.TryEnqueue(new RecipeId("rare"), 1);   // 1초
+			sim.TryEnqueue(new RecipeId("water"), 5);  // 0.1초 × 5
+			sim.Tick(0.5);
+
+			Assert.Equal(5, Quantity.Floor(sim.GetAmount(Water)));
+			Assert.Equal(0.5, sim.State.Queue[0].Progress, 9);
+
+			sim.Tick(0.5);
+			Assert.Empty(sim.State.Queue);
+			Assert.Equal(0.2, sim.GetAmount(Fixtures.Id("rare")), 9);
+		}
+
+		[Fact]
+		public void SingleLine_CraftsInOrder()
+		{
+			var sim = Fixtures.Start(Fixtures.Small());
+			sim.State.Add(O, 10);
+			sim.TryEnqueue(new RecipeId("rare"), 1);
+			sim.TryEnqueue(new RecipeId("water"), 5);
+
+			sim.Tick(1);
+			Assert.Equal(0, sim.GetAmount(Water));
+
+			sim.Tick(0.5);
+			Assert.Equal(5, Quantity.Floor(sim.GetAmount(Water)));
+		}
+
+		[Fact]
+		public void Upgrade_NeedsPrerequisiteAndCost()
+		{
+			var sim = Fixtures.Start(Fixtures.Small());
+
+			Assert.False(sim.TryBuyUpgrade("scale_100"));
+			Assert.False(sim.TryBuyUpgrade("scale_10"));
+
+			sim.State.Add(O, 2);
+			Assert.True(sim.TryBuyUpgrade("scale_10"));
+			Assert.False(sim.TryBuyUpgrade("scale_10"));
+			Assert.True(sim.TryBuyUpgrade("scale_100"));
+			Assert.Equal(100, sim.ScaleFactor);
+			Assert.Equal(0, sim.GetAmount(O));
+		}
+
+		[Fact]
+		public void Scale_MultipliesParticleRecipesAndGenerators()
+		{
+			var sim = Fixtures.Start(Fixtures.Small());
+			sim.State.Add(O, 1);
+			sim.TryBuyUpgrade("scale_10");
+			var water = sim.Database.FindRecipe(new RecipeId("water"))!;
+			var build = sim.Database.FindRecipe(new RecipeId("build_synth"))!;
+
+			// 입자 레시피: 1회에 수소 20, 산소 10 → 물 10
+			Assert.Equal(20, sim.GetCost(water, 1).First(x => x.Item == H).Amount);
+			Assert.Equal(10, sim.GetOutputs(water).Single().Amount);
+
+			// 생성기(부품)는 규모와 상관없이 1대
+			Assert.Equal(15, sim.GetCost(build, 1).Single().Amount);
+			Assert.Equal(1, sim.GetOutputs(build).Single().Amount);
+
+			// 생성기가 내는 입자는 규모만큼
+			sim.State.Add(Synth, 1);
+			Assert.Equal(2.5, sim.GetProductionRate(H), 9);
+		}
+
+		[Fact]
+		public void QueuedEntry_KeepsScaleItWasPaidAt()
+		{
+			var sim = Fixtures.Start(Fixtures.Small());
+			sim.State.Add(O, 2);
+			sim.TryEnqueue(new RecipeId("water"), 1);   // 분자 단위로 냄: 수소 2, 산소 1
+			sim.TryBuyUpgrade("scale_10");
+			sim.State.Add(O, 10);
+			sim.State.Add(H, 20);
+			Assert.True(sim.TryEnqueue(new RecipeId("water"), 1));   // 10배로 냄: 수소 20, 산소 10 → 새 칸
+
+			Assert.Equal(2, sim.State.Queue.Count);
+			sim.Tick(1);
+
+			Assert.Equal(11, sim.GetAmount(Water), 9);
+		}
+
+		[Fact]
+		public void Goals_AreRecordedWithPlayTime()
+		{
+			var sim = Fixtures.Start(Fixtures.Small());
+			sim.State.Add(O, 1);
+			sim.TryEnqueue(new RecipeId("water"), 1);
+
+			sim.Tick(0.1);
+
+			Assert.Equal(0.1, sim.State.CompletedGoals["water"], 9);
+			Assert.Equal("water", Assert.Single(sim.NewGoals).Id);
+
+			// 다시 없어져도 달성 기록은 남는다
+			sim.State.Remove(Water, 1);
+			sim.Tick(1);
+			Assert.Single(sim.State.CompletedGoals);
+		}
+
+		[Fact]
+		public void UpdateGoals_WithoutNotify_RecordsSilently()
+		{
+			var sim = Fixtures.Start(Fixtures.Small());
+			sim.State.Add(Water, 1);
+
+			sim.UpdateGoals(notify: false);
+
+			Assert.True(sim.State.CompletedGoals.ContainsKey("water"));
+			Assert.Empty(sim.NewGoals);
+		}
+
+		[Fact]
 		public void HugeGeneratorOrder_IsNotAffordable()
 		{
 			// 비용이 double 범위를 넘어 무한대가 되어도 살 수 있다고 판정하면 안 된다
@@ -399,8 +529,12 @@ namespace MachineFree.Core.Tests
 		{
 			var db = Fixtures.Small();
 			var sim = Fixtures.Start(db);
-			sim.State.Add(Fixtures.Id("O"), 2.75);
+			sim.State.Add(Fixtures.Id("O"), 21.75);
+			sim.TryBuyUpgrade("scale_10");
+			sim.State.Add(Fixtures.Id("H"), 40);
 			sim.TryEnqueue(new RecipeId("water"), 2);
+			sim.State.Add(Fixtures.Id("H2O"), 1);
+			sim.UpdateGoals();
 			sim.Tick(0.05);
 			sim.State.SavedAt = new DateTimeOffset(2026, 10, 12, 9, 30, 0, TimeSpan.Zero);
 
@@ -411,6 +545,9 @@ namespace MachineFree.Core.Tests
 			Assert.Equal(json, SaveFile.Serialize(loaded));
 			Assert.Equal(0.75, loaded.GetAmount(Fixtures.Id("O")), 9);
 			Assert.Equal(0.05, loaded.Queue[0].Progress, 9);
+			Assert.Equal(10, loaded.Queue[0].Scale);
+			Assert.Contains("scale_10", loaded.Upgrades);
+			Assert.True(loaded.CompletedGoals.ContainsKey("water"));
 		}
 
 		[Fact]

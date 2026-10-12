@@ -7,3 +7,81 @@ generator_cost_growth: 1.15
 
 # 자리를 비운 동안 진행시킬 최대 시간
 offline_cap_hours: 24
+
+# 업그레이드. 비용은 그 시점의 실제 개수다.
+# - line: 생산 라인 +1 (대기열 앞쪽을 동시에 만든다)
+# - scale: 결과물이 모두 입자인 레시피와 입자를 내는 생성기가 factor배 규모로 돈다.
+#          부품(개수 단위)은 규모와 상관없이 하나씩 만든다.
+# 비용은 초안 값이다. 밸런스는 시뮬레이터로 조정한다.
+upgrades:
+  - { id: line_2, name: { ko: 생산 라인 2 }, kind: line, cost: { H2O: 50, CO2: 20 } }
+  - { id: line_3, name: { ko: 생산 라인 3 }, kind: line, cost: { Cu: 600, Fe: 300 }, requires: [line_2] }
+  - { id: line_4, name: { ko: 생산 라인 4 }, kind: line, cost: { transistor: 10 }, requires: [line_3] }
+  - { id: line_5, name: { ko: 생산 라인 5 }, kind: line, cost: { microcontroller: 1 }, requires: [line_4] }
+
+  - id: scale_atto
+    name: { ko: 아토몰 규모 }
+    kind: scale
+    factor: 6.02214076e5
+    cost: { H2O: 200, CH4: 50, H2SO4: 20 }
+    note: 1아토몰 = 10^-18 mol ≈ 60만 개
+  - id: scale_femto
+    name: { ko: 펨토몰 규모 }
+    kind: scale
+    factor: 6.02214076e8
+    cost: { H2SO4: 2e8, NaCl: 2e8, CaCO3: 5e7 }
+    requires: [scale_atto]
+  - id: scale_pico
+    name: { ko: 피코몰 규모 }
+    kind: scale
+    factor: 6.02214076e11
+    cost: { NH3: 2e11, Cu: 1e11, Fe: 1e11 }
+    requires: [scale_femto]
+  - id: scale_nano
+    name: { ko: 나노몰 규모 }
+    kind: scale
+    factor: 6.02214076e14
+    cost: { Si: 2e14, Al: 2e14, H3PO4: 1e14 }
+    requires: [scale_pico]
+  - id: scale_micro
+    name: { ko: 마이크로몰 규모 }
+    kind: scale
+    factor: 6.02214076e17
+    cost: { glycine: 2e17, HCN: 5e17, B: 1e16 }
+    requires: [scale_nano]
+  - id: scale_milli
+    name: { ko: 밀리몰 규모 }
+    kind: scale
+    factor: 6.02214076e20
+    cost: { ribose: 2e20, GaAs: 1e19, protein: 1e15 }
+    requires: [scale_micro]
+  - id: scale_mole
+    name: { ko: 몰 규모 }
+    kind: scale
+    factor: 6.02214076e23
+    cost: { Si: 1e24, InGaAs: 1e21, mrna: 1e18 }
+    requires: [scale_milli]
+    note: 아보가드로 수. 한 번 반응에 1몰씩 다룬다
+
+# 목표: require를 한꺼번에 보유하면 달성
+goals:
+  - { id: first_generator, name: { ko: 첫 생성기 }, require: { hydrogen_synthesizer: 1 } }
+  - { id: water, name: { ko: 물 }, require: { H2O: 1 } }
+  - { id: sulfuric_acid, name: { ko: 황산 }, require: { H2SO4: 1 } }
+  - id: basic_generators
+    name: { ko: 기본 생성기 10종 }
+    require: { hydrogen_synthesizer: 1, oxygen_harvester: 1, carbon_harvester: 1, sulfur_harvester: 1, salt_collector: 1, potassium_extractor: 1, lime_processor: 1, phosphate_harvester: 1, copper_miner: 1, iron_miner: 1 }
+  - { id: metals, name: { ko: 구리와 철 }, require: { Cu: 1, Fe: 1 } }
+  - { id: nitrogen, name: { ko: 공기에서 얻은 질소 }, require: { N2: 1 } }
+  - { id: silicon, name: { ko: 규소 }, require: { Si: 1 } }
+  - { id: nucleobases, name: { ko: RNA의 재료 }, require: { ribose: 1, adenine: 1, guanine: 1, cytosine: 1, uracil: 1 } }
+  - { id: first_rna, name: { ko: 첫 RNA }, require: { mrna: 1 } }
+  - { id: protein, name: { ko: 단백질 }, require: { protein: 1 } }
+  - { id: ribosome, name: { ko: 리보솜 두 소단위체 }, require: { ribosome_50s: 1, ribosome_30s: 1 } }
+  - { id: transistor, name: { ko: 트랜지스터 }, require: { transistor: 1 } }
+  - { id: microcontroller, name: { ko: 마이크로컨트롤러 }, require: { microcontroller: 1 } }
+  - { id: wafer, name: { ko: 8인치 실리콘 웨이퍼 }, require: { wafer_8in: 1 } }
+  - { id: ccd, name: { ko: 전하결합소자 }, require: { ccd: 1 } }
+  - { id: dna, name: { ko: DNA }, require: { dna: 1 }, note: 아직 레시피가 없다 }
+  - { id: prokaryote, name: { ko: 원핵세포 }, require: { prokaryotic_cell: 1 }, note: 아직 레시피가 없다 }
+  - { id: eukaryote, name: { ko: 진핵세포 }, require: { eukaryotic_cell: 1 }, note: 아직 레시피가 없다 }

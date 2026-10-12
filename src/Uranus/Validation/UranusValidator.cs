@@ -33,6 +33,8 @@ namespace Uranus.Validation
 			public const string EmptyRecipe = "U005";
 			public const string InvalidTime = "U006";
 			public const string InvalidGenerator = "U007";
+			public const string InvalidUpgrade = "U008";
+			public const string InvalidGoal = "U009";
 			public const string SimilarNames = "U101";
 			public const string Unobtainable = "U102";
 			public const string Unreachable = "U103";
@@ -49,6 +51,7 @@ namespace Uranus.Validation
 			CheckReferences(db, issues);
 			CheckRecipes(db, issues);
 			CheckGenerators(db, issues);
+			CheckUpgradesAndGoals(db, issues);
 			CheckFormulas(db, issues);
 			CheckAtomBalance(db, issues);
 			CheckNames(db, issues);
@@ -129,6 +132,67 @@ namespace Uranus.Validation
 			if (!(db.Config.OfflineCapHours >= 0) || !double.IsFinite(db.Config.OfflineCapHours))
 			{
 				issues.Add(Error(Codes.InvalidGenerator, $"offline_cap_hours는 0 이상의 유한한 값이어야 한다: {db.Config.OfflineCapHours}"));
+			}
+		}
+
+		private static void CheckUpgradesAndGoals(UranusDatabase db, List<DataIssue> issues)
+		{
+			const string source = "data/game.yaml";
+			var upgrades = db.Config.Upgrades.GroupBy(x => x.Id).ToDictionary(g => g.Key, g => g.First());
+			foreach (var upgrade in db.Config.Upgrades)
+			{
+				if (upgrade.Cost.Count == 0 || upgrade.Cost.Any(x => !(x.Amount > 0) || !double.IsFinite(x.Amount)))
+				{
+					issues.Add(Error(Codes.InvalidUpgrade, $"업그레이드 '{upgrade.Id}'의 비용이 없거나 0 이하다", source));
+				}
+
+				foreach (var x in upgrade.Cost.Where(x => !db.Items.ContainsKey(x.Item)))
+				{
+					issues.Add(Error(Codes.UndefinedItem, $"업그레이드 '{upgrade.Id}'가 정의되지 않은 아이템 '{x.Item}'을 쓴다", source));
+				}
+
+				if (upgrade.Kind == UpgradeKind.Scale && (!(upgrade.Factor > 1) || !double.IsFinite(upgrade.Factor)))
+				{
+					issues.Add(Error(Codes.InvalidUpgrade, $"규모 업그레이드 '{upgrade.Id}'의 factor는 1보다 큰 유한한 값이어야 한다: {upgrade.Factor}", source));
+				}
+
+				foreach (var required in upgrade.Requires.Where(x => !upgrades.ContainsKey(x)))
+				{
+					issues.Add(Error(Codes.InvalidUpgrade, $"업그레이드 '{upgrade.Id}'가 없는 업그레이드 '{required}'를 요구한다", source));
+				}
+
+				// 선행 조건을 따라가다 자기 자신으로 돌아오면 영원히 살 수 없다
+				var seen = new HashSet<string>();
+				var pending = new Stack<string>(upgrade.Requires);
+				while (pending.TryPop(out var next))
+				{
+					if (next == upgrade.Id)
+					{
+						issues.Add(Error(Codes.InvalidUpgrade, $"업그레이드 '{upgrade.Id}'의 선행 조건이 순환한다", source));
+						break;
+					}
+
+					if (seen.Add(next) && upgrades.TryGetValue(next, out var parent))
+					{
+						foreach (var x in parent.Requires)
+						{
+							pending.Push(x);
+						}
+					}
+				}
+			}
+
+			foreach (var goal in db.Config.Goals)
+			{
+				if (goal.Requirements.Count == 0 || goal.Requirements.Any(x => !(x.Amount > 0) || !double.IsFinite(x.Amount)))
+				{
+					issues.Add(Error(Codes.InvalidGoal, $"목표 '{goal.Id}'의 조건이 없거나 0 이하다", source));
+				}
+
+				foreach (var x in goal.Requirements.Where(x => !db.Items.ContainsKey(x.Item)))
+				{
+					issues.Add(Error(Codes.UndefinedItem, $"목표 '{goal.Id}'가 정의되지 않은 아이템 '{x.Item}'을 쓴다", source));
+				}
 			}
 		}
 

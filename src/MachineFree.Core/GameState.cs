@@ -21,6 +21,16 @@ namespace MachineFree.Core
 		public HashSet<ItemId> Discovered { get; } = [];
 
 		/// <summary>
+		/// 산 업그레이드 ID
+		/// </summary>
+		public HashSet<string> Upgrades { get; } = [];
+
+		/// <summary>
+		/// 달성한 목표 ID → 달성한 게임 시간(초)
+		/// </summary>
+		public Dictionary<string, double> CompletedGoals { get; } = [];
+
+		/// <summary>
 		/// 진행된 게임 시간(초)
 		/// </summary>
 		public double PlayTime { get; set; }
@@ -82,6 +92,11 @@ namespace MachineFree.Core
 		public required RecipeId Recipe { get; init; }
 
 		public long Remaining { get; set; }
+
+		/// <summary>
+		/// 주문할 때의 규모 배율. 1회에 결과물이 이만큼 곱해져 나온다.
+		/// </summary>
+		public double Scale { get; set; } = 1;
 
 		/// <summary>
 		/// 지금 만들고 있는 1회의 경과 시간(초)
