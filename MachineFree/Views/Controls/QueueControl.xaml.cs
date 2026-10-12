@@ -66,6 +66,11 @@ namespace MachineFree.Views.Controls
 			{
 				DispatcherService.Invoke(() =>
 				{
+					if (Item == null)
+					{
+						return;
+					}
+
 					MfProgressBar1.Maximum = (double)Item.Recipe.Time;
 					MfProgressBar1.Value = (double)Item.TimeElapsed;
 					Visibility = Visibility.Visible;

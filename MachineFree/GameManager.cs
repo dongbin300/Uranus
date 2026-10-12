@@ -151,6 +151,11 @@ namespace MachineFree
 			return counts.Min();
 		}
 
+		/// <summary>
+		/// 생산
+		/// </summary>
+		/// <param name="recipe"></param>
+		/// <param name="count"></param>
 		public static void Produce(UranusRecipe recipe, decimal count = 1)
 		{
 			foreach (var material in recipe.Materials)
@@ -163,6 +168,11 @@ namespace MachineFree
 			Queue.Enqueue(queueItem);
 		}
 
+		/// <summary>
+		/// 생산 취소
+		/// </summary>
+		/// <param name="queueItem"></param>
+		/// <param name="count"></param>
 		public static void Revert(UranusQueueItem queueItem, decimal count = 1)
 		{
 			foreach (var material in queueItem.Recipe.Materials)

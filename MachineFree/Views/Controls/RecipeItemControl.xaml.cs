@@ -1,7 +1,7 @@
-﻿using System.Windows;
+﻿using System;
+using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
-using System.Windows.Media;
 
 using Uranus;
 
@@ -29,7 +29,7 @@ namespace MachineFree.Views.Controls
 			InitializeComponent();
 		}
 
-		private void MainGrid_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+		private void UserControl_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
 		{
 			if (GameManager.GetProducableCount(Recipe) <= 0)
 			{
@@ -37,6 +37,18 @@ namespace MachineFree.Views.Controls
 			}
 
 			GameManager.Produce(Recipe);
+		}
+
+		private void UserControl_MouseRightButtonDown(object sender, MouseButtonEventArgs e)
+		{
+			var producableCount = GameManager.GetProducableCount(Recipe);
+			if (producableCount <= 0)
+			{
+				return;
+			}
+
+			var count = Math.Min(producableCount, 5);
+			GameManager.Produce(Recipe, count);
 		}
 	}
 }
