@@ -33,14 +33,13 @@ namespace MachineFree.ViewModels
 			db = simulation.Database;
 			masses = RecipeGraph.ComputeMasses(db);
 
+			// 데이터에 있는 분야만, 알려진 분야는 정해진 순서와 이름으로 보여 준다
+			var present = db.RecipeList.Select(x => x.Category).Where(x => x != "generator").ToHashSet();
 			Categories =
 			[
 				new("전체", null),
-				new("화학", "chemistry"),
-				new("원료 가공", "material"),
-				new("생물", "biology"),
-				new("전자", "electronics"),
-				new("가상", "fictional"),
+				.. CategoryLabels.Where(x => present.Contains(x.Key)).Select(x => new CategoryOption(x.Label, x.Key)),
+				.. present.Where(x => CategoryLabels.All(c => c.Key != x)).Order(StringComparer.Ordinal).Select(x => new CategoryOption(x, x)),
 			];
 			SelectedCategory = Categories[0];
 			SearchText = "";
@@ -123,6 +122,26 @@ namespace MachineFree.ViewModels
 
 		[ObservableProperty]
 		public partial string QueueSummary { get; set; }
+
+		/// <summary>
+		/// 레시피 분야 키와 표시 이름 (이 순서로 보여 준다)
+		/// </summary>
+		private static readonly (string Key, string Label)[] CategoryLabels =
+		[
+			("chemistry", "화학"),
+			("organic", "유기 화학"),
+			("polymer", "고분자"),
+			("material", "원료 가공"),
+			("metallurgy", "금속"),
+			("construction", "건설 재료"),
+			("biology", "생물"),
+			("food", "식품·농업"),
+			("medicine", "의약"),
+			("electronics", "전자"),
+			("energy", "에너지"),
+			("machinery", "기계"),
+			("fictional", "가상"),
+		];
 
 		public IReadOnlyList<CategoryOption> Categories { get; }
 

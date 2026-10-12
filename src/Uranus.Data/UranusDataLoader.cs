@@ -21,7 +21,7 @@ namespace Uranus.Data
 
 	/// <summary>
 	/// data 폴더의 YAML을 읽어 UranusDatabase를 만든다.
-	/// elements.yaml, game.yaml, generators.yaml, items/*.yaml, recipes/*.yaml
+	/// elements.yaml, game.yaml, generators.yaml, generators/*.yaml, items/*.yaml, recipes/*.yaml
 	/// </summary>
 	public static class UranusDataLoader
 	{
@@ -49,11 +49,14 @@ namespace Uranus.Data
 				}
 			}
 
-			if (context.Read<GeneratorFileDto>("generators.yaml") is { } generatorFile)
+			foreach (var path in context.ListFiles("generators").Prepend("generators.yaml"))
 			{
-				foreach (var dto in context.Entries(generatorFile.Generators, "generators.yaml"))
+				if (context.Read<GeneratorFileDto>(path) is { } generatorFile)
 				{
-					context.AddGenerator(dto, items, recipes, generators);
+					foreach (var dto in context.Entries(generatorFile.Generators, path))
+					{
+						context.AddGenerator(dto, path, items, recipes, generators);
+					}
 				}
 			}
 
@@ -216,9 +219,8 @@ namespace Uranus.Data
 				};
 			}
 
-			public void AddGenerator(GeneratorDto dto, List<ItemDef> items, List<RecipeDef> recipes, List<GeneratorDef> generators)
+			public void AddGenerator(GeneratorDto dto, string path, List<ItemDef> items, List<RecipeDef> recipes, List<GeneratorDef> generators)
 			{
-				const string path = "generators.yaml";
 				var source = Display(path);
 				if (string.IsNullOrWhiteSpace(dto.Id))
 				{
