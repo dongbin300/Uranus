@@ -13,9 +13,9 @@ namespace Uranus.Quantities
 		public static double Tolerance(double magnitude) => RelativeTolerance * Math.Max(1.0, Math.Abs(magnitude));
 
 		/// <summary>
-		/// have가 need 이상인가 (허용오차 포함)
+		/// have가 need 이상인가 (허용오차 포함). need가 무한대나 NaN이면 항상 false.
 		/// </summary>
-		public static bool IsAtLeast(double have, double need) => have + Tolerance(need) >= need;
+		public static bool IsAtLeast(double have, double need) => double.IsFinite(need) && have + Tolerance(need) >= need;
 
 		/// <summary>
 		/// 정수 부분. 0.9999999999999999는 1로 본다.

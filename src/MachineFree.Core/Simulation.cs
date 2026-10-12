@@ -187,7 +187,8 @@ namespace MachineFree.Core
 
 			var entry = State.Queue[index];
 			var cancel = Math.Min(count, entry.Remaining);
-			Refund(entry, (double)cancel / entry.Remaining);
+			var growth = Database.FindRecipe(entry.Recipe) is { } recipe ? GetGrowth(recipe) : 1;
+			Refund(entry, GetShare(growth, cancel, entry.Remaining, fromEnd: true));
 			entry.Remaining -= cancel;
 			if (entry.Remaining <= 0)
 			{
@@ -240,7 +241,8 @@ namespace MachineFree.Core
 					continue;
 				}
 
-				var untilNext = recipe.Time - entry.Progress;
+				// 데이터에서 제작 시간이 줄었으면 진행도가 시간을 넘을 수 있다
+				var untilNext = Math.Max(0, recipe.Time - entry.Progress);
 				if (remaining < untilNext)
 				{
 					Produce(remaining);
@@ -272,7 +274,8 @@ namespace MachineFree.Core
 				return new OfflineReport(TimeSpan.Zero, TimeSpan.Zero, new Dictionary<ItemId, double>());
 			}
 
-			var simulated = TimeSpan.FromHours(Math.Min(elapsed.TotalHours, Database.Config.OfflineCapHours));
+			var cap = Database.Config.OfflineCapHours;
+			var simulated = TimeSpan.FromHours(Math.Min(elapsed.TotalHours, double.IsFinite(cap) && cap > 0 ? cap : 0));
 			var before = new Dictionary<ItemId, double>(State.Inventory);
 			Tick(simulated.TotalSeconds);
 			State.SavedAt = now;
@@ -285,6 +288,29 @@ namespace MachineFree.Core
 		}
 
 		private bool CanAfford(IReadOnlyList<ItemAmount> cost) => cost.All(x => Quantity.IsAtLeast(State.GetAmount(x.Item), x.Amount));
+
+		/// <summary>
+		/// 한 칸에 남은 remaining개 가운데 count개가 차지하는 비용 비율.
+		/// 생성기는 뒤로 갈수록 비싸게 샀으므로(등비수열) 완성은 앞쪽(싼 것)부터, 취소는 뒤쪽(비싼 것)부터 계산한다.
+		/// </summary>
+		private static double GetShare(double growth, long count, long remaining, bool fromEnd)
+		{
+			if (count >= remaining)
+			{
+				return 1;
+			}
+
+			if (growth <= 1)
+			{
+				return (double)count / remaining;
+			}
+
+			// 앞쪽 n개: (g^n − 1)/(g^R − 1), 뒤쪽 n개: (g^R − g^(R−n))/(g^R − 1). 넘침을 막으려고 g^−R로 나눠 계산한다
+			var all = 1 - Math.Pow(growth, -remaining);
+			return fromEnd
+				? (1 - Math.Pow(growth, -count)) / all
+				: (Math.Pow(growth, count - remaining) - Math.Pow(growth, -remaining)) / all;
+		}
 
 		private double GetGrowth(RecipeDef recipe) =>
 			Database.FindGeneratorBuiltBy(recipe.Id) is not null ? Math.Max(1, Database.Config.GeneratorCostGrowth) : 1;
@@ -334,7 +360,7 @@ namespace MachineFree.Core
 				ChangedItems.Add(output.Item);
 			}
 
-			var used = (double)crafts / entry.Remaining;
+			var used = GetShare(GetGrowth(recipe), crafts, entry.Remaining, fromEnd: false);
 			foreach (var item in entry.Paid.Keys.ToList())
 			{
 				entry.Paid[item] -= entry.Paid[item] * used;

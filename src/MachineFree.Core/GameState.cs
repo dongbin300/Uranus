@@ -36,12 +36,12 @@ namespace MachineFree.Core
 
 		public void Add(ItemId item, double amount)
 		{
-			if (!(amount > 0))
+			if (!(amount > 0) || !double.IsFinite(amount))
 			{
 				return;
 			}
 
-			var total = GetAmount(item) + amount;
+			var total = Math.Min(GetAmount(item) + amount, double.MaxValue);
 			Inventory[item] = total;
 			if (Quantity.IsAtLeast(total, 1))
 			{
