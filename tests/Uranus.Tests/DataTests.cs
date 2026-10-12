@@ -318,6 +318,69 @@ namespace Uranus.Tests
 
 			Assert.Contains(UranusValidator.Validate(db), x => x.Code == UranusValidator.Codes.ZeroTime && x.Severity == IssueSeverity.Warning);
 		}
+
+		[Fact]
+		public void UnitMismatch_IsWarning()
+		{
+			var salt = TestData.Item("CH4", "CH4", ItemUnit.Piece);
+			var part = TestData.Item("part", unit: ItemUnit.Piece);
+			var db = TestData.Create([.. Chemistry, salt, part], [TestData.Recipe("part", [("H2O", 1e20)], [("part", 0.5)])], ("H2O", 1e20));
+
+			var issues = UranusValidator.Validate(db).Where(x => x.Code == UranusValidator.Codes.UnitMismatch).ToList();
+
+			Assert.Equal(2, issues.Count);
+			Assert.All(issues, x => Assert.Equal(IssueSeverity.Warning, x.Severity));
+			Assert.Contains(issues, x => x.Message.Contains("(CH4)"));
+			Assert.Contains(issues, x => x.Message.Contains("0.5"));
+		}
+
+		[Fact]
+		public void FindItemCycles_FindsLoopsAndSelfLoops()
+		{
+			var items = new[] { TestData.Item("a"), TestData.Item("b"), TestData.Item("c"), TestData.Item("d") };
+			var db = TestData.Create(items,
+			[
+				TestData.Recipe("ab", [("a", 1)], [("b", 1)]),
+				TestData.Recipe("ba", [("b", 1)], [("a", 1)]),
+				TestData.Recipe("bc", [("b", 1)], [("c", 1)]),
+				TestData.Recipe("dd", [("d", 1)], [("d", 2)]),
+			]);
+
+			var cycles = UranusValidator.FindItemCycles(db).Select(x => string.Join(",", x.Select(i => i.Value).Order())).Order().ToList();
+
+			Assert.Equal(["a,b", "d"], cycles);
+		}
+
+		[Fact]
+		public void BalancedCycle_IsNotReported()
+		{
+			var db = TestData.Create(Chemistry,
+				[TestData.Recipe("water", [("H", 2), ("O", 1)], [("H2O", 1)]), TestData.Recipe("electrolysis", [("H2O", 1)], [("H", 2), ("O", 1)])],
+				("H", 2), ("O", 1));
+
+			Assert.DoesNotContain(UranusValidator.Validate(db), x => x.Code == UranusValidator.Codes.CycleRisk);
+		}
+
+		[Fact]
+		public void MassGainInsideCycle_IsWarning()
+		{
+			// 근사 레시피라 원자 검사를 건너뛰지만, 물을 나눌 때마다 수소가 늘어나 순환을 돌리면 무한히 불어난다
+			var split = TestData.Recipe("split", [("H2O", 1)], [("H", 3), ("O", 1)]) with { IsApproximate = true };
+			var db = TestData.Create(Chemistry, [TestData.Recipe("water", [("H", 2), ("O", 1)], [("H2O", 1)]), split], ("H", 2), ("O", 1));
+
+			var issue = Assert.Single(UranusValidator.Validate(db), x => x.Code == UranusValidator.Codes.CycleRisk);
+			Assert.Equal(IssueSeverity.Warning, issue.Severity);
+			Assert.Contains("split", issue.Message);
+		}
+
+		[Fact]
+		public void CycleWithUnknownMass_IsInfo()
+		{
+			var db = TestData.Create([TestData.Item("seed", unit: ItemUnit.Piece)], [TestData.Recipe("grow", [("seed", 1)], [("seed", 2)])], ("seed", 1));
+
+			var issue = Assert.Single(UranusValidator.Validate(db), x => x.Code == UranusValidator.Codes.CycleRisk);
+			Assert.Equal(IssueSeverity.Info, issue.Severity);
+		}
 	}
 
 	public class RecipeGraphTests

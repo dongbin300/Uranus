@@ -43,6 +43,8 @@ namespace Uranus.Validation
 			public const string RecipeMassMismatch = "U106";
 			public const string MassGain = "U107";
 			public const string UnusedItem = "U108";
+			public const string UnitMismatch = "U110";
+			public const string CycleRisk = "U111";
 		}
 
 		public static IReadOnlyList<DataIssue> Validate(UranusDatabase db)
@@ -57,7 +59,170 @@ namespace Uranus.Validation
 			CheckNames(db, issues);
 			CheckProgression(db, issues);
 			CheckMasses(db, issues);
+			CheckUnits(db, issues);
+			CheckCycles(db, issues);
 			return issues;
+		}
+
+		/// <summary>
+		/// 화학 물질은 입자 단위여야 하고, 부품(개수 단위)은 정수 개로만 다룬다.
+		/// </summary>
+		private static void CheckUnits(UranusDatabase db, List<DataIssue> issues)
+		{
+			foreach (var item in db.ItemList.Where(x => x.Formula is not null && x.Unit != ItemUnit.Particle))
+			{
+				issues.Add(Warning(Codes.UnitMismatch, $"'{item.Name.Ko}'({item.Id})는 화학식이 있는데 단위가 {item.Unit}이다. 화학 물질은 particle이어야 한다", item.Source));
+			}
+
+			foreach (var recipe in db.RecipeList)
+			{
+				foreach (var x in recipe.Inputs.Concat(recipe.Outputs))
+				{
+					if (db.FindItem(x.Item)?.Unit == ItemUnit.Piece && x.Amount != Math.Floor(x.Amount))
+					{
+						issues.Add(Warning(Codes.UnitMismatch, $"레시피 '{recipe.Id}'가 부품 '{db.GetName(x.Item)}'을 {x.Amount}개처럼 정수가 아닌 수로 다룬다", recipe.Source));
+					}
+				}
+			}
+		}
+
+		/// <summary>
+		/// 무한 증식(아무것도 쓰지 않고 무언가를 얻는 레시피 조합)은 순환이 있어야 생긴다.
+		/// 모든 아이템의 질량이 양수이고 순환 안 레시피가 하나도 질량을 늘리지 않으면 어떤 조합도 순이익을 낼 수 없다.
+		/// 그래서 순환 안에서 질량이 늘어나는 레시피(근사 레시피도 포함)는 경고, 질량을 몰라 따질 수 없는 순환은 정보로 알린다.
+		/// </summary>
+		private static void CheckCycles(UranusDatabase db, List<DataIssue> issues)
+		{
+			var masses = RecipeGraph.ComputeMasses(db);
+			foreach (var cycle in FindItemCycles(db))
+			{
+				var members = cycle.ToHashSet();
+				var names = string.Join(", ", cycle.Select(db.GetName));
+				var unknown = cycle.Where(x => !masses.IsComplete(x)).ToList();
+				if (unknown.Count > 0)
+				{
+					issues.Add(Info(Codes.CycleRisk,
+						$"순환 [{names}]에 질량을 모르는 아이템({string.Join(", ", unknown.Select(db.GetName))})이 있어 무한 증식 여부를 확인하지 못했다"));
+					continue;
+				}
+
+				var inside = db.RecipeList.Where(r => r.Inputs.Any(x => members.Contains(x.Item)) && r.Outputs.Any(x => members.Contains(x.Item)));
+				foreach (var recipe in inside)
+				{
+					var all = recipe.Inputs.Concat(recipe.Outputs).ToList();
+					if (!all.All(x => masses.IsComplete(x.Item)))
+					{
+						continue;
+					}
+
+					var input = recipe.Inputs.Sum(x => x.Amount * masses.GetLowerBound(x.Item));
+					var output = recipe.Outputs.Sum(x => x.Amount * masses.GetLowerBound(x.Item));
+					if (output > input * (1 + 1e-6))
+					{
+						issues.Add(Warning(Codes.CycleRisk,
+							$"순환 [{names}] 안의 레시피 '{recipe.Id}'가 질량을 늘린다({QuantityFormatter.FormatMass(input)} → {QuantityFormatter.FormatMass(output)}). 순환을 돌려 무한히 늘릴 수 있다",
+							recipe.Source));
+					}
+				}
+			}
+		}
+
+		/// <summary>
+		/// 재료 → 결과물 간선으로 본 아이템 그래프의 순환(강한 연결 요소)들 (Tarjan)
+		/// </summary>
+		public static IReadOnlyList<IReadOnlyList<ItemId>> FindItemCycles(UranusDatabase db)
+		{
+			var edges = new Dictionary<ItemId, HashSet<ItemId>>();
+			foreach (var recipe in db.RecipeList)
+			{
+				foreach (var input in recipe.Inputs)
+				{
+					if (!edges.TryGetValue(input.Item, out var targets))
+					{
+						targets = [];
+						edges[input.Item] = targets;
+					}
+
+					targets.UnionWith(recipe.Outputs.Select(x => x.Item));
+				}
+			}
+
+			var index = new Dictionary<ItemId, int>();
+			var low = new Dictionary<ItemId, int>();
+			var stack = new Stack<ItemId>();
+			var onStack = new HashSet<ItemId>();
+			var result = new List<IReadOnlyList<ItemId>>();
+			var counter = 0;
+
+			foreach (var node in edges.Keys.ToList())
+			{
+				if (!index.ContainsKey(node))
+				{
+					Visit(node);
+				}
+			}
+
+			return result;
+
+			// 재귀 대신 명시적 스택으로 깊이 우선 탐색한다
+			void Visit(ItemId start)
+			{
+				var work = new Stack<(ItemId Node, IEnumerator<ItemId> Next)>();
+				Enter(start);
+				while (work.Count > 0)
+				{
+					var (node, next) = work.Peek();
+					if (next.MoveNext())
+					{
+						var target = next.Current;
+						if (!index.ContainsKey(target))
+						{
+							Enter(target);
+						}
+						else if (onStack.Contains(target))
+						{
+							low[node] = Math.Min(low[node], index[target]);
+						}
+
+						continue;
+					}
+
+					work.Pop();
+					if (work.Count > 0)
+					{
+						var parent = work.Peek().Node;
+						low[parent] = Math.Min(low[parent], low[node]);
+					}
+
+					if (low[node] == index[node])
+					{
+						var component = new List<ItemId>();
+						ItemId member;
+						do
+						{
+							member = stack.Pop();
+							onStack.Remove(member);
+							component.Add(member);
+						}
+						while (member != node);
+
+						var selfLoop = component.Count == 1 && edges.TryGetValue(node, out var own) && own.Contains(node);
+						if (component.Count > 1 || selfLoop)
+						{
+							result.Add(component);
+						}
+					}
+				}
+
+				void Enter(ItemId node)
+				{
+					index[node] = low[node] = counter++;
+					stack.Push(node);
+					onStack.Add(node);
+					var targets = edges.TryGetValue(node, out var set) ? set : [];
+					work.Push((node, targets.ToList().GetEnumerator()));
+				}
+			}
 		}
 
 		private static void CheckReferences(UranusDatabase db, List<DataIssue> issues)
