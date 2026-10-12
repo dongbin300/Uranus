@@ -141,6 +141,8 @@ namespace Uranus.Tests
 		[InlineData(978_000, "978 kg")]
 		[InlineData(1_210_000, "1.21 t")]
 		[InlineData(0.0286, "28.6 mg")]
+		[InlineData(9.9e-13, "990 fg")]
+		[InlineData(5.03e-15, "5.03 fg")]
 		[InlineData(2.99e-23, "2.99e-23 g")]
 		public void FormatMass_PicksUnit(double grams, string expected)
 		{

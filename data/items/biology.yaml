@@ -1,4 +1,4 @@
-# 생체 분자와 세포. goal: true는 아직 레시피가 없는 장기 목표.
+# 생체 분자와 세포. 세포 수치는 Milo & Phillips, "Cell Biology by the Numbers" 기준.
 category: biology
 unit: particle
 items:
@@ -21,8 +21,11 @@ items:
   - { id: ribosome_50s, name: { ko: 50S 리보솜 대단위체, en: 50S ribosomal subunit } }
   - { id: ribosome_40s, name: { ko: 40S 리보솜 소단위체, en: 40S ribosomal subunit } }
   - { id: ribosome_60s, name: { ko: 60S 리보솜 대단위체, en: 60S ribosomal subunit } }
-  - { id: dna, name: { ko: DNA, en: DNA }, goal: true }
-  - { id: nucleoid, name: { ko: 핵양체, en: Nucleoid }, goal: true }
-  - { id: prokaryotic_cell, name: { ko: 원핵세포, en: Prokaryotic cell }, goal: true }
-  - { id: eukaryotic_cell, name: { ko: 진핵세포, en: Eukaryotic cell }, goal: true }
+  - { id: deoxyribose, name: { ko: 디옥시리보스, en: Deoxyribose }, formula: C5H10O4 }
+  - { id: thymine, name: { ko: 티민, en: Thymine }, formula: C5H6N2O2 }
+  - { id: phospholipid, name: { ko: 인지질, en: Phospholipid }, formula: C39H76NO8P, note: "세포막의 주성분. POPE(포스파티딜에탄올아민) 기준" }
+  - { id: dna, name: { ko: DNA, en: DNA }, expected_mass: [3fg, 8fg], note: "대장균 유전체 한 벌, 4.64 Mbp (약 5fg)" }
+  - { id: nucleoid, name: { ko: 핵양체, en: Nucleoid }, unit: piece }
+  - { id: prokaryotic_cell, name: { ko: 원핵세포, en: Prokaryotic cell }, unit: piece, expected_mass: [0.5pg, 2pg], note: "대장균 한 마리. 약 1pg, 부피 약 1µm³" }
+  - { id: eukaryotic_cell, name: { ko: 진핵세포, en: Eukaryotic cell }, unit: piece, expected_mass: [20pg, 200pg], note: "출아형 효모 한 마리. 약 60pg" }
   - { id: glycine, name: { ko: 글라이신, en: Glycine }, formula: C2H5NO2, note: 가장 단순한 아미노산 }

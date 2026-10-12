@@ -95,7 +95,7 @@ namespace Uranus.Quantities
 	{
 		private static readonly (string Unit, double Grams)[] Units =
 		[
-			("kg", 1e3), ("mg", 1e-3), ("ug", 1e-6), ("µg", 1e-6), ("ng", 1e-9), ("pg", 1e-12), ("t", 1e6), ("g", 1.0),
+			("kg", 1e3), ("mg", 1e-3), ("ug", 1e-6), ("µg", 1e-6), ("ng", 1e-9), ("pg", 1e-12), ("fg", 1e-15), ("ag", 1e-18), ("t", 1e6), ("g", 1.0),
 		];
 
 		public static bool TryParse(string? text, out double grams)

@@ -2,9 +2,16 @@
 category: electronics
 unit: piece
 items:
-  - { id: ccd, name: { ko: 전하결합소자, en: Charge-coupled device }, expected_mass: [1g, 100g], note: 1920×1080 화소. 실제 CCD 센서 패키지는 수 그램 }
+  - { id: ccd, name: { ko: 전하결합소자, en: Charge-coupled device }, expected_mass: [1g, 20g], note: 1920×1080 화소 CCD 칩 패키지. 실제로 수 그램 }
+  - { id: ccd_camera, name: { ko: CCD 카메라 모듈, en: CCD camera module } }
+  - { id: oxidized_wafer, name: { ko: 산화막 웨이퍼, en: Oxidized wafer } }
+  - { id: gated_wafer, name: { ko: 게이트 증착 웨이퍼, en: Gate-deposited wafer } }
+  - { id: patterned_wafer, name: { ko: 패턴 웨이퍼, en: Patterned wafer } }
+  - { id: ccd_wafer, name: { ko: CCD 웨이퍼, en: CCD wafer }, note: 다이 약 300개가 새겨진 웨이퍼 }
+  - { id: ccd_die, name: { ko: CCD 다이, en: CCD die }, expected_mass: [50mg, 500mg] }
   - { id: wafer_8in, name: { ko: 8인치 실리콘 웨이퍼, en: 8-inch silicon wafer }, expected_mass: [45g, 60g], note: "직경 200mm, 두께 약 0.72mm 웨이퍼는 약 53g" }
   - { id: photodiode, name: { ko: 감광성 다이오드, en: Photodiode } }
+  - { id: photodiode_junction, name: { ko: 감광 접합, en: Photodiode junction } }
   - { id: diode, name: { ko: 다이오드, en: Diode } }
   - { id: optical_window, name: { ko: 광학 창, en: Optical window } }
   - { id: ar_coating, name: { ko: 반사 방지 코팅, en: Anti-reflection coating } }
@@ -46,7 +53,10 @@ items:
   - { id: logic_gate, name: { ko: 논리 게이트, en: Logic gate } }
   - { id: switch, name: { ko: 스위치, en: Switch } }
   - { id: transistor, name: { ko: 트랜지스터, en: Transistor } }
-  - { id: microcontroller, name: { ko: 마이크로컨트롤러, en: Microcontroller } }
+  - { id: microcontroller, name: { ko: 마이크로컨트롤러, en: Microcontroller }, note: 8비트 MCU 칩 패키지 }
+  - { id: mcu_patterned_wafer, name: { ko: MCU 패턴 웨이퍼, en: MCU patterned wafer } }
+  - { id: mcu_wafer, name: { ko: MCU 웨이퍼, en: MCU wafer } }
+  - { id: mcu_die, name: { ko: MCU 다이, en: MCU die }, expected_mass: [10mg, 200mg] }
   - { id: inductor, name: { ko: 인덕터, en: Inductor } }
   - { id: voltage_regulator, name: { ko: 전압 레귤레이터, en: Voltage regulator } }
   - { id: op_amp, name: { ko: 연산 증폭기, en: Operational amplifier } }

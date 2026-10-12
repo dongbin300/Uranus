@@ -100,6 +100,19 @@ namespace Uranus.Tests
 			// 물 1몰 = 18.015g, 8인치 웨이퍼 약 53g
 			Assert.Equal(18.015, masses.GetMass(new ItemId("H2O"))!.Value * Chemistry.Formula.Avogadro, 3);
 			Assert.InRange(masses.GetMass(new ItemId("wafer_8in"))!.Value, 52, 54);
+
+			// 대장균 유전체 약 3×10^9 Da, 대장균 한 마리 약 1pg
+			Assert.InRange(masses.GetMass(new ItemId("dna"))!.Value * Chemistry.Formula.Avogadro, 2.5e9, 3.5e9);
+			Assert.InRange(masses.GetMass(new ItemId("prokaryotic_cell"))!.Value, 0.5e-12, 2e-12);
+		}
+
+		[Fact]
+		public void EveryRecipeAndItem_IsReachableFromStart()
+		{
+			var reach = RecipeGraph.ComputeReachability(Db, Db.Config.StartInventory.Select(x => x.Item));
+
+			Assert.Equal(Db.RecipeList.Count, reach.Recipes.Count);
+			Assert.Equal(Db.ItemList.Count, reach.Items.Count);
 		}
 	}
 

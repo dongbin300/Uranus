@@ -194,7 +194,9 @@ int Bom()
 		Console.WriteLine($"  {db.GetName(id),-16} {QuantityFormatter.FormatCount(need, NumberStyle.Scientific),12}  {mass}");
 	}
 
-	Console.WriteLine($"합계 질량: {(complete ? "" : "최소 ")}{QuantityFormatter.FormatMass(total)}");
+	Console.WriteLine($"원료 합계 질량: {(complete ? "" : "최소 ")}{QuantityFormatter.FormatMass(total)}");
+	var itemMass = masses.GetLowerBound(item.Id);
+	Console.WriteLine($"{item.Name.Ko} 1개 질량(기본 레시피 기준): {(masses.IsComplete(item.Id) ? "" : "최소 ")}{QuantityFormatter.FormatMass(itemMass)}");
 	return 0;
 }
 

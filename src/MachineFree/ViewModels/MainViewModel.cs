@@ -40,6 +40,7 @@ namespace MachineFree.ViewModels
 				new("원료 가공", "material"),
 				new("생물", "biology"),
 				new("전자", "electronics"),
+				new("가상", "fictional"),
 			];
 			SelectedCategory = Categories[0];
 			SearchText = "";

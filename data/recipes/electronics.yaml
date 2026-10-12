@@ -1,22 +1,58 @@
 # 전자 부품.
 category: electronics
 recipes:
+  - id: ccd_gate_oxidation
+    name: { ko: 게이트 산화 }
+    time: 120
+    in: { wafer_8in: 1, O2: 7e19 }
+    out: { oxidized_wafer: 1 }
+    note: 웨이퍼 표면에 약 100nm 열산화막을 기른다
+  - id: ccd_gate_deposition
+    name: { ko: 폴리실리콘 게이트 증착 }
+    time: 180
+    in: { oxidized_wafer: 1, Si: 1.4e21 }
+    out: { gated_wafer: 1 }
+    note: 3상 CCD 게이트용 폴리실리콘 약 300nm × 3층
+  - id: ccd_lithography
+    name: { ko: 포토리소그래피·이온 주입 }
+    time: 600
+    in: { gated_wafer: 1, B: 3e15, P: 3e15, plastic: 5e20 }
+    out: { patterned_wafer: 1 }
+    note: 감광막으로 화소 207만 개와 전송 채널을 새기고 붕소·인을 주입한다
+  - id: ccd_metallization
+    name: { ko: 금속 배선 }
+    time: 240
+    in: { patterned_wafer: 1, Al: 5.7e20 }
+    out: { ccd_wafer: 1 }
+  - id: ccd_dicing
+    name: { ko: 웨이퍼 절단 }
+    time: 60
+    in: { ccd_wafer: 1 }
+    out: { ccd_die: 300 }
+    note: 화소 5µm 기준 다이 약 9.6×5.4mm, 8인치 웨이퍼 한 장에서 약 300개
   - id: ccd
-    time: 300
-    in: { wafer_8in: 1, photodiode: 2073600, transfer_gate: 3000, shift_register: 3000, output_amplifier: 1, clock_generator: 1, clock_distributor: 1, sequencer: 1, multiplexer: 1, trigger_sync_circuit: 1, signal_conditioning_circuit: 4, control_register: 4, bias_voltage_generator: 1, analog_signal_processor: 1, control_circuit: 1, temperature_control_system: 1, communication_interface: 1 }
+    name: { ko: CCD 패키징 }
+    time: 60
+    in: { ccd_die: 1, optical_window: 1, ceramic: 1e22, Cu: 2e21 }
     out: { ccd: 1 }
+    note: 세라믹 패키지에 다이를 붙이고 구리 리드를 연결한 뒤 광학 창으로 덮는다
+  - id: ccd_camera
+    time: 120
+    in: { ccd: 1, output_amplifier: 1, clock_generator: 1, clock_distributor: 1, sequencer: 1, multiplexer: 1, trigger_sync_circuit: 1, signal_conditioning_circuit: 4, control_register: 4, bias_voltage_generator: 1, analog_signal_processor: 1, control_circuit: 1, temperature_control_system: 1, communication_interface: 1 }
+    out: { ccd_camera: 1 }
+    note: 원래 CCD 레시피에 있던 구동·신호 처리 부품. 화소·전송 게이트·시프트 레지스터는 칩 공정 안으로 들어갔다
   - id: wafer_8in
     time: 120
     in: { Si: 1.133e24, SiO2: 1.81e16 }
     out: { wafer_8in: 1 }
   - id: photodiode
     time: 1
-    in: { diode: 1, InGaAs: 1e18, optical_window: 1, ar_coating: 1, pn_junction: 1, metal_contact: 1 }
+    in: { photodiode_junction: 1, InGaAs: 1e18, optical_window: 1, ar_coating: 1, pn_junction: 1, metal_contact: 1 }
     out: { photodiode: 1 }
-  - id: diode
+  - id: photodiode_junction
     time: 1
     in: { Si: 1e17, GaAs: 1e17 }
-    out: { diode: 1 }
+    out: { photodiode_junction: 1 }
   - id: optical_window
     time: 5
     in: { glass: 1, ar_coating: 1, window_holder: 1 }
@@ -174,7 +210,7 @@ recipes:
     time: 8
     in: { transistor: 6, resistor: 7, diode: 4, Si: 3e22, Cu: 1.4e22 }
     out: { logic_gate: 1 }
-  - id: diode_discrete
+  - id: diode
     time: 5
     in: { Si: 2e22, Cu: 9e21 }
     out: { diode: 1 }
@@ -200,10 +236,29 @@ recipes:
     time: 8
     in: { transistor: 20, resistor: 10, capacitor: 2, diode: 2 }
     out: { voltage_regulator: 1 }
-  - id: microcontroller
+  - id: mcu_lithography
+    name: { ko: MCU 포토리소그래피·이온 주입 }
+    time: 900
+    in: { gated_wafer: 1, B: 5e15, P: 5e15, plastic: 1e21 }
+    out: { mcu_patterned_wafer: 1 }
+    note: 트랜지스터 약 2만 개짜리 8비트 MCU 회로를 새긴다
+  - id: mcu_metallization
+    name: { ko: MCU 금속 배선 }
+    time: 300
+    in: { mcu_patterned_wafer: 1, Al: 1e21 }
+    out: { mcu_wafer: 1 }
+  - id: mcu_dicing
+    name: { ko: MCU 웨이퍼 절단 }
     time: 60
-    in: { logic_gate: 3000, flip_flop: 1000, clock_circuit: 1, plastic: 1e22 }
+    in: { mcu_wafer: 1 }
+    out: { mcu_die: 1000 }
+    note: 다이 약 3×3mm, 8인치 웨이퍼 한 장에서 약 1,000개 (가장자리 손실 포함)
+  - id: microcontroller
+    name: { ko: MCU 패키징 }
+    time: 30
+    in: { mcu_die: 1, plastic: 5e21, Cu: 3e21 }
     out: { microcontroller: 1 }
+    note: 에폭시 패키지와 구리 리드 프레임
   - id: transceiver
     time: 10
     in: { op_amp: 2, oscillator: 1, transistor: 10, inductor: 2, capacitor: 4 }

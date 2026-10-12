@@ -5,51 +5,63 @@ recipes:
   - id: mrna
     time: 29
     in: { ribose: 1433, adenine: 396, cytosine: 317, guanine: 392, uracil: 328 }
-    out: { mrna: 0.2 }
+    out: { mrna: 0.2, ribose: 1146.4, adenine: 316.8, cytosine: 253.6, guanine: 313.6, uracil: 262.4 }
+    note: 수율 20%. 실패한 몫은 분해되어 재료로 돌아온다
   - id: trna
     time: 2
     in: { ribose: 80, adenine: 26, cytosine: 21, guanine: 22, uracil: 11 }
-    out: { trna: 0.6 }
+    out: { trna: 0.6, ribose: 32, adenine: 10.4, cytosine: 8.4, guanine: 8.8, uracil: 4.4 }
+    note: 수율 60%. 실패한 몫은 분해되어 재료로 돌아온다
   - id: rrna_5s
     time: 2.4
     in: { ribose: 122, adenine: 34, cytosine: 18, guanine: 26, uracil: 44 }
-    out: { rrna_5s: 0.5 }
+    out: { rrna_5s: 0.5, ribose: 61, adenine: 17, cytosine: 9, guanine: 13, uracil: 22 }
+    note: 수율 50%. 실패한 몫은 분해되어 재료로 돌아온다
   - id: rrna_16s
     time: 31
     in: { ribose: 1548, adenine: 312, cytosine: 372, guanine: 450, uracil: 414 }
-    out: { rrna_16s: 0.18 }
+    out: { rrna_16s: 0.18, ribose: 1269.36, adenine: 255.84, cytosine: 305.04, guanine: 369, uracil: 339.48 }
+    note: 수율 18%. 실패한 몫은 분해되어 재료로 돌아온다
   - id: rrna_23s
     time: 58
     in: { ribose: 2904, adenine: 838, cytosine: 404, guanine: 727, uracil: 935 }
-    out: { rrna_23s: 0.1 }
+    out: { rrna_23s: 0.1, ribose: 2613.6, adenine: 754.2, cytosine: 363.6, guanine: 654.3, uracil: 841.5 }
+    note: 수율 10%. 실패한 몫은 분해되어 재료로 돌아온다
   - id: ribosome_50s
     time: 120
     in: { rrna_5s: 1, rrna_23s: 1, ribosomal_protein: 27 }
-    out: { ribosome_50s: 0.04 }
+    out: { ribosome_50s: 0.04, rrna_5s: 0.96, rrna_23s: 0.96, ribosomal_protein: 25.92 }
+    note: 수율 4%. 실패한 몫은 분해되어 재료로 돌아온다
   - id: ribosome_30s
     time: 60
     in: { rrna_16s: 1, ribosomal_protein: 19 }
-    out: { ribosome_30s: 0.08 }
+    out: { ribosome_30s: 0.08, rrna_16s: 0.92, ribosomal_protein: 17.48 }
+    note: 수율 8%. 실패한 몫은 분해되어 재료로 돌아온다
   - id: rrna_5_8s
     time: 3
     in: { ribose: 150, adenine: 44, cytosine: 29, guanine: 44, uracil: 33 }
-    out: { rrna_5_8s: 0.45 }
+    out: { rrna_5_8s: 0.45, ribose: 82.5, adenine: 24.2, cytosine: 15.95, guanine: 24.2, uracil: 18.15 }
+    note: 수율 45%. 실패한 몫은 분해되어 재료로 돌아온다
   - id: rrna_28s
     time: 96
     in: { ribose: 4808, adenine: 1116, cytosine: 1402, guanine: 1154, uracil: 1136 }
-    out: { rrna_28s: 0.05 }
+    out: { rrna_28s: 0.05, ribose: 4567.6, adenine: 1060.2, cytosine: 1331.9, guanine: 1096.3, uracil: 1079.2 }
+    note: 수율 5%. 실패한 몫은 분해되어 재료로 돌아온다
   - id: ribosome_60s
     time: 150
     in: { rrna_28s: 1, ribosomal_protein: 42 }
-    out: { ribosome_60s: 0.02 }
+    out: { ribosome_60s: 0.02, rrna_28s: 0.98, ribosomal_protein: 41.16 }
+    note: 수율 2%. 실패한 몫은 분해되어 재료로 돌아온다
   - id: rrna_18s
     time: 39
     in: { ribose: 1951, adenine: 519, cytosine: 351, guanine: 434, uracil: 647 }
-    out: { rrna_18s: 0.15 }
+    out: { rrna_18s: 0.15, ribose: 1658.35, adenine: 441.15, cytosine: 298.35, guanine: 368.9, uracil: 549.95 }
+    note: 수율 15%. 실패한 몫은 분해되어 재료로 돌아온다
   - id: ribosome_40s
     time: 75
     in: { rrna_18s: 1, ribosomal_protein: 33 }
-    out: { ribosome_40s: 0.06 }
+    out: { ribosome_40s: 0.06, rrna_18s: 0.94, ribosomal_protein: 31.02 }
+    note: 수율 6%. 실패한 몫은 분해되어 재료로 돌아온다
   - id: ribosomal_protein
     time: 10
     in: { protein: 40 }
@@ -93,3 +105,45 @@ recipes:
     in: { glycine: 400 }
     out: { protein: 1, H2O: 399 }
     note: 아미노산 400개짜리 단백질. 번역 속도 약 15개/초
+  - id: ribose_reduction
+    name: { ko: 리보스 환원 }
+    time: 1
+    in: { ribose: 1, H2: 1 }
+    out: { deoxyribose: 1, H2O: 1 }
+    note: 리보뉴클레오타이드 환원효소가 2번 탄소의 하이드록시기를 없앤다
+  - id: uracil_methylation
+    name: { ko: 우라실 메틸화 }
+    time: 1
+    in: { uracil: 1, CH3OH: 1 }
+    out: { thymine: 1, H2O: 1 }
+    note: 생체에서는 엽산이 메틸기를 준다. 여기서는 메탄올로 단순화
+  - id: phospholipid_synthesis
+    name: { ko: 인지질 합성 }
+    time: 3
+    in: { C: 39, H: 76, N: 1, O: 8, P: 1 }
+    out: { phospholipid: 1 }
+    note: 지방산·글리세롤·인산·에탄올아민을 거치는 생합성을 원자 단위로 묶었다
+  - id: dna_replication
+    name: { ko: DNA 합성 }
+    time: 2400
+    in: { deoxyribose: 9.28e6, adenine: 2.28e6, thymine: 2.28e6, guanine: 2.36e6, cytosine: 2.36e6, H3PO4: 9.28e6 }
+    out: { dna: 1, H2O: 1.856e7 }
+    note: 대장균 유전체 4.64 Mbp, GC 50.8%. 뉴클레오타이드마다 물 2분자가 빠진다. 복제에 약 40분
+  - id: nucleoid_assembly
+    name: { ko: 핵양체 조립 }
+    time: 60
+    in: { dna: 1, protein: 20000 }
+    out: { nucleoid: 1 }
+    note: DNA를 HU·H-NS 같은 단백질이 감아 접는다
+  - id: prokaryotic_cell_assembly
+    name: { ko: 원핵세포 조립 }
+    time: 1200
+    in: { nucleoid: 1, ribosome_50s: 20000, ribosome_30s: 20000, protein: 3e6, trna: 2e5, mrna: 1400, phospholipid: 2.2e7, H2O: 2.3e10, K: 2e8 }
+    out: { prokaryotic_cell: 1 }
+    note: 대장균 한 마리 — 리보솜 약 2만, 단백질 약 300만, 지질 약 2,200만, 물 약 230억 분자. 분열에 약 20분
+  - id: eukaryotic_cell_assembly
+    name: { ko: 진핵세포 조립 }
+    time: 5400
+    in: { dna: 3, protein: 5e7, ribosome_60s: 2e5, ribosome_40s: 2e5, trna: 3e6, mrna: 1.5e4, phospholipid: 3e8, H2O: 1.4e12, K: 5e9, prokaryotic_cell: 1 }
+    out: { eukaryotic_cell: 1 }
+    note: 출아형 효모 — 유전체 약 12 Mbp(대장균의 약 2.6배), 단백질 약 5천만. 원핵세포 하나가 미토콘드리아의 조상으로 들어간다(세포내 공생)

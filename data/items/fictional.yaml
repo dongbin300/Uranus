@@ -1,0 +1,10 @@
+# 세상에 없는 것. 실제 재료로만 만들 수 있게 해서 "현실에서 출발해 현실 너머로" 간다.
+category: fictional
+unit: piece
+items:
+  - { id: metallic_hydrogen, name: { ko: 상온 금속 수소, en: Room-temperature metallic hydrogen }, unit: particle, formula: H, fictional: true, note: "실제로는 수백만 기압에서만 존재한다. 상온·상압에서 안정하다고 가정" }
+  - { id: rt_superconductor, name: { ko: 상온 초전도선, en: Room-temperature superconducting wire }, fictional: true, note: "저항 0인 전선 한 타래(약 2g)" }
+  - { id: programmable_matter, name: { ko: 프로그래머블 물질, en: Programmable matter }, fictional: true, note: "명령에 따라 모양과 성질을 바꾸는 물질 한 덩이" }
+  - { id: molecular_assembler, name: { ko: 분자 조립기, en: Molecular assembler }, fictional: true, note: "원자를 하나씩 집어 원하는 분자를 짓는 나노 기계 (드렉슬러)" }
+  - { id: synthetic_cell, name: { ko: 인공 세포, en: Synthetic cell }, fictional: true, note: "자연에 없는 유전 암호와 아미노산을 쓰는 세포" }
+  - { id: matter_compiler, name: { ko: 물질 컴파일러, en: Matter compiler }, fictional: true, note: "원자를 받아 무엇이든 만드는 기계. Everything can be created." }
