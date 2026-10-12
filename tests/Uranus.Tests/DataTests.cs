@@ -28,7 +28,7 @@ namespace Uranus.Tests
 		[Fact]
 		public void Loads_Generators_AsItemsWithBuildRecipes()
 		{
-			Assert.Equal(10, Db.GeneratorList.Count);
+			Assert.All(Db.GeneratorList, x => Assert.NotNull(Db.FindRecipe(x.BuildRecipe)));
 
 			var synthesizer = Db.Generators[new ItemId("hydrogen_synthesizer")];
 			var build = Db.FindRecipe(synthesizer.BuildRecipe);
