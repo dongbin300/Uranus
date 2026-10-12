@@ -1,0 +1,170 @@
+# 유기·석유화학 물질.
+# 이미 있는 작은 분자(CH4, C2H4, C6H6, CH3OH, CH3COOH, CH2O ...)는 화학식 ID를 그대로 쓴다.
+# 새 유기 화합물은 이성질체가 분자식을 공유하므로 영문 이름(snake_case)을 ID로 쓰고 분자식을 formula에 적는다.
+# 석유 유분은 조성이 일정하지 않은 혼합물이라 화학식이 없다. 한 단위를 평균 분자 하나로 보고,
+# 노트의 평균 분자량으로 수율(질량 기준)을 맞췄다. 원유 한 단위는 평균 분자량 약 200으로 잡았다.
+category: organic
+unit: particle
+items:
+  # 석유 유분 (혼합물)
+  - { id: naphtha, name: { ko: 나프타, en: Naphtha }, note: "끓는점 30~180°C의 C5~C10 탄화수소 혼합물. 평균 분자량 약 100. 석유화학의 주원료" }
+  - { id: kerosene, name: { ko: 등유, en: Kerosene }, note: "끓는점 180~240°C의 C10~C16 유분. 평균 분자량 약 165. 정제하면 항공유가 된다" }
+  - { id: diesel, name: { ko: 경유, en: Diesel }, note: "끓는점 240~350°C의 C14~C20 유분. 평균 분자량 약 240" }
+  - { id: gasoline, name: { ko: 휘발유, en: Gasoline }, note: "C5~C10 혼합물. 평균 분자량 약 100" }
+  - { id: atmospheric_residue, name: { ko: 상압 잔사유, en: Atmospheric residue }, note: "상압 증류탑 바닥에 남는 350°C 이상 유분. 평균 분자량 약 550" }
+  - { id: vacuum_gas_oil, name: { ko: 감압 경유, en: Vacuum gas oil }, note: "감압 증류로 얻는 350~550°C 유분. 평균 분자량 약 400" }
+  - { id: vacuum_residue, name: { ko: 감압 잔사유, en: Vacuum residue }, note: "550°C 이상 중질 유분. 평균 분자량 약 900" }
+  - { id: reformate, name: { ko: 개질유, en: Reformate }, note: "접촉 개질로 방향족이 60% 넘게 늘어난 고옥테인가 유분. 평균 분자량 약 100" }
+  - { id: pyrolysis_gasoline, name: { ko: 열분해 가솔린, en: Pyrolysis gasoline }, note: "나프타 분해로의 C5~C9 부산물. 벤젠 약 35%. 평균 분자량 약 90" }
+  - { id: lubricating_oil, name: { ko: 윤활유 기유, en: Lubricating base oil }, note: "C25~C35 포화 탄화수소. 평균 분자량 약 450" }
+  - { id: paraffin_wax, name: { ko: 파라핀 왁스, en: Paraffin wax }, note: "C20~C40 직쇄 알케인. 평균 조성 약 C30H62(422 g/mol)" }
+  - { id: asphalt, name: { ko: 아스팔트, en: Asphalt }, note: "감압 잔사유를 공기로 산화해 굳힌 역청. 평균 분자량 약 1000" }
+  - { id: petroleum_coke, name: { ko: 석유 코크스, en: Petroleum coke }, note: "탄소 약 90%의 고체. 한 단위를 약 250 g/mol의 다환 방향족 덩어리로 본다" }
+
+  # 알케인 (C1 메탄, C2 에탄은 화학 분야에 있다)
+  - { id: propane, name: { ko: 프로페인, en: Propane }, formula: C3H8, note: "LPG의 주성분" }
+  - { id: butane, name: { ko: 뷰테인, en: Butane }, formula: C4H10, note: "n-뷰테인" }
+  - { id: isobutane, name: { ko: 아이소뷰테인, en: Isobutane }, formula: C4H10, note: "2-메틸프로페인" }
+  - { id: pentane, name: { ko: 펜테인, en: Pentane }, formula: C5H12 }
+  - { id: hexane, name: { ko: 헥세인, en: Hexane }, formula: C6H14, note: "식물성 기름 추출 용매" }
+  - { id: heptane, name: { ko: 헵테인, en: Heptane }, formula: C7H16, note: "옥테인가 0의 기준 물질" }
+  - { id: octane, name: { ko: 옥테인, en: Octane }, formula: C8H18, note: "n-옥테인" }
+  - { id: isooctane, name: { ko: 아이소옥테인, en: Isooctane }, formula: C8H18, note: "2,2,4-트라이메틸펜테인. 옥테인가 100의 기준 물질" }
+  - { id: hexadecane, name: { ko: 헥사데케인, en: Hexadecane }, formula: C16H34, note: "세테인. 경유 세테인가 100의 기준 물질" }
+  - { id: cyclohexane, name: { ko: 사이클로헥세인, en: Cyclohexane }, formula: C6H12 }
+  - { id: methylcyclohexane, name: { ko: 메틸사이클로헥세인, en: Methylcyclohexane }, formula: C7H14 }
+
+  # 알켄·알카인
+  - { id: propylene, name: { ko: 프로필렌, en: Propylene }, formula: C3H6, note: "프로펜. 에틸렌 다음으로 많이 만드는 석유화학 기초 원료" }
+  - { id: 1_butene, name: { ko: 1-뷰텐, en: 1-Butene }, formula: C4H8, note: "선형 저밀도 폴리에틸렌의 공단량체" }
+  - { id: 2_butene, name: { ko: 2-뷰텐, en: 2-Butene }, formula: C4H8 }
+  - { id: isobutene, name: { ko: 아이소뷰텐, en: Isobutene }, formula: C4H8, note: "아이소뷰틸렌, 2-메틸프로펜" }
+  - { id: butadiene, name: { ko: "1,3-뷰타다이엔", en: "1,3-Butadiene" }, formula: C4H6, note: "합성 고무의 단량체" }
+  - { id: isoprene, name: { ko: 아이소프렌, en: Isoprene }, formula: C5H8, note: "2-메틸-1,3-뷰타다이엔. 천연고무의 단위체" }
+  - { id: 1_hexene, name: { ko: 1-헥센, en: 1-Hexene }, formula: C6H12 }
+  - { id: 1_octene, name: { ko: 1-옥텐, en: 1-Octene }, formula: C8H16 }
+  - { id: 1_dodecene, name: { ko: 1-도데센, en: 1-Dodecene }, formula: C12H24 }
+  - { id: cyclohexene, name: { ko: 사이클로헥센, en: Cyclohexene }, formula: C6H10 }
+  - { id: propyne, name: { ko: 프로파인, en: Propyne }, formula: C3H4, note: "메틸아세틸렌" }
+
+  # 방향족
+  - { id: toluene, name: { ko: 톨루엔, en: Toluene }, formula: C7H8 }
+  - { id: mixed_xylenes, name: { ko: 혼합 자일렌, en: Mixed xylenes }, formula: C8H10, note: "o-·m-·p-자일렌과 에틸벤젠의 혼합물. 모두 C8H10이라 화학식을 적었다" }
+  - { id: p_xylene, name: { ko: p-자일렌, en: p-Xylene }, formula: C8H10, note: "1,4-다이메틸벤젠" }
+  - { id: o_xylene, name: { ko: o-자일렌, en: o-Xylene }, formula: C8H10, note: "1,2-다이메틸벤젠" }
+  - { id: m_xylene, name: { ko: m-자일렌, en: m-Xylene }, formula: C8H10, note: "1,3-다이메틸벤젠" }
+  - { id: ethylbenzene, name: { ko: 에틸벤젠, en: Ethylbenzene }, formula: C8H10 }
+  - { id: styrene, name: { ko: 스타이렌, en: Styrene }, formula: C8H8, note: "폴리스타이렌·ABS·SBR의 단량체" }
+  - { id: cumene, name: { ko: 큐멘, en: Cumene }, formula: C9H12, note: "아이소프로필벤젠" }
+  - { id: dodecylbenzene, name: { ko: 도데실벤젠, en: Dodecylbenzene }, formula: C18H30, note: "선형 알킬벤젠(LAB). 합성 세제 원료" }
+
+  # 알코올
+  - { id: ethanol, name: { ko: 에탄올, en: Ethanol }, formula: C2H6O }
+  - { id: 1_propanol, name: { ko: 1-프로판올, en: 1-Propanol }, formula: C3H8O }
+  - { id: isopropanol, name: { ko: 아이소프로필 알코올, en: Isopropyl alcohol }, formula: C3H8O, note: "2-프로판올" }
+  - { id: 1_butanol, name: { ko: 1-뷰탄올, en: 1-Butanol }, formula: C4H10O }
+  - { id: 2_butanol, name: { ko: 2-뷰탄올, en: 2-Butanol }, formula: C4H10O }
+  - { id: isobutanol, name: { ko: 아이소뷰탄올, en: Isobutanol }, formula: C4H10O, note: "2-메틸-1-프로판올" }
+  - { id: tert_butanol, name: { ko: tert-뷰탄올, en: tert-Butanol }, formula: C4H10O, note: "2-메틸-2-프로판올" }
+  - { id: 2_ethylhexanol, name: { ko: 2-에틸헥산올, en: 2-Ethylhexanol }, formula: C8H18O, note: "가소제 원료로 가장 많이 쓰는 옥소 알코올" }
+  - { id: cyclohexanol, name: { ko: 사이클로헥산올, en: Cyclohexanol }, formula: C6H12O }
+  - { id: 1_dodecanol, name: { ko: 1-도데칸올, en: 1-Dodecanol }, formula: C12H26O, note: "라우릴 알코올. 계면활성제 원료가 되는 고급 지방 알코올" }
+  - { id: 1_phenylethanol, name: { ko: 1-페닐에탄올, en: 1-Phenylethanol }, formula: C8H10O }
+  - { id: ethylene_glycol, name: { ko: 에틸렌 글라이콜, en: Ethylene glycol }, formula: C2H6O2, note: "부동액, PET 원료" }
+  - { id: diethylene_glycol, name: { ko: 다이에틸렌 글라이콜, en: Diethylene glycol }, formula: C4H10O3 }
+  - { id: propylene_glycol, name: { ko: 프로필렌 글라이콜, en: Propylene glycol }, formula: C3H8O2, note: "1,2-프로페인다이올" }
+  - { id: glycerol, name: { ko: 글리세롤, en: Glycerol }, formula: C3H8O3, note: "1,2,3-프로페인트라이올" }
+  - { id: phenol, name: { ko: 페놀, en: Phenol }, formula: C6H6O }
+  - { id: bisphenol_a, name: { ko: 비스페놀 A, en: Bisphenol A }, formula: C15H16O2, note: "폴리카보네이트·에폭시 수지 원료" }
+
+  # 알데하이드·케톤
+  - { id: acetaldehyde, name: { ko: 아세트알데하이드, en: Acetaldehyde }, formula: C2H4O }
+  - { id: propanal, name: { ko: 프로판알, en: Propanal }, formula: C3H6O, note: "프로피온알데하이드" }
+  - { id: butanal, name: { ko: 뷰탄알, en: Butanal }, formula: C4H8O, note: "n-뷰티르알데하이드" }
+  - { id: isobutanal, name: { ko: 아이소뷰탄알, en: Isobutanal }, formula: C4H8O, note: "아이소뷰티르알데하이드" }
+  - { id: 2_ethylhexenal, name: { ko: 2-에틸헥스-2-엔알, en: 2-Ethylhex-2-enal }, formula: C8H14O }
+  - { id: acrolein, name: { ko: 아크롤레인, en: Acrolein }, formula: C3H4O, note: "프로펜알" }
+  - { id: methacrolein, name: { ko: 메타크롤레인, en: Methacrolein }, formula: C4H6O }
+  - { id: acetone, name: { ko: 아세톤, en: Acetone }, formula: C3H6O }
+  - { id: methyl_ethyl_ketone, name: { ko: 메틸 에틸 케톤, en: Methyl ethyl ketone }, formula: C4H8O, note: "뷰탄온" }
+  - { id: cyclohexanone, name: { ko: 사이클로헥사논, en: Cyclohexanone }, formula: C6H10O }
+  - { id: diacetone_alcohol, name: { ko: 다이아세톤 알코올, en: Diacetone alcohol }, formula: C6H12O2, note: "4-하이드록시-4-메틸-2-펜탄온" }
+  - { id: mesityl_oxide, name: { ko: 메시틸 옥사이드, en: Mesityl oxide }, formula: C6H10O, note: "4-메틸-3-펜텐-2-온" }
+  - { id: methyl_isobutyl_ketone, name: { ko: 메틸 아이소뷰틸 케톤, en: Methyl isobutyl ketone }, formula: C6H12O }
+  - { id: ketene, name: { ko: 케텐, en: Ketene }, formula: C2H2O }
+
+  # 카복실산·산 무수물
+  - { id: formic_acid, name: { ko: 폼산, en: Formic acid }, formula: CH2O2 }
+  - { id: propionic_acid, name: { ko: 프로피온산, en: Propionic acid }, formula: C3H6O2, note: "프로판산. 사료·곡물 보존제" }
+  - { id: acrylic_acid, name: { ko: 아크릴산, en: Acrylic acid }, formula: C3H4O2 }
+  - { id: methacrylic_acid, name: { ko: 메타크릴산, en: Methacrylic acid }, formula: C4H6O2 }
+  - { id: adipic_acid, name: { ko: 아디프산, en: Adipic acid }, formula: C6H10O4, note: "나일론 66 원료" }
+  - { id: terephthalic_acid, name: { ko: 테레프탈산, en: Terephthalic acid }, formula: C8H6O4, note: "PET 원료(PTA)" }
+  - { id: benzoic_acid, name: { ko: 벤조산, en: Benzoic acid }, formula: C7H6O2 }
+  - { id: acetic_anhydride, name: { ko: 아세트산 무수물, en: Acetic anhydride }, formula: C4H6O3, note: "아세트산 셀룰로스 원료" }
+  - { id: maleic_anhydride, name: { ko: 말레산 무수물, en: Maleic anhydride }, formula: C4H2O3 }
+  - { id: phthalic_anhydride, name: { ko: 프탈산 무수물, en: Phthalic anhydride }, formula: C8H4O3 }
+  - { id: ethylbenzoylbenzoic_acid, name: { ko: 2-(4-에틸벤조일)벤조산, en: 2-(4-Ethylbenzoyl)benzoic acid }, formula: C16H14O3 }
+
+  # 에스터·에터·탄산 에스터
+  - { id: methyl_formate, name: { ko: 폼산 메틸, en: Methyl formate }, formula: C2H4O2 }
+  - { id: methyl_acetate, name: { ko: 아세트산 메틸, en: Methyl acetate }, formula: C3H6O2 }
+  - { id: ethyl_acetate, name: { ko: 아세트산 에틸, en: Ethyl acetate }, formula: C4H8O2 }
+  - { id: butyl_acetate, name: { ko: 아세트산 뷰틸, en: Butyl acetate }, formula: C6H12O2 }
+  - { id: vinyl_acetate, name: { ko: 아세트산 바이닐, en: Vinyl acetate }, formula: C4H6O2, note: "폴리아세트산 바이닐·EVA의 단량체" }
+  - { id: methyl_propionate, name: { ko: 프로피온산 메틸, en: Methyl propionate }, formula: C4H8O2 }
+  - { id: methyl_methacrylate, name: { ko: 메타크릴산 메틸, en: Methyl methacrylate }, formula: C5H8O2, note: "아크릴 수지(PMMA)의 단량체" }
+  - { id: butyl_acrylate, name: { ko: 아크릴산 뷰틸, en: Butyl acrylate }, formula: C7H12O2, note: "아크릴 도료·접착제의 단량체" }
+  - { id: dioctyl_phthalate, name: { ko: 프탈산 다이옥틸, en: Dioctyl phthalate }, formula: C24H38O4, note: "DOP. 프탈산 비스(2-에틸헥실). PVC 가소제" }
+  - { id: dioctyl_terephthalate, name: { ko: 테레프탈산 다이옥틸, en: Dioctyl terephthalate }, formula: C24H38O4, note: "DOTP. 프탈산 계열을 대신하는 가소제" }
+  - { id: ethylene_carbonate, name: { ko: 에틸렌 카보네이트, en: Ethylene carbonate }, formula: C3H4O3, note: "리튬 이온 전지 전해액 용매" }
+  - { id: dimethyl_carbonate, name: { ko: 다이메틸 카보네이트, en: Dimethyl carbonate }, formula: C3H6O3 }
+  - { id: dimethyl_ether, name: { ko: 다이메틸 에터, en: Dimethyl ether }, formula: C2H6O, note: "DME. 에어로졸 분사제, 연료" }
+  - { id: diethyl_ether, name: { ko: 다이에틸 에터, en: Diethyl ether }, formula: C4H10O }
+  - { id: methyl_tert_butyl_ether, name: { ko: 메틸 tert-뷰틸 에터, en: Methyl tert-butyl ether }, formula: C5H12O, note: "MTBE. 휘발유 옥테인가 향상제" }
+  - { id: ethyl_tert_butyl_ether, name: { ko: 에틸 tert-뷰틸 에터, en: Ethyl tert-butyl ether }, formula: C6H14O, note: "ETBE" }
+
+  # 에폭사이드·과산화물
+  - { id: ethylene_oxide, name: { ko: 에틸렌 옥사이드, en: Ethylene oxide }, formula: C2H4O, note: "옥시레인" }
+  - { id: propylene_oxide, name: { ko: 프로필렌 옥사이드, en: Propylene oxide }, formula: C3H6O, note: "메틸옥시레인. 폴리우레탄용 폴리올 원료" }
+  - { id: epichlorohydrin, name: { ko: 에피클로로하이드린, en: Epichlorohydrin }, formula: C3H5ClO, note: "에폭시 수지 원료" }
+  - { id: cumene_hydroperoxide, name: { ko: 큐멘 하이드로퍼옥사이드, en: Cumene hydroperoxide }, formula: C9H12O2 }
+  - { id: ethylbenzene_hydroperoxide, name: { ko: 에틸벤젠 하이드로퍼옥사이드, en: Ethylbenzene hydroperoxide }, formula: C8H10O2 }
+  - { id: tert_butyl_hydroperoxide, name: { ko: tert-뷰틸 하이드로퍼옥사이드, en: tert-Butyl hydroperoxide }, formula: C4H10O2 }
+  - { id: 2_ethylanthraquinone, name: { ko: 2-에틸안트라퀴논, en: 2-Ethylanthraquinone }, formula: C16H12O2, note: "과산화 수소 공정에서 되풀이해 쓰는 운반체" }
+  - { id: 2_ethylanthrahydroquinone, name: { ko: 2-에틸안트라하이드로퀴논, en: 2-Ethylanthrahydroquinone }, formula: C16H14O2 }
+
+  # 할로젠 화합물
+  - { id: chloromethane, name: { ko: 클로로메테인, en: Chloromethane }, formula: CH3Cl, note: "염화 메틸. 실리콘 원료" }
+  - { id: dichloromethane, name: { ko: 다이클로로메테인, en: Dichloromethane }, formula: CH2Cl2, note: "염화 메틸렌. 용매" }
+  - { id: chloroform, name: { ko: 클로로폼, en: Chloroform }, formula: CHCl3, note: "트라이클로로메테인. 냉매 원료" }
+  - { id: carbon_tetrachloride, name: { ko: 사염화 탄소, en: Carbon tetrachloride }, formula: CCl4, note: "오존층 파괴 물질이라 몬트리올 의정서로 용도가 제한됐다" }
+  - { id: ethylene_dichloride, name: { ko: "1,2-다이클로로에테인", en: "1,2-Dichloroethane" }, formula: C2H4Cl2, note: "EDC. 염화 바이닐 중간체" }
+  - { id: vinyl_chloride, name: { ko: 염화 바이닐, en: Vinyl chloride }, formula: C2H3Cl, note: "PVC의 단량체" }
+  - { id: trichloroethylene, name: { ko: 트라이클로로에틸렌, en: Trichloroethylene }, formula: C2HCl3, note: "금속 탈지 용매" }
+  - { id: tetrachloroethylene, name: { ko: 테트라클로로에틸렌, en: Tetrachloroethylene }, formula: C2Cl4, note: "드라이클리닝 용매" }
+  - { id: allyl_chloride, name: { ko: 염화 알릴, en: Allyl chloride }, formula: C3H5Cl, note: "3-클로로프로펜" }
+  - { id: dichloropropanol, name: { ko: "1,3-다이클로로-2-프로판올", en: "1,3-Dichloro-2-propanol" }, formula: C3H6Cl2O }
+
+  # 질소 화합물
+  - { id: nitrobenzene, name: { ko: 나이트로벤젠, en: Nitrobenzene }, formula: C6H5NO2, note: "거의 전부 아닐린 원료로 쓴다" }
+  - { id: aniline, name: { ko: 아닐린, en: Aniline }, formula: C6H7N }
+  - { id: acrylonitrile, name: { ko: 아크릴로나이트릴, en: Acrylonitrile }, formula: C3H3N, note: "아크릴 섬유·ABS의 단량체" }
+  - { id: acetonitrile, name: { ko: 아세토나이트릴, en: Acetonitrile }, formula: C2H3N, note: "실험실·HPLC 용매" }
+  - { id: acrylamide, name: { ko: 아크릴아마이드, en: Acrylamide }, formula: C3H5NO, note: "수처리용 폴리아크릴아마이드의 단량체" }
+  - { id: adiponitrile, name: { ko: 아디포나이트릴, en: Adiponitrile }, formula: C6H8N2 }
+  - { id: hexamethylenediamine, name: { ko: 헥사메틸렌다이아민, en: Hexamethylenediamine }, formula: C6H16N2, note: "나일론 66 원료" }
+  - { id: cyclohexanone_oxime, name: { ko: 사이클로헥사논 옥심, en: Cyclohexanone oxime }, formula: C6H11NO }
+  - { id: caprolactam, name: { ko: 카프로락탐, en: Caprolactam }, formula: C6H11NO, note: "ε-카프로락탐. 나일론 6 원료" }
+  - { id: melamine, name: { ko: 멜라민, en: Melamine }, formula: C3H6N6, note: "멜라민 수지 원료" }
+
+  # 황·금속 유기 화합물
+  - { id: dodecylbenzenesulfonic_acid, name: { ko: 도데실벤젠설폰산, en: Dodecylbenzenesulfonic acid }, formula: C18H30O3S, note: "LAS. 가장 많이 쓰는 음이온 계면활성제" }
+  - { id: triethylaluminium, name: { ko: 트라이에틸알루미늄, en: Triethylaluminium }, formula: C6H15Al, note: "Al(C2H5)3. 공기 중에서 저절로 불붙는다" }
+  - { id: tridodecylaluminium, name: { ko: 트라이도데실알루미늄, en: Tridodecylaluminium }, formula: C36H75Al, note: "Al(C12H25)3. 치글러 사슬 성장 생성물" }
+  - { id: aluminium_dodecoxide, name: { ko: 알루미늄 도데콕사이드, en: Aluminium dodecoxide }, formula: C36H75AlO3, note: "Al(OC12H25)3" }
+
+  # 유기 공정에 필요한 무기 시약
+  - { id: H2O2, name: { ko: 과산화 수소, en: Hydrogen peroxide }, category: chemistry, formula: H2O2 }
+  - { id: HNO3, name: { ko: 질산, en: Nitric acid }, category: chemistry, formula: HNO3 }
+  - { id: N2O, name: { ko: 일산화 이질소, en: Nitrous oxide }, category: chemistry, formula: N2O, note: "아산화 질소. 아디프산 공장의 대표적인 온실가스 배출물" }
