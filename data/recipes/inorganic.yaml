@@ -21,12 +21,6 @@ recipes:
     in: { O2: 3 }
     out: { O3: 2 }
     note: 무성 방전(코로나 방전)으로 산소 일부를 오존으로 바꾼다. 정수 소독과 펄프 표백
-  - id: anthraquinone_process
-    name: { ko: 안트라퀴논 공정 }
-    time: 1
-    in: { H2: 1, O2: 1 }
-    out: { H2O2: 1 }
-    note: 2-에틸안트라퀴논을 팔라듐 촉매로 수소화한 뒤 공기로 산화하면 H2O2가 나오고 안트라퀴논은 되돌아온다. 전체 반응 H2 + O2 → H2O2
   - id: hydrogen_sulfide_synthesis
     name: { ko: 황화 수소 직접 합성 }
     time: 0.4

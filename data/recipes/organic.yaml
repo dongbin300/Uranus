@@ -90,12 +90,6 @@ recipes:
     note: "Co 촉매, 220°C 저온 FT. 30CO + 61H2 → C30H62 + 30H2O"
 
   # ── 합성가스와 C1 화학 ───────────────────────────────
-  - id: steam_methane_reforming
-    name: { ko: 메탄 수증기 개질 }
-    time: 0.8
-    in: { CH4: 1, H2O: 1 }
-    out: { H2: 3, CO: 1 }
-    note: "Ni 촉매, 850°C. CH4 + H2O → CO + 3H2. 세계 수소의 대부분을 만드는 공정"
   - id: syngas_methanol_synthesis
     name: { ko: 합성가스 메탄올 합성 }
     time: 0.5
@@ -160,13 +154,6 @@ recipes:
     in: { chloroform: 1, Cl2: 1 }
     out: { carbon_tetrachloride: 1, HCl: 1 }
     note: "과거 냉매(CFC)와 소화제 원료. 지금은 원료 용도로만 허용된다"
-  - id: ostwald_process
-    name: { ko: 오스트발트 공정 }
-    category: chemistry
-    time: 1
-    in: { NH3: 1, O2: 2 }
-    out: { HNO3: 1, H2O: 1 }
-    note: "Pt-Rh 거즈에서 암모니아를 NO로 산화한 뒤 NO2로 만들어 물에 흡수시킨다. 전체 반응 NH3 + 2O2 → HNO3 + H2O"
   - id: melamine_synthesis
     name: { ko: 멜라민 합성 }
     time: 3

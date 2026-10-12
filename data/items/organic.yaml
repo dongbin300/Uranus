@@ -165,6 +165,4 @@ items:
   - { id: aluminium_dodecoxide, name: { ko: 알루미늄 도데콕사이드, en: Aluminium dodecoxide }, formula: C36H75AlO3, note: "Al(OC12H25)3" }
 
   # 유기 공정에 필요한 무기 시약
-  - { id: H2O2, name: { ko: 과산화 수소, en: Hydrogen peroxide }, category: chemistry, formula: H2O2 }
-  - { id: HNO3, name: { ko: 질산, en: Nitric acid }, category: chemistry, formula: HNO3 }
   - { id: N2O, name: { ko: 일산화 이질소, en: Nitrous oxide }, category: chemistry, formula: N2O, note: "아산화 질소. 아디프산 공장의 대표적인 온실가스 배출물" }
