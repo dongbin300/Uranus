@@ -1,0 +1,401 @@
+# 에너지. 전극은 1m² 단위로 만들고, 셀은 전극 면적에 맞춰 여러 개씩 한 번에 조립한다.
+category: energy
+recipes:
+  - id: nmc811_precursor_coprecipitation
+    name: { ko: NCM811 전구체 공침 }
+    time: 4
+    in: { NiSO4: 8, MnSO4: 1, CoSO4: 1, NaOH: 20 }
+    out: { nmc811_precursor: 10, Na2SO4: 10 }
+    note: "8NiSO4 + MnSO4 + CoSO4 + 20NaOH → 10Ni0.8Mn0.1Co0.1(OH)2 + 10Na2SO4. 암모니아를 착화제로 넣은 연속 교반 반응기에서 키운다"
+  - id: nmc811_calcination
+    name: { ko: NCM811 소성 }
+    time: 6
+    in: { nmc811_precursor: 4, LiOH: 4, O2: 1 }
+    out: { nmc811: 4, H2O: 6 }
+    note: "4Ni0.8Mn0.1Co0.1(OH)2 + 4LiOH + O2 → 4LiNi0.8Mn0.1Co0.1O2 + 6H2O. 순산소 분위기 약 750°C"
+  - id: lithium_cobalt_oxide_calcination
+    name: { ko: 코발트산 리튬 소성 }
+    time: 6
+    in: { Li2CO3: 6, Co3O4: 4, O2: 1 }
+    out: { LiCoO2: 12, CO2: 6 }
+    note: "6Li2CO3 + 4Co3O4 + O2 → 12LiCoO2 + 6CO2. 공기 중 약 1,000°C"
+  - id: lithium_iron_phosphate_hydrothermal
+    name: { ko: 인산 철 리튬 수열 합성 }
+    time: 6
+    in: { FeSO4·7H2O: 1, H3PO4: 1, LiOH: 3 }
+    out: { LiFePO4: 1, Li2SO4: 1, H2O: 10 }
+    note: "FeSO4·7H2O + H3PO4 + 3LiOH → LiFePO4 + Li2SO4 + 10H2O. 약 180°C 수열 반응 뒤 당을 섞어 구워 탄소를 입힌다"
+  - id: graphite_anode_graphitization
+    name: { ko: 인조 흑연 흑연화 }
+    time: 10
+    in: { coke: 1 }
+    out: { anode_graphite: 1 }
+    note: "코크스를 갈아 애치슨로에서 약 3,000°C로 가열해 흑연 결정으로 바꾸고 구형화한다. 실제로는 침상 코크스를 쓴다"
+  - id: phosphorus_pentafluoride_synthesis
+    name: { ko: 오플루오린화 인 합성 }
+    time: 2
+    in: { PCl5: 1, HF: 5 }
+    out: { PF5: 1, HCl: 5 }
+    note: "PCl5 + 5HF → PF5 + 5HCl"
+  - id: lithium_hexafluorophosphate_synthesis
+    name: { ko: LiPF6 합성 }
+    time: 3
+    in: { PF5: 1, LiF: 1 }
+    out: { LiPF6: 1 }
+    note: "무수 HF에 녹인 LiF에 PF5를 불어 넣고 결정화한다"
+  - id: li_ion_electrolyte_mixing
+    name: { ko: 리튬 이온 전해액 조제 }
+    time: 4
+    in: { LiPF6: 2, ethylene_carbonate: 13, dimethyl_carbonate: 13 }
+    out: { li_ion_electrolyte: 28 }
+    note: "수분 20ppm 아래의 건조실에서 섞는다"
+  - id: difluoroethane_synthesis
+    name: { ko: "1,1-다이플루오로에테인 합성" }
+    time: 2
+    in: { C2H2: 1, HF: 2 }
+    out: { hfc_152a: 1 }
+    note: "C2H2 + 2HF → CH3CHF2"
+  - id: chlorodifluoroethane_synthesis
+    name: { ko: HCFC-142b 합성 }
+    time: 2
+    in: { hfc_152a: 1, Cl2: 1 }
+    out: { hcfc_142b: 1, HCl: 1 }
+    note: "CH3CHF2 + Cl2 → CH3CF2Cl + HCl. 광염소화"
+  - id: vinylidene_fluoride_pyrolysis
+    name: { ko: 플루오린화 바이닐리덴 열분해 }
+    time: 2
+    in: { hcfc_142b: 1 }
+    out: { vinylidene_fluoride: 1, HCl: 1 }
+    note: "CH3CF2Cl → CH2=CF2 + HCl. 약 700°C"
+  - id: pvdf_polymerization
+    name: { ko: PVDF 중합 }
+    time: 4
+    in: { vinylidene_fluoride: 1 }
+    out: { pvdf: 1 }
+    note: "물에 분산시켜 과산화물로 개시하는 유화·현탁 중합"
+  - id: battery_copper_foil_electrodeposition
+    name: { ko: 이차전지용 동박 전착 }
+    time: 60
+    in: { CuSO4: 6.795e23, H2O: 6.795e23 }
+    out: { battery_copper_foil: 1, H2SO4: 6.795e23, O2: 3.397e23 }
+    note: "회전하는 타이타늄 드럼 음극에 구리를 8µm로 전착해 벗겨 낸다"
+  - id: battery_separator_extrusion
+    name: { ko: 분리막 제조 }
+    time: 60
+    in: { polyethylene_hd: 1.953e23, paraffin_wax: 2.848e20, Al2O3: 1.181e22, pvdf: 1.881e21 }
+    out: { battery_separator: 1 }
+    note: "초고분자량 PE를 파라핀과 섞어 압출·연신하고 다이클로로메테인으로 파라핀을 씻어 내 기공을 만든다(습식). 한 면에 알루미나를 바른다"
+  - id: pouch_film_lamination
+    name: { ko: 파우치 필름 적층 }
+    time: 60
+    in: { nylon_6: 1.517e23, Al: 2.41e24, polypropylene: 1.03e24, epoxy_resin: 1.769e22 }
+    out: { pouch_film: 1 }
+  - id: lead_calcium_alloying
+    name: { ko: 납-칼슘 합금 용해 }
+    time: 4
+    in: { Pb: 975, Sn: 21, Ca: 4 }
+    out: { lead_calcium_alloy: 1000 }
+  - id: ab5_alloy_melting
+    name: { ko: AB5 합금 용해 }
+    time: 6
+    in: { mischmetal: 20, Ni: 71, Co: 15, Mn: 8, Al: 6 }
+    out: { ab5_alloy: 120 }
+    note: "아르곤 유도로에서 녹여 급랭한 뒤 수소를 흡수·방출시켜 가루로 만든다"
+  - id: grain_oriented_steel_production
+    name: { ko: 방향성 전기 강판 제조 }
+    time: 10
+    in: { steel: 95, ferrosilicon: 7, O2: 0.475, MgO: 0.2 }
+    out: { grain_oriented_steel: 100, CO: 0.95 }
+    note: "용강에 페로실리콘을 넣어 규소 3.2%로 맞추고 0.27mm로 냉간 압연한다. 탈탄 소둔으로 탄소를 빼고 MgO를 발라 고온 소둔하면 2차 재결정으로 결정 방향이 압연 방향에 맞는다"
+  - id: non_oriented_steel_production
+    name: { ko: 무방향성 전기 강판 제조 }
+    time: 8
+    in: { steel: 97, ferrosilicon: 3.5, Al: 1, O2: 0.485 }
+    out: { non_oriented_steel: 100, CO: 0.97 }
+    note: "규소·알루미늄을 넣어 0.35mm로 압연하고 소둔한 뒤 절연 코팅한다"
+  - id: pt_c_catalyst_preparation
+    name: { ko: 백금 촉매 담지 }
+    time: 6
+    in: { H2PtCl6: 1, H2: 2, carbon_black: 24 }
+    out: { pt_c_catalyst: 25, HCl: 6 }
+    note: "H2PtCl6 + 2H2 → Pt + 6HCl. 카본 블랙 위에 지름 2~3nm 백금 입자를 환원시켜 붙인다"
+  - id: tetrafluoroboric_acid_synthesis
+    name: { ko: 테트라플루오로붕산 합성 }
+    time: 2
+    in: { H3BO3: 1, HF: 4 }
+    out: { HBF4: 1, H2O: 3 }
+    note: "H3BO3 + 4HF → HBF4 + 3H2O"
+  - id: teabf4_synthesis
+    name: { ko: TEABF4 합성 }
+    time: 4
+    in: { NH3: 1, ethanol: 4, HBF4: 1 }
+    out: { teabf4: 1, H2O: 4 }
+    note: "개요 반응. 에탄올과 암모니아로 트라이에틸아민을 만들고 염화 에틸로 4차화한 뒤 HBF4로 음이온을 바꾼다"
+  - id: activated_carbon_production
+    name: { ko: 활성탄 제조 }
+    time: 6
+    in: { cotton_fiber: 1 }
+    out: { electrode_activated_carbon: 3, CO2: 1, CO: 2, H2O: 1, H2: 4 }
+    note: "C6H10O5 → 3C + CO2 + 2CO + H2O + 4H2. 셀룰로스(실제로는 야자 껍질)를 탄화하고 수증기로 활성화해 미세 기공을 낸다. 수율 약 22%"
+  - id: nmc811_cathode_coating
+    name: { ko: NCM811 양극 코팅 }
+    time: 120
+    in: { aluminium_foil_roll: 1, nmc811: 7.429e24, pvdf: 2.351e23, carbon_black: 1.253e24 }
+    out: { nmc811_cathode_sheet: 3 }
+    note: "양극재 96 · PVDF 2 · 도전재 2 wt%를 NMP에 풀어 알루미늄박 양면에 바르고 말려 압연한다. NMP 용매는 회수해 다시 쓴다"
+  - id: lco_cathode_coating
+    name: { ko: LCO 양극 코팅 }
+    time: 120
+    in: { aluminium_foil_roll: 1, LiCoO2: 8.861e24, pvdf: 2.821e23, carbon_black: 1.504e24 }
+    out: { lco_cathode_sheet: 3 }
+  - id: lfp_cathode_coating
+    name: { ko: LFP 양극 코팅 }
+    time: 120
+    in: { aluminium_foil_roll: 1, LiFePO4: 4.432e24, pvdf: 3.48e23, carbon_black: 1.855e24 }
+    out: { lfp_cathode_sheet: 3 }
+  - id: graphite_anode_coating
+    name: { ko: 흑연 음극 코팅 }
+    time: 120
+    in: { battery_copper_foil: 1, anode_graphite: 1.318e25, sbr: 1.152e22, carbon_black: 1.354e23 }
+    out: { graphite_anode_sheet: 1 }
+    note: "흑연 96 · SBR 3 · 도전재 1 wt% 수계 슬러리. 증점제 CMC는 생략했다"
+  - id: cell_18650_assembly
+    name: { ko: 18650 셀 조립 }
+    time: 600
+    in: { nmc811_cathode_sheet: 1, graphite_anode_sheet: 1, battery_separator: 2, li_ion_electrolyte: 7.531e23, steel: 2.318e24, Ni: 5.335e22, Al: 2.031e23, polypropylene: 1.116e23, polyethylene_ld: 2.791e22, pet: 8.148e21, polyimide: 2.048e21 }
+    out: { cell_18650: 26 }
+    note: "전극을 잘라 분리막과 함께 감아 니켈 도금 강철 캔에 넣고 전해액을 주입해 뚜껑(전류 차단 장치·PTC 포함)을 코킹한다. 화성·에이징을 거쳐 출하한다"
+  - id: pouch_cell_small_assembly
+    name: { ko: 소형 파우치 셀 조립 }
+    time: 600
+    in: { lco_cathode_sheet: 5, graphite_anode_sheet: 5, battery_separator: 10, li_ion_electrolyte: 3.785e24, pouch_film: 1, Al: 4.687e23, Ni: 2.155e23, polypropylene: 1.503e23, pet: 3.29e22 }
+    out: { pouch_cell_small: 105 }
+    note: "전극을 지그재그로 쌓거나 감아 파우치에 넣고 전해액을 주입해 진공 밀봉한다"
+  - id: phone_battery_assembly
+    name: { ko: 스마트폰 배터리 조립 }
+    time: 120
+    in: { pouch_cell_small: 1, flexible_pcb: 2, mixed_signal_ic: 1, power_mosfet: 1, Ni: 3.078e21, pet: 1.567e21, polyimide: 1.575e20 }
+    out: { phone_battery: 1 }
+    note: "과충전·과방전·과전류를 막는 보호 회로를 니켈 탭에 용접한다"
+  - id: laptop_battery_assembly
+    name: { ko: 노트북 배터리 조립 }
+    time: 300
+    in: { pouch_cell_small: 4, module_pcb: 1, mixed_signal_ic: 2, power_mosfet: 4, ntc_thermistor: 2, mlcc_0603: 30, chip_resistor_0603: 30, polycarbonate: 7.105e22, Ni: 3.078e22, pet: 9.401e21, Cu: 2.843e22, flexible_pvc: 1.056e21 }
+    out: { laptop_battery: 1 }
+    note: "셀 4개를 직렬로 잇고 배터리 관리 회로(BMS)와 온도 센서를 달아 케이스에 넣는다"
+  - id: pouch_cell_ev_assembly
+    name: { ko: 전기차 파우치 셀 조립 }
+    time: 900
+    in: { nmc811_cathode_sheet: 18, graphite_anode_sheet: 19, battery_separator: 39, li_ion_electrolyte: 1.468e25, pouch_film: 2, Al: 1.607e24, Cu: 6.823e23, Ni: 2.462e23, polypropylene: 1.03e23 }
+    out: { pouch_cell_ev: 24 }
+    note: "양극 약 0.75m²·음극 약 0.8m²를 분리막과 지그재그로 쌓아 알루미늄·니켈 도금 구리 탭을 용접하고 파우치에 밀봉한다"
+  - id: ev_battery_module_assembly
+    name: { ko: 전기차 배터리 모듈 조립 }
+    time: 600
+    in: { pouch_cell_ev: 12, aluminium_6061: 2.674e25, steel: 6.522e24, Cu: 2.843e24, pdms: 1.218e24, nbr: 1.867e23, pcb_double_sided: 1, mixed_signal_ic: 2, ntc_thermistor: 4, mlcc_0603: 50, chip_resistor_0603: 50, pvc_insulated_wire: 1 }
+    out: { ev_battery_module: 1 }
+    note: "셀 12개를 압축 패드와 함께 쌓아 탭을 구리 버스바에 레이저 용접하고 셀 감시 회로를 단다"
+  - id: ev_battery_pack_assembly
+    name: { ko: 전기차 배터리 팩 조립 }
+    time: 1800
+    in: { ev_battery_module: 28, aluminium_6061: 1.672e27, steel: 2.283e26, ethylene_glycol: 3.881e25, H2O: 1.337e26, pcb_double_sided: 2, mixed_signal_ic: 6, Cu: 5.686e25, relay: 4, Ag: 5.583e22, Al2O3: 1.772e24, flexible_pvc: 1.056e24, pet: 9.401e24, pdms: 4.873e25 }
+    out: { ev_battery_pack: 1 }
+    note: "알루미늄 하우징의 냉각판 위에 모듈 28개를 얹고 고전압 버스바·주 접촉기·퓨즈·배터리 관리 장치(BMS)를 연결한다. 냉각수는 에틸렌 글라이콜 50%"
+  - id: lfp_prismatic_cell_assembly
+    name: { ko: LFP 각형 셀 조립 }
+    time: 900
+    in: { lfp_cathode_sheet: 14, graphite_anode_sheet: 15, battery_separator: 29, li_ion_electrolyte: 7.531e24, aluminium_6061: 4.68e25, Al: 4.687e24, Cu: 2.274e24, polypropylene: 2.147e24, pet: 1.88e23 }
+    out: { lfp_prismatic_cell: 3 }
+    note: "젤리롤 2개를 알루미늄 캔에 넣고 뚜껑을 레이저 용접한 뒤 전해액을 주입한다"
+  - id: home_battery_assembly
+    name: { ko: 가정용 에너지 저장 장치 조립 }
+    time: 900
+    in: { lfp_prismatic_cell: 16, steel: 2.174e26, Cu: 1.422e25, pcb_double_sided: 2, mixed_signal_ic: 4, power_mosfet: 8, relay: 2, ntc_thermistor: 8, mlcc_0603: 100, chip_resistor_0603: 100, pvc_insulated_wire: 2, power_cable_1m: 2, pet: 3.134e24, pdms: 4.061e24 }
+    out: { home_battery: 1 }
+    note: "셀 16개를 직렬로 묶어 강철 함에 넣고 셀 균형·차단 기능이 있는 BMS를 단다"
+  - id: lead_acid_positive_plate_formation
+    name: { ko: 납축전지 양극판 화성 }
+    time: 120
+    in: { lead_calcium_alloy: 1.324e23, PbO: 1.981e23, H2O: 1.981e23, pet: 6.268e20 }
+    out: { lead_acid_positive_plate: 1, H2: 1.981e23 }
+    note: "격자에 산화 납 페이스트를 바르고 숙성한 뒤 묽은 황산 속에서 전기로 산화한다(PbO + H2O → PbO2 + H2)"
+  - id: lead_acid_negative_plate_formation
+    name: { ko: 납축전지 음극판 화성 }
+    time: 120
+    in: { lead_calcium_alloy: 1.177e23, PbO: 1.686e23, barite: 1.29e21, carbon_black: 1.003e22 }
+    out: { lead_acid_negative_plate: 1, O2: 8.431e22 }
+    note: "황산 바륨·카본 블랙 팽창제를 섞은 페이스트를 전기로 환원해 해면상 납으로 만든다(2PbO → 2Pb + O2)"
+  - id: lead_acid_battery_assembly
+    name: { ko: 납축전지 조립 }
+    time: 600
+    in: { lead_acid_positive_plate: 42, lead_acid_negative_plate: 48, polyethylene_hd: 3.864e24, SiO2: 3.007e24, lead_calcium_alloy: 1.765e24, H2SO4: 1.044e25, H2O: 9.694e25, polypropylene: 1.574e25 }
+    out: { lead_acid_battery: 1 }
+    note: "극판을 실리카 충전 PE 분리막으로 감싸 셀 6개로 묶고 납 스트랩으로 이어 PP 케이스에 넣는다. 비중 1.28의 묽은 황산 약 3.6L를 채운다"
+  - id: alkaline_aa_assembly
+    name: { ko: 알칼리 건전지 조립 }
+    time: 120
+    in: { Zn: 3.5e24, MnO2: 6.581e24, anode_graphite: 4.011e24, KOH: 1.342e24, H2O: 7.354e24, ZnO: 7.4e22, steel: 4.24e24, Ni: 5.13e22, brass: 3.289e23, nylon_66: 1.064e23, rayon_fiber: 3.714e22, pva: 6.835e22, pvc: 2.409e23, acrylic_acid: 4.178e22 }
+    out: { alkaline_aa: 100 }
+    note: "이산화 망가니즈·흑연 고리를 니켈 도금 강철 캔에 눌러 넣고 분리막 안에 젤 상태의 아연 가루와 수산화 칼륨 전해액을 채운 뒤 황동 집전 못이 달린 나일론 마개로 봉한다"
+  - id: nimh_aa_assembly
+    name: { ko: 니켈 수소 전지 조립 }
+    time: 120
+    in: { Ni(OH)2: 4.417e24, Co(OH)2: 2.268e23, ZnO: 1.11e23, Ni: 2.032e24, ab5_alloy: 7.519e24, ptfe: 6.021e22, carbon_black: 2.507e23, KOH: 7.514e23, NaOH: 7.528e22, LiOH: 7.544e22, H2O: 5.349e24, polypropylene: 3.578e23, steel: 5.544e24, nylon_66: 7.983e22, pvc: 2.409e23, nbr: 1.867e22 }
+    out: { nimh_aa: 100 }
+    note: "발포 니켈 양극(수산화 니켈)과 수소 저장 합금 음극을 PP 부직포와 함께 감아 캔에 넣는다"
+  - id: coin_cell_cr2032_assembly
+    name: { ko: CR2032 전지 조립 }
+    time: 120
+    in: { Li: 7.81e23, MnO2: 5.195e23, anode_graphite: 2.507e23, ptfe: 1.806e22, li_ion_electrolyte: 9.655e22, polypropylene: 1.145e23, stainless_steel: 2.026e24 }
+    out: { coin_cell_cr2032: 100 }
+    note: "열처리한 이산화 망가니즈 양극과 리튬박 음극을 스테인리스 캔에 넣고 PP 가스킷으로 코킹한다. 실제 전해액은 LiClO4/PC·DME"
+  - id: pv_ingot_growth
+    name: { ko: 태양전지용 잉곳 성장 }
+    time: 900
+    in: { polysilicon: 1.758e27, B: 5.3e20 }
+    out: { pv_cz_ingot: 1 }
+    note: "초크랄스키법. 요즘은 빛에 의한 열화를 줄이려 붕소 대신 갈륨을 넣는다"
+  - id: solar_wafer_slicing
+    name: { ko: 태양전지 웨이퍼 절단 }
+    time: 900
+    in: { pv_cz_ingot: 1 }
+    out: { solar_wafer: 3900, silicon_sludge: 9.011e26 }
+    note: "네 면을 깎아 유사 정사각형 블록으로 만들고 다이아몬드 와이어로 자른다. 잘라 낸 조각과 절단 손실은 슬러지로 나온다"
+  - id: solar_cell_fabrication
+    name: { ko: 태양전지 제조 }
+    time: 600
+    in: { solar_wafer: 100, NaOH: 2.444e24, H2O: 1.222e24, POCl3: 1.178e20, SiH4: 1.751e22, NH3: 2.335e22, Al2O3: 5.906e20, Ag: 6.699e22, Al: 2.901e24, SiO2: 3.007e21, B2O3: 8.65e20 }
+    out: { solar_cell: 100, Na2SiO3: 1.222e24, H2: 2.515e24 }
+    note: "수산화 나트륨으로 표면을 피라미드 모양으로 식각하고(Si + 2NaOH + H2O → Na2SiO3 + 2H2) POCl3로 인을 확산시킨다. Al2O3·SiNx 패시베이션 뒤 은·알루미늄 전극을 인쇄해 굽는다"
+  - id: solar_glass_production
+    name: { ko: 태양광 유리 제조 }
+    time: 300
+    in: { SiO2: 9.447e25, Na2CO3: 1.705e25, CaCO3: 1.187e25, MgO: 7.77e24, Al2O3: 7.678e23 }
+    out: { solar_glass: 1, CO2: 2.892e25 }
+    note: "철분이 적은 규사로 소다석회 유리를 녹여 무늬 롤로 펴고 반사 방지막을 입혀 열강화한다"
+  - id: pv_backsheet_lamination
+    name: { ko: 백시트 적층 }
+    time: 120
+    in: { pet: 1.761e24, pvdf: 6.818e23, eva: 1.493e23, epoxy_resin: 1.769e22, TiO2: 1.131e23 }
+    out: { pv_backsheet: 1 }
+    note: "PET 250µm 양면에 이산화 타이타늄을 넣은 PVDF 필름과 EVA 접착층을 붙인다"
+  - id: pv_junction_box_assembly
+    name: { ko: 정션 박스 조립 }
+    time: 120
+    in: { polycarbonate: 2.274e23, pdms: 3.248e23, Cu: 8.216e23, Sn: 5.073e21, diode: 3, polyethylene_ld: 1.288e24, brass: 5.639e22, Ag: 5.583e20, nbr: 3.735e21 }
+    out: { pv_junction_box: 1 }
+    note: "바이패스 다이오드를 단자에 붙여 실리콘으로 채운다. 케이블 피복은 가교 폴리올레핀"
+  - id: solar_panel_lamination
+    name: { ko: 태양광 모듈 제조 }
+    time: 900
+    in: { solar_glass: 1, solar_cell: 60, eva: 2.734e24, pv_backsheet: 1, aluminium_6061: 4.903e25, Cu: 1.516e24, Sn: 9.131e22, pv_junction_box: 1, pdms: 2.03e24, pet: 6.268e21 }
+    out: { solar_panel_60cell: 1 }
+    note: "주석 도금 구리 리본으로 셀 60개를 직렬로 잇고 유리/EVA/셀/EVA/백시트를 150°C 진공 라미네이터로 붙인다. 알루미늄 프레임과 정션 박스를 실리콘으로 붙인다"
+  - id: wind_turbine_blade_infusion
+    name: { ko: 풍력 날개 성형 }
+    time: 1800
+    in: { glass_fiber_mat: 13000, epoxy_resin: 5.13e27, diethylenetriamine: 1.751e27, pet: 1.567e27, steel: 4.348e27, Cu: 5.686e26 }
+    out: { wind_turbine_blade: 1 }
+    note: "개요. 반쪽 틀에 유리 섬유와 PET 폼 심재를 깔고 에폭시를 진공 주입해 굳힌 두 쪽을 붙인다. 뿌리에 강철 볼트 인서트, 낙뢰 보호용 구리 도선"
+  - id: dry_type_transformer_assembly
+    name: { ko: 몰드 변압기 조립 }
+    time: 1800
+    in: { grain_oriented_steel: 3.075e27, copper_wire_1kg: 80, epoxy_resin: 6.192e25, SiO2: 6.515e26, glass_fiber_mat: 20, pet: 1.567e25, steel: 7.609e26, Cu: 4.738e25, nbr: 7.469e24, platinum_wire: 1 }
+    out: { dry_type_transformer: 1 }
+    note: "방향성 전기 강판을 계단 겹침으로 쌓은 철심에 구리 권선을 끼우고, 고압 권선은 실리카를 채운 에폭시로 진공 주형한다. 권선 온도는 백금 측온 저항체로 잰다"
+  - id: electric_motor_small_assembly
+    name: { ko: 소형 BLDC 모터 조립 }
+    time: 300
+    in: { non_oriented_steel: 2.299e24, Cu: 8.34e23, pet: 9.401e21, ndfeb_magnet: 8, steel: 1.294e24, aluminium_6061: 1.226e24, mixed_signal_ic: 3, flexible_pvc: 1.584e21, epoxy_resin: 3.538e21, nylon_66: 2.661e21, brass: 4.699e21 }
+    out: { electric_motor_small: 1 }
+    note: "전기 강판 고정자에 3상 권선을 감고, 네오디뮴 자석 8개를 붙인 회전자를 베어링 2개로 받친다. 홀 센서 3개로 위치를 읽는다"
+  - id: electric_motor_industrial_assembly
+    name: { ko: 산업용 유도 전동기 조립 }
+    time: 1200
+    in: { non_oriented_steel: 2.299e26, copper_wire_1kg: 7, Al: 3.571e25, steel: 7.392e25, cast_iron: 1.735e26, polypropylene: 3.578e24, pet: 9.401e23, epoxy_resin: 7.076e23, aluminium_6061: 1.114e25, brass: 1.41e24, nbr: 1.867e23, stainless_steel: 3.285e23, glyptal_resin: 2.097e23 }
+    out: { electric_motor_industrial: 1 }
+    note: "고정자 슬롯에 구리 권선을 넣고 바니시를 진공 함침한다. 회전자 홈에 알루미늄을 다이캐스팅해 농형 도체를 만든다. 회주철 프레임·엔드 실드, 베어링 2개, 냉각 팬"
+  - id: car_alternator_assembly
+    name: { ko: 자동차 발전기 조립 }
+    time: 600
+    in: { steel: 2.392e25, Cu: 8.719e24, non_oriented_steel: 1.314e25, aluminium_6061: 3.789e25, diode: 6, mixed_signal_ic: 1, anode_graphite: 2.507e23, epoxy_resin: 8.845e22, pet: 9.401e22 }
+    out: { car_alternator: 1 }
+    note: "클로 폴 회전자의 계자 코일에 흑연 브러시와 슬립 링으로 전류를 흘린다. 3상 출력을 다이오드 6개로 정류한다"
+  - id: synchronous_generator_assembly
+    name: { ko: 동기 발전기 조립 }
+    time: 1800
+    in: { non_oriented_steel: 2.299e27, copper_wire_1kg: 80, steel: 1.359e27, aluminium_6061: 6.686e25, diode: 6, pcb_double_sided: 1, mixed_signal_ic: 2, power_mosfet: 2, epoxy_resin: 7.076e24, pet: 6.268e24 }
+    out: { synchronous_generator: 1 }
+    note: "고정자·회전자 철심과 권선, 회전 정류기가 달린 여자기, 자동 전압 조정기(AVR)"
+  - id: solar_inverter_assembly
+    name: { ko: 태양광 인버터 조립 }
+    time: 900
+    in: { aluminium_6061: 1.894e26, steel: 1.087e25, pcb_double_sided: 4, power_mosfet: 12, film_capacitor: 40, electrolytic_capacitor: 20, bulk_capacitor: 2, ferrite_toroid: 6, mnzn_ferrite: 3.864e24, Cu: 1.422e25, relay: 4, mixed_signal_ic: 10, mlcc_0603: 300, chip_resistor_0603: 300, ntc_thermistor: 4, glass_fuse: 2, brass: 4.699e23, polycarbonate: 1.421e23, wifi_module: 1, smps_transformer: 2, quartz_crystal_unit: 1, pdms: 2.436e24, pvc_insulated_wire: 1 }
+    out: { solar_inverter: 1 }
+    note: "MPPT 승압 변환기와 풀브리지 인버터, LCL 필터, 계통 연계 릴레이. 실제 스위칭 소자는 IGBT나 SiC MOSFET"
+  - id: variable_frequency_drive_assembly
+    name: { ko: 가변 주파수 드라이브 조립 }
+    time: 600
+    in: { aluminium_6061: 4.457e25, polycarbonate: 1.421e24, steel: 3.261e24, pcb_double_sided: 3, power_mosfet: 6, diode: 6, bulk_capacitor: 4, non_oriented_steel: 8.758e24, Cu: 2.843e24, cooling_fan_120mm: 1, led_smd_2835: 10, mixed_signal_ic: 6, relay: 2, smps_transformer: 1, mlcc_0603: 200, chip_resistor_0603: 200, brass: 4.699e23 }
+    out: { variable_frequency_drive: 1 }
+    note: "다이오드 정류기·DC 링크·3상 인버터(실제로는 IGBT 모듈)·DC 리액터·조작 패널"
+  - id: usb_c_charger_assembly
+    name: { ko: USB-C 충전기 조립 }
+    time: 300
+    in: { polycarbonate: 7.105e22, pcb_double_sided: 1, power_mosfet: 3, mixed_signal_ic: 3, smps_transformer: 1, electrolytic_capacitor: 2, film_capacitor: 1, diode: 1, usb_c_receptacle: 1, brass: 5.639e22, pdms: 1.218e23, Cu: 2.843e22, mlcc_0603: 40, chip_resistor_0603: 30, glass_fuse: 1, ntc_thermistor: 1 }
+    out: { usb_c_charger: 1 }
+    note: "준공진 플라이백 변환기. 실제 고밀도 충전기는 질화 갈륨 트랜지스터로 스위칭해 작게 만든다"
+  - id: ev_wallbox_assembly
+    name: { ko: 전기차 충전기 조립 }
+    time: 900
+    in: { polycarbonate: 2.96e24, pcb_double_sided: 2, mixed_signal_ic: 4, steel: 5.979e24, Cu: 4.738e23, copper_wire_1kg: 1, Ag: 2.791e21, relay: 2, ferrite_toroid: 1, smps_transformer: 1, flexible_pvc: 6.336e23, brass: 1.034e24, nbr: 7.469e22, nylon_66: 1.33e23, wifi_module: 1, led_smd_2835: 5 }
+    out: { ev_wallbox: 1 }
+    note: "주 접촉기·누설 전류 감지기·제어 파일럿 회로와 5m 충전 케이블(3×6mm²) 및 타입 2 플러그"
+  - id: led_bulb_assembly
+    name: { ko: LED 전구 조립 }
+    time: 300
+    in: { polycarbonate: 4.026e22, aluminium_6061: 3.343e23, Al: 8.928e22, epoxy_resin: 3.538e20, Cu: 6.634e21, led_smd_2835: 16, module_pcb: 2, mixed_signal_ic: 1, electrolytic_capacitor: 2, diode: 1, smd_power_inductor: 1, chip_resistor_0603: 6, mlcc_0603: 4, carbon_film_resistor: 1, glass: 10, solder_sac305: 1.533e21, pdms: 8.121e21 }
+    out: { led_bulb: 1 }
+    note: "알루미늄 기판에 LED 16개를 붙이고 정전류 드라이버를 소켓 안에 넣은 뒤 폴리카보네이트 확산 덮개를 씌운다"
+  - id: power_cable_extrusion
+    name: { ko: 전력 케이블 제조 }
+    time: 300
+    in: { copper_wire_1kg: 1, flexible_pvc: 4.435e23, CaCO3: 1.264e24 }
+    out: { power_cable_1m: 14 }
+    note: "구리선을 꼬아 2.5mm² 도체 3가닥을 만들고 PVC 절연·충전재·외피를 압출한다. 구리선 1kg으로 14m"
+  - id: pfsa_membrane_casting
+    name: { ko: 전해질막 제조 }
+    time: 300
+    in: { tetrafluoroethylene: 2.649e23, SO3: 2.783e22, O2: 2.258e22, HF: 3.311e22 }
+    out: { pfsa_membrane: 1 }
+    note: "개요. TFE와 설포닐 플루오라이드 바이닐 에터를 공중합해 필름으로 압출하고 가수분해해 설폰산형으로 바꾼다"
+  - id: gas_diffusion_layer_production
+    name: { ko: 기체 확산층 제조 }
+    time: 300
+    in: { carbon_fiber: 3.76e24, carbon_black: 1.103e24, ptfe: 7.226e22 }
+    out: { gas_diffusion_layer: 1 }
+    note: "탄소 섬유 종이를 PTFE로 발수 처리하고 카본 블랙 미세 다공층을 바른다"
+  - id: mea_assembly
+    name: { ko: 막-전극 접합체 제조 }
+    time: 600
+    in: { pfsa_membrane: 1, gas_diffusion_layer: 1, pt_c_catalyst: 1.557e23, pet: 1.567e23, pdms: 8.121e23 }
+    out: { membrane_electrode_assembly: 50 }
+    note: "전해질막 양면에 백금 촉매층을 입히고(양극 0.1 · 음극 0.3mg/cm²) 기체 확산층과 테두리 필름·가스켓을 붙인다"
+  - id: pem_stack_assembly
+    name: { ko: 연료 전지 스택 조립 }
+    time: 900
+    in: { membrane_electrode_assembly: 40, stainless_steel: 1.314e25, Au: 9.172e20, aluminium_6061: 2.674e25, Cu: 1.895e24, steel: 3.805e24, pet: 3.134e23, pdms: 6.497e23, nbr: 7.469e22 }
+    out: { pem_fuel_cell_stack: 1 }
+    note: "막-전극 접합체와 유로를 찍은 스테인리스 분리판을 번갈아 40장 쌓고 알루미늄 엔드 플레이트로 조인다"
+  - id: hydrogen_tank_winding
+    name: { ko: 수소 용기 필라멘트 와인딩 }
+    time: 1200
+    in: { nylon_6: 1.863e25, carbon_fiber: 1.304e27, epoxy_resin: 1.946e25, diethylenetriamine: 5.837e24, glass_fiber_mat: 4, aluminium_6061: 2.674e25, stainless_steel: 8.76e24, nbr: 1.867e23 }
+    out: { hydrogen_tank: 1 }
+    note: "나일론 라이너에 에폭시를 먹인 탄소 섬유를 감아 굳히고 겉에 유리 섬유 보호층을 씌운다. 양 끝에 알루미늄 보스와 밸브"
+  - id: supercapacitor_assembly
+    name: { ko: 슈퍼커패시터 조립 }
+    time: 600
+    in: { aluminium_foil_roll: 1, electrode_activated_carbon: 1.103e25, ptfe: 7.226e22, carbon_black: 6.017e23, cotton_fiber: 8.914e22, acetonitrile: 2.787e24, teabf4: 1.498e23, aluminium_6061: 8.023e24, nbr: 2.241e22, pet: 1.88e22 }
+    out: { supercapacitor: 2 }
+    note: "활성탄 전극을 알루미늄박에 붙여 셀룰로스 분리막과 감고 1M TEABF4/아세토나이트릴 전해액을 채워 알루미늄 캔에 봉한다"

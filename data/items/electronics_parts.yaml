@@ -1,0 +1,127 @@
+# 전자 부품: 반도체 공정 재료·웨이퍼·다이·수동 소자·기판·디스플레이·완제품.
+# 부품의 expected_mass는 실제 부품의 질량 범위로, 검증기가 레시피로 계산한 질량과 비교한다.
+# 웨이퍼를 자를 때 갈아 낸 뒷면·절단 손실·불량 다이는 슬러지 부산물로 내보내 다이 질량이 실제와 맞게 했다.
+category: electronics
+unit: piece
+items:
+  - { id: polysilicon, name: { ko: 다결정 실리콘, en: Polysilicon }, unit: particle, formula: Si, note: "순도 99.9999999%(9N) 이상의 전자 등급 실리콘" }
+  - { id: SiH4, name: { ko: 실레인, en: Silane }, category: chemistry, unit: particle, formula: SiH4, note: "반도체·태양전지 CVD의 규소 원료. 공기 중에서 저절로 불붙는다" }
+  - { id: WF6, name: { ko: 육플루오린화 텅스텐, en: Tungsten hexafluoride }, category: chemistry, unit: particle, formula: WF6, note: "텅스텐 CVD(콘택 플러그·3D 낸드 워드 라인)의 원료" }
+  - { id: teos, name: { ko: 테트라에톡시실레인, en: Tetraethyl orthosilicate }, category: chemistry, unit: particle, formula: C8H20O4Si, note: "TEOS. 산화막 CVD의 원료" }
+  - { id: NF3, name: { ko: 삼플루오린화 질소, en: Nitrogen trifluoride }, category: chemistry, unit: particle, formula: NF3, note: "CVD 챔버 세정 기체" }
+  - { id: NH4F, name: { ko: 플루오린화 암모늄, en: Ammonium fluoride }, category: chemistry, unit: particle, formula: NH4F, note: "HF와 섞어 완충 산화막 식각액(BOE)을 만든다" }
+  - { id: photoresist, name: { ko: 포토레지스트, en: Photoresist }, unit: particle, note: "노볼락 수지 3 : 용매 7 단위(고형분 약 28 wt%). 실제 용매는 PGMEA이고 감광제(DNQ)는 생략했다" }
+  - { id: GaCl3, name: { ko: 염화 갈륨, en: Gallium trichloride }, category: chemistry, unit: particle, formula: GaCl3 }
+  - { id: InCl3, name: { ko: 염화 인듐, en: Indium trichloride }, category: chemistry, unit: particle, formula: InCl3 }
+  - { id: triethylgallium, name: { ko: 트라이에틸갈륨, en: Triethylgallium }, category: chemistry, unit: particle, formula: C6H15Ga, note: "Ga(C2H5)3. MOCVD 갈륨 원료" }
+  - { id: triethylindium, name: { ko: 트라이에틸인듐, en: Triethylindium }, category: chemistry, unit: particle, formula: C6H15In, note: "In(C2H5)3. MOCVD 인듐 원료" }
+  - { id: GaN, name: { ko: 질화 갈륨, en: Gallium nitride }, category: chemistry, unit: particle, formula: GaN, note: "청색 LED와 고전자 이동도 트랜지스터의 반도체" }
+  - { id: InGaN, name: { ko: 질화 인듐 갈륨, en: Indium gallium nitride }, category: chemistry, unit: particle, formula: In0.2Ga0.8N, note: "청색 LED 양자 우물. 인듐 20%면 약 450nm로 빛난다" }
+  - { id: Y2O3, name: { ko: 산화 이트륨, en: Yttrium oxide }, category: chemistry, unit: particle, formula: Y2O3 }
+  - { id: CeO2, name: { ko: 산화 세륨(IV), en: Cerium(IV) oxide }, category: chemistry, unit: particle, formula: CeO2 }
+  - { id: yag_phosphor, name: { ko: "YAG:Ce 형광체", en: "YAG:Ce phosphor" }, category: chemistry, unit: particle, formula: Y2.9Ce0.1Al5O12, note: "세륨을 넣은 이트륨 알루미늄 가닛. 청색 빛을 받아 노란빛을 내어 백색 LED를 만든다" }
+  - { id: sapphire_wafer_4in, name: { ko: 4인치 사파이어 웨이퍼, en: 4-inch sapphire wafer }, expected_mass: [18g, 23g], note: "지름 100mm, 두께 0.65mm. 질화 갈륨 LED의 기판" }
+  - { id: led_epi_wafer, name: { ko: LED 에피 웨이퍼, en: LED epitaxial wafer }, expected_mass: [19g, 23g], note: "사파이어 위에 n-GaN·InGaN 양자 우물·p-GaN을 약 5µm 기른 웨이퍼" }
+  - { id: led_chip, name: { ko: 청색 LED 칩, en: Blue LED chip }, expected_mass: [0.05mg, 0.5mg], note: "0.5×0.5mm(20mil), 두께 약 0.12mm" }
+  - { id: led_smd_2835, name: { ko: 백색 LED(2835), en: White LED (2835 SMD) }, expected_mass: [15mg, 40mg], note: "2.8×3.5mm 표면 실장 LED. 약 0.2W" }
+  - { id: led_5mm, name: { ko: 5mm 백색 LED, en: 5 mm white LED }, expected_mass: [0.2g, 0.4g], note: "에폭시 렌즈 리드형 LED" }
+  - { id: In2O3, name: { ko: 산화 인듐, en: Indium(III) oxide }, category: chemistry, unit: particle, formula: In2O3 }
+  - { id: SnO2, name: { ko: 산화 주석(IV), en: Tin(IV) oxide }, category: chemistry, unit: particle, formula: SnO2, note: "정제한 주석을 태워 얻는 고순도 산화물. ITO·접점 재료" }
+  - { id: ito, name: { ko: 산화 인듐 주석(ITO), en: Indium tin oxide }, unit: particle, note: "In2O3 5 : SnO2 1 분자 단위(SnO2 약 10 wt%). 투명 전극 스퍼터링 타깃 재료" }
+  - { id: BaTiO3, name: { ko: 타이타늄산 바륨, en: Barium titanate }, category: chemistry, unit: particle, formula: BaTiO3, note: "강유전체. 적층 세라믹 커패시터(MLCC)의 유전체" }
+  - { id: mnzn_ferrite, name: { ko: 망가니즈-아연 페라이트, en: MnZn ferrite }, category: chemistry, unit: particle, formula: Mn0.7Zn0.3Fe2O4, note: "전력용 연자성 페라이트. 수백 kHz 변압기·인덕터 코어" }
+  - { id: NiMn2O4, name: { ko: 니켈 망가나이트, en: Nickel manganite }, category: chemistry, unit: particle, formula: NiMn2O4, note: "NTC 서미스터의 스피넬 세라믹" }
+  - { id: Cd, name: { ko: 카드뮴, en: Cadmium }, category: element, unit: particle, formula: Cd, note: "아연 제련의 부산물. 독성이 강해 쓰임이 제한된다" }
+  - { id: CdS, name: { ko: 황화 카드뮴, en: Cadmium sulfide }, category: chemistry, unit: particle, formula: CdS, note: "빛을 받으면 저항이 줄어드는 광전도체" }
+  - { id: mlcc_0603, name: { ko: 적층 세라믹 커패시터(0603), en: MLCC (0603) }, expected_mass: [2mg, 10mg], note: "1.6×0.8×0.8mm. 타이타늄산 바륨과 니켈 내부 전극 수백 층" }
+  - { id: mlcc_0201, name: { ko: 적층 세라믹 커패시터(0201), en: MLCC (0201) }, expected_mass: [0.15mg, 0.6mg], note: "0.6×0.3×0.3mm. 스마트폰 한 대에 1,000개쯤 들어간다" }
+  - { id: chip_resistor_0603, name: { ko: 후막 칩 저항(0603), en: Thick-film chip resistor (0603) }, expected_mass: [1.5mg, 4.5mg], note: "알루미나 기판 위에 저항 페이스트를 인쇄해 구운 표면 실장 저항" }
+  - { id: carbon_film_resistor, name: { ko: 탄소 피막 저항, en: Carbon film resistor }, expected_mass: [0.15g, 0.35g], note: "1/4W 축형 리드 저항" }
+  - { id: electrolytic_capacitor, name: { ko: 알루미늄 전해 커패시터(470µF), en: Aluminium electrolytic capacitor (470 µF) }, expected_mass: [1.5g, 3g], note: "470µF 25V, 지름 10mm × 높이 16mm 리드형" }
+  - { id: bulk_capacitor, name: { ko: 스냅인 전해 커패시터(470µF·400V), en: "Snap-in electrolytic capacitor (470 µF, 400 V)" }, expected_mass: [35g, 60g], note: "지름 30mm × 높이 45mm. 전원 장치 역률 보정단의 평활 커패시터" }
+  - { id: tantalum_capacitor, name: { ko: 탄탈럼 커패시터, en: Tantalum capacitor }, expected_mass: [40mg, 120mg], note: "표면 실장 케이스 B(3.5×2.8mm), 22µF 16V" }
+  - { id: film_capacitor, name: { ko: 필름 커패시터, en: Film capacitor }, expected_mass: [2.5g, 6g], note: "금속화 폴리프로필렌(MKP) X2 0.47µF 275VAC, 18×11×17.5mm 상자형" }
+  - { id: ferrite_toroid, name: { ko: 페라이트 토로이드 코어, en: Ferrite toroid core }, expected_mass: [12g, 18g], note: "MnZn 페라이트, 바깥지름 25 · 안지름 15 · 높이 10mm" }
+  - { id: smd_power_inductor, name: { ko: SMD 파워 인덕터, en: SMD power inductor }, expected_mass: [0.3g, 0.7g], note: "차폐형 10µH, 5.8×5.2×4.5mm" }
+  - { id: smps_transformer, name: { ko: 스위칭 전원 변압기, en: SMPS transformer }, expected_mass: [20g, 40g], note: "EE25 페라이트 코어 플라이백 변압기" }
+  - { id: quartz_crystal_unit, name: { ko: 수정 진동자(HC-49/S), en: Quartz crystal unit (HC-49/S) }, expected_mass: [0.25g, 0.6g], note: "금속 캔에 봉한 AT컷 수정 진동자" }
+  - { id: photoresistor, name: { ko: 황화 카드뮴 광저항, en: CdS photoresistor }, expected_mass: [0.15g, 0.35g], note: "지름 5mm 광의존 저항(LDR)" }
+  - { id: ntc_thermistor, name: { ko: NTC 서미스터, en: NTC thermistor }, expected_mass: [0.1g, 0.3g], note: "10kΩ 에폭시 코팅 디스크형" }
+  - { id: relay, name: { ko: 릴레이, en: Relay }, expected_mass: [8g, 14g], note: "5V 코일, 10A 접점 SPDT 전력 릴레이" }
+  - { id: glass_fuse, name: { ko: 유리관 퓨즈, en: Glass cartridge fuse }, expected_mass: [0.4g, 0.9g], note: "5×20mm 속단형" }
+  - { id: usb_c_receptacle, name: { ko: USB-C 리셉터클, en: USB-C receptacle }, expected_mass: [0.4g, 1.2g], note: "24핀 표면 실장 커넥터" }
+  - { id: usb_cable, name: { ko: USB-C 케이블, en: USB-C cable }, expected_mass: [20g, 40g], note: "USB-C to C, 1m, 3A" }
+  - { id: power_cord, name: { ko: 전원 코드, en: Power cord }, expected_mass: [120g, 200g], note: "IEC C13 커넥터와 CEE 7/7 플러그, 1.8m, 3×0.75mm²(H05VV-F)" }
+  - { id: cpu_socket, name: { ko: CPU 소켓(LGA), en: CPU socket (LGA) }, expected_mass: [20g, 50g], note: "접점 1,700개짜리 LGA 소켓과 고정 판" }
+  - { id: cooling_fan_120mm, name: { ko: 냉각 팬(120mm), en: Cooling fan (120 mm) }, expected_mass: [80g, 160g], note: "12V BLDC 케이스 팬" }
+  - { id: micro_speaker, name: { ko: 마이크로 스피커, en: Micro speaker }, expected_mass: [1.2g, 3.5g], note: "스마트폰·노트북용 스피커 박스" }
+  - { id: mems_microphone, name: { ko: MEMS 마이크로폰, en: MEMS microphone }, expected_mass: [15mg, 50mg], note: "3.76×2.95×1.1mm. MEMS 진동판 칩과 신호 처리 칩" }
+  - { id: fr4_laminate, name: { ko: FR-4 동박 적층판, en: FR-4 copper-clad laminate }, expected_mass: [3.2kg, 3.9kg], note: "1m², 두께 1.6mm, 양면 35µm 동박. 할로젠 프리(수산화 알루미늄 난연)" }
+  - { id: FeCl2, name: { ko: 염화 철(II), en: Iron(II) chloride }, category: chemistry, unit: particle, formula: FeCl2, note: "염화 철(III) 식각액이 구리를 녹이고 남는 폐액 성분" }
+  - { id: CuCl, name: { ko: 염화 구리(I), en: Copper(I) chloride }, category: chemistry, unit: particle, formula: CuCl, note: "염화 구리(II) 식각액이 구리를 녹이고 남는 성분" }
+  - { id: pcb_double_sided, name: { ko: 양면 인쇄 회로 기판, en: Double-sided PCB }, expected_mass: [30g, 45g], note: "10×10cm, 두께 1.6mm, 무연 HASL 마감" }
+  - { id: multilayer_pcb_panel, name: { ko: 8층 PCB 패널, en: 8-layer PCB panel }, expected_mass: [3.4kg, 4.2kg], note: "1m², 두께 1.6mm, ENIG 마감. 잘라서 메인보드를 만든다" }
+  - { id: hdi_pcb_panel, name: { ko: HDI PCB 패널, en: HDI PCB panel }, expected_mass: [1.7kg, 2.3kg], note: "1m², 10층 임의층 HDI, 두께 0.8mm" }
+  - { id: motherboard_pcb, name: { ko: 메인보드 기판(ATX), en: Motherboard PCB (ATX) }, expected_mass: [250g, 380g], note: "305×244mm 8층" }
+  - { id: laptop_mainboard_pcb, name: { ko: 노트북 메인보드 기판, en: Laptop mainboard PCB }, expected_mass: [80g, 150g], note: "약 250×100mm 8층" }
+  - { id: dimm_pcb, name: { ko: 메모리 모듈 기판, en: DIMM PCB }, expected_mass: [14g, 24g], note: "133.35×31.25mm, 288핀 금도금 단자" }
+  - { id: smartphone_pcb, name: { ko: 스마트폰 기판, en: Smartphone PCB }, expected_mass: [5g, 11g], note: "약 30cm² HDI" }
+  - { id: m2_pcb, name: { ko: M.2 기판, en: M.2 PCB }, expected_mass: [3g, 6g], note: "22×80mm(M.2 2280)" }
+  - { id: module_pcb, name: { ko: 모듈 기판, en: Module PCB }, expected_mass: [1g, 2.5g], note: "22×30mm 소형 HDI 기판" }
+  - { id: flexible_pcb, name: { ko: 연성 회로 기판, en: Flexible printed circuit }, expected_mass: [0.08g, 0.2g], note: "폴리이미드 FPC, 약 50×10mm" }
+  - { id: durene, name: { ko: 듀렌, en: Durene }, category: organic, unit: particle, formula: C10H14, note: "1,2,4,5-테트라메틸벤젠" }
+  - { id: pmda, name: { ko: 피로멜리트산 이무수물, en: Pyromellitic dianhydride }, category: organic, unit: particle, formula: C10H2O6, note: "PMDA. 폴리이미드 단량체" }
+  - { id: oda, name: { ko: "4,4'-옥시다이아닐린", en: "4,4'-Oxydianiline" }, category: organic, unit: particle, formula: C12H12N2O, note: "ODA. 폴리이미드 단량체" }
+  - { id: polyimide, name: { ko: 폴리이미드, en: Polyimide }, category: polymer, unit: particle, formula: C22H10N2O5, note: "PMDA-ODA 폴리이미드(캡톤). 반복 단위 1개를 1로 센다. 400°C를 견딘다" }
+  - { id: display_glass_sheet, name: { ko: 디스플레이 유리 기판, en: Display glass substrate }, expected_mass: [1.1kg, 1.3kg], note: "1m², 두께 0.5mm 무알칼리 알루미노보로실리케이트 유리" }
+  - { id: cover_glass, name: { ko: 강화 커버 유리, en: Strengthened cover glass }, expected_mass: [12g, 18g], note: "6.1인치 휴대폰용 알루미노실리케이트 유리, 두께 0.6mm" }
+  - { id: polarizer_film, name: { ko: 편광 필름, en: Polarizer film }, expected_mass: [260g, 380g], note: "1m². TAC/요오드 PVA/TAC 적층과 점착층·이형 필름" }
+  - { id: tft_backplane_sheet, name: { ko: TFT 어레이 기판, en: TFT array substrate }, expected_mass: [1.1kg, 1.3kg], note: "1m² 비정질 실리콘 TFT 어레이" }
+  - { id: color_filter_sheet, name: { ko: 컬러 필터 기판, en: Color filter substrate }, expected_mass: [1.1kg, 1.3kg], note: "1m² 블랙 매트릭스·RGB 필터·ITO 공통 전극" }
+  - { id: biphenyl, name: { ko: 바이페닐, en: Biphenyl }, category: organic, unit: particle, formula: C12H10 }
+  - { id: liquid_crystal_5cb, name: { ko: 5CB 액정, en: 5CB liquid crystal }, category: organic, unit: particle, formula: C18H19N, note: "4-사이아노-4'-펜틸바이페닐. 상온 네마틱 액정. 실제 TFT용 혼합물은 플루오린계 액정 10~20종이다" }
+  - { id: lcd_cell_sheet, name: { ko: LCD 셀 원판, en: LCD mother cell }, expected_mass: [2.2kg, 2.6kg], note: "1m² TFT 기판과 컬러 필터 기판 사이에 액정을 채운 원판" }
+  - { id: lcd_cell_14in, name: { ko: 14인치 LCD 셀, en: 14-inch LCD cell }, expected_mass: [120g, 180g], note: "원판에서 잘라 낸 14인치(약 310×175mm) 셀" }
+  - { id: led_backlight_unit, name: { ko: LED 백라이트 유닛, en: LED backlight unit }, expected_mass: [50g, 90g], note: "14인치 노트북용 도광판·광학 필름·LED 바" }
+  - { id: lcd_panel_14in, name: { ko: 14인치 LCD 패널, en: 14-inch LCD panel }, expected_mass: [220g, 380g], note: "1920×1080 노트북용 LCD 모듈" }
+  - { id: hydroxyquinoline, name: { ko: 8-하이드록시퀴놀린, en: 8-Hydroxyquinoline }, category: organic, unit: particle, formula: C9H7NO }
+  - { id: alq3, name: { ko: 트리스(8-퀴놀리놀라토)알루미늄, en: Tris(8-hydroxyquinolinato)aluminium }, category: organic, unit: particle, formula: C27H18AlN3O3, note: "Alq3. 초기 OLED의 녹색 발광층·전자 수송층 재료" }
+  - { id: oled_panel_phone, name: { ko: 스마트폰 OLED 패널, en: Smartphone OLED panel }, expected_mass: [5g, 14g], note: "6.1인치 플렉시블 OLED 모듈(커버 유리 제외)" }
+  - { id: touch_screen_phone, name: { ko: 스마트폰 터치스크린, en: Smartphone touch screen }, expected_mass: [13g, 21g], note: "커버 유리·정전 용량식 터치 센서 필름·광학 접착층" }
+  - { id: silicon_sludge, name: { ko: 실리콘 슬러지, en: Silicon kerf sludge }, category: material, unit: particle, formula: Si, note: "잉곳 절단·웨이퍼 연삭에서 깎여 나온 실리콘 가루. 냉각수·연마재와 섞여 있어 대부분 버린다" }
+  - { id: sapphire_sludge, name: { ko: 사파이어 연삭 슬러지, en: Sapphire grinding sludge }, category: material, unit: particle, formula: Al2O3, note: "LED 웨이퍼 뒷면을 갈아 낸 알루미나 가루" }
+  - { id: cz_ingot_300mm, name: { ko: 300mm 단결정 실리콘 잉곳, en: 300 mm Czochralski silicon ingot }, expected_mass: [150kg, 190kg], note: "지름 300mm, 몸통 길이 약 1.1m의 p형 단결정" }
+  - { id: wafer_12in, name: { ko: 12인치 실리콘 웨이퍼, en: 12-inch silicon wafer }, expected_mass: [120g, 135g], note: "지름 300mm, 두께 775µm 경면 웨이퍼. 약 128g" }
+  - { id: logic_wafer_feol, name: { ko: 전공정 로직 웨이퍼, en: Logic wafer (front end) }, expected_mass: [120g, 135g], note: "트랜지스터까지 만든 로직 웨이퍼" }
+  - { id: logic_wafer_12in, name: { ko: 로직 웨이퍼, en: Logic wafer }, expected_mass: [120g, 135g], note: "배선까지 마친 CPU·SoC 웨이퍼" }
+  - { id: cpu_die, name: { ko: CPU 다이, en: CPU die }, expected_mass: [25mg, 100mg], note: "약 100mm² 로직 다이. 데스크톱 칩렛과 모바일 SoC에 쓴다" }
+  - { id: dram_wafer_12in, name: { ko: D램 웨이퍼, en: DRAM wafer }, expected_mass: [120g, 135g] }
+  - { id: dram_die, name: { ko: D램 다이, en: DRAM die }, expected_mass: [8mg, 30mg], note: "16Gb DDR5 다이, 약 66mm²" }
+  - { id: nand_wafer_12in, name: { ko: 낸드 웨이퍼, en: NAND wafer }, expected_mass: [125g, 140g], note: "236단 3D 낸드 웨이퍼" }
+  - { id: nand_die, name: { ko: 낸드 플래시 다이, en: NAND flash die }, expected_mass: [8mg, 30mg], note: "1Tb TLC 다이, 약 68mm²" }
+  - { id: image_sensor_wafer, name: { ko: 이미지 센서 웨이퍼, en: Image sensor wafer }, expected_mass: [240g, 270g], note: "받침 웨이퍼에 붙인 후면 조사(BSI) CMOS 이미지 센서 웨이퍼" }
+  - { id: image_sensor_die, name: { ko: 이미지 센서 다이, en: Image sensor die }, expected_mass: [5mg, 30mg], note: "5천만 화소급 CMOS 이미지 센서, 약 50mm²" }
+  - { id: power_mosfet_wafer, name: { ko: 전력 MOSFET 웨이퍼, en: Power MOSFET wafer }, expected_mass: [50g, 58g], note: "8인치 트렌치 게이트 전력 MOSFET 웨이퍼" }
+  - { id: power_mosfet_die, name: { ko: 전력 MOSFET 다이, en: Power MOSFET die }, expected_mass: [2mg, 10mg], note: "3×3mm, 두께 200µm" }
+  - { id: mixed_signal_wafer, name: { ko: 혼성 신호 웨이퍼, en: Mixed-signal wafer }, expected_mass: [50g, 58g], note: "8인치 180nm BCD 공정 웨이퍼" }
+  - { id: mixed_signal_die, name: { ko: 혼성 신호 다이, en: Mixed-signal die }, expected_mass: [2mg, 10mg], note: "약 10mm². 전원 관리·구동·제어 칩" }
+  - { id: mems_wafer, name: { ko: MEMS 웨이퍼, en: MEMS wafer }, expected_mass: [50g, 58g], note: "8인치 MEMS 마이크로폰 웨이퍼" }
+  - { id: mems_die, name: { ko: MEMS 다이, en: MEMS die }, expected_mass: [0.3mg, 2mg], note: "1.0×1.2mm 진동판·백플레이트 칩" }
+  - { id: cpu, name: { ko: 데스크톱 CPU, en: Desktop CPU }, expected_mass: [25g, 50g], note: "LGA 패키지 데스크톱 프로세서" }
+  - { id: laptop_cpu, name: { ko: 노트북 CPU, en: Laptop CPU }, expected_mass: [2g, 5g], note: "BGA 패키지 모바일 프로세서" }
+  - { id: mobile_soc, name: { ko: 모바일 AP, en: Mobile application processor }, expected_mass: [0.7g, 2.5g], note: "LPDDR5 패키지를 위에 얹은 PoP 스마트폰 SoC" }
+  - { id: dram_chip, name: { ko: D램 칩, en: DRAM chip }, expected_mass: [0.12g, 0.4g], note: "78볼 FBGA DDR5 16Gb" }
+  - { id: nand_flash_chip, name: { ko: 낸드 플래시 칩, en: NAND flash chip }, expected_mass: [0.25g, 0.8g], note: "1Tb 다이 4개를 쌓은 512GB BGA 패키지" }
+  - { id: mixed_signal_ic, name: { ko: 혼성 신호 IC, en: Mixed-signal IC }, expected_mass: [80mg, 200mg], note: "QFN-48(7×7mm). 전원 관리·드라이버·컨트롤러로 두루 쓴다" }
+  - { id: power_mosfet, name: { ko: 전력 MOSFET, en: Power MOSFET }, expected_mass: [0.25g, 0.45g], note: "TO-252(DPAK) 패키지" }
+  - { id: wifi_module, name: { ko: Wi-Fi 모듈, en: Wi-Fi module }, expected_mass: [2g, 4.5g], note: "Wi-Fi 6·블루투스 M.2 2230 카드" }
+  - { id: ssd, name: { ko: SSD, en: Solid-state drive }, expected_mass: [5g, 10g], note: "M.2 2280 NVMe 1TB" }
+  - { id: ram_module, name: { ko: 메모리 모듈, en: Memory module }, expected_mass: [15g, 30g], note: "DDR5 16GB UDIMM" }
+  - { id: motherboard, name: { ko: 메인보드, en: Motherboard }, expected_mass: [650g, 1.2kg], note: "ATX 데스크톱 메인보드" }
+  - { id: power_supply_unit, name: { ko: 컴퓨터 전원 공급 장치, en: Power supply unit }, expected_mass: [1.5kg, 2.6kg], note: "ATX 650W 80 PLUS Gold" }
+  - { id: camera_module, name: { ko: 카메라 모듈, en: Camera module }, expected_mass: [1g, 4g], note: "스마트폰 카메라. 렌즈 6장과 자동 초점 VCM" }
+  - { id: smartphone_mainboard, name: { ko: 스마트폰 메인보드, en: Smartphone mainboard }, expected_mass: [12g, 30g] }
+  - { id: smartphone, name: { ko: 스마트폰, en: Smartphone }, expected_mass: [150g, 220g], note: "6.1인치 OLED, 4,000mAh. 약 170g" }
+  - { id: laptop_mainboard, name: { ko: 노트북 메인보드, en: Laptop mainboard }, expected_mass: [110g, 220g] }
+  - { id: laptop, name: { ko: 노트북 컴퓨터, en: Laptop computer }, expected_mass: [1.2kg, 2kg], note: "14인치 알루미늄 노트북. 약 1.5kg" }
+  - { id: desktop_pc, name: { ko: 데스크톱 컴퓨터, en: Desktop computer }, expected_mass: [7kg, 13kg], note: "미들 타워 강철 케이스 완제품" }
